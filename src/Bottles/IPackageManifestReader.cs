@@ -1,7 +1,7 @@
-﻿namespace Bottles
+namespace Bottles
 {
     public interface IPackageManifestReader
     {
-        IPackageInfo LoadFromFolder(string folder);
+        IPackageInfo LoadFromFolder(string packageDirectory);
     }
 }

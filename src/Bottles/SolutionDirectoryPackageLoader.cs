@@ -20,7 +20,7 @@ namespace Bottles
         {
             var fileSystem = new FileSystem();
             var manifestFileSpec = new FileSet { Include = PackageManifest.FILE, DeepSearch = true };
-            var manifestReader = new PackageManifestReader(_sourceRoot, fileSystem, folder => folder);
+            var manifestReader = new PackageManifestReader(fileSystem, folder => folder);
             
             //how can i 'where' the manifests
                

@@ -16,11 +16,52 @@ namespace Bottles.Exploding
         PreserveDestination
     }
 
+    public class ExplodeDirectory
+    {
+        public string PackageDirectory { get; set;}
+        public string DestinationDirectory { get; set; }
+        public IPackageLog Log { get; set; }
+
+        public bool Equals(ExplodeDirectory other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals(other.PackageDirectory, PackageDirectory) && Equals(other.DestinationDirectory, DestinationDirectory);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof (ExplodeDirectory)) return false;
+            return Equals((ExplodeDirectory) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((PackageDirectory != null ? PackageDirectory.GetHashCode() : 0)*397) ^ (DestinationDirectory != null ? DestinationDirectory.GetHashCode() : 0);
+            }
+        }
+
+        public override string ToString()
+        {
+            return string.Format("PackageDirectory: {0}, DestinationDirectory: {1}", PackageDirectory, DestinationDirectory);
+        }
+    }
+
     public class PackageExploder : IPackageExploder
     {
         public static PackageExploder GetPackageExploder(IFileSystem fileSystem)
         {
             return new PackageExploder(new ZipFileService(fileSystem), new PackageExploderLogger(ConsoleWriter.Write), fileSystem);
+        }
+
+        public static PackageExploder GetPackageExploder(IPackageLog log)
+        {
+            var fileSystem = new FileSystem();
+            return new PackageExploder(new ZipFileService(fileSystem), new PackageExploderLogger(log.Trace), fileSystem);
         }
 
         private readonly IFileSystem _fileSystem;
@@ -35,15 +76,52 @@ namespace Bottles.Exploding
         }
 
 
+
         public IEnumerable<string> ExplodeAllZipsAndReturnPackageDirectories(string applicationDirectory, IPackageLog log)
         {
             ConsoleWriter.Write("Exploding all the package zip files for the application at " + applicationDirectory);
 
-            var packageFileNames = findPackageFileNames(applicationDirectory, log);
-
-            // Needs to be evaluated right now.
-            return packageFileNames.Select(file => explodeZipAndReturnDirectory(file, applicationDirectory)).ToList();
+            return ExplodeDirectory(new ExplodeDirectory(){
+                DestinationDirectory = BottleFiles.GetExplodedPackagesDirectory(applicationDirectory),
+                PackageDirectory = BottleFiles.GetApplicationPackagesDirectory(applicationDirectory),
+                Log = log
+            });
         }
+
+
+        public IEnumerable<string> ExplodeDirectory(ExplodeDirectory directory)
+        {
+            string packageFolder = directory.PackageDirectory;
+            var fileSet = new FileSet
+                          {
+                              Include = "*.zip"
+                          };
+
+            directory.Log.Trace("Searching for zip files in package directory " + packageFolder);
+
+            var packageFileNames = _fileSystem.FileNamesFor(fileSet, packageFolder);
+
+            return packageFileNames.Select(file =>
+            {
+                var packageName = Path.GetFileNameWithoutExtension(file);
+                var explodedDirectory = FileSystem.Combine(directory.DestinationDirectory, packageName);
+
+                // TODO -- need more logging here. Pass in the log and have it log what happens internally
+                var request = new ExplodeRequest{
+                    Directory = explodedDirectory,
+                    ExplodeAction = () => Explode(file, explodedDirectory, ExplodeOptions.DeleteDestination),
+                    GetVersion = () => _service.GetVersion(file),
+                    LogSameVersion = () => _logger.WritePackageZipFileWasSameVersionAsExploded(file)
+                };
+
+
+                explode(request);
+
+                return explodedDirectory;
+            }).ToList();  // Needs to be evaluated right now.
+        }
+
+        
 
         //destinationDirectory = var directoryName = BottleFiles.DirectoryForPackageZipFile(applicationDirectory, sourceZipFile);
         public void Explode(string sourceZipFile, string destinationDirectory, ExplodeOptions options)
@@ -85,30 +163,6 @@ namespace Bottles.Exploding
             }
 
             return Guid.Empty.ToString();
-        }
-
-        public void LogPackageState(string applicationDirectory)
-        {
-            // TODO -- log assemblies too
-            logExplodedDirectories(applicationDirectory);
-            logZipFiles(applicationDirectory);
-        }
-
-        private string explodeZipAndReturnDirectory(string file, string applicationDirectory)
-        {
-            var directory = BottleFiles.DirectoryForPackageZipFile(applicationDirectory, file);
-            
-            var request = new ExplodeRequest{
-                Directory = directory,
-                ExplodeAction = () => Explode(file, directory, ExplodeOptions.DeleteDestination),
-                GetVersion = () => _service.GetVersion(file),
-                LogSameVersion = () => _logger.WritePackageZipFileWasSameVersionAsExploded(file)
-            };
-
-
-            explode(request);
-
-            return directory;
         }
 
         public void ExplodeAssembly(string applicationDirectory, Assembly assembly, IPackageFiles files)
@@ -173,33 +227,6 @@ namespace Bottles.Exploding
             }
 
             request.ExplodeAction();
-        }
-
-
-        private IEnumerable<string> findPackageFileNames(string applicationDirectory, IPackageLog log)
-        {
-            var fileSet = new FileSet{
-                Include = "*.zip"
-            };
-
-            var packageFolder = BottleFiles.GetApplicationPackagesDirectory(applicationDirectory);
-
-            log.Trace("Searching for zip files in package directory " + packageFolder);
-
-            return _fileSystem.FileNamesFor(fileSet, packageFolder);
-        }
-
-        private void logZipFiles(string applicationDirectory)
-        {
-            var packageFileNames = findPackageFileNames(applicationDirectory, new PackageLog());
-            _logger.WritePackageZipsFound(applicationDirectory, packageFileNames);
-        }
-
-        private void logExplodedDirectories(string applicationDirectory)
-        {
-            var explodedDirectory = BottleFiles.GetExplodedPackagesDirectory(applicationDirectory);
-            var existingDirectories = _fileSystem.ChildDirectoriesFor(explodedDirectory);
-            _logger.WriteExistingDirectories(applicationDirectory, existingDirectories);
         }
 
 

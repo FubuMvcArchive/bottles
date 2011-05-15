@@ -95,6 +95,7 @@
     <Compile Include="Exploding\PackageExploder.cs" />
     <Compile Include="Exploding\PackageExploderLogger.cs" />
     <Compile Include="Creation\PackageCreator.cs" />
+    <Compile Include="LinkedFolderPackageLoader.cs" />
     <Compile Include="PackageFacility.cs" />
     <Compile Include="PackageFiles.cs" />
     <Compile Include="PackageInfo.cs" />

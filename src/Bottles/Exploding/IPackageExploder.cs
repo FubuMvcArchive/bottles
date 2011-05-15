@@ -9,6 +9,6 @@ namespace Bottles.Exploding
         void Explode(string sourceZipFile, string destinationDirectory, ExplodeOptions options);
         void CleanAll(string applicationDirectory);
         string ReadVersion(string directoryName);
-        void LogPackageState(string applicationDirectory);
+        IEnumerable<string> ExplodeDirectory(ExplodeDirectory directory);
     }
 }
