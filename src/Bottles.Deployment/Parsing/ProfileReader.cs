@@ -64,6 +64,10 @@ namespace Bottles.Deployment.Parsing
         {
             var profile = new Profile(environment);
             var profileFile = _settings.GetProfile(options.ProfileName);
+            
+            if(!_fileSystem.FileExists(profileFile))
+                throw new Exception("Couldn't find the profile '{0}'".ToFormat(profileFile));
+
             _fileSystem.ReadTextFile(profileFile, profile.ReadText);
             return profile;
         }

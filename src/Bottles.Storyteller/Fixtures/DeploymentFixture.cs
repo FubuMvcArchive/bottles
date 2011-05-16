@@ -37,6 +37,12 @@ namespace Bottles.Storyteller.Fixtures
             context.Store(_options);
         }
 
+        [FormatAs("No profile is passed in explicitly")]
+        public void NoProfileIsPassedInExplicitly()
+        {
+            //no-op
+        }
+
         [FormatAs("Profile set to {profile}")]
         public void ProfileIs(string profile)
         {

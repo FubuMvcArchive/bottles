@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<Test name="Use Default Profile is Not Specified" lifecycle="Acceptance">
+  <Deployment>
+    <Configure isStep="True">
+      <DeploymentConfiguration>
+        <ProfileRecipes isStep="True" profile="default" recipeNames="def1" />
+        <RecipeStandalone isStep="True" recipe="def1" />
+        <X isStep="True" RecipeName="def1" HostNames="defhost" />
+        <HostValues isStep="True">
+          <table>
+            <row isStep="True" Recipe="def1" Host="defhost" Key="name" Value="bob" />
+          </table>
+        </HostValues>
+      </DeploymentConfiguration>
+    </Configure>
+    <Options isStep="True">
+      <DeploymentOptions>
+        <NoProfileIsPassedInExplicitly isStep="True" />
+      </DeploymentOptions>
+    </Options>
+    <ReadingProfile isStep="True">
+      <ProfileReader>
+        <CheckHosts isStep="True">
+          <Rows>
+            <row isStep="True" expected="defhost" />
+          </Rows>
+        </CheckHosts>
+        <CheckRecipes isStep="True">
+          <Rows>
+            <row isStep="True" expected="def1" />
+          </Rows>
+        </CheckRecipes>
+      </ProfileReader>
+    </ReadingProfile>
+  </Deployment>
+</Test>
