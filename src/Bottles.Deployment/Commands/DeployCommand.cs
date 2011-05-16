@@ -8,6 +8,9 @@ namespace Bottles.Deployment.Commands
 {
     public class DeployInput
     {
+        [Description("The profile to execute")]
+        public string ProfileFlag { get; set; }
+
         [Description("Path to where the deployment folder is ~/deployment")]
         public string DeploymentFlag { get; set; }
 
@@ -19,6 +22,12 @@ namespace Bottles.Deployment.Commands
             return DeploymentFlag ?? ".".ToFullPath();
         }
 
+        public string DeploymentProfile()
+        {
+            return ProfileFlag.IsNotEmpty()
+                       ? ProfileFlag
+                       : "default"; //REVIEW: where to put this?
+        }
     }
 
     [CommandDescription("Deploys the given profile")]
@@ -33,7 +42,8 @@ namespace Bottles.Deployment.Commands
 
             var container = DeploymentBootstrapper.Bootstrap(settings);
             var deploymentController = container.GetInstance<IDeploymentController>();
-            deploymentController.Deploy(new DeploymentOptions());
+            
+            deploymentController.Deploy(new DeploymentOptions(input.DeploymentProfile()));
              
             return true;
         }

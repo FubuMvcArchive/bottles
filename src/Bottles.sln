@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bottles.Deployers.Topshelf"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bottles.Deployers.Iis", "Bottles.Deployers.Iis\Bottles.Deployers.Iis.csproj", "{607F7461-947C-42D7-A4CA-379199A74E6B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestProjects", "TestProjects", "{703DCA45-AAA6-4E6C-BC08-61678551B57D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -209,5 +211,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{99DBA82A-E811-4DA0-983C-12E8317F8642} = {703DCA45-AAA6-4E6C-BC08-61678551B57D}
+		{0FFD21CA-4B9B-4C72-91B2-91A3F44D4151} = {703DCA45-AAA6-4E6C-BC08-61678551B57D}
+		{A1BFF74B-3E5C-4342-B065-99D0C08664D5} = {703DCA45-AAA6-4E6C-BC08-61678551B57D}
+		{5692BDED-37BE-4686-89D8-E4A52DBDC1FB} = {703DCA45-AAA6-4E6C-BC08-61678551B57D}
 	EndGlobalSection
 EndGlobal

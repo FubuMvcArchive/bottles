@@ -2,18 +2,34 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Bottles.Deployment.Parsing;
+using Bottles.Deployment.Runtime;
 using HtmlTags;
 
 namespace Bottles.Deployment.Diagnostics
 {
-    public class DiagnosticsReport
+    public interface IDiagnosticsReporter
     {
-        public void Report(DeploymentPlan plan)
+        void Report(DeploymentOptions options);
+        void Report(DeploymentOptions options, string locationToWriteReport);
+    }
+
+    public class DiagnosticsReporter : IDiagnosticsReporter
+    {
+        private IProfileReader _reader;
+
+        public DiagnosticsReporter(IProfileReader reader)
         {
-            Report(plan, "deploymentplan.html");
+            _reader = reader;
         }
-        public void Report(DeploymentPlan plan, string locationToWriteReport)
+
+        public void Report(DeploymentOptions options)
         {
+            Report(options, "deploymentplan.html");
+        }
+        public void Report(DeploymentOptions options, string locationToWriteReport)
+        {
+            var plan = _reader.Read(options);
+
             var doc = new HtmlDocument();
             doc.Title = "Bottles Deployment Diagnostics";
             doc.AddStyle(getCss());
@@ -25,17 +41,11 @@ namespace Bottles.Deployment.Diagnostics
             mainDiv.Append(left);
 
 
-
             var right = buildRightside(plan);
-
             mainDiv.Append(right);
 
-
-
             doc.Add(mainDiv);
-
             doc.WriteToFile(locationToWriteReport);
-            
         }
 
         private HtmlTag buildRightside(DeploymentPlan plan)
@@ -89,19 +99,13 @@ namespace Bottles.Deployment.Diagnostics
         private IList<HtmlTag> addEnvironment(DeploymentPlan dp)
         {
             HtmlTag tag = new HtmlTag("h3").Text("Environment");
-            HtmlTag o = new HtmlTag("h4").Text("Overrides");
-
-
-            var dl = new DLTag();
-
-            dp.Environment.Overrides.Each((k, v) => { dl.AddDefinition(k, v); });
 
             var dl2 = new DLTag();
             HtmlTag x = new HtmlTag("h4").Text("Settings By Host");
             dp.Environment.EnvironmentSettingsData().AllKeys.Each(
                 k => { dl2.AddDefinition(k, dp.Environment.EnvironmentSettingsData()[k]); });
 
-            return new List<HtmlTag> {tag, o, dl, dl2};
+            return new List<HtmlTag> {tag, dl2};
         }
 
         private HtmlTag addHosts(DeploymentPlan dp)
@@ -140,7 +144,7 @@ namespace Bottles.Deployment.Diagnostics
 
         private string getCss()
         {
-            Type type = typeof (DiagnosticsReport);
+            Type type = typeof (DiagnosticsReporter);
             string filename = "diagnostics.css";
             Stream stream = type.Assembly.GetManifestResourceStream(type, filename);
             if (stream == null) return String.Empty;

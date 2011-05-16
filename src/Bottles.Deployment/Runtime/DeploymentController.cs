@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using Bottles.Deployment.Diagnostics;
 using Bottles.Deployment.Parsing;
-using System.Linq;
 
 namespace Bottles.Deployment.Runtime
 {
