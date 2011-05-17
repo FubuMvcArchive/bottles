@@ -61,6 +61,7 @@
     <Compile Include="BottleReference.cs" />
     <Compile Include="Commands\AddPakInput.cs" />
     <Compile Include="Commands\AddDirectiveCommand.cs" />
+    <Compile Include="Commands\AddProfileCommand.cs" />
     <Compile Include="Commands\AddRecipeCommand.cs" />
     <Compile Include="Commands\IInstallationLogger.cs" />
     <Compile Include="Commands\InitializeCommand.cs" />
