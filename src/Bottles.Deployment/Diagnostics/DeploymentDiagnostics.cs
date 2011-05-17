@@ -41,7 +41,7 @@ namespace Bottles.Deployment.Diagnostics
 
         public PackageLog LogAction(HostManifest host, IDirective directive, object action)
         {
-            throw new NotImplementedException();
+            return new PackageLog();
         }
     }
 }
