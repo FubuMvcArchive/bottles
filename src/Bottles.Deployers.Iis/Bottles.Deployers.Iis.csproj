@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IISWebsiteCreator.cs" />
+    <Compile Include="IISWebsiteDeployer.cs" />
     <Compile Include="WebAppOfflineFinalizer.cs" />
     <Compile Include="WebAppOfflineInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
