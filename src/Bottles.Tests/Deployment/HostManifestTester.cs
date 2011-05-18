@@ -71,10 +71,11 @@ namespace Bottles.Tests.Deployment
 
             host1.Append(host2);
 
-            host1.GetDirective<OneDirective>().Age.ShouldEqual(7);
+
+
+            host1.CreateDiagnosticReport().First(x => x.Key == "OneDirective.Age").Value.ShouldEqual("7");
         }
 
-        
         [Test]
         public void append_host_imports_bottle_references()
         {

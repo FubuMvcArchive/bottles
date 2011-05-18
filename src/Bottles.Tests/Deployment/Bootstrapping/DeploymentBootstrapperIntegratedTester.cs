@@ -1,7 +1,9 @@
 using BottleDeployers2;
+using Bottles.Configuration;
 using Bottles.Deployment;
 using Bottles.Deployment.Bootstrapping;
 using Bottles.Deployment.Configuration;
+using Bottles.Deployment.Parsing;
 using Bottles.Deployment.Runtime;
 using Bottles.Deployment.Writing;
 using NUnit.Framework;
@@ -60,7 +62,13 @@ namespace Bottles.Tests.Deployment.Bootstrapping
             host.RegisterValue<BottleDeployers2.SixDirective>(x => x.Threshold, 5);
 
             var registry = theContainer.GetInstance<DirectiveTypeRegistry>();
-            var directives = host.BuildDirectives(registry);
+
+            var factory = theContainer.GetInstance<DirectiveRunnerFactory>();
+
+            var plan = new DeploymentPlan(new DeploymentOptions());
+            plan.ReadProfileAndSettings(new EnvironmentSettings(), new Profile());
+
+            var directives = factory.BuildDirectives(plan, host, registry);
 
             directives.Count().ShouldEqual(2);
             var directiveOne = directives.OfType<BottleDeployers1.OneDirective>().Single();

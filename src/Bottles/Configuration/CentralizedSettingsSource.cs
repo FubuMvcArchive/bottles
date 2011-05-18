@@ -22,13 +22,14 @@ namespace Bottles.Configuration
             var settings = EnvironmentSettings.ReadFrom(environmentFile);
 
             var substitutions = settings.Overrides.ToDictionary();
+            throw new NotImplementedException("gotta do something here to make this work correctly");
 
-            yield return settings.EnvironmentSettingsData();
+            //yield return settings.EnvironmentSettingsData();
 
-            foreach (var file in Directory.GetFiles(_folder, "*.config"))
-            {
-                yield return XmlSettingsParser.Parse(file, substitutions);
-            }
+            //foreach (var file in Directory.GetFiles(_folder, "*.config"))
+            //{
+            //    yield return XmlSettingsParser.Parse(file);
+            //}
 
         }
     }

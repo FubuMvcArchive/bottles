@@ -69,18 +69,6 @@ namespace Bottles.Tests.Deployment.Runtime
             theRunner.Finalizers.ShouldHaveCount(1);
         }
 
-        [Test]
-        public void build_runners_for_smoke_test()
-        {
-            var host = new StubHostManifest("something");
-            host.Directives.Add(new OneDirective());
-            host.Directives.Add(new OneDirective());
-
-            var runners = theFactory.BuildRunnersFor(host);
-            runners.ShouldHaveCount(2);
-
-
-        }
     }
 
 
@@ -93,10 +81,6 @@ namespace Bottles.Tests.Deployment.Runtime
 
         public IList<IDirective> Directives = new List<IDirective>();
 
-        public override IEnumerable<IDirective> BuildDirectives(IDirectiveTypeRegistry typeRegistry)
-        {
-            return Directives;
-        }
     }
 
     public class FakeInitializer<T> : IInitializer<T> where T : IDirective

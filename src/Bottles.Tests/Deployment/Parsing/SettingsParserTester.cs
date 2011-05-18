@@ -10,13 +10,11 @@ namespace Bottles.Tests.Deployment.Parsing
     public class SettingsParserTester
     {
         private SettingsParser theParser;
-        private Dictionary<string, string> theDictionary;
 
         [SetUp]
         public void SetUp()
         {
-            theDictionary = new Dictionary<string, string>();
-            theParser = new SettingsParser("some description", theDictionary);
+            theParser = new SettingsParser("some description");
         }
 
         [Test]
@@ -41,16 +39,6 @@ namespace Bottles.Tests.Deployment.Parsing
             theParser.Settings.Get("Class.Prop").ShouldEqual("1");
         }
 
-        [Test]
-        public void parse_a_value_with_subsitutions()
-        {
-            theDictionary.Add("dbname", "blue");
-            theDictionary.Add("password", "superfly");
-
-            theParser.ParseText("Class.ConnectionString=Name={dbname};password={password}");
-
-            theParser.Settings.Get("Class.ConnectionString").ShouldEqual("Name=blue;password=superfly");
-        }
 
         [Test]
         public void parse_a_missing_property_name()

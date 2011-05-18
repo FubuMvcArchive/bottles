@@ -1,15 +1,21 @@
 using System;
 using System.Collections.Generic;
+using Bottles.Deployment.Parsing;
 using FubuCore.Binding;
+using FubuCore.Configuration;
 using StructureMap;
 using System.Linq;
 
 namespace Bottles.Deployment.Runtime
 {
+
+
+
     public class DirectiveRunnerFactory : IDirectiveRunnerFactory
     {
         private readonly IContainer _container;
         private readonly IDirectiveTypeRegistry _types;
+        private readonly IObjectResolver _resolver = ObjectResolver.Basic();
 
         public DirectiveRunnerFactory(IContainer container, IDirectiveTypeRegistry types)
         {
@@ -25,20 +31,34 @@ namespace Bottles.Deployment.Runtime
                 .As<IDirectiveRunner>();
         }
 
-        public IEnumerable<IDirectiveRunner> BuildRunners(IEnumerable<HostManifest> hosts)
+        // Pass in DeploymentPlan instead
+        public IEnumerable<IDirectiveRunner> BuildRunners(DeploymentPlan plan)
         {
-            return hosts.SelectMany(BuildRunnersFor);
+            return plan.Hosts.SelectMany(x => BuildRunnersFor(plan, x));
         }
 
-        public IEnumerable<IDirectiveRunner> BuildRunnersFor(HostManifest host)
+        public IEnumerable<IDirectiveRunner> BuildRunnersFor(DeploymentPlan plan, HostManifest host)
         {
-            foreach (var directive in host.BuildDirectives(_types))
+            foreach (var directive in BuildDirectives(plan, host, _types))
             {
                 var runner = Build(directive);
                 runner.Attach(host, directive);
 
                 yield return runner;
             }
+        }
+
+        // overridden in testing classes
+        public virtual IEnumerable<IDirective> BuildDirectives(DeploymentPlan plan, HostManifest host, IDirectiveTypeRegistry typeRegistry)
+        {
+            var provider = new SubstitutedSettingsProvider(_resolver, host.AllSettingsData(), plan.Substitutions);
+
+            return host.UniqueDirectiveNames().Select(name =>
+            {
+                var type = typeRegistry.DirectiveTypeFor(name);
+
+                return (IDirective)provider.SettingsFor(type);
+            });
         }
     }
 }

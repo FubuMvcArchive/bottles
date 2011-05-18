@@ -12,10 +12,11 @@ namespace Bottles.Deployment.Parsing
         private readonly IList<BottleReference> _references = new List<BottleReference>();
         private readonly SettingsData _settings;
 
-        public SettingsParser(string description, IDictionary<string, string> substitutions)
+        public SettingsParser(string description)
         {
-            _settings = new SettingsData(SettingCategory.core, substitutions);
-            _settings.Provenance = description;
+            _settings = new SettingsData(SettingCategory.core){
+                Provenance = description
+            };
         }
 
         public SettingsData Settings

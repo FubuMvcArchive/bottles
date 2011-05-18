@@ -1,9 +1,10 @@
 using System.Collections.Generic;
+using Bottles.Deployment.Parsing;
 
 namespace Bottles.Deployment.Runtime
 {
     public interface IDirectiveRunnerFactory
     {
-        IEnumerable<IDirectiveRunner> BuildRunners(IEnumerable<HostManifest> hosts);
+        IEnumerable<IDirectiveRunner> BuildRunners(DeploymentPlan plan);
     }
 }

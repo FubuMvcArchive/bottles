@@ -13,7 +13,6 @@ namespace Bottles.Deployment
 {
     public class HostManifest
     {
-        private static readonly IObjectResolver _resolver = ObjectResolver.Basic();
         private readonly IList<BottleReference> _bottles = new List<BottleReference>();
         private readonly IList<SettingsData> _data = new List<SettingsData>();
 
@@ -21,23 +20,6 @@ namespace Bottles.Deployment
         public HostManifest(string name)
         {
             Name = name;
-        }
-
-        public T GetDirective<T>() where T : class, new()
-        {
-            var provider = new SettingsProvider(_resolver, _data);
-            return provider.SettingsFor<T>();
-        }
-
-        public IEnumerable<SettingDataSource> CreateDiagnosticReport()
-        {
-            return new SettingsProvider(_resolver, _data).CreateDiagnosticReport();
-        }
-
-        public IDirective GetDirective(Type directiveType)
-        {
-            var provider = new SettingsProvider(_resolver, _data);
-            return (IDirective) provider.SettingsFor(directiveType);
         }
 
         public string Name { get; private set; }
@@ -94,15 +76,7 @@ namespace Bottles.Deployment
                 .Distinct();
         }
 
-        // overridden in testing classes
-        public virtual IEnumerable<IDirective> BuildDirectives(IDirectiveTypeRegistry typeRegistry)
-        {
-            return UniqueDirectiveNames().Select(name =>
-            {
-                var type = typeRegistry.DirectiveTypeFor(name);
-                return GetDirective(type);
-            });
-        }
+
 
         public override string ToString()
         {
@@ -114,5 +88,15 @@ namespace Bottles.Deployment
             return _bottles.Any(br => br.Name.Equals(bottle));
         }
 
+        public IEnumerable<SettingDataSource> CreateDiagnosticReport()
+        {
+            return new SettingsProvider(ObjectResolver.Basic(), AllSettingsData())
+                .CreateDiagnosticReport();
+        }
+
+        public T GetDirective<T>() where T : class, new()
+        {
+            return new SettingsProvider(ObjectResolver.Basic(), AllSettingsData()).SettingsFor<T>();
+        }
     }
 }

@@ -10,19 +10,28 @@ namespace Bottles.Deployment
 {
     public class Profile
     {
+        public static Profile ReadFrom(string profileFile)
+        {
+            var profile = new Profile();
+            var fileSystem = new FileSystem();
+
+            if (!fileSystem.FileExists(profileFile))
+            {
+                throw new Exception("Couldn't find the profile '{0}'".ToFormat(profileFile));
+            }
+
+            fileSystem.ReadTextFile(profileFile, profile.ReadText);
+
+            return profile;
+        }
+
         public static readonly string RecipePrefix = "recipe:";
         private readonly IList<string> _recipes = new List<string>();
-        private readonly EnvironmentSettings _settings;
         private readonly Cache<string,string> _overrides;
         private readonly Cache<string, SettingsData> _settingsByHost = new Cache<string, SettingsData>(name => new SettingsData(SettingCategory.profile) { Provenance = "PROFILE NAME" });
 
-        public Profile() : this(new EnvironmentSettings())
+        public Profile()
         {
-        }
-
-        public Profile(EnvironmentSettings settings)
-        {
-            _settings = settings;
             _overrides = new Cache<string, string>();
 
         }
@@ -81,11 +90,6 @@ namespace Bottles.Deployment
             {
                 return _recipes;
             }
-        }
-
-        public EnvironmentSettings Settings
-        {
-            get { return _settings; }
         }
 
         public SettingsData DataForHost(string hostName)

@@ -60,7 +60,14 @@ namespace Bottles.Deployment.Parsing
         {
             get { return _overrideSourcing; }
         }
+
+        public IDictionary<string, string> Substitutions
+        {
+            get { return Environment.Overrides.ToDictionary(); }
+        }
     }
+
+
 
     public class OverrideSource
     {

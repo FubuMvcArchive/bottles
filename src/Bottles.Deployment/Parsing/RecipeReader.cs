@@ -8,7 +8,7 @@ namespace Bottles.Deployment.Parsing
 {
     public class RecipeReader
     {
-        public static Recipe ReadFrom(string recipeDirectory, EnvironmentSettings environment, Profile profile)
+        public static Recipe ReadFrom(string recipeDirectory)
         {
             var recipeName = Path.GetFileName(recipeDirectory);
             var recipe = new Recipe(recipeName);
@@ -26,16 +26,16 @@ namespace Bottles.Deployment.Parsing
                 Include = "*.host"
             }).Each(file =>
             {
-                var host = HostReader.ReadFrom(file, environment, profile);
+                var host = HostReader.ReadFrom(file);
                 recipe.RegisterHost(host);
             });
 
             return recipe;
         }
 
-        public static IEnumerable<Recipe> ReadRecipes(string recipesDir, EnvironmentSettings environment, Profile profile)
+        public static IEnumerable<Recipe> ReadRecipes(string recipesDir)
         {
-            return Directory.GetDirectories(recipesDir).Select(dir => ReadFrom(dir, environment, profile));
+            return Directory.GetDirectories(recipesDir).Select(dir => ReadFrom(dir));
         }
     }
 }

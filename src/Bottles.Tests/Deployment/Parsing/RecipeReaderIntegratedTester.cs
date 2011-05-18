@@ -87,14 +87,6 @@ namespace Bottles.Tests.Deployment.Parsing
             profile.Recipes.ShouldHaveTheSameElementsAs("r1", "r2", "r3", "r4");
         }
 
-        [Test]
-        public void environment_properties_are_substituted_within_host_settings_but_profile_value_overrides_environment()
-        {
-            var host = theHosts.First(x => x.Name == "h5");
-            host.GetDirective<SimpleSettings>()
-                .One.ShouldEqual("*profile-db*");
-        }
-
 
     }
 
@@ -156,13 +148,6 @@ namespace Bottles.Tests.Deployment.Parsing
             var reader = new ProfileReader(new RecipeSorter(), new DeploymentSettings("clonewars"), new FileSystem());
 
             theHosts = reader.Read(new DeploymentOptions("default")).Hosts;
-        }
-
-        [Test]
-        public void environment_properties_are_substituted_within_host_settings()
-        {
-            theHosts.First(x => x.Name == "h5").GetDirective<SimpleSettings>()
-                .One.ShouldEqual("*blue*");
         }
 
         [Test]
@@ -229,15 +214,7 @@ namespace Bottles.Tests.Deployment.Parsing
             var environmentSettings = new EnvironmentSettings();
             environmentSettings.Overrides["setting"] = "environment setting";
 
-            theRecipes = RecipeReader.ReadRecipes("starwars\\recipes", environmentSettings, new Profile(environmentSettings));
-        }
-
-        [Test]
-        public void environment_substitutions_happen_in_the_recipe_reader()
-        {
-            theRecipes.First(x => x.Name == "r4").HostFor("h5")
-                .GetDirective<SimpleSettings>().One.ShouldEqual(
-                "setting is environment setting");
+            theRecipes = RecipeReader.ReadRecipes("starwars\\recipes");
         }
 
         [Test]

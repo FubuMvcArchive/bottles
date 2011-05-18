@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using Bottles.Deployment.Parsing;
 using Bottles.Diagnostics;
+using FubuCore.Binding;
+using FubuCore.Configuration;
 using HtmlTags;
 
 namespace Bottles.Deployment.Diagnostics
@@ -85,6 +87,7 @@ namespace Bottles.Deployment.Diagnostics
             var table = new TableTag();
             table.AddClass("details");
             table.AddHeaderRow("Key", "Value", "Provenance");
+
 
             host.CreateDiagnosticReport().Each(s =>
             {

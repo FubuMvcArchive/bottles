@@ -25,7 +25,7 @@ namespace Bottles.Deployment.Runtime
             var plan = _reader.Read(options);
             var hosts = plan.Hosts;
 
-            var runners = _factory.BuildRunners(hosts);
+            var runners = _factory.BuildRunners(plan);
 
             runners.Each(x => x.InitializeDeployment());
             runners.Each(x => x.Deploy());

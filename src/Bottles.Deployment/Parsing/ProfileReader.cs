@@ -7,6 +7,35 @@ using FubuCore;
 
 namespace Bottles.Deployment.Parsing
 {
+
+    public class DeploymentGraph
+    {
+        public EnvironmentSettings Environment { get; set; }
+        public IEnumerable<Recipe> Recipes { get; set; }
+        public Profile Profile { get; set; }
+    }
+
+    public class DeploymentGraphReader
+    {
+        private readonly DeploymentSettings _settings;
+        private readonly IFileSystem _fileSystem;
+
+        public DeploymentGraphReader(DeploymentSettings settings, IFileSystem fileSystem)
+        {
+            _settings = settings;
+            _fileSystem = fileSystem;
+        }
+
+        public DeploymentGraph Read(DeploymentOptions options)
+        {
+            return new DeploymentGraph(){
+                Environment = EnvironmentSettings.ReadFrom(_settings.EnvironmentFile),
+                Profile = Profile.ReadFrom(_settings.GetProfile(options.ProfileName)),
+                Recipes = RecipeReader.ReadRecipes(_settings.RecipesDirectory)
+            };
+        }
+    }
+
     public class ProfileReader : IProfileReader
     {
         private readonly IRecipeSorter _sorter;
@@ -19,6 +48,8 @@ namespace Bottles.Deployment.Parsing
             _fileSystem = fileSystem;
             _settings = settings;
         }
+
+        
 
         public DeploymentPlan Read(DeploymentOptions options)
         {
@@ -33,7 +64,9 @@ namespace Bottles.Deployment.Parsing
 
             environment.SetRootSetting(_settings.TargetDirectory);
 
-            var profile = readProfile(environment, options);
+
+
+            var profile = readProfile(options);
 
             var recipes = readRecipes(environment, options, profile);
 
@@ -52,9 +85,9 @@ namespace Bottles.Deployment.Parsing
             return deploymentPlan;
         }
 
-        private Profile readProfile(EnvironmentSettings environment, DeploymentOptions options)
+        private Profile readProfile(DeploymentOptions options)
         {
-            var profile = new Profile(environment);
+            var profile = new Profile();
             var profileFile = _settings.GetProfile(options.ProfileName);
             
             if(!_fileSystem.FileExists(profileFile))
@@ -83,7 +116,7 @@ namespace Bottles.Deployment.Parsing
 
         private IEnumerable<Recipe> readRecipes(EnvironmentSettings environment, DeploymentOptions options, Profile profile)
         {
-            var recipes = RecipeReader.ReadRecipes(_settings.RecipesDirectory, environment, profile);
+            var recipes = RecipeReader.ReadRecipes(_settings.RecipesDirectory);
             recipes = buildEntireRecipeGraph(profile, options, recipes);
             // TODO -- log which recipes were selected
             recipes = _sorter.Order(recipes);
