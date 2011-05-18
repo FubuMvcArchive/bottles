@@ -7,10 +7,6 @@ namespace Bottles.Deployment
         //path points to ~/deployment
         public DeploymentSettings(string path)
         {
-            // TODO -- come back to this.
-            //var finder = new DeploymentFolderFinder(new FileSystem());
-            //path = finder.FindDeploymentFolder(path);
-
             DeploymentDirectory = path;
             BottlesDirectory = FileSystem.Combine(path, ProfileFiles.BottlesDirectory);
             RecipesDirectory = FileSystem.Combine(path, ProfileFiles.RecipesDirectory);
@@ -53,12 +49,6 @@ namespace Bottles.Deployment
             }
         }
 
-        /// <summary>
-        /// user has typed '-f' at the command line
-        /// </summary>
-        public bool UserForced { get; set; }
-
-        
 
         public string GetRecipeDirectory(string recipe)
         {

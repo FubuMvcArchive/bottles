@@ -8,7 +8,7 @@ using FubuCore.CommandLine;
 
 namespace Bottles.Deployment.Commands
 {
-    public class AddReferenceCommandInput
+    public class ReferenceBottleInput
     {
         [Description("The recipe that the host is in")]
         public string Recipe { get; set; }
@@ -21,18 +21,13 @@ namespace Bottles.Deployment.Commands
 
         [Description("Path to the deployment folder (~/deployment)")]
         public string DeploymentFlag { get; set; }
-
-        public string DeploymentRoot()
-        {
-            return DeploymentFlag ?? ".".ToFullPath();
-        }
     }
 
 
-    [CommandDescription("Adds a bottles reference to the specified host", Name="ref")]
-    public class AddReferenceCommand : FubuCommand<AddReferenceCommandInput>
+    [CommandDescription("Adds a bottles reference to the specified host", Name = "ref-bottle")]
+    public class ReferenceBottleCommand : FubuCommand<ReferenceBottleInput>
     {
-        public override bool Execute(AddReferenceCommandInput input)
+        public override bool Execute(ReferenceBottleInput input)
         {
             var deploymentSettings = DeploymentSettings.ForDirectory(input.DeploymentFlag);
 
@@ -45,11 +40,11 @@ namespace Bottles.Deployment.Commands
             return true;
         }
 
-        public void Execute(AddReferenceCommandInput input, EnvironmentSettings settings, IFileSystem fileSystem, DeploymentSettings deploymentSettings)
+        public void Execute(ReferenceBottleInput input, EnvironmentSettings settings, IFileSystem fileSystem, DeploymentSettings deploymentSettings)
         {
             string bottleText = "bottle:{0}".ToFormat(input.Bottle);
 
-            
+
             var hostPath = deploymentSettings.GetHost(input.Recipe, input.Host);
             Console.WriteLine("Analyzing the host file at " + input.Host);
             fileSystem.AlterFlatFile(hostPath, list =>
@@ -62,6 +57,13 @@ namespace Bottles.Deployment.Commands
             });
         }
 
-        
+
     }
+
+
+
+
+
+
+
 }

@@ -22,7 +22,7 @@ namespace Bottles.Tests.Deployment
             var settings = new DeploymentSettings(@"C:\dev\test-profile\");
             IBottleRepository bottles = new BottleRepository(fileSystem, new ZipFileService(fileSystem), settings);
 
-            var initializer = new WebAppOfflineInitializer(fileSystem, new DeploymentSettings());
+            var initializer = new WebAppOfflineInitializer(fileSystem);
             
             var deployer = new IisWebsiteCreator();
             

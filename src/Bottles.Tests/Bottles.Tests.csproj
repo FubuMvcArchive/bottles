@@ -95,6 +95,7 @@
     <Compile Include="Creation\PackageCreatorTester.cs" />
     <Compile Include="Creation\PackageManifestWriterTester.cs" />
     <Compile Include="Deployment\Bootstrapping\DeploymentBootstrapperIntegratedTester.cs" />
+    <Compile Include="Deployment\Parsing\DeploymentPlanTester.cs" />
     <Compile Include="Deployment\Runtime\Content\BottleMoverTester.cs" />
     <Compile Include="Deployment\Runtime\Content\BottleRepositoryTester.cs" />
     <Compile Include="Deployment\Commands\InitializeCommandTester.cs" />
@@ -106,7 +107,6 @@
     <Compile Include="Diagnostics\PackageLogTester.cs" />
     <Compile Include="EnvironmentSettingsTester.cs" />
     <Compile Include="Deployment\FakeDeployer.cs" />
-    <Compile Include="Deployment\FubuTestApplicationDeploymentIntegrationTester.cs" />
     <Compile Include="Deployment\HostManifestTester.cs" />
     <Compile Include="Deployment\IntegrationIisFubuDeploymentTester.cs" />
     <Compile Include="Deployment\IntegrationTopshelfDeploymentTester.cs" />

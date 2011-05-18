@@ -70,9 +70,10 @@
     <Compile Include="Commands\InstallCommand.cs" />
     <Compile Include="Commands\InstallInput.cs" />
     <Compile Include="Commands\InstallMode.cs" />
-    <Compile Include="Commands\AddReferenceCommand.cs" />
+    <Compile Include="Commands\ReferenceBottleCommand.cs" />
     <Compile Include="Commands\OpenBottleManifestCommand.cs" />
-    <Compile Include="Commands\ReportCommand.cs" />
+    <Compile Include="Commands\PreviewCommand.cs" />
+    <Compile Include="Commands\ReferenceRecipeCommand.cs" />
     <Compile Include="Commands\SetPropCommand.cs" />
     <Compile Include="Commands\VdirCommand.cs" />
     <Compile Include="Commands\DeployCommand.cs" />
@@ -80,7 +81,10 @@
     <Compile Include="Configuration\ConfigurationDeployer.cs" />
     <Compile Include="DependsOnAttribute.cs" />
     <Compile Include="DeploymentSettings.cs" />
+    <Compile Include="Diagnostics\DeploymentReport.cs" />
     <Compile Include="Diagnostics\DiagnosticsReporter.cs" />
+    <Compile Include="Diagnostics\IDiagnosticsReporter.cs" />
+    <Compile Include="Diagnostics\TableTagExtensions.cs" />
     <Compile Include="Directives\ScheduledTask.cs" />
     <Compile Include="Directives\ScheduleType.cs" />
     <Compile Include="Deployers\WindowsSchedulerDeployer.cs" />
@@ -109,6 +113,7 @@
     <Compile Include="Parsing\SettingsParser.cs" />
     <Compile Include="ProcessRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Runtime\DeploymentOptions.cs" />
     <Compile Include="Runtime\DirectiveRunner.cs" />
     <Compile Include="Runtime\DirectiveRunnerFactory.cs" />
     <Compile Include="Runtime\IDeployer.cs" />

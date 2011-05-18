@@ -29,13 +29,11 @@ namespace Bottles.Deployment.Parsing
 
         public DeploymentPlan Read(DeploymentOptions options, EnvironmentSettings environment)
         {
-            var deploymentPlan = new DeploymentPlan();
+            var deploymentPlan = new DeploymentPlan(options);
 
             environment.SetRootSetting(_settings.TargetDirectory);
 
             var profile = readProfile(environment, options);
-
-            //environment smashing has to happen before this
 
             var recipes = readRecipes(environment, options, profile);
 
@@ -43,13 +41,7 @@ namespace Bottles.Deployment.Parsing
 
             var hosts = collateHosts(recipes);
 
-            deploymentPlan.SetEnv(environment);
-
-            deploymentPlan.SetProfile(profile);
-
-            //run diagnostics here
-
-            deploymentPlan.CombineOverrides();
+            deploymentPlan.ReadProfileAndSettings(environment, profile);
 
             addProfileSettingsToHosts(profile, hosts);
 
@@ -66,16 +58,21 @@ namespace Bottles.Deployment.Parsing
             var profileFile = _settings.GetProfile(options.ProfileName);
             
             if(!_fileSystem.FileExists(profileFile))
+            {
                 throw new Exception("Couldn't find the profile '{0}'".ToFormat(profileFile));
+            }
 
             _fileSystem.ReadTextFile(profileFile, profile.ReadText);
+
             return profile;
         }
 
         private IEnumerable<HostManifest> collateHosts(IEnumerable<Recipe> recipes)
         {
             if (recipes == null || !recipes.Any())
+            {
                 throw new Exception("Bah! no recipies");
+            }
             
 
             var firstRecipe = recipes.First();

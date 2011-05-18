@@ -68,10 +68,10 @@ namespace Bottles.Deployment.Runtime
 
         private void runActions(IEnumerable<IDeploymentAction<T>> actions)
         {
-            actions.Each(x =>
+            actions.Each(action =>
             {
-                var log = _diagnostics.LogAction(_host, _directive, x);
-                log.Execute(() => x.Execute(_directive, _host, log));
+                var log = _diagnostics.LogAction(_host, _directive, action);
+                log.Execute(() => action.Execute(_directive, _host, log));
             });
         }
     }

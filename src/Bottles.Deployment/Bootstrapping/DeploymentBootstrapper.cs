@@ -29,5 +29,13 @@ namespace Bottles.Deployment.Bootstrapping
                 
             });
         }
+
+        public static void UsingService<T>(DeploymentSettings settings, Action<T> action)
+        {
+            var container = Bootstrap(settings);
+            var service = container.GetInstance<T>();
+
+            action(service);
+        }
     }
 }

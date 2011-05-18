@@ -35,11 +35,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\fubucore\FubuCore.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlTags">
+      <HintPath>..\..\lib\htmltags\HtmlTags.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\lib\DotNetZip\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +58,8 @@
     <Compile Include="Commands\AssemblyPackageCommand.cs" />
     <Compile Include="Commands\CreatePackageCommand.cs" />
     <Compile Include="Commands\InitPakCommand.cs" />
+    <Compile Include="Diagnostics\LoggingSession.cs" />
+    <Compile Include="Diagnostics\LoggingSessionWriter.cs" />
     <Compile Include="ISimpleLogger.cs" />
     <Compile Include="Commands\ListCommand.cs" />
     <Compile Include="Configuration\CentralizedSettingsSource.cs" />
