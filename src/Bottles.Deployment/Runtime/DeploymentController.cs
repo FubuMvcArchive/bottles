@@ -23,7 +23,6 @@ namespace Bottles.Deployment.Runtime
         {
             // need to log inside of reader
             var plan = _reader.Read(options);
-            var hosts = plan.Hosts;
 
             var runners = _factory.BuildRunners(plan);
 

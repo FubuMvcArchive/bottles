@@ -3,7 +3,12 @@ using Bottles.Deployment.Runtime;
 
 namespace Bottles.Deployment.Parsing
 {
-    public class DeploymentGraphReader
+    public interface IDeploymentGraphReader
+    {
+        DeploymentGraph Read(DeploymentOptions options);
+    }
+
+    public class DeploymentGraphReader : IDeploymentGraphReader
     {
         private readonly DeploymentSettings _settings;
 
