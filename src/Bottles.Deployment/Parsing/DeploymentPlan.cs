@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Bottles.Configuration;
 using Bottles.Deployment.Runtime;
 
 namespace Bottles.Deployment.Parsing
@@ -36,8 +37,37 @@ namespace Bottles.Deployment.Parsing
 
             _hosts = collateHosts(_recipes);
 
-            _hosts.Each(host => host.RegisterSettings(_graph.Profile.DataForHost(host.Name)));
+            addProfileSettings();
+            addEnvironmentSettings();
+
+            readRoot();
+        }
+
+        private void readRoot()
+        {
+            if (Substitutions.ContainsKey(EnvironmentSettings.ROOT))
+            {
+                _graph.Settings.TargetDirectory = Substitutions[EnvironmentSettings.ROOT];
+            }
+            else
+            {
+                _graph.Environment.Overrides[EnvironmentSettings.ROOT] = _graph.Settings.TargetDirectory;
+                _overrideSourcing.Add(new OverrideSource(){
+                    Key = EnvironmentSettings.ROOT,
+                    Provenance = typeof(DeploymentSettings).Name,
+                    Value = _graph.Settings.TargetDirectory
+                });
+            }
+        }
+
+        private void addEnvironmentSettings()
+        {
             _hosts.Each(host => host.RegisterSettings(_graph.Environment.DataForHost(host.Name)));
+        }
+
+        private void addProfileSettings()
+        {
+            _hosts.Each(host => host.RegisterSettings(_graph.Profile.DataForHost(host.Name)));
         }
 
         public DeploymentOptions Options
@@ -118,6 +148,11 @@ namespace Bottles.Deployment.Parsing
                 Value = value,
                 Provenance = _graph.Profile.Overrides.Has(key) ? "Profile" : "Environment"
             }));
+        }
+
+        public HostManifest GetHost(string hostName)
+        {
+            return Hosts.FirstOrDefault(x => x.Name == hostName);
         }
     }
 

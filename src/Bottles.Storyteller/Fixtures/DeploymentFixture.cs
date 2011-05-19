@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using Bottles.Deployment;
+using Bottles.Deployment.Directives;
 using Bottles.Deployment.Parsing;
 using Bottles.Deployment.Runtime;
 using Bottles.Deployment.Writing;
@@ -10,6 +12,7 @@ using FubuCore;
 using FubuCore.Configuration;
 using StoryTeller;
 using StoryTeller.Engine;
+using Container = StructureMap.Container;
 
 namespace Bottles.Storyteller.Fixtures
 {
@@ -183,8 +186,18 @@ namespace Bottles.Storyteller.Fixtures
             return _plan.Hosts.Select(h=>h.Name);
         }
 
+        [FormatAs("The property {propertyName} of the Website directive in host {host} is {value}")]
+        public string HostWebsitePropertyIs(string host, string propertyName)
+        {
+            var registry = new DirectiveTypeRegistry(new Container());
+            registry.AddType(typeof (Website));
 
+            var factory = new DirectiveRunnerFactory(null, registry);
+            var website = factory.BuildDirectives(_plan, _plan.GetHost(host), registry).OfType<Website>().Single();
 
+            var property = typeof (Website).GetProperty(propertyName);
+            return property.GetValue(website, null) as string;
+        }
     }
 
 

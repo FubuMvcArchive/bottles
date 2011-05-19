@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<Test name="Environment and Profile substitutions" lifecycle="Regression">
+  <Deployment>
+    <Configure isStep="True">
+      <DeploymentConfiguration>
+        <EnvironmentSettings isStep="True">
+          <table>
+            <row isStep="True" Key="websiteName" Value="MakeMoney" />
+            <row isStep="True" Key="vdir" Value="EnvVDir" />
+          </table>
+        </EnvironmentSettings>
+        <ProfileRecipes isStep="True" profile="Profile1" recipeNames="Recipe1" />
+        <ProfileSettings isStep="True">
+          <table>
+            <row isStep="True" ProfileName="Profile1" Key="vdir" Value="ProfileVDir" />
+          </table>
+        </ProfileSettings>
+        <HostValues isStep="True">
+          <table>
+            <row isStep="True" Recipe="Recipe1" Host="Agent" Key="Website.VDir" Value="{vdir}" />
+            <row isStep="True" Recipe="Recipe1" Host="Agent" Key="Website.WebsiteName" Value="{websiteName}" />
+          </table>
+        </HostValues>
+      </DeploymentConfiguration>
+    </Configure>
+    <Options isStep="True">
+      <DeploymentOptions>
+        <ProfileIs isStep="True" profile="Profile1" />
+      </DeploymentOptions>
+    </Options>
+    <ReadingProfile isStep="True">
+      <ProfileReader>
+        <Comment><![CDATA[The {vdir} property is in both the environment settings and profile, but profile has precedence]]></Comment>
+        <HostWebsitePropertyIs isStep="True" propertyName="VDir" host="Agent" value="ProfileVDir" />
+        <Comment><![CDATA[The {website-name} substitution is only in environment, so the Website value should be that value from environment]]></Comment>
+        <HostWebsitePropertyIs isStep="True" propertyName="WebsiteName" host="Agent" value="MakeMoney" />
+      </ProfileReader>
+    </ReadingProfile>
+  </Deployment>
+</Test>

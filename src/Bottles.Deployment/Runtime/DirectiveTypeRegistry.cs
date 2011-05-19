@@ -42,5 +42,9 @@ namespace Bottles.Deployment.Runtime
         }
 
 
+        public void AddType(Type type)
+        {
+            _directiveTypes[type.Name] = type;
+        }
     }
 }
