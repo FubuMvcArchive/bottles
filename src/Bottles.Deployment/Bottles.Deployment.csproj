@@ -91,6 +91,7 @@
     <Compile Include="Diagnostics\DeploymentDiagnostics.cs" />
     <Compile Include="EntryLogWriter.cs" />
     <Compile Include="Diagnostics\IDeploymentDiagnostics.cs" />
+    <Compile Include="Parsing\DeploymentGraphReader.cs" />
     <Compile Include="Runtime\Content\IBottleMover.cs" />
     <Compile Include="Parsing\DeploymentPlan.cs" />
     <Compile Include="Parsing\HostReader.cs" />
@@ -108,7 +109,7 @@
     <Compile Include="IDirective.cs" />
     <Compile Include="IProcessRunner.cs" />
     <Compile Include="Parsing\SettingsParserException.cs" />
-    <Compile Include="Parsing\ProfileReader.cs" />
+    <Compile Include="Parsing\DeploymentGraph.cs" />
     <Compile Include="Parsing\RecipeReader.cs" />
     <Compile Include="Parsing\SettingsParser.cs" />
     <Compile Include="ProcessRunner.cs" />

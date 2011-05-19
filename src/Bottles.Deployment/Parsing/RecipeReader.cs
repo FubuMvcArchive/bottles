@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Bottles.Configuration;
 using FubuCore;
 
 namespace Bottles.Deployment.Parsing
@@ -35,7 +34,7 @@ namespace Bottles.Deployment.Parsing
 
         public static IEnumerable<Recipe> ReadRecipes(string recipesDir)
         {
-            return Directory.GetDirectories(recipesDir).Select(dir => ReadFrom(dir));
+            return Directory.GetDirectories(recipesDir).Select(ReadFrom);
         }
     }
 }

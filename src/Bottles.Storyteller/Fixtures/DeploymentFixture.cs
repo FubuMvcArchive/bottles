@@ -128,19 +128,23 @@ namespace Bottles.Storyteller.Fixtures
         private IEnumerable<SettingDataSource> _hostData;
         private DeploymentSettings _deploymentSettings;
         private DeploymentOptions _deploymentOptions;
-        private ProfileReader _profileReader;
+        private DeploymentPlan _plan;
 
         public override void SetUp(ITestContext context)
         {
             _deploymentSettings = context.Retrieve<DeploymentSettings>();
             _deploymentOptions = context.Retrieve<DeploymentOptions>();
-            _profileReader = new ProfileReader(new RecipeSorter(), _deploymentSettings, new FileSystem());
+
+            var reader = new DeploymentGraphReader(_deploymentSettings);
+            var graph = reader.Read(_deploymentOptions);
+            _plan = new DeploymentPlan(_deploymentOptions, graph);
+
         }
 
         [FormatAs("All the properties for host {host} are")]
         public void FetchPropertiesForHost(string host)
         {
-            var ahost = _profileReader.Read(_deploymentOptions).Hosts
+            var ahost = _plan.Hosts
                 .Single(h => h.Name == host);
 
             _hostData = ahost.CreateDiagnosticReport();
@@ -171,12 +175,12 @@ namespace Bottles.Storyteller.Fixtures
 
         private IEnumerable<string> findRecipies()
         {
-            return _profileReader.Read(_deploymentOptions).Recipes.Select(r => r.Name);
+            return _plan.Recipes.Select(r => r.Name);
         }
 
         private IEnumerable<string> findHosts()
         {
-            return _profileReader.Read(_deploymentOptions).Hosts.Select(h=>h.Name);
+            return _plan.Hosts.Select(h=>h.Name);
         }
 
 

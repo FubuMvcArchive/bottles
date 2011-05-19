@@ -65,8 +65,16 @@ namespace Bottles.Tests.Deployment.Bootstrapping
 
             var factory = theContainer.GetInstance<DirectiveRunnerFactory>();
 
-            var plan = new DeploymentPlan(new DeploymentOptions());
-            plan.ReadProfileAndSettings(new EnvironmentSettings(), new Profile());
+            var profile = new Profile();
+            profile.AddRecipe("something");
+
+            var plan = new DeploymentPlan(new DeploymentOptions(), new DeploymentGraph(){
+                Environment = new EnvironmentSettings(),
+                Profile = profile,
+                Recipes = new Recipe[]{new Recipe("something"), },
+                Settings = new DeploymentSettings()
+                
+            });
 
             var directives = factory.BuildDirectives(plan, host, registry);
 

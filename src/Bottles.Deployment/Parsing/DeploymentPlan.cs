@@ -1,17 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
-using Bottles.Configuration;
+using System.Linq;
 using Bottles.Deployment.Runtime;
 
 namespace Bottles.Deployment.Parsing
 {
+    // TODO --
+    /*
+     *  Set the root on the settings
+     *  
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     * 
+     */
+
     public class DeploymentPlan
     {
+        private readonly DeploymentGraph _graph;
+        private readonly IEnumerable<HostManifest> _hosts;
         private readonly DeploymentOptions _options;
+        private readonly IList<OverrideSource> _overrideSourcing = new List<OverrideSource>();
+        private readonly IEnumerable<Recipe> _recipes;
 
-        public DeploymentPlan(DeploymentOptions options)
+        public DeploymentPlan(DeploymentOptions options, DeploymentGraph graph)
         {
             _options = options;
+            _graph = graph;
+            _recipes = readRecipes();
+
+            readProfileAndSettings();
+
+            _hosts = collateHosts(_recipes);
+
+            _hosts.Each(host => host.RegisterSettings(_graph.Profile.DataForHost(host.Name)));
+            _hosts.Each(host => host.RegisterSettings(_graph.Environment.DataForHost(host.Name)));
         }
 
         public DeploymentOptions Options
@@ -19,43 +45,17 @@ namespace Bottles.Deployment.Parsing
             get { return _options; }
         }
 
-        public IEnumerable<Recipe> Recipes { get; private set; }
-        public IEnumerable<HostManifest> Hosts { get; set; }
-        public Profile Profile { get; private set; }
-        public EnvironmentSettings Environment { get; private set; }
-
-        public void AddRecipes(IEnumerable<Recipe> recipes)
+        public IEnumerable<Recipe> Recipes
         {
-            Recipes = recipes;
-        }
-
-        public void AddHosts(IEnumerable<HostManifest> hosts)
-        {
-            Hosts = hosts;
+            get { return _recipes; }
         }
 
 
-        private readonly IList<OverrideSource> _overrideSourcing = new List<OverrideSource>();
-
-        public void ReadProfileAndSettings(EnvironmentSettings environment, Profile profile)
+        public IEnumerable<HostManifest> Hosts
         {
-            Environment = environment;
-            Profile = profile;
-
-            Profile.Overrides.Each((k, v) =>
-            {
-                Environment.Overrides[k] = v;
-            });
-
-            Environment.Overrides.Each((key, value) => _overrideSourcing.Add(new OverrideSource()
-            {
-                Key = key,
-                Value = value,
-                Provenance = Profile.Overrides.Has(key) ? "Profile" : "Environment"
-            }));
+            get { return _hosts; }
         }
 
-        // TODO -- unit test this
         public IEnumerable<OverrideSource> OverrideSourcing
         {
             get { return _overrideSourcing; }
@@ -63,10 +63,63 @@ namespace Bottles.Deployment.Parsing
 
         public IDictionary<string, string> Substitutions
         {
-            get { return Environment.Overrides.ToDictionary(); }
+            get { return _graph.Environment.Overrides.ToDictionary(); }
+        }
+
+        private static IEnumerable<HostManifest> collateHosts(IEnumerable<Recipe> recipes)
+        {
+            if (recipes == null)
+            {
+                throw new Exception("Bah! no recipies");
+            }
+
+
+            var firstRecipe = recipes.First();
+            recipes.Skip(1).Each(firstRecipe.AppendBehind);
+
+            return firstRecipe.Hosts;
+        }
+
+        private IEnumerable<Recipe> readRecipes()
+        {;
+            var recipes = buildEntireRecipeGraph(_graph.Recipes);
+
+            // TODO -- log which recipes were selected
+            recipes = new RecipeSorter().Order(recipes);
+            return recipes;
+        }
+
+        private IEnumerable<Recipe> buildEntireRecipeGraph(IEnumerable<Recipe> allRecipesAvailable)
+        {
+            var recipesToRun = new List<string>();
+
+            recipesToRun.AddRange(_graph.Profile.Recipes);
+            recipesToRun.AddRange(_options.RecipeNames);
+
+            var dependencies = new List<string>();
+
+            recipesToRun.Each(r =>
+            {
+                var rec = allRecipesAvailable.Single(x => x.Name == r);
+                dependencies.AddRange(rec.Dependencies);
+            });
+
+            recipesToRun.AddRange(dependencies.Distinct());
+
+            return recipesToRun.Distinct().Select(name => allRecipesAvailable.Single(o => o.Name == name));
+        }
+
+        private void readProfileAndSettings()
+        {
+            _graph.Profile.Overrides.Each((k, v) => { _graph.Environment.Overrides[k] = v; });
+
+            _graph.Environment.Overrides.Each((key, value) => _overrideSourcing.Add(new OverrideSource{
+                Key = key,
+                Value = value,
+                Provenance = _graph.Profile.Overrides.Has(key) ? "Profile" : "Environment"
+            }));
         }
     }
-
 
 
     public class OverrideSource
@@ -94,7 +147,7 @@ namespace Bottles.Deployment.Parsing
         {
             unchecked
             {
-                int result = (Key != null ? Key.GetHashCode() : 0);
+                var result = (Key != null ? Key.GetHashCode() : 0);
                 result = (result*397) ^ (Value != null ? Value.GetHashCode() : 0);
                 result = (result*397) ^ (Provenance != null ? Provenance.GetHashCode() : 0);
                 return result;

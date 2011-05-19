@@ -16,6 +16,7 @@ namespace Bottles.Tests.Deployment.Parsing
     public class ProfileReaderIntegratedTester
     {
         private IEnumerable<HostManifest> theHosts;
+        private DeploymentPlan thePlan;
 
         [SetUp]
         public void SetUp()
@@ -69,22 +70,22 @@ namespace Bottles.Tests.Deployment.Parsing
 
             writer.Flush(FlushOptions.Wipeout);
 
-            var reader = new ProfileReader(new RecipeSorter(), new DeploymentSettings("clonewars"), new FileSystem());
 
-            var profile = reader.Read(new DeploymentOptions("default"));
-            theHosts = profile.Hosts;
+            var settings = new DeploymentSettings("clonewars");
+            var reader = new DeploymentGraphReader(settings);
+            var options = new DeploymentOptions("default");
+            var graph = reader.Read(options);
+            thePlan = new DeploymentPlan(options, graph);
+
+            theHosts = thePlan.Hosts;
         }
 
         [Test]
         public void read_profile_from_the_file()
         {
-            var environment = new EnvironmentSettings();
-            var reader = new ProfileReader(new RecipeSorter(), new DeploymentSettings("clonewars"), new FileSystem());
-            var profile = reader.Read(new DeploymentOptions("default"), environment).Profile;
+            thePlan.Substitutions["dbName"].ShouldEqual("profile-db");
 
-            environment.Overrides["dbName"].ShouldEqual("profile-db");
-
-            profile.Recipes.ShouldHaveTheSameElementsAs("r1", "r2", "r3", "r4");
+            thePlan.Recipes.Select(x => x.Name).ShouldHaveTheSameElementsAs("r1", "r2", "r3", "r4");
         }
 
 
@@ -94,6 +95,7 @@ namespace Bottles.Tests.Deployment.Parsing
     public class DeploymentReaderIntegratedTester
     {
         private IEnumerable<HostManifest> theHosts;
+        private DeploymentPlan thePlan;
 
         [SetUp]
         public void SetUp()
@@ -145,9 +147,15 @@ namespace Bottles.Tests.Deployment.Parsing
 
             writer.Flush(FlushOptions.Wipeout);
 
-            var reader = new ProfileReader(new RecipeSorter(), new DeploymentSettings("clonewars"), new FileSystem());
 
-            theHosts = reader.Read(new DeploymentOptions("default")).Hosts;
+            var settings = new DeploymentSettings("clonewars");
+            var reader = new DeploymentGraphReader(settings);
+            var options = new DeploymentOptions("default");
+            var graph = reader.Read(options);
+            thePlan = new DeploymentPlan(options, graph);
+
+
+            theHosts = thePlan.Hosts;
         }
 
         [Test]

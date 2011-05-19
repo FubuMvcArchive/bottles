@@ -18,11 +18,17 @@ namespace Bottles.Tests.Deployment.Parsing
             environment.Overrides["Shared"] = "Shared-Env-Val";
 
             var profile = new Profile();
+            profile.AddRecipe("something");
+
             profile.Overrides["Shared"] = "Shared-Profile-Val";
             profile.Overrides["Profile1"] = "Profile1-Val";
 
-            var plan = new DeploymentPlan(new DeploymentOptions());
-            plan.ReadProfileAndSettings(environment, profile);
+            var plan = new DeploymentPlan(new DeploymentOptions(), new DeploymentGraph(){
+                Environment = environment,
+                Profile = profile,
+                Recipes = new Recipe[]{new Recipe("something"), },
+                Settings = new DeploymentSettings()
+            });
 
             plan.OverrideSourcing.ShouldHaveTheSameElementsAs(
                 new OverrideSource(){Key = "Env1", Provenance = "Environment", Value = "Env1-Val"},
