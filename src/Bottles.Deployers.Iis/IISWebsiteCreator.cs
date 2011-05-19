@@ -1,5 +1,8 @@
+using System;
 using Bottles.Deployment.Directives;
+using FubuCore.CommandLine;
 using Microsoft.Web.Administration;
+using FubuCore;
 
 namespace Bottles.Deployers.Iis
 {
@@ -21,10 +24,11 @@ namespace Bottles.Deployers.Iis
                     pool.ProcessModel.Password = website.Password;
                 }
 
-                var site = iisManager.CreateSite(website.WebsiteName, website.WebsitePhysicalPath, website.Port);
+                ConsoleWriter.WriteWithIndent(ConsoleColor.Cyan, 4, "Trying to create a new website at {0}, port {1}".ToFormat(website.WebsitePhysicalPath.ToFullPath(), website.Port));
+                var site = iisManager.CreateSite(website.WebsiteName, website.WebsitePhysicalPath.ToFullPath(), website.Port);
 
-
-                var app = site.CreateApplication(website.VDir, website.VDirPhysicalPath);
+                ConsoleWriter.WriteWithIndent(ConsoleColor.Cyan, 4, "Trying to create a new virtual directory at " + website.VDirPhysicalPath.ToFullPath());
+                var app = site.CreateApplication(website.VDir, website.VDirPhysicalPath.ToFullPath());
                 app.ApplicationPoolName = website.AppPool;
 
                 //flush the changes so that we can now tweak them.
@@ -32,9 +36,10 @@ namespace Bottles.Deployers.Iis
 
                 app.DirectoryBrowsing(website.DirectoryBrowsing);
 
-                app.AnonAuthentication(website.AnonAuth);
-                app.BasicAuthentication(website.BasicAuth);
-                app.WindowsAuthentication(website.WindowsAuth);
+                // TODO -- just take these out
+                //app.AnonAuthentication(website.AnonAuth);
+                //app.BasicAuthentication(website.BasicAuth);
+                //app.WindowsAuthentication(website.WindowsAuth);
 
                 app.MapAspNetToEverything();
                 iisManager.CommitChanges();

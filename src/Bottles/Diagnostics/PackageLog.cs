@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using FubuCore;
+using FubuCore.CommandLine;
 
 namespace Bottles.Diagnostics
 {
@@ -44,6 +45,7 @@ namespace Bottles.Diagnostics
 
         public void Trace(string text)
         {
+            ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 4, text);
             _text.WriteLine(text);
         }
 
@@ -61,7 +63,10 @@ namespace Bottles.Diagnostics
 
         public void MarkFailure(string text)
         {
-            Trace(text);
+            ConsoleWriter.Write(ConsoleColor.Red, text);
+
+            _text.WriteLine(text);
+            
             Success = false;
         }
 

@@ -24,6 +24,8 @@ namespace Bottles.Tests.Deployment
             settings.DeploymentDirectory.ShouldEqual("dir");
             settings.BottleManifestFile.ShouldEqual("dir\\bottles.manifest");
 
+            settings.DeployersDirectory.ShouldEqual(FileSystem.Combine("dir", "deployers"));
+
             settings.ProfilesDirectory.ShouldEqual(FileSystem.Combine("dir", ProfileFiles.ProfilesDirectory));
             settings.EnvironmentsDirectory.ShouldEqual(FileSystem.Combine("dir", ProfileFiles.EnvironmentsDirectory));
 

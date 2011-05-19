@@ -11,6 +11,7 @@ namespace Bottles
 
         public static readonly string BottlesDirectory = "bottles";
         public static readonly string DeploymentFolder = "deployment";
+        public static readonly string DeployersDirectory = "deployers";
         public static readonly string EnvironmentsDirectory = "environments";
         public static readonly string ProfilesDirectory = "profiles";
 

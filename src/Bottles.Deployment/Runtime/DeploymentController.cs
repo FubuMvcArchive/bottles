@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using Bottles.Deployment.Diagnostics;
 using Bottles.Deployment.Parsing;
+using FubuCore.CommandLine;
+using FubuCore;
+using System.Linq;
 
 namespace Bottles.Deployment.Runtime
 {
@@ -24,6 +27,9 @@ namespace Bottles.Deployment.Runtime
             // need to log inside of reader
             var plan = _reader.Read(options);
 
+            writeOptionsToConsole(plan);
+
+
             var runners = _factory.BuildRunners(plan);
 
             runners.Each(x => x.InitializeDeployment());
@@ -33,5 +39,16 @@ namespace Bottles.Deployment.Runtime
            _reporter.WriteReport(options, plan);
         }
 
+        private static void writeOptionsToConsole(DeploymentPlan plan)
+        {
+            ConsoleWriter.Line();
+            ConsoleWriter.PrintHorizontalLine();
+            ConsoleWriter.Write("Deploying profile {0}".ToFormat(plan.Options.ProfileName));
+            ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 2, "from deployment directory " + plan.Settings.DeploymentDirectory);
+            ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 2, "to target directory " + plan.Settings.TargetDirectory);
+            ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 2, "Applying recipe(s):  " + plan.Recipes.Select(x => x.Name).Join(", "));
+            ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 2, "Deploying host(s):  " + plan.Hosts.Select(x => x.Name).Join(", "));
+            ConsoleWriter.PrintHorizontalLine();
+        }
     }
 }

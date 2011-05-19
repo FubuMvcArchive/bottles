@@ -1,5 +1,8 @@
+using System;
 using Bottles.Deployment.Parsing;
 using Bottles.Deployment.Runtime;
+using FubuCore.CommandLine;
+using FubuCore;
 
 namespace Bottles.Deployment.Diagnostics
 {
@@ -17,6 +20,11 @@ namespace Bottles.Deployment.Diagnostics
             var report = new DeploymentReport("Deployment Report");
             report.WriteDeploymentPlan(plan);
             report.WriteLoggingSession(_diagnostics.Session);
+        
+            ConsoleWriter.Line();
+            ConsoleWriter.PrintHorizontalLine();
+            ConsoleWriter.Write("Writing deployment report to " + options.ReportName.ToFullPath());
+            report.Document.WriteToFile(options.ReportName);
         }
     }
 }

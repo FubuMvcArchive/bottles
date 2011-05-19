@@ -43,6 +43,14 @@ namespace Bottles.Deployment.Parsing
             readRoot();
         }
 
+        public DeploymentSettings Settings
+        {
+            get
+            {
+                return _graph.Settings;
+            }
+        }
+
         private void readRoot()
         {
             if (Substitutions.ContainsKey(EnvironmentSettings.ROOT))

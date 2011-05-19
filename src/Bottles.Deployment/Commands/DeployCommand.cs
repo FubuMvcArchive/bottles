@@ -2,7 +2,6 @@ using System.ComponentModel;
 using Bottles.Deployment.Bootstrapping;
 using Bottles.Deployment.Runtime;
 using FubuCore.CommandLine;
-using FubuCore;
 
 namespace Bottles.Deployment.Commands
 {
@@ -33,11 +32,14 @@ namespace Bottles.Deployment.Commands
 
             var options = new DeploymentOptions(input.DeploymentFlag)
             {
-                ReportName = input.ReportFlag
+                ReportName = input.ReportFlag,
+                ProfileName = input.ProfileFlag
             };
 
             DeploymentBootstrapper.UsingService<IDeploymentController>(settings, x => x.Deploy(options));
              
+            // TODO -- need to blow up / fail if there were any errors detected
+
             return true;
         }
     }

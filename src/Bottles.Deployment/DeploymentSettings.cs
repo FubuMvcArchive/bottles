@@ -15,6 +15,27 @@ namespace Bottles.Deployment
             BottleManifestFile = FileSystem.Combine(path, ProfileFiles.BottlesManifestFile);
             EnvironmentsDirectory = FileSystem.Combine(path, ProfileFiles.EnvironmentsDirectory);
             ProfilesDirectory = FileSystem.Combine(path, ProfileFiles.ProfilesDirectory);
+            DeployersDirectory = FileSystem.Combine(path, ProfileFiles.DeployersDirectory);
+        }
+
+        public DeploymentSettings() : this(".".ToFullPath())
+        {
+        }
+
+        public string DeployersDirectory { get; set; }
+
+        public string DeploymentDirectory { get; set; }
+        public string TargetDirectory { get; set; }
+        public string BottlesDirectory { get; set; }
+        public string RecipesDirectory { get; set; }
+        public string EnvironmentFile { get; set; }
+        public string BottleManifestFile { get; set; }
+        public string EnvironmentsDirectory { get; set; }
+        public string ProfilesDirectory { get; set; }
+
+        public string StagingDirectory
+        {
+            get { return FileSystem.Combine(TargetDirectory, ProfileFiles.StagingDirectory); }
         }
 
         public static DeploymentSettings ForDirectory(string directory)
@@ -26,27 +47,6 @@ namespace Bottles.Deployment
 
             var path = FileSystem.Combine(".".ToFullPath(), ProfileFiles.DeploymentFolder);
             return new DeploymentSettings(path);
-        }
-
-        public DeploymentSettings() : this(".".ToFullPath())
-        {
-        }
-
-        public string DeploymentDirectory { get; set; }
-        public string TargetDirectory { get; set; }
-        public string BottlesDirectory { get; set;}
-        public string RecipesDirectory { get; set;}
-        public string EnvironmentFile { get; set;}
-        public string BottleManifestFile { get; set; }
-        public string EnvironmentsDirectory { get; set; }
-        public string ProfilesDirectory { get; set; }
-
-        public string StagingDirectory
-        {
-            get
-            {
-                return FileSystem.Combine(TargetDirectory, ProfileFiles.StagingDirectory);
-            }
         }
 
 
