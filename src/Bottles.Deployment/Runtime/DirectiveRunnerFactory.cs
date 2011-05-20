@@ -51,7 +51,7 @@ namespace Bottles.Deployment.Runtime
         // overridden in testing classes
         public virtual IEnumerable<IDirective> BuildDirectives(DeploymentPlan plan, HostManifest host, IDirectiveTypeRegistry typeRegistry)
         {
-            var provider = new SubstitutedSettingsProvider(_resolver, host.AllSettingsData(), plan.Substitutions);
+            var provider = new SettingsProvider(_resolver, host.AllSettingsData().Union(plan.Substitutions()));
 
             return host.UniqueDirectiveNames().Select(name =>
             {

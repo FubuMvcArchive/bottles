@@ -79,6 +79,9 @@
     <Compile Include="Commands\DeployCommand.cs" />
     <Compile Include="Commands\CreateAllCommand.cs" />
     <Compile Include="Configuration\ConfigurationDeployer.cs" />
+    <Compile Include="Configuration\EnvironmentSettings.cs" />
+    <Compile Include="Configuration\EnvironmentSettingsException.cs" />
+    <Compile Include="Configuration\ProfileBase.cs" />
     <Compile Include="DependsOnAttribute.cs" />
     <Compile Include="DeploymentSettings.cs" />
     <Compile Include="Diagnostics\DeploymentReport.cs" />
@@ -130,7 +133,6 @@
     <Compile Include="Runtime\IHostSorter.cs" />
     <Compile Include="Writing\DirectiveWriter.cs" />
     <Compile Include="Writing\DeploymentWriter.cs" />
-    <Compile Include="Writing\FlatFileWriter.cs" />
     <Compile Include="Writing\ProfileDefinition.cs" />
     <Compile Include="Writing\ProfileWriter.cs" />
     <Compile Include="Writing\PropertyValue.cs" />

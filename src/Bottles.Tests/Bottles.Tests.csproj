@@ -85,7 +85,6 @@
     <Compile Include="Commands\InstallationRunnerTester.cs" />
     <Compile Include="Commands\InstallCommandTester.cs" />
     <Compile Include="Commands\ListCommandTester.cs" />
-    <Compile Include="Configuration\CentralizedSettingsSourceTester.cs" />
     <Compile Include="Configuration\environment.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -103,7 +102,6 @@
     <Compile Include="Deployment\DeploymentSettingsTester.cs" />
     <Compile Include="Deployment\ProfileTester.cs" />
     <Compile Include="Deployment\Runtime\DirectiveRunnerTester.cs" />
-    <Compile Include="Deployment\Writing\FlatFileWriterTester.cs" />
     <Compile Include="Diagnostics\PackageLogTester.cs" />
     <Compile Include="EnvironmentSettingsTester.cs" />
     <Compile Include="Deployment\FakeDeployer.cs" />

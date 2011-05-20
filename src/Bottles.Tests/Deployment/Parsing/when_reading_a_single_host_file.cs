@@ -1,6 +1,6 @@
 using System.Linq;
-using Bottles.Configuration;
 using Bottles.Deployment;
+using Bottles.Deployment.Configuration;
 using Bottles.Deployment.Parsing;
 using Bottles.Deployment.Writing;
 using Bottles.Tests.Deployment.Writing;

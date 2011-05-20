@@ -2,7 +2,7 @@ using System;
 using System.Runtime.Serialization;
 using FubuCore;
 
-namespace Bottles.Configuration
+namespace Bottles.Deployment.Configuration
 {
     [Serializable]
     public class EnvironmentSettingsException : Exception

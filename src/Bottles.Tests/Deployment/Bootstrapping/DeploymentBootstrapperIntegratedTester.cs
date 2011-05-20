@@ -1,5 +1,4 @@
 using BottleDeployers2;
-using Bottles.Configuration;
 using Bottles.Deployment;
 using Bottles.Deployment.Bootstrapping;
 using Bottles.Deployment.Configuration;
@@ -65,7 +64,7 @@ namespace Bottles.Tests.Deployment.Bootstrapping
 
             var factory = theContainer.GetInstance<DirectiveRunnerFactory>();
 
-            var profile = new Profile();
+            var profile = new Profile("profile1");
             profile.AddRecipe("something");
 
             var plan = new DeploymentPlan(new DeploymentOptions(), new DeploymentGraph(){

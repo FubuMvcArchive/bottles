@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Bottles.Configuration;
+using Bottles.Deployment.Configuration;
 using FubuCore;
 using FubuCore.CommandLine;
 

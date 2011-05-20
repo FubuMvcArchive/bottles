@@ -1,4 +1,4 @@
-﻿using Bottles.Configuration;
+using Bottles.Deployment.Configuration;
 using FubuCore;
 
 namespace Bottles.Deployment.Directives

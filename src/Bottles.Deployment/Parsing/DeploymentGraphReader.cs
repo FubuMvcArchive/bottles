@@ -1,4 +1,4 @@
-using Bottles.Configuration;
+using Bottles.Deployment.Configuration;
 using Bottles.Deployment.Runtime;
 
 namespace Bottles.Deployment.Parsing
@@ -21,7 +21,7 @@ namespace Bottles.Deployment.Parsing
         {
             return new DeploymentGraph{
                 Environment = EnvironmentSettings.ReadFrom(_settings.EnvironmentFile),
-                Profile = Profile.ReadFrom(_settings.GetProfile(options.ProfileName)),
+                Profile = Profile.ReadFrom(_settings, options.ProfileName),
                 Recipes = RecipeReader.ReadRecipes(_settings.RecipesDirectory),
                 Settings = _settings
             };

@@ -50,13 +50,12 @@ namespace Bottles.Deployment.Diagnostics
 
         private void writeEnvironmentSettings(DeploymentPlan plan)
         {
-            _document.Add("h3").Text("Environment Key/Values");
-            var table = new TableTag();
-            table.AddHeaderRow("Key", "Value", "Provenance");
+            _document.Add("h3").Text("Profile / Environment Substitutions");
 
-            plan.OverrideSourcing.Each(o => table.AddBodyRow(o.Key, o.Value, o.Provenance));
+            var report = plan.GetSubstitutionDiagnosticReport();
 
-            _document.Add(table);
+            writeSettings(report);
+
         }
 
         private void writeOptions(DeploymentPlan plan)
@@ -84,12 +83,18 @@ namespace Bottles.Deployment.Diagnostics
         {
             _document.Add("h4").Text(host.Name);
 
+            var settingDataSources = host.CreateDiagnosticReport();
+
+            writeSettings(settingDataSources);
+        }
+
+        private void writeSettings(IEnumerable<SettingDataSource> settingDataSources)
+        {
             var table = new TableTag();
             table.AddClass("details");
             table.AddHeaderRow("Key", "Value", "Provenance");
 
-
-            host.CreateDiagnosticReport().Each(s =>
+            settingDataSources.Each(s =>
             {
                 table.AddBodyRow(s.Key, s.Value, s.Provenance);
             });

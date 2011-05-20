@@ -13,7 +13,7 @@ namespace Bottles.Tests.Deployment
         [SetUp]
         public void SetUp()
         {
-            theProfile = new Profile();
+            theProfile = new Profile("something");
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace Bottles.Tests.Deployment
             theProfile.Recipes.Any().ShouldBeFalse();
 
             
-            theProfile.Overrides["Key1"].ShouldEqual("Value1");
+            theProfile.Data["Key1"].ShouldEqual("Value1");
         }
     }
 }

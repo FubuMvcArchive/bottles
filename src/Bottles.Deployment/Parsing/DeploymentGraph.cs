@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Bottles.Configuration;
+using Bottles.Deployment.Configuration;
 
 namespace Bottles.Deployment.Parsing
 {

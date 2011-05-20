@@ -1,10 +1,7 @@
-﻿using Bottles.Configuration;
-
-namespace Bottles
+﻿namespace Bottles
 {
     public static class ProfileFiles
     {
-        public static readonly string EnvironmentSettingsFileName = EnvironmentSettings.EnvironmentSettingsFileName;
         public static readonly string RecipesDirectory = "recipes";
         public static readonly string BottlePrefix = "bottle:";
         public static readonly string RecipesControlFile = "recipe.ctrl";

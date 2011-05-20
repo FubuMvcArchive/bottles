@@ -1,46 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Bottles.Configuration;
+using Bottles.Deployment.Configuration;
 using Bottles.Deployment.Runtime;
+using FubuCore.Binding;
+using FubuCore.Configuration;
 
 namespace Bottles.Deployment.Parsing
 {
-    // TODO --
-    /*
-     *  Set the root on the settings
-     *  
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     */
-
     public class DeploymentPlan
     {
         private readonly DeploymentGraph _graph;
         private readonly IEnumerable<HostManifest> _hosts;
         private readonly DeploymentOptions _options;
-        private readonly IList<OverrideSource> _overrideSourcing = new List<OverrideSource>();
         private readonly IEnumerable<Recipe> _recipes;
+        private SettingsData _rootData;
 
         public DeploymentPlan(DeploymentOptions options, DeploymentGraph graph)
         {
             _options = options;
             _graph = graph;
             _recipes = readRecipes();
-
-            readProfileAndSettings();
-
             _hosts = collateHosts(_recipes);
 
             addProfileSettings();
             addEnvironmentSettings();
 
             readRoot();
+        }
+
+        public IEnumerable<SettingDataSource> GetSubstitutionDiagnosticReport()
+        {
+            var provider = new SettingsProvider(ObjectResolver.Basic(), Substitutions());
+            return provider.CreateDiagnosticReport(); 
+        }
+
+        public IEnumerable<SettingsData> Substitutions()
+        {
+            if (_rootData != null)
+            {
+                yield return _rootData;
+            }
+
+            yield return _graph.Environment.Data.SubsetByKey(key => !key.Contains("."));
+            yield return _graph.Profile.Data.SubsetByKey(key => !key.Contains("."));
         }
 
         public DeploymentSettings Settings
@@ -53,18 +56,19 @@ namespace Bottles.Deployment.Parsing
 
         private void readRoot()
         {
-            if (Substitutions.ContainsKey(EnvironmentSettings.ROOT))
+            // Like to have some tracing about where ROOT comes from.  START HERE HERE HERE HERE HERE
+            var requestData = SettingsRequestData.For(_graph.Profile.Data, _graph.Environment.Data);
+            var valueExists = requestData.Value(EnvironmentSettings.ROOT, value =>
             {
-                _graph.Settings.TargetDirectory = Substitutions[EnvironmentSettings.ROOT];
-            }
-            else
+                _graph.Settings.TargetDirectory = (string) value;
+            });
+
+            if (!valueExists)
             {
-                _graph.Environment.Overrides[EnvironmentSettings.ROOT] = _graph.Settings.TargetDirectory;
-                _overrideSourcing.Add(new OverrideSource(){
-                    Key = EnvironmentSettings.ROOT,
-                    Provenance = typeof(DeploymentSettings).Name,
-                    Value = _graph.Settings.TargetDirectory
-                });
+                _rootData = new SettingsData(SettingCategory.profile){
+                    Provenance = typeof(DeploymentSettings).Name
+                };
+                _rootData.With(EnvironmentSettings.ROOT, _graph.Settings.TargetDirectory);
             }
         }
 
@@ -92,16 +96,6 @@ namespace Bottles.Deployment.Parsing
         public IEnumerable<HostManifest> Hosts
         {
             get { return _hosts; }
-        }
-
-        public IEnumerable<OverrideSource> OverrideSourcing
-        {
-            get { return _overrideSourcing; }
-        }
-
-        public IDictionary<string, string> Substitutions
-        {
-            get { return _graph.Environment.Overrides.ToDictionary(); }
         }
 
         private static IEnumerable<HostManifest> collateHosts(IEnumerable<Recipe> recipes)
@@ -147,17 +141,6 @@ namespace Bottles.Deployment.Parsing
             return recipesToRun.Distinct().Select(name => allRecipesAvailable.Single(o => o.Name == name));
         }
 
-        private void readProfileAndSettings()
-        {
-            _graph.Profile.Overrides.Each((k, v) => { _graph.Environment.Overrides[k] = v; });
-
-            _graph.Environment.Overrides.Each((key, value) => _overrideSourcing.Add(new OverrideSource{
-                Key = key,
-                Value = value,
-                Provenance = _graph.Profile.Overrides.Has(key) ? "Profile" : "Environment"
-            }));
-        }
-
         public HostManifest GetHost(string hostName)
         {
             return Hosts.FirstOrDefault(x => x.Name == hostName);
@@ -165,41 +148,5 @@ namespace Bottles.Deployment.Parsing
     }
 
 
-    public class OverrideSource
-    {
-        public string Key { get; set; }
-        public string Value { get; set; }
-        public string Provenance { get; set; }
 
-        public bool Equals(OverrideSource other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Equals(other.Key, Key) && Equals(other.Value, Value) && Equals(other.Provenance, Provenance);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof (OverrideSource)) return false;
-            return Equals((OverrideSource) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                var result = (Key != null ? Key.GetHashCode() : 0);
-                result = (result*397) ^ (Value != null ? Value.GetHashCode() : 0);
-                result = (result*397) ^ (Provenance != null ? Provenance.GetHashCode() : 0);
-                return result;
-            }
-        }
-
-        public override string ToString()
-        {
-            return string.Format("Key: {0}, Value: {1}, Provenance: {2}", Key, Value, Provenance);
-        }
-    }
 }

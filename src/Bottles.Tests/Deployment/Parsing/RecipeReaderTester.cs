@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using Bottles.Configuration;
 using Bottles.Deployment;
 using Bottles.Deployment.Parsing;
 using Bottles.Deployment.Writing;

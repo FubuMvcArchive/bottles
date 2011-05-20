@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Bottles.Configuration;
 using Bottles.Deployment;
+using Bottles.Deployment.Configuration;
 using Bottles.Deployment.Parsing;
 using Bottles.Deployment.Runtime;
 using Bottles.Deployment.Writing;
@@ -83,8 +83,6 @@ namespace Bottles.Tests.Deployment.Parsing
         [Test]
         public void read_profile_from_the_file()
         {
-            thePlan.Substitutions["dbName"].ShouldEqual("profile-db");
-
             thePlan.Recipes.Select(x => x.Name).ShouldHaveTheSameElementsAs("r1", "r2", "r3", "r4");
         }
 
@@ -220,7 +218,7 @@ namespace Bottles.Tests.Deployment.Parsing
             writer.Flush(FlushOptions.Wipeout);
 
             var environmentSettings = new EnvironmentSettings();
-            environmentSettings.Overrides["setting"] = "environment setting";
+            environmentSettings.Data["setting"] = "environment setting";
 
             theRecipes = RecipeReader.ReadRecipes("starwars\\recipes");
         }

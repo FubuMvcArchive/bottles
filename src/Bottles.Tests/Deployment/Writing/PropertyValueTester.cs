@@ -1,4 +1,5 @@
 using Bottles.Deployment.Writing;
+using FubuCore;
 using NUnit.Framework;
 using FubuTestingSupport;
 using Rhino.Mocks;

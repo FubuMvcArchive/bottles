@@ -1,3 +1,4 @@
+using Bottles.Deployment.Configuration;
 using FubuCore;
 
 namespace Bottles.Deployment
@@ -10,7 +11,7 @@ namespace Bottles.Deployment
             DeploymentDirectory = path;
             BottlesDirectory = FileSystem.Combine(path, ProfileFiles.BottlesDirectory);
             RecipesDirectory = FileSystem.Combine(path, ProfileFiles.RecipesDirectory);
-            EnvironmentFile = FileSystem.Combine(path, ProfileFiles.EnvironmentSettingsFileName);
+            EnvironmentFile = FileSystem.Combine(path, EnvironmentSettings.EnvironmentSettingsFileName);
             TargetDirectory = FileSystem.Combine(path, ProfileFiles.TargetDirectory);
             BottleManifestFile = FileSystem.Combine(path, ProfileFiles.BottlesManifestFile);
             EnvironmentsDirectory = FileSystem.Combine(path, ProfileFiles.EnvironmentsDirectory);
