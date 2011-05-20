@@ -7,10 +7,16 @@ namespace Bottles.Deployers.CommandLine
 {
     public class CommandLineDeployer : IDeployer<CommandLineExecution>
     {
-       
+        private readonly IProcessRunner _processRunner;
+
+        public CommandLineDeployer(IProcessRunner processRunner)
+        {
+            _processRunner = processRunner;
+        }
+
         public void Execute(CommandLineExecution directive, HostManifest host, IPackageLog log)
         {
-            new ExecuteCommandLine().Execute(directive);
+            new ExecuteCommandLine(_processRunner).Execute(directive);
         }
     }
 }
