@@ -13,8 +13,8 @@ namespace Bottles.Parsing
             var document = new XmlDocument();
             document.Load(fileName);
 
-            var manifest = new PackageManifest{
-                Name = document.DocumentElement.SelectSingleNode("Name").InnerText,
+            var manifest = new PackageManifest {
+                Name = buildPackageName(fileName, document),
                 ContentFileSet = buildFileSet(document, x => x.ContentFileSet),
                 DataFileSet = buildFileSet(document, x => x.DataFileSet)
             };
@@ -25,6 +25,15 @@ namespace Bottles.Parsing
             }
 
             return manifest;
+        }
+
+        private string buildPackageName(string fileName, XmlDocument document)
+        {
+            var node = document.DocumentElement.SelectSingleNode("Name");
+            if (node != null)
+                return node.InnerText;
+            
+            throw new Exception("The .package-manifest at '{0}' is missing the <Name> element.".ToFormat(fileName));
         }
 
         private FileSet buildFileSet(XmlDocument document, Expression<Func<PackageManifest, object>> expression)
