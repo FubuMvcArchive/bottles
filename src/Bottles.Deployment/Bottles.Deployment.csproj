@@ -85,6 +85,7 @@
     <Compile Include="Diagnostics\DiagnosticsReporter.cs" />
     <Compile Include="Diagnostics\IDiagnosticsReporter.cs" />
     <Compile Include="Diagnostics\TableTagExtensions.cs" />
+    <Compile Include="Directives\CommandLineExecution.cs" />
     <Compile Include="Directives\ScheduledTask.cs" />
     <Compile Include="Directives\ScheduleType.cs" />
     <Compile Include="Deployers\WindowsSchedulerDeployer.cs" />
