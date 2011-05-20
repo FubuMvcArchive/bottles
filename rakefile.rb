@@ -69,6 +69,7 @@ end
 
 desc "Compiles the app"
 task :compile => [:clean, :version] do
+  MSBuildRunner.compile :compilemode => COMPILE_TARGET, :solutionfile => 'src/Bottles.Console/Bottles.Console.csproj', :clrversion => CLR_TOOLS_VERSION
   sh "bottles.cmd assembly-pak .\\src\\AssemblyPackage"
   MSBuildRunner.compile :compilemode => COMPILE_TARGET, :solutionfile => 'src/Bottles.sln', :clrversion => CLR_TOOLS_VERSION
   
