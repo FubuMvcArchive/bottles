@@ -67,7 +67,7 @@ namespace Bottles.Commands
 
             if (input.NoWebContentFlag)
             {
-                manifest.ContentFileSet = new FileSet(){DeepSearch = false, Include="*.config"};
+                manifest.ContentFileSet = new FileSet {DeepSearch = false, Include="*.config"};
             }
 
             
@@ -77,7 +77,7 @@ namespace Bottles.Commands
             manifest.EnvironmentAssembly = input.EnvironmentAssemblyFlag;
             manifest.EnvironmentClassName = input.EnvironmentClassNameFlag;
 
-			if(!fileSystem.FileExists(FileSystem.Combine(input.Path, PackageManifest.FILE)))
+			if(input.ForceFlag || !fileSystem.FileExists(FileSystem.Combine(input.Path, PackageManifest.FILE)))
 			{
 				fileSystem.PersistToFile(manifest, input.Path, PackageManifest.FILE);
 			}

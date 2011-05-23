@@ -66,6 +66,42 @@ namespace Bottles.Tests.Commands
         }
 
         [Test]
+        public void the_pak_should_not_be_overridden_if_already_exists()
+        {
+            execute();
+            fs.FileExists(thePath, PackageManifest.FILE).ShouldBeTrue();
+
+            var pm = fs.LoadPackageManifestFrom(thePath);
+            pm.Name.ShouldEqual(pakName);
+
+            theInput.Name = "NewName";
+
+            execute();
+
+            pm = fs.LoadPackageManifestFrom(thePath);
+            pm.Name.ShouldEqual(pakName);
+        }
+
+        [Test]
+        public void the_existing_pak_should_be_overridden_if_force_flag()
+        {
+            execute();
+            fs.FileExists(thePath, PackageManifest.FILE).ShouldBeTrue();
+
+            var pm = fs.LoadPackageManifestFrom(thePath);
+            pm.Name.ShouldEqual(pakName);
+
+            theInput.Name = "NewName";
+            theInput.ForceFlag = true;
+
+            execute();
+
+            pm = fs.LoadPackageManifestFrom(thePath);
+            pm.Name.ShouldEqual("NewName");
+        }
+
+
+        [Test]
         public void the_pak_should_have_env_stuff_set()
         {
             theInput.EnvironmentAssemblyFlag = "asm";
