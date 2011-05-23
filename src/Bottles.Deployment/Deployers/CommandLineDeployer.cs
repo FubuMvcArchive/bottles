@@ -1,9 +1,8 @@
-﻿using Bottles.Deployment;
-using Bottles.Deployment.Directives;
+﻿using Bottles.Deployment.Directives;
 using Bottles.Deployment.Runtime;
 using Bottles.Diagnostics;
 
-namespace Bottles.Deployers.CommandLine
+namespace Bottles.Deployment.Deployers
 {
     public class CommandLineDeployer : IDeployer<CommandLineExecution>
     {

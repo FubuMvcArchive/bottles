@@ -66,21 +66,17 @@ def waitfor(&block)
   raise 'waitfor timeout expired' if checks > 10
 end
 
-
 desc "Compiles the app"
 task :compile => [:clean, :version] do
   MSBuildRunner.compile :compilemode => 'debug', :solutionfile => 'src/Bottles.Console/Bottles.Console.csproj', :clrversion => CLR_TOOLS_VERSION
   sh "bottles.cmd assembly-pak .\\src\\AssemblyPackage"
   MSBuildRunner.compile :compilemode => COMPILE_TARGET, :solutionfile => 'src/Bottles.sln', :clrversion => CLR_TOOLS_VERSION
   
-  copyOutputFiles "src/Bottles.Deployers.Iis/bin/#{COMPILE_TARGET}", "*.{dll,pdb}", props[:stage]
-  copyOutputFiles "src/Bottles.Deployers.CommandLine/bin/#{COMPILE_TARGET}", "*.{dll,pdb}", props[:stage]
+  copyOutputFiles "src/Bottles.Deployers.Iis/bin/#{COMPILE_TARGET}", "*.{dll,pdb}", props[:stage]  
   copyOutputFiles "src/Bottles.Deployers.Topshelf/bin/#{COMPILE_TARGET}", "*.{dll,pdb}", props[:stage]
   copyOutputFiles "src/Bottles.Host/bin/#{COMPILE_TARGET}", "*.{dll,pdb,exe}", props[:stage]
   copyOutputFiles "src/Bottles.Console/bin/#{COMPILE_TARGET}", "*.{dll,pdb,exe,config}", props[:stage]
 end
-
-
 
 def copyOutputFiles(fromDir, filePattern, outDir)
   Dir.glob(File.join(fromDir, filePattern)){|file| 		
@@ -97,7 +93,6 @@ task :unit_test => :compile do
   runner.executeTests ['Bottles.Tests']
 end
 
-
 desc "Runs the StoryTeller suite of end to end tests.  IIS must be running first"
 task :storyteller => [:compile] do
   echo 'Not ready yet'
@@ -110,4 +105,3 @@ zip :package do |zip|
 	zip.output_file = 'bottles.zip'
 	zip.output_path = [props[:artifacts]]
 end
-

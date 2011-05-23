@@ -1,9 +1,7 @@
 using System.Diagnostics;
-using Bottles.Deployment;
 using Bottles.Deployment.Directives;
-using FubuCore;
 
-namespace Bottles.Deployers.CommandLine
+namespace Bottles.Deployment.Deployers
 {    
     public class ExecuteCommandLine 
     {
