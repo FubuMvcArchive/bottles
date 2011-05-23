@@ -1,4 +1,6 @@
+using System;
 using Bottles.Deployment.Configuration;
+using Bottles.Deployment.Parsing;
 using FubuCore;
 
 namespace Bottles.Deployment
@@ -38,6 +40,8 @@ namespace Bottles.Deployment
         {
             get { return FileSystem.Combine(TargetDirectory, ProfileFiles.StagingDirectory); }
         }
+
+        public DeploymentPlan Plan { get; set; }
 
         public static DeploymentSettings ForDirectory(string directory)
         {

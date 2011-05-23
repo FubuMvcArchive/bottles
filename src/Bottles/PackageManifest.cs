@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,7 +18,8 @@ namespace Bottles
 
             DataFileSet = new FileSet();
             ContentFileSet = new FileSet(){
-                Include = "*.as*x;*.master;Content{0}*.*;*.config".ToFormat(Path.DirectorySeparatorChar)
+                Include = "*.as*x;*.master;Content{0}*.*;*.config".ToFormat(Path.DirectorySeparatorChar),
+                Exclude = "data/*"
             };
         }
 
@@ -138,6 +140,27 @@ namespace Bottles
         public void RemoveAssembly(string assemblyName)
         {
             _assemblies.Remove(assemblyName);
+        }
+
+        public void SetRole(string role)
+        {
+            Role = role;
+
+            switch (role)
+            {
+                case BottleRoles.Config:
+                    ConfigFileSet = new FileSet(){Include = "*.*", DeepSearch = true};
+                    ContentFileSet = null;
+                    DataFileSet = null;
+                    break;
+
+                case BottleRoles.Binaries:
+                    ConfigFileSet = null;
+                    ContentFileSet = null;
+                    DataFileSet = null;
+                    break;
+
+            }
         }
     }
 }

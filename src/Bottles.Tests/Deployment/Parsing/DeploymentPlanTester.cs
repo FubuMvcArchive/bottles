@@ -32,6 +32,19 @@ namespace Bottles.Tests.Deployment.Parsing
             theRecipes = new Recipe[] { new Recipe("something"), };
         }
 
+        [Test]
+        public void sets_itself_on_deployment_settings()
+        {
+            var plan = new DeploymentPlan(new DeploymentOptions(), new DeploymentGraph()
+            {
+                Environment = theEnvironment,
+                Profile = theProfile,
+                Recipes = theRecipes,
+                Settings = new DeploymentSettings() { TargetDirectory = "target" }
+            });
+
+            plan.Settings.Plan.ShouldBeTheSameAs(plan);
+        }
 
         [Test]
         public void combine_overrides_and_provenance()

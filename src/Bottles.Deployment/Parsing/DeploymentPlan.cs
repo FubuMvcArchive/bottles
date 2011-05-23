@@ -27,6 +27,8 @@ namespace Bottles.Deployment.Parsing
             addEnvironmentSettings();
 
             readRoot();
+
+            graph.Settings.Plan = this;
         }
 
         public IEnumerable<SettingDataSource> GetSubstitutionDiagnosticReport()

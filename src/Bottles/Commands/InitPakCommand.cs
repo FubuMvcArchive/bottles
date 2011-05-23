@@ -60,12 +60,17 @@ namespace Bottles.Commands
             var assemblyName = fileSystem.GetFileName(input.Path);
 
             var manifest = new PackageManifest{
-                Name = input.Name,
-                Role = input.RoleFlag ?? BottleRoles.Module
+                Name = input.Name
             };
 
+            manifest.SetRole(input.RoleFlag ?? BottleRoles.Module);
+
             if (input.NoWebContentFlag)
+            {
                 manifest.ContentFileSet = new FileSet(){DeepSearch = false, Include="*.config"};
+            }
+
+            
 
             manifest.AddAssembly(assemblyName);
 
