@@ -1,8 +1,5 @@
-using System;
 using System.ComponentModel;
 using FubuCore;
-using Bottles.Deployment.Writing;
-using System.Linq;
 using FubuCore.CommandLine;
 
 namespace Bottles.Deployment.Commands
