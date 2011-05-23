@@ -12,8 +12,8 @@
     <description>Shared libraries for runtime and deployment packaging of .Net applications</description>
     <tags>packaging areas slices</tags>
     <dependencies>
-      <dependency id="FubuCore" version="[0.9.1.9]" />
-      <dependency id="HtmlTags" version="[0.9.1.9]" />
+      <dependency id="FubuCore" />
+      <dependency id="HtmlTags" />
     </dependencies>
   </metadata>
   <files>

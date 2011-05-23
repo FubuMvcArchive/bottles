@@ -1,9 +1,7 @@
 namespace :nug do
 	@nuget = "lib/nuget.exe"
-	
-	@packname = 'bottles'
-	@dependencies = ['FubuCore']
 	@nugroot = File.expand_path("/nugs")
+	@dependencies = ['FubuCore']
 	
 	desc "Build the nuget package"
 	task :build do
@@ -25,8 +23,11 @@ namespace :nug do
 	task :push, [:location] => [:build] do |t, args|
 		args.with_defaults(:location => 'local')
 		location = args[:location]
-			
-		Dir["#{ARTIFACTS}/*.nupkg"].each do |fn|		
+		
+		FileUtils.makedirs(@nugroot)
+		
+		Dir["#{ARTIFACTS}/*.nupkg"].each do |fn|
+			puts "Copying package #{fn} to #{@nugroot}"
 			FileUtils.cp fn, @nugroot
 		end
 	end
