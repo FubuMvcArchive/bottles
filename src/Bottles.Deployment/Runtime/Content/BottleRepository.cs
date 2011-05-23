@@ -21,7 +21,7 @@ namespace Bottles.Deployment.Runtime.Content
         public virtual void CopyTo(string bottleName, string destination)
         {
             var path = pathForBottle(bottleName);
-            _fileSystem.Copy(path, destination);
+            _fileSystem.CopyToDirectory(path, destination);
         }
 
         public void ExplodeTo(string bottleName, string destination)
