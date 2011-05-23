@@ -13,6 +13,7 @@
     <tags>packaging areas slices</tags>
     <dependencies>
       <dependency id="FubuCore" version="[0.9.1.9]" />
+      <dependency id="HtmlTags" version="[0.9.1.9]" />
     </dependencies>
   </metadata>
   <files>
@@ -20,6 +21,7 @@
 
 	<file src="..\..\build\Bottles.*" target="lib" />
     <file src="..\..\build\Bottles.*" target="tools" />
+	<file src="..\..\build\BottleRunner.*" target="tools" />
 	
   </files>
 </package>
