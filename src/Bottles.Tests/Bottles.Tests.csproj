@@ -31,24 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FubuCore, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\fubucore\FubuCore.dll</HintPath>
+    <Reference Include="FubuCore">
+      <HintPath>..\..\lib\FubuCore\lib\FubuCore.dll</HintPath>
     </Reference>
-    <Reference Include="FubuLocalization, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\fubucore\FubuLocalization.dll</HintPath>
-    </Reference>
-    <Reference Include="FubuTestingSupport, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\fubucore\FubuTestingSupport.dll</HintPath>
+    <Reference Include="FubuTestingSupport">
+      <HintPath>..\..\lib\FubuCore\lib\FubuTestingSupport.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip, Version=1.9.1.5, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\DotNetZip\Ionic.Zip.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\..\lib\Common Service Locator\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\lib\nunit\nunit.framework.dll</HintPath>

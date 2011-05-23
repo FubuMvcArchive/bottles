@@ -13,7 +13,6 @@ namespace SampleBottleService
         {
             Console.WriteLine("hi, poopy pants");
 
-
             packages.Select(p => p.Name)
                 .Each(s => Console.WriteLine(s));
         }

@@ -49,3 +49,5 @@ deploymentplan.html
 Controls
 Core
 External
+
+lib/**/*.nupkg

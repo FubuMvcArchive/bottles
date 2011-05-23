@@ -1,8 +1,8 @@
 namespace :nug do
 	@nuget = "lib/nuget.exe"
 	
-	@packname = 'fubumvc'
-	@files = ['FubuCore','FubuLocalization'].map {|name| name + ".dll"}
+	@packname = 'bottles'
+	@dependencies = ['FubuCore']
 	@nugroot = File.expand_path("/nugs")
 	
 	desc "Build the nuget package"
@@ -12,12 +12,12 @@ namespace :nug do
 
 	
 	desc "pulls new NuGet updates from your local machine"
-	task :pull, [:location] => [:build] do |t, args|
+	task :pull, [:location] do |t, args|
 		args.with_defaults(:location => 'local')
 		location = args[:location]
 		
-		@files.each do |f|
-			#copy to 
+		@dependencies.each do |f|
+			sh "#{@nuget} install #{f} /Source #{@nugroot} /ExcludeVersion /OutputDirectory .\\lib"
 		end
 	end
 		

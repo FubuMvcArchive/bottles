@@ -35,9 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FubuCore, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\fubucore\FubuCore.dll</HintPath>
+    <Reference Include="FubuCore">
+      <HintPath>..\..\lib\FubuCore\lib\FubuCore.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\lib\topshelf\log4net.dll</HintPath>
