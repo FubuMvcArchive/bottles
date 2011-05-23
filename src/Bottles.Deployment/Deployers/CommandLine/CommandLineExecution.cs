@@ -1,6 +1,6 @@
 using FubuCore;
 
-namespace Bottles.Deployment.Directives
+namespace Bottles.Deployment.Deployers.CommandLine
 {
     public class CommandLineExecution : IDirective
     {

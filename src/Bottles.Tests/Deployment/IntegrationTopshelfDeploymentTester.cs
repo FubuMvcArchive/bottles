@@ -1,6 +1,5 @@
 using Bottles.Deployers.Topshelf;
 using Bottles.Deployment;
-using Bottles.Deployment.Directives;
 using Bottles.Deployment.Runtime.Content;
 using Bottles.Diagnostics;
 using NUnit.Framework;

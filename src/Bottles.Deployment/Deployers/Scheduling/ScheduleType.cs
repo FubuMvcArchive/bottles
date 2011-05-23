@@ -1,4 +1,4 @@
-﻿namespace Bottles.Deployment.Directives
+namespace Bottles.Deployment.Deployers.Scheduling
 {
     public enum ScheduleType
     {

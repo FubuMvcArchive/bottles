@@ -1,4 +1,4 @@
-﻿namespace Bottles.Deployment.Directives
+namespace Bottles.Deployers.Iis
 {
     public enum Activation
     {

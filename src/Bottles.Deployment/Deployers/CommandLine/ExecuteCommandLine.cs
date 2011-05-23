@@ -1,7 +1,6 @@
 using System.Diagnostics;
-using Bottles.Deployment.Directives;
 
-namespace Bottles.Deployment.Deployers
+namespace Bottles.Deployment.Deployers.CommandLine
 {    
     public class ExecuteCommandLine 
     {

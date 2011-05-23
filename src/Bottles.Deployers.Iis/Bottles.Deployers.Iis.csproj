@@ -45,12 +45,14 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activation.cs" />
     <Compile Include="IISWebsiteCreator.cs" />
     <Compile Include="IISWebsiteDeployer.cs" />
     <Compile Include="WebAppOfflineFinalizer.cs" />
     <Compile Include="WebAppOfflineInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerManagerExtensions.cs" />
+    <Compile Include="Website.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bottles.Deployment\Bottles.Deployment.csproj">

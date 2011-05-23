@@ -1,4 +1,6 @@
-﻿namespace Bottles.Deployment.Directives
+﻿using Bottles.Deployment;
+
+namespace Bottles.Deployers.Topshelf
 {
     public class TopshelfService : IDirective
     {

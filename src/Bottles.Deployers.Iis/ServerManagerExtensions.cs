@@ -1,7 +1,6 @@
-﻿using System.Configuration;
+using System.Configuration;
 using System.IO;
 using System.Linq;
-using Bottles.Deployment.Directives;
 using FubuCore;
 using Microsoft.Web.Administration;
 using ConfigurationSection = Microsoft.Web.Administration.ConfigurationSection;

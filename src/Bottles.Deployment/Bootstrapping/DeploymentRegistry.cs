@@ -1,5 +1,4 @@
 using Bottles.Deployment.Diagnostics;
-using Bottles.Deployment.Directives;
 using Bottles.Deployment.Runtime;
 using StructureMap.Configuration.DSL;
 
@@ -14,8 +13,7 @@ namespace Bottles.Deployment.Bootstrapping
                 //TODO: Add diagnostics to the scanning
                 x.AssembliesFromApplicationBaseDirectory(a => a.GetName().Name.Contains("Deployers"));
 
-                //REVIEW: Ugly?
-                x.AssemblyContainingType<Website>();
+                x.Assembly(GetType().Assembly);
 
                 x.ConnectImplementationsToTypesClosing(typeof (IInitializer<>));
                 x.ConnectImplementationsToTypesClosing(typeof (IDeployer<>));

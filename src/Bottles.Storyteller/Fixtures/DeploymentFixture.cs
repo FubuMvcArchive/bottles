@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using Bottles.Deployers.Iis;
 using Bottles.Deployment;
-using Bottles.Deployment.Directives;
 using Bottles.Deployment.Parsing;
 using Bottles.Deployment.Runtime;
 using Bottles.Deployment.Writing;
@@ -12,7 +10,7 @@ using FubuCore;
 using FubuCore.Configuration;
 using StoryTeller;
 using StoryTeller.Engine;
-using Container = StructureMap.Container;
+using StructureMap;
 
 namespace Bottles.Storyteller.Fixtures
 {
@@ -28,7 +26,6 @@ namespace Bottles.Storyteller.Fixtures
         }
     }
 
-   
 
     public class DeploymentOptionsFixture : Fixture
     {
@@ -125,12 +122,11 @@ namespace Bottles.Storyteller.Fixtures
     }
 
 
-
     public class ProfileReaderFixture : Fixture
     {
-        private IEnumerable<SettingDataSource> _hostData;
-        private DeploymentSettings _deploymentSettings;
         private DeploymentOptions _deploymentOptions;
+        private DeploymentSettings _deploymentSettings;
+        private IEnumerable<SettingDataSource> _hostData;
         private DeploymentPlan _plan;
 
         public override void SetUp(ITestContext context)
@@ -141,7 +137,6 @@ namespace Bottles.Storyteller.Fixtures
             var reader = new DeploymentGraphReader(_deploymentSettings);
             var graph = reader.Read(_deploymentOptions);
             _plan = new DeploymentPlan(_deploymentOptions, graph);
-
         }
 
         [FormatAs("All the properties for host {host} are")]
@@ -183,7 +178,7 @@ namespace Bottles.Storyteller.Fixtures
 
         private IEnumerable<string> findHosts()
         {
-            return _plan.Hosts.Select(h=>h.Name);
+            return _plan.Hosts.Select(h => h.Name);
         }
 
         [FormatAs("The property {propertyName} of the Website directive in host {host} is {value}")]
@@ -199,6 +194,4 @@ namespace Bottles.Storyteller.Fixtures
             return property.GetValue(website, null) as string;
         }
     }
-
-
 }

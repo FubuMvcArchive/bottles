@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using Bottles.Deployment;
-using Bottles.Deployment.Directives;
 using Bottles.Deployment.Runtime;
 using Bottles.Deployment.Runtime.Content;
 using Bottles.Diagnostics;
@@ -33,8 +30,7 @@ namespace Bottles.Deployers.Topshelf
             _bottles.ExplodeTo(directive.HostBottle, location);
 
             var args = buildInstallArgs(directive);
-            var psi = new ProcessStartInfo("Bottles.Host.exe")
-            {
+            var psi = new ProcessStartInfo("Bottles.Host.exe"){
                 Arguments = args,
                 WorkingDirectory = directive.InstallLocation
             };
@@ -50,16 +46,13 @@ namespace Bottles.Deployers.Topshelf
             directive.DisplayName.IsNotEmpty(s => sb.AppendFormat(" -displayname:{0}", s));
             directive.Description.IsNotEmpty(s => sb.AppendFormat(" -description:{0}", s));
             directive.ServiceName.IsNotEmpty(s => sb.AppendFormat(" -servicename:{0}", s));
-            
-            
+
+
             directive.Username.IsNotEmpty(s => sb.AppendFormat(" -username:{0}", s));
             directive.Password.IsNotEmpty(s => sb.AppendFormat(" -password:{0}", s));
 
-            
+
             return sb.ToString();
         }
-
-
     }
-    
 }

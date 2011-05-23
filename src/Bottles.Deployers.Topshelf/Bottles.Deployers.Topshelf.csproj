@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TopshelfDeployer.cs" />
+    <Compile Include="TopshelfService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bottles.Deployment\Bottles.Deployment.csproj">

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using BottleDeployers2;
 using Bottles.Deployment;
 using Bottles.Deployment.Bootstrapping;
@@ -9,6 +10,7 @@ using NUnit.Framework;
 using StructureMap;
 using FubuTestingSupport;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Bottles.Tests.Deployment.Bootstrapping
 {
@@ -28,9 +30,7 @@ namespace Bottles.Tests.Deployment.Bootstrapping
         public void DirectiveTypeRegistry_has_all_the_types()
         {
             var builder = theContainer.GetInstance<DirectiveTypeRegistry>();
-
-            var x = builder.DirectiveTypes().Where(t => t.Assembly != typeof(ConfigurationDeployer).Assembly);
-            x.ShouldHaveTheSameElementsAs(
+            builder.DirectiveTypes().Where(t => t.Assembly.GetName().Name.StartsWith("BottleDeployers")).ShouldHaveTheSameElementsAs(
                 typeof(BottleDeployers1.OneDirective),
                 typeof(BottleDeployers1.TwoDirective),
                 typeof(BottleDeployers1.ThreeDirective),

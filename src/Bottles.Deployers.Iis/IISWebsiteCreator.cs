@@ -1,5 +1,4 @@
 using System;
-using Bottles.Deployment.Directives;
 using FubuCore.CommandLine;
 using Microsoft.Web.Administration;
 using FubuCore;

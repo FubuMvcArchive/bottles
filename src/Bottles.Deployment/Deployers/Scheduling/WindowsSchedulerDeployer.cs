@@ -1,11 +1,10 @@
 using System;
 using System.Diagnostics;
-using Bottles.Deployment.Directives;
 using Bottles.Deployment.Runtime;
 using Bottles.Diagnostics;
 using FubuCore;
 
-namespace Bottles.Deployment.Deployers
+namespace Bottles.Deployment.Deployers.Scheduling
 {
     public class WindowsSchedulerDeployer : IDeployer<ScheduledTask>
     {

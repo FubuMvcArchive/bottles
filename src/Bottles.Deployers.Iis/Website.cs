@@ -1,7 +1,8 @@
+using Bottles.Deployment;
 using Bottles.Deployment.Configuration;
 using FubuCore;
 
-namespace Bottles.Deployment.Directives
+namespace Bottles.Deployers.Iis
 {
     public class Website : IDirective
     {
