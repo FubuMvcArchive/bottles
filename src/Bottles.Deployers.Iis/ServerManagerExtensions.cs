@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Bottles.Deployment.Directives;
+using FubuCore;
 using Microsoft.Web.Administration;
 using ConfigurationSection = Microsoft.Web.Administration.ConfigurationSection;
 
@@ -9,6 +10,8 @@ namespace Bottles.Deployers.Iis
 {
     public static class ServerManagerExtensions
     {
+        private static IFileSystem _fileSystem = new FileSystem();
+
         public static Site CreateSite(this ServerManager iisManager, string name, string directory, int port)
         {
             //add a guard clause for any sites already listening on this port?
@@ -18,6 +21,7 @@ namespace Bottles.Deployers.Iis
                 return iisManager.Sites[name];
             }
 
+            _fileSystem.CreateDirectory(directory);
             return iisManager.Sites.Add(name, directory, port);
         }
 
@@ -31,6 +35,7 @@ namespace Bottles.Deployers.Iis
                 return site.Applications[vdir];
             }
 
+            _fileSystem.CreateDirectory(physicalPath);
             return site.Applications.Add(vdir, physicalPath);
 
         }

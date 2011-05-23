@@ -7,7 +7,7 @@ namespace Bottles.Deployment.Runtime.Content
 {
     public interface IBottleMover
     {
-        void Move(IBottleDestination destination, IEnumerable<BottleReference> references);
+        void Move(IPackageLog log, IBottleDestination destination, IEnumerable<BottleReference> references);
     }
 
 
@@ -20,12 +20,17 @@ namespace Bottles.Deployment.Runtime.Content
             _repository = repository;
         }
 
-        public void Move(IBottleDestination destination, IEnumerable<BottleReference> references)
+        public void Move(IPackageLog log, IBottleDestination destination, IEnumerable<BottleReference> references)
         {
             var manifests = references.Select(r => _repository.ReadManifest(r.Name));
-            var explosionRequests = manifests.SelectMany(destination.DetermineExplosionRequests);
+            var explosionRequests = manifests.SelectMany(destination.DetermineExplosionRequests).ToList();
+            log.Trace("Explosion requests: {0}", explosionRequests.Count);
 
-            explosionRequests.Each(x => _repository.ExplodeFiles(x));
+            foreach (var request in explosionRequests)
+            {
+                log.Trace("Exploding: '{0}' from '{1}' to '{2}'", request.BottleName, request.BottleDirectory, request.DestinationDirectory);
+                _repository.ExplodeFiles(request);
+            }
         }
     }
 

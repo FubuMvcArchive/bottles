@@ -28,7 +28,7 @@ namespace Bottles.Tests.Deployment.Runtime.Content
             addBottle("B", 1);
             addBottle("C", 4);
 
-            ClassUnderTest.Move(MockFor<IBottleDestination>(), theReferences);
+            ClassUnderTest.Move(MockFor<IPackageLog>(), MockFor<IBottleDestination>(), theReferences);
         }
 
         private void addBottle(string name, int numberOfExplosionRequests)

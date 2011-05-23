@@ -81,7 +81,7 @@ namespace Bottles.Deployment.Runtime.Content
                 return;
             }
 
-            request.Log.Trace("Exploding bottle {0} to {1}");
+            request.Log.Trace("Exploding bottle {0} to {1}", bottleFile, tempDirectory);
             _zipService.ExtractTo(bottleFile, tempDirectory, ExplodeOptions.DeleteDestination);
         
             _bottlesExplodedToStaging.Add(request.BottleName);

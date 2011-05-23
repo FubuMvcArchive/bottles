@@ -67,7 +67,7 @@ namespace Bottles.Deployment.Diagnostics
             table.AddProperty("Profile", plan.Options.ProfileName); // TODO -- add file name
             table.AddProperty("Recipes", plan.Recipes.Select(x => x.Name).Join(", "));
             table.AddProperty("Hosts", plan.Hosts.Select(x => x.Name).Join(", "));
-
+            table.AddProperty("Bottles", plan.Hosts.SelectMany(host => host.BottleReferences).Select(bottle => bottle.Name).Join(", "));
             _document.Add(table);
         }
 
