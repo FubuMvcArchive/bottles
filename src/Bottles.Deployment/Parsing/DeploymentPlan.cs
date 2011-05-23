@@ -31,6 +31,11 @@ namespace Bottles.Deployment.Parsing
             graph.Settings.Plan = this;
             graph.Settings.Environment = _graph.Environment;
             graph.Settings.Profile = _graph.Profile;
+
+            options.Overrides.Each((key, value) =>
+            {
+                _graph.Profile.Data[key] = value;
+            });
         }
 
         public IEnumerable<SettingDataSource> GetSubstitutionDiagnosticReport()

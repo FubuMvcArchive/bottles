@@ -88,6 +88,7 @@
     <Compile Include="Creation\PackageCreatorTester.cs" />
     <Compile Include="Creation\PackageManifestWriterTester.cs" />
     <Compile Include="Deployment\Bootstrapping\DeploymentBootstrapperIntegratedTester.cs" />
+    <Compile Include="Deployment\Commands\DeployInputTester.cs" />
     <Compile Include="Deployment\Deployers\Configuration\ConfigInitializerTester.cs" />
     <Compile Include="Deployment\Parsing\DeploymentPlanTester.cs" />
     <Compile Include="Deployment\Runtime\Content\BottleMoverTester.cs" />

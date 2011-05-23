@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using FubuCore.Util;
 
 namespace Bottles.Deployment.Runtime
 {
     public class DeploymentOptions
     {
         private readonly IList<string> _recipeNames = new List<string>();
+        private readonly Cache<string, string> _overrides = new Cache<string,string>();
 
         public DeploymentOptions() : this("default")
         {
@@ -22,6 +24,11 @@ namespace Bottles.Deployment.Runtime
         public IList<string> RecipeNames
         {
             get { return _recipeNames; }
+        }
+
+        public Cache<string, string> Overrides
+        {
+            get { return _overrides; }
         }
     }
 }

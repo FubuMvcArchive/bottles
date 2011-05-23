@@ -33,6 +33,28 @@ namespace Bottles.Tests.Deployment.Parsing
         }
 
         [Test]
+        public void puts_any_overrides_onto_profile()
+        {
+            var options = new DeploymentOptions();
+            options.Overrides["Shared"] = "override-val";
+            options.Overrides["Profile1"] = "override-profile1-val";
+
+            var plan = new DeploymentPlan(options, new DeploymentGraph()
+            {
+                Environment = theEnvironment,
+                Profile = theProfile,
+                Recipes = theRecipes,
+                Settings = new DeploymentSettings() { TargetDirectory = "target" }
+            });
+
+            plan.GetSubstitutionDiagnosticReport().Single(x => x.Key == "Shared")
+                .Value.ShouldEqual("override-val");
+
+            plan.GetSubstitutionDiagnosticReport().Single(x => x.Key == "Profile1")
+                .Value.ShouldEqual("override-profile1-val");
+        }
+
+        [Test]
         public void sets_itself_on_deployment_settings()
         {
             var plan = new DeploymentPlan(new DeploymentOptions(), new DeploymentGraph()
