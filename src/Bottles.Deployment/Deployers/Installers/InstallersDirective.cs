@@ -41,6 +41,30 @@ namespace Bottles.Deployment.Deployers.Installers
         {
             get { return _input; }
         }
+
+        public string EnvironmentClassName
+        {
+            get
+            {
+                return _input.EnvironmentClassNameFlag;
+            }
+            set
+            {
+                _input.EnvironmentClassNameFlag = value == string.Empty ? null : value;
+            }
+        }
+
+        public string EnvironmentAssembly
+        {
+            get
+            {
+                return _input.EnvironmentAssemblyFlag;
+            }
+            set
+            {
+                _input.EnvironmentAssemblyFlag = value == string.Empty ? null : value;
+            }
+        }
     }
 
     public class InstallersDeployer : IDeployer<InstallersDirective>

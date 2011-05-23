@@ -78,8 +78,8 @@ namespace Bottles.Deployment.Commands
 
             return new EnvironmentRun{
                 ApplicationBase = binFolder,
-                AssemblyName = manifest.EnvironmentAssembly,
-                EnvironmentClassName = manifest.EnvironmentClassName,
+                AssemblyName = input.EnvironmentAssemblyFlag ?? manifest.EnvironmentAssembly,
+                EnvironmentClassName = input.EnvironmentClassNameFlag ?? manifest.EnvironmentClassName,
                 ConfigurationFile = configFile,
                 ApplicationDirectory = input.AppFolder.ToFullPath()
             };

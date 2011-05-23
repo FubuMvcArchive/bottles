@@ -94,6 +94,24 @@ namespace Bottles.Tests.Commands
 				.ShouldEqual(Path.Combine(theInput.AppFolder, "bin"));
         }
 
+        [Test]
+        public void create_environment_run_uses_the_class_name_from_the_input_if_it_exists()
+        {
+            theInput.EnvironmentClassNameFlag = "some class";
+
+            InstallCommand.CreateEnvironmentRun(theInput, theManifest)
+                .EnvironmentClassName.ShouldEqual("some class");
+        }
+
+        [Test]
+        public void create_environment_run_uses_the_assembly_from_the_input_if_it_exists()
+        {
+            theInput.EnvironmentAssemblyFlag = "some assembly";
+
+            InstallCommand.CreateEnvironmentRun(theInput, theManifest)
+                .AssemblyName.ShouldEqual("some assembly");
+        }
+
 
     }
 }

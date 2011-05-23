@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.IO;
 using FubuCore;
+using FubuCore.CommandLine;
 
 namespace Bottles.Deployment.Commands
 {
@@ -23,6 +24,18 @@ namespace Bottles.Deployment.Commands
 
         [Description("When specified, opens the resulting log file in the default web browser")]
         public bool OpenFlag { get; set; }
+
+        [Description("The IEnvironment class to run during an install")]
+        [FlagAlias("class")]
+        public string EnvironmentClassNameFlag { get; set; }
+
+        /// <summary>
+        /// The assembly where the environment class is located
+        /// </summary>
+        [Description("The assembly containing the IEnvironment class to run during an install")]
+        [FlagAlias("assembly")]
+        public string EnvironmentAssemblyFlag { get; set; }
+
 
         public string ManifestFileName
         {
