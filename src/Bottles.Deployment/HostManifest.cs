@@ -90,13 +90,12 @@ namespace Bottles.Deployment
 
         public IEnumerable<SettingDataSource> CreateDiagnosticReport()
         {
-            return new SettingsProvider(ObjectResolver.Basic(), AllSettingsData())
-                .CreateDiagnosticReport();
+            return SettingsProvider.For(AllSettingsData().ToArray()).CreateDiagnosticReport();
         }
 
         public T GetDirective<T>() where T : class, new()
         {
-            return new SettingsProvider(ObjectResolver.Basic(), AllSettingsData()).SettingsFor<T>();
+            return SettingsProvider.For(AllSettingsData().ToArray()).SettingsFor<T>();
         }
     }
 }

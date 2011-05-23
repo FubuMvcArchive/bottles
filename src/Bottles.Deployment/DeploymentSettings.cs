@@ -36,6 +36,9 @@ namespace Bottles.Deployment
         public string EnvironmentsDirectory { get; set; }
         public string ProfilesDirectory { get; set; }
 
+        public EnvironmentSettings Environment { get; set; }
+        public Profile Profile { get; set; }
+
         public string StagingDirectory
         {
             get { return FileSystem.Combine(TargetDirectory, ProfileFiles.StagingDirectory); }

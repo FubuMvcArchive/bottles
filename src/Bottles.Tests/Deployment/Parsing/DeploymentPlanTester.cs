@@ -47,6 +47,21 @@ namespace Bottles.Tests.Deployment.Parsing
         }
 
         [Test]
+        public void sets_environment_and_profile_on_deployment_settings()
+        {
+            var plan = new DeploymentPlan(new DeploymentOptions(), new DeploymentGraph()
+            {
+                Environment = theEnvironment,
+                Profile = theProfile,
+                Recipes = theRecipes,
+                Settings = new DeploymentSettings() { TargetDirectory = "target" }
+            });
+
+            plan.Settings.Environment.ShouldBeTheSameAs(theEnvironment);
+            plan.Settings.Profile.ShouldBeTheSameAs(theProfile);
+        }
+
+        [Test]
         public void combine_overrides_and_provenance()
         {
             

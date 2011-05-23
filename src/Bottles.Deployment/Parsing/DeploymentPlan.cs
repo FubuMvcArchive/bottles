@@ -29,11 +29,13 @@ namespace Bottles.Deployment.Parsing
             readRoot();
 
             graph.Settings.Plan = this;
+            graph.Settings.Environment = _graph.Environment;
+            graph.Settings.Profile = _graph.Profile;
         }
 
         public IEnumerable<SettingDataSource> GetSubstitutionDiagnosticReport()
         {
-            var provider = new SettingsProvider(ObjectResolver.Basic(), Substitutions());
+            var provider = SettingsProvider.For(Substitutions().ToArray());
             return provider.CreateDiagnosticReport(); 
         }
 

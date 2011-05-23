@@ -94,6 +94,7 @@
     <Compile Include="Creation\PackageCreatorTester.cs" />
     <Compile Include="Creation\PackageManifestWriterTester.cs" />
     <Compile Include="Deployment\Bootstrapping\DeploymentBootstrapperIntegratedTester.cs" />
+    <Compile Include="Deployment\Deployers\Configuration\ConfigInitializerTester.cs" />
     <Compile Include="Deployment\Parsing\DeploymentPlanTester.cs" />
     <Compile Include="Deployment\Runtime\Content\BottleMoverTester.cs" />
     <Compile Include="Deployment\Runtime\Content\BottleRepositoryTester.cs" />
@@ -194,6 +195,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
