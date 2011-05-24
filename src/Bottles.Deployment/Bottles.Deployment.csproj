@@ -50,6 +50,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Web" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapping\DeploymentBootstrapper.cs" />
@@ -83,8 +84,12 @@
     <Compile Include="Deployers\Configuration\CentralConfig.cs" />
     <Compile Include="Deployers\Configuration\ConfigurationWriter.cs" />
     <Compile Include="Deployers\Configuration\ConfigInitializer.cs" />
+    <Compile Include="Deployers\Configuration\ConnectionStringResolver.cs" />
     <Compile Include="Deployers\Configuration\IConfigurationWriter.cs" />
     <Compile Include="Deployers\CommandLine\ExecuteCommandLine.cs" />
+    <Compile Include="Deployers\Configuration\IConnectionStringResolver.cs" />
+    <Compile Include="Deployers\Configuration\ResolveDbConnection.cs" />
+    <Compile Include="Deployers\Configuration\ResolveDbConnectionDeployer.cs" />
     <Compile Include="Deployers\Installers\InstallersDirective.cs" />
     <Compile Include="DeploymentSettings.cs" />
     <Compile Include="Diagnostics\DeploymentReport.cs" />

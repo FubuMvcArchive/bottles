@@ -111,7 +111,7 @@ namespace Bottles.Deployment
             _directives.AddRange(directives);
         }
 
-        public IEnumerable<IDirective> Directives
+        public virtual IEnumerable<IDirective> Directives
         {
             get { return _directives; }
         }

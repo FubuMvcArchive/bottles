@@ -2,6 +2,7 @@ using System;
 using Bottles.Deployment.Configuration;
 using Bottles.Deployment.Parsing;
 using FubuCore;
+using FubuCore.Configuration;
 
 namespace Bottles.Deployment
 {
@@ -55,6 +56,12 @@ namespace Bottles.Deployment
 
             var path = FileSystem.Combine(".".ToFullPath(), ProfileFiles.DeploymentFolder);
             return new DeploymentSettings(path);
+        }
+
+
+        public virtual IKeyValues SubstitutionValues()
+        {
+            return new SettingsRequestData(Plan.Substitutions());
         }
 
 
