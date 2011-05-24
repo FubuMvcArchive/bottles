@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TopshelfBottleDestination.cs" />
     <Compile Include="TopshelfDeployer.cs" />
     <Compile Include="TopshelfService.cs" />
   </ItemGroup>

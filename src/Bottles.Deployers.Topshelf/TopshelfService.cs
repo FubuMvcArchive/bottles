@@ -5,8 +5,6 @@ namespace Bottles.Deployers.Topshelf
     public class TopshelfService : IDirective
     {
         public string InstallLocation { get; set; }
-        public string HostBottle { get; set; }
-
 
         //optional
         public string Username { get; set; }

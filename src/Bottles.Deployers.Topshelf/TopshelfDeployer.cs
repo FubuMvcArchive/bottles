@@ -13,10 +13,12 @@ namespace Bottles.Deployers.Topshelf
     {
         private readonly IBottleRepository _bottles;
         private readonly IProcessRunner _runner;
+        private readonly IBottleMover _bottelMover;
 
-        public TopshelfDeployer(IBottleRepository bottles, IProcessRunner runner)
+        public TopshelfDeployer(IBottleRepository bottles, IProcessRunner runner, IBottleMover bottelMover)
         {
             _bottles = bottles;
+            _bottelMover = bottelMover;
             _runner = runner;
         }
 
@@ -25,9 +27,8 @@ namespace Bottles.Deployers.Topshelf
             //copy out TS host
             _bottles.ExplodeTo("bottlehost", directive.InstallLocation);
 
-            //copy out service bottle exploded
-            var location = FileSystem.Combine(directive.InstallLocation, "svc");
-            _bottles.ExplodeTo(directive.HostBottle, location);
+            var destination = new TopshelfBottleDestination(directive.InstallLocation);
+            _bottelMover.Move(log, destination, host.BottleReferences);
 
             var args = buildInstallArgs(directive);
             var psi = new ProcessStartInfo("Bottles.Host.exe"){
