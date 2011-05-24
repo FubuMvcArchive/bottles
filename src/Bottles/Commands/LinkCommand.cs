@@ -111,7 +111,7 @@ namespace Bottles.Commands
             }
             else
             {
-                add(fileSystem, input, manifest);
+                add(input, manifest);
             }
 
             persist(input, manifest, fileSystem);
@@ -128,15 +128,8 @@ namespace Bottles.Commands
             Console.WriteLine("Folder {0} was removed from the application at {1}", input.PackageFolder, input.AppFolder);
         }
 
-        private void add(IFileSystem system, LinkInput input, LinkManifest manifest)
+        private static void add(LinkInput input, LinkManifest manifest)
         {
-            var exists = system.FileExists(input.PackageFolder, LinkManifest.FILE);
-            if (!exists)
-            {
-                throw new ApplicationException(
-                    "There is no package manifest file for the requested package folder at " + input.PackageFolder);
-            }
-
             var wasAdded = manifest.AddLink(input.RelativePathOfPackage());
             Console.WriteLine(
                 wasAdded

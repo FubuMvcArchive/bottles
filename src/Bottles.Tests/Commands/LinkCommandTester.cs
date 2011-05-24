@@ -1,5 +1,6 @@
-﻿using System.IO;
+using System.IO;
 using Bottles.Commands;
+using Bottles.Deployment.Commands;
 using FubuCore;
 using FubuTestingSupport;
 using NUnit.Framework;
