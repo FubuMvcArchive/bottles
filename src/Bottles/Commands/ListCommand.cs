@@ -42,7 +42,7 @@ namespace Bottles.Commands
                 ConsoleWriter.PrintHorizontalLine();
                 var shorty = manifestDir.Remove(0, point.Length);
                 ConsoleWriter.Write("Found manifest at: {0}", shorty);
-                var m = system.LoadApplicationManifestFrom(manifestDir);
+                var m = system.LoadPackageManifestFrom(manifestDir);
                 ConsoleWriter.Write("Name: {0}", m.Name);
                 ConsoleWriter.Write("Role: {0}", m.Role);
             }

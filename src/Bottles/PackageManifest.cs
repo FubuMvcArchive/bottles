@@ -28,7 +28,7 @@ namespace Bottles
 
         private readonly IList<string> _assemblies = new List<string>();
 
-        private readonly IList<string> _folders = new List<string>();
+        
 
 
         public string Role { get; set; }
@@ -77,19 +77,7 @@ namespace Bottles
             get; set;
         }
 
-        [XmlElement("include")]
-        public string[] LinkedFolders
-        {
-            get
-            {
-                return _folders.ToArray();
-            }
-            set
-            {
-                _folders.Clear();
-                if (value != null) _folders.AddRange(value);
-            }
-        }
+
 
         /// <summary>
         /// The class to run during an install
@@ -106,26 +94,7 @@ namespace Bottles
         /// </summary>
         public string ConfigurationFile { get; set; }
 
-        public bool AddLink(string folder)
-        {
-            if (_folders.Contains(folder))
-            {
-                return false;
-            }
 
-            _folders.Add(folder);
-            return true;
-        }
-
-        public void RemoveLink(string folder)
-        {
-            _folders.Remove(folder);
-        }
-
-        public void RemoveAllLinkedFolders()
-        {
-            _folders.Clear();
-        }
 
         public override string ToString()
         {

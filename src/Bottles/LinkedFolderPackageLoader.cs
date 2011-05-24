@@ -25,8 +25,8 @@ namespace Bottles
         {
             var packages = new List<IPackageInfo>();
 
-            var manifestFile = FileSystem.Combine(_applicationDirectory, PackageManifest.FILE);
-            var manifest = _fileSystem.LoadFromFile<PackageManifest>(manifestFile);
+            var manifestFile = FileSystem.Combine(_applicationDirectory, LinkManifest.FILE);
+            var manifest = _fileSystem.LoadFromFile<LinkManifest>(manifestFile);
             if (manifest == null)
             {
                 log.Trace("No package manifest found at {0}", manifestFile);
@@ -49,14 +49,6 @@ namespace Bottles
             {
                 log.Trace("No linked folders found in the package manifest file at " + _applicationDirectory);
             }
-
-            packages.AddRange(manifest.Assemblies.Select(assemblyName =>
-            {
-                log.Trace("Adding assembly {0} as a package", assemblyName);
-
-                var assembly = Assembly.Load(assemblyName);
-                return AssemblyPackageInfo.CreateFor(assembly);
-            }));
 
             return packages;
         }

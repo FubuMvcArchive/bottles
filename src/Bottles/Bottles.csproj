@@ -60,6 +60,7 @@
     <Compile Include="Commands\AssemblyPackageCommand.cs" />
     <Compile Include="Commands\CreatePackageCommand.cs" />
     <Compile Include="Commands\InitPakCommand.cs" />
+    <Compile Include="Commands\LinkCommand.cs" />
     <Compile Include="Diagnostics\LoggingSession.cs" />
     <Compile Include="Diagnostics\LoggingSessionWriter.cs" />
     <Compile Include="ISimpleLogger.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Exploding\PackageExploderLogger.cs" />
     <Compile Include="Creation\PackageCreator.cs" />
     <Compile Include="LinkedFolderPackageLoader.cs" />
+    <Compile Include="LinkManifest.cs" />
     <Compile Include="PackageFacility.cs" />
     <Compile Include="PackageFiles.cs" />
     <Compile Include="PackageInfo.cs" />

@@ -9,7 +9,7 @@ namespace Bottles
 {
     public static class FileSystemExtensions
     {
-        //REVIEW: do we need these
+
         public static bool PackageManifestExists(this IFileSystem fileSystem, string directory)
         {
             return fileSystem.FileExists(directory, PackageManifest.FILE);
@@ -37,22 +37,17 @@ namespace Bottles
             return null;
         }
 
-        public static bool ApplicationManifestExists(this IFileSystem fileSystem, string appFolder)
+
+        public static LinkManifest LoadLinkManifestFrom(this IFileSystem fileSystem, string folder)
         {
-            return fileSystem.FileExists(appFolder, PackageManifest.FILE);
+            return fileSystem.LoadFromFile<LinkManifest>(folder, LinkManifest.FILE);
         }
 
 
-        public static PackageManifest LoadApplicationManifestFrom(this IFileSystem fileSystem, string folder)
+        public static bool LinkManifestExists(this IFileSystem fileSystem, string directory)
         {
-            return fileSystem.LoadFromFile<PackageManifest>(folder, PackageManifest.FILE);
+            return fileSystem.FileExists(directory, LinkManifest.FILE);
         }
-
-        public static string ApplicationManifestPathFor(this IFileSystem fileSystem, string folder)
-        {
-            return FileSystem.Combine(folder, PackageManifest.FILE);
-        }
-        //REVIEW: END REVIEW
 
 
 
