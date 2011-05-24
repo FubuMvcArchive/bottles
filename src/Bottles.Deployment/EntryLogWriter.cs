@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Bottles.Environment;
 using FubuCore;
@@ -13,8 +14,8 @@ namespace Bottles.Deployment
         {
             var tags = createTags(entries);
 
-            throw new NotImplementedException();
-            //return DiagnosticHtml.BuildDocument(null, title, tags.ToArray());
+            
+            return DiagnosticHtml.BuildDocument(title, tags.ToArray());
         }
         
         private static IEnumerable<HtmlTag> createTags(IEnumerable<LogEntry> entries)
@@ -44,6 +45,44 @@ namespace Bottles.Deployment
 
                 yield return new HtmlTag("hr");
             }
+        }
+
+        public static class DiagnosticHtml
+        {
+            public static HtmlDocument BuildDocument(string title, params HtmlTag[] tags)
+            {
+                string css = GetDiagnosticCss();
+
+               
+                var document = new HtmlDocument{
+                    Title = title
+                };
+
+                var mainDiv = new HtmlTag("div").AddClass("main");
+                mainDiv.Add("h2").Text(title);
+                document.Add(mainDiv);
+
+                mainDiv.Append(tags);
+
+                document.AddStyle(css);
+
+                return document;
+            }
+
+            public static string GetDiagnosticCss()
+            {
+                return GetResourceText(typeof(DiagnosticHtml), "diagnostics.css");
+            }
+
+            public static string GetResourceText(Type type, string filename)
+            {
+                var stream = type.Assembly.GetManifestResourceStream(type, filename);
+                if (stream == null) return String.Empty;
+                var reader = new StreamReader(stream);
+                return reader.ReadToEnd();
+            }
+
+
         }
     }
 }
