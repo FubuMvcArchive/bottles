@@ -68,7 +68,7 @@ namespace Bottles.Tests.Commands
         [Test]
         public void create_environment_run_uses_the_specific_config_file_if_one_is_given()
         {
-            theManifest.ConfigurationFile = "different.config";
+            theInput.ConfigFileFlag = "different.config";
 
             var run = InstallCommand.CreateEnvironmentRun(theInput, theManifest);
 
@@ -101,6 +101,14 @@ namespace Bottles.Tests.Commands
 
             InstallCommand.CreateEnvironmentRun(theInput, theManifest)
                 .EnvironmentClassName.ShouldEqual("some class");
+        }
+
+        [Test]
+        public void create_environment_run_uses_the_config_name_from_the_input()
+        {
+
+            InstallCommand.CreateEnvironmentRun(theInput, theManifest)
+                .ConfigurationFile.ShouldEqual(theInput.AppFolder.AppendPath(theInput.ConfigFileFlag).ToFullPath());
         }
 
         [Test]

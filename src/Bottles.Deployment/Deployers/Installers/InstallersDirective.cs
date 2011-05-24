@@ -37,6 +37,18 @@ namespace Bottles.Deployment.Deployers.Installers
             }
         }
 
+        public string ConfigFile
+        {
+            get
+            {
+                return _input.ConfigFileFlag;
+            }
+            set
+            {
+                _input.ConfigFileFlag = value;
+            }
+        }
+
         public InstallInput Input
         {
             get { return _input; }

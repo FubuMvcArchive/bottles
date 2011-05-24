@@ -72,7 +72,7 @@ namespace Bottles.Deployment.Commands
         public static EnvironmentRun CreateEnvironmentRun(InstallInput input, PackageManifest manifest)
         {
             var binFolder = FileSystem.Combine(input.AppFolder, "bin").ToFullPath();
-            var configFile = manifest.ConfigurationFile ?? "web.config";
+            var configFile = input.ConfigFileFlag ?? "web.config";
             configFile = Path.GetFileName(configFile);
             configFile = FileSystem.Combine(input.AppFolder, configFile).ToFullPath();
 

@@ -11,6 +11,7 @@ namespace Bottles.Deployment.Commands
         {
             ModeFlag = InstallMode.install;
             LogFileFlag = "installation.htm";
+            ConfigFileFlag = "web.config";
         }
 
         [Description("Root folder (or alias) of the fubu application")]
@@ -35,6 +36,10 @@ namespace Bottles.Deployment.Commands
         [Description("The assembly containing the IEnvironment class to run during an install")]
         [FlagAlias("assembly")]
         public string EnvironmentAssemblyFlag { get; set; }
+
+        [FlagAlias("config-file")]
+        [Description("The name of the .Net AppDomain config file to use while running the installers")]
+        public string ConfigFileFlag { get; set; }
 
 
         public string ManifestFileName
