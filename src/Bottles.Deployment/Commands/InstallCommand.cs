@@ -19,27 +19,14 @@ namespace Bottles.Deployment.Commands
 
         public void Execute(InstallInput input, IFileSystem fileSystem)
         {
-            if (!fileSystem.FileExists(input.ManifestFileName))
-            {
-                WritePackageManifestDoesNotExist(input.AppFolder);
-                return;
-            }
-
             InstallManifest(input, fileSystem);
-        }
-
-        public virtual void WritePackageManifestDoesNotExist(string appFolder)
-        {
-            Console.WriteLine("No Application Manifest file at {0}. Run 'fubu manifest [folder] -create' first",
-                              appFolder);
         }
 
         public virtual void InstallManifest(InstallInput input, IFileSystem fileSystem)
         {
             Console.WriteLine("Executing the installers for the FubuMVC application at {0}", input.AppFolder);
 
-            var manifest = fileSystem.LoadFromFile<PackageManifest>(input.ManifestFileName);
-            var run = CreateEnvironmentRun(input, manifest);
+            var run = CreateEnvironmentRun(input);
 
             try
             {
@@ -47,7 +34,7 @@ namespace Bottles.Deployment.Commands
             }
             catch (EnvironmentRunnerException e)
             {
-                Console.WriteLine("The application manifest is either incomplete or invalid");
+                Console.WriteLine("The supplied directives to the installers command are either incomplete or invalid");
                 Console.WriteLine(e.Message);
 
                 throw;
@@ -69,7 +56,7 @@ namespace Bottles.Deployment.Commands
             Console.WriteLine(message);
         }
 
-        public static EnvironmentRun CreateEnvironmentRun(InstallInput input, PackageManifest manifest)
+        public static EnvironmentRun CreateEnvironmentRun(InstallInput input)
         {
             var binFolder = FileSystem.Combine(input.AppFolder, "bin").ToFullPath();
             var configFile = input.ConfigFileFlag ?? "web.config";
@@ -78,8 +65,8 @@ namespace Bottles.Deployment.Commands
 
             return new EnvironmentRun{
                 ApplicationBase = binFolder,
-                AssemblyName = input.EnvironmentAssemblyFlag ?? manifest.EnvironmentAssembly,
-                EnvironmentClassName = input.EnvironmentClassNameFlag ?? manifest.EnvironmentClassName,
+                AssemblyName = input.EnvironmentAssemblyFlag,
+                EnvironmentClassName = input.EnvironmentClassNameFlag,
                 ConfigurationFile = configFile,
                 ApplicationDirectory = input.AppFolder.ToFullPath()
             };

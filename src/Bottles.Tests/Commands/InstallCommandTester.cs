@@ -43,24 +43,11 @@ namespace Bottles.Tests.Commands
             ClassUnderTest.Execute(theInput, MockFor<IFileSystem>());
         }
 
-        [Test]
-        public void tell_the_user_that_the_command_cannot_continue_if_the_manifest_does_not_exist()
-        {
-            theManifestFileDoesNotExist();
-
-            ClassUnderTest.Expect(x => x.WritePackageManifestDoesNotExist(theInput.AppFolder));
-
-            execute();
-
-            ClassUnderTest.VerifyAllExpectations();
-        }
 
         [Test]
-        public void create_environment_run_uses_web_config_by_default_if_it_is_not_specified_in_the_manifest()
+        public void create_environment_run_uses_web_config_by_default_if_it_is_not_specified_in_the_input()
         {
-            theManifest.ConfigurationFile = null;
-
-            var run = InstallCommand.CreateEnvironmentRun(theInput, theManifest);
+            var run = InstallCommand.CreateEnvironmentRun(theInput);
 
             run.ConfigurationFile.ShouldEqual(Path.Combine(theInput.AppFolder, "web.config"));
         }
@@ -70,7 +57,7 @@ namespace Bottles.Tests.Commands
         {
             theInput.ConfigFileFlag = "different.config";
 
-            var run = InstallCommand.CreateEnvironmentRun(theInput, theManifest);
+            var run = InstallCommand.CreateEnvironmentRun(theInput);
 
             run.ConfigurationFile.ShouldEqual(Path.Combine(theInput.AppFolder, "different.config"));
         }
@@ -78,19 +65,19 @@ namespace Bottles.Tests.Commands
         [Test]
         public void create_environment_sets_all_the_assembly_and_class_name_properties()
         {
-            theManifest.EnvironmentClassName = "some class";
-            theManifest.EnvironmentAssembly = "some assembly";
+            theInput.EnvironmentClassNameFlag = "some class";
+            theInput.EnvironmentAssemblyFlag = "some assembly";
 
-            var run = InstallCommand.CreateEnvironmentRun(theInput, theManifest);
+            var run = InstallCommand.CreateEnvironmentRun(theInput);
 
-            run.EnvironmentClassName.ShouldEqual(theManifest.EnvironmentClassName);
-            run.AssemblyName.ShouldEqual(theManifest.EnvironmentAssembly);
+            run.EnvironmentClassName.ShouldEqual(theInput.EnvironmentClassNameFlag);
+            run.AssemblyName.ShouldEqual(theInput.EnvironmentAssemblyFlag);
         }
 
         [Test]
         public void create_environment_defaults_the_application_base_to_the_bin_directory_underneath_the_app_folder()
         {		
-            InstallCommand.CreateEnvironmentRun(theInput, theManifest).ApplicationBase
+            InstallCommand.CreateEnvironmentRun(theInput).ApplicationBase
 				.ShouldEqual(Path.Combine(theInput.AppFolder, "bin"));
         }
 
@@ -99,7 +86,7 @@ namespace Bottles.Tests.Commands
         {
             theInput.EnvironmentClassNameFlag = "some class";
 
-            InstallCommand.CreateEnvironmentRun(theInput, theManifest)
+            InstallCommand.CreateEnvironmentRun(theInput)
                 .EnvironmentClassName.ShouldEqual("some class");
         }
 
@@ -107,7 +94,7 @@ namespace Bottles.Tests.Commands
         public void create_environment_run_uses_the_config_name_from_the_input()
         {
 
-            InstallCommand.CreateEnvironmentRun(theInput, theManifest)
+            InstallCommand.CreateEnvironmentRun(theInput)
                 .ConfigurationFile.ShouldEqual(theInput.AppFolder.AppendPath(theInput.ConfigFileFlag).ToFullPath());
         }
 
@@ -116,7 +103,7 @@ namespace Bottles.Tests.Commands
         {
             theInput.EnvironmentAssemblyFlag = "some assembly";
 
-            InstallCommand.CreateEnvironmentRun(theInput, theManifest)
+            InstallCommand.CreateEnvironmentRun(theInput)
                 .AssemblyName.ShouldEqual("some assembly");
         }
 

@@ -104,16 +104,12 @@ namespace Bottles.Tests.Commands
         [Test]
         public void the_pak_should_have_env_stuff_set()
         {
-            theInput.EnvironmentAssemblyFlag = "asm";
-            theInput.EnvironmentClassNameFlag = "cls";
-
             execute();
 
             var pm = fs.LoadPackageManifestFrom(thePath);
 
             pm.Name.ShouldEqual(pakName);
-            pm.EnvironmentAssembly.ShouldEqual("asm");
-            pm.EnvironmentClassName.ShouldEqual("cls");
+
             pm.Role.ShouldEqual(BottleRoles.Module);
         }
 

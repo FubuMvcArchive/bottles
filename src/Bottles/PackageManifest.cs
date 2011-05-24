@@ -79,23 +79,6 @@ namespace Bottles
 
 
 
-        /// <summary>
-        /// The class to run during an install
-        /// </summary>
-        public string EnvironmentClassName { get; set; }
-
-        /// <summary>
-        /// The assembly where the environment class is located
-        /// </summary>
-        public string EnvironmentAssembly { get; set; }
-
-        /// <summary>
-        /// The configuration file to use during install
-        /// </summary>
-        public string ConfigurationFile { get; set; }
-
-
-
         public override string ToString()
         {
             return string.Format("Package: {0}", Name);

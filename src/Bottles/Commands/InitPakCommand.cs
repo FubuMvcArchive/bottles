@@ -15,14 +15,6 @@ namespace Bottles.Commands
         [Description("What role should this pak play - Options: module (default), binaries, config, application")]
         public string RoleFlag { get; set; }
 
-        [Description("The main environment class name in assembly qualified form for usage with the 'install' command")]
-        [FlagAlias("class")]
-        public string EnvironmentClassNameFlag { get; set; }
-
-        [Description("Write the main application assembly to the manifest file for usage with the 'install command")]
-        [FlagAlias("assembly")]
-        public string EnvironmentAssemblyFlag { get; set; }
-
         [Description("Creates a folder alias for the package folder.  Equivalent to fubu alias <folder> <alias>")]
         public string AliasFlag { get; set; }
 
@@ -73,9 +65,6 @@ namespace Bottles.Commands
             
 
             manifest.AddAssembly(assemblyName);
-
-            manifest.EnvironmentAssembly = input.EnvironmentAssemblyFlag;
-            manifest.EnvironmentClassName = input.EnvironmentClassNameFlag;
 
 			if(input.ForceFlag || !fileSystem.FileExists(FileSystem.Combine(input.Path, PackageManifest.FILE)))
 			{
