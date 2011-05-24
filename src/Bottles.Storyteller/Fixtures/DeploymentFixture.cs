@@ -188,7 +188,9 @@ namespace Bottles.Storyteller.Fixtures
             registry.AddType(typeof (Website));
 
             var factory = new DirectiveRunnerFactory(null, registry);
-            var website = factory.BuildDirectives(_plan, _plan.GetHost(host), registry).OfType<Website>().Single();
+            var hostManifest = _plan.GetHost(host);
+            factory.BuildDirectives(_plan, hostManifest, registry);
+            var website = hostManifest.Directives.OfType<Website>().Single();
 
             var property = typeof (Website).GetProperty(propertyName);
             return property.GetValue(website, null) as string;

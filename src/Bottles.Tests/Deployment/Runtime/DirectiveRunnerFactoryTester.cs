@@ -79,7 +79,7 @@ namespace Bottles.Tests.Deployment.Runtime
         {
         }
 
-        public IList<IDirective> Directives = new List<IDirective>();
+        public IList<IDirective> HostDirectives = new List<IDirective>();
 
     }
 

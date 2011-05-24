@@ -97,5 +97,23 @@ namespace Bottles.Deployment
         {
             return SettingsProvider.For(AllSettingsData().ToArray()).SettingsFor<T>();
         }
+
+        private readonly IList<IDirective> _directives = new List<IDirective>();
+        public void BuildDirectives(ISettingsProvider provider, IDirectiveTypeRegistry typeRegistry)
+        {
+            var directives = UniqueDirectiveNames().Select(name =>
+            {
+                var type = typeRegistry.DirectiveTypeFor(name);
+
+                return (IDirective)provider.SettingsFor(type);
+            });
+
+            _directives.AddRange(directives);
+        }
+
+        public IEnumerable<IDirective> Directives
+        {
+            get { return _directives; }
+        }
     }
 }

@@ -75,7 +75,8 @@ namespace Bottles.Tests.Deployment.Bootstrapping
                 
             });
 
-            var directives = factory.BuildDirectives(plan, host, registry);
+            factory.BuildDirectives(plan, host, registry);
+            var directives = host.Directives;
 
             directives.Count().ShouldEqual(2);
             var directiveOne = directives.OfType<BottleDeployers1.OneDirective>().Single();

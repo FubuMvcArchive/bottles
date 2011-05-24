@@ -39,7 +39,8 @@ namespace Bottles.Deployment.Runtime
 
         public IEnumerable<IDirectiveRunner> BuildRunnersFor(DeploymentPlan plan, HostManifest host)
         {
-            foreach (var directive in BuildDirectives(plan, host, _types))
+            BuildDirectives(plan, host, _types);
+            foreach (var directive in host.Directives)
             {
                 var runner = Build(directive);
                 runner.Attach(host, directive);
@@ -49,16 +50,11 @@ namespace Bottles.Deployment.Runtime
         }
 
         // overridden in testing classes
-        public virtual IEnumerable<IDirective> BuildDirectives(DeploymentPlan plan, HostManifest host, IDirectiveTypeRegistry typeRegistry)
+        public virtual void BuildDirectives(DeploymentPlan plan, HostManifest host, IDirectiveTypeRegistry typeRegistry)
         {
             var provider = SettingsProvider.For(host.AllSettingsData().Union(plan.Substitutions()).ToArray());
 
-            return host.UniqueDirectiveNames().Select(name =>
-            {
-                var type = typeRegistry.DirectiveTypeFor(name);
-
-                return (IDirective)provider.SettingsFor(type);
-            });
+            host.BuildDirectives(provider, typeRegistry);
         }
     }
 }
