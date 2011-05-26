@@ -15,7 +15,7 @@ namespace Bottles.Tests.Deployment
             IBottleRepository bottles = null;
             IProcessRunner process = null;
 
-            var deployer = new TopshelfDeployer(bottles, process, new BottleMover(bottles));
+            var deployer = new TopshelfDeployer(process, new BottleMover(bottles));
 
             var directive = new TopshelfService();
 

@@ -40,7 +40,6 @@ namespace Bottles.Deployers.Iis
                 //app.BasicAuthentication(website.BasicAuth);
                 //app.WindowsAuthentication(website.WindowsAuth);
 
-                app.MapAspNetToEverything();
                 iisManager.CommitChanges();
             }
         }

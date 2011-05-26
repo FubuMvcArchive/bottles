@@ -4,6 +4,8 @@ using Bottles.Deployment;
 using Bottles.Deployment.Runtime;
 using Bottles.Deployment.Runtime.Content;
 using Bottles.Diagnostics;
+using Bottles.Host.Packaging;
+using Bottles.Services;
 using FubuCore;
 
 namespace Bottles.Deployers.Topshelf
@@ -11,24 +13,27 @@ namespace Bottles.Deployers.Topshelf
     //assumes its on the same server
     public class TopshelfDeployer : IDeployer<TopshelfService>
     {
-        private readonly IBottleRepository _bottles;
         private readonly IProcessRunner _runner;
         private readonly IBottleMover _bottelMover;
 
-        public TopshelfDeployer(IBottleRepository bottles, IProcessRunner runner, IBottleMover bottelMover)
+        public TopshelfDeployer(IProcessRunner runner, IBottleMover bottelMover)
         {
-            _bottles = bottles;
             _bottelMover = bottelMover;
             _runner = runner;
         }
 
         public void Execute(TopshelfService directive, HostManifest host, IPackageLog log)
         {
-            //copy out TS host
-            _bottles.ExplodeTo("bottlehost", directive.InstallLocation);
-
             var destination = new TopshelfBottleDestination(directive.InstallLocation);
             _bottelMover.Move(log, destination, host.BottleReferences);
+
+            var cfgFile  = directive.InstallLocation.AppendPath(ServiceInfo.FILE);
+
+            new FileSystem().WriteToFlatFile(cfgFile, writer =>
+            {
+                writer.WriteProperty("Name",host.Name);
+                writer.WriteProperty("Bootstrapper",directive.Bootstrapper);
+            });
 
             var args = buildInstallArgs(directive);
             var psi = new ProcessStartInfo("Bottles.Host.exe"){
@@ -36,6 +41,7 @@ namespace Bottles.Deployers.Topshelf
                 WorkingDirectory = directive.InstallLocation
             };
 
+            log.Trace("Topshelf Install: {0}", buildInstallArgsForDisplay(directive));
             _runner.Run(psi);
         }
 
@@ -55,5 +61,23 @@ namespace Bottles.Deployers.Topshelf
 
             return sb.ToString();
         }
+
+        private static string buildInstallArgsForDisplay(TopshelfService directive)
+        {
+            var sb = new StringBuilder();
+            sb.Append("install");
+
+            directive.DisplayName.IsNotEmpty(s => sb.AppendFormat(" -displayname:{0}", s));
+            directive.Description.IsNotEmpty(s => sb.AppendFormat(" -description:{0}", s));
+            directive.ServiceName.IsNotEmpty(s => sb.AppendFormat(" -servicename:{0}", s));
+
+
+            directive.Username.IsNotEmpty(s => sb.AppendFormat(" -username:{0}", s));
+            directive.Password.IsNotEmpty(s => sb.AppendFormat(" -password:*****"));
+
+
+            return sb.ToString();
+        }
+
     }
 }

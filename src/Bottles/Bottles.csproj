@@ -117,8 +117,7 @@
     <Compile Include="Parsing\PackageManifestXmlReader.cs" />
     <Compile Include="ProfileFiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\BottleHostLoader.cs" />
-    <Compile Include="Services\ServicePackageManifest.cs" />
+    <Compile Include="Services\ServiceInfo.cs" />
     <Compile Include="Services\IBottleAwareService.cs" />
     <Compile Include="SkipOverForProvenanceAttribute.cs" />
     <Compile Include="SolutionDirectoryPackageLoader.cs" />

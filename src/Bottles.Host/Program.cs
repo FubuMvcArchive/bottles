@@ -10,6 +10,8 @@ namespace Bottles.Host
     {
         static void Main(string[] args)
         {
+            log4net.Config.BasicConfigurator.Configure();
+
             HostFactory.Run(h =>
             {
                 h.SetDescription("Bottle Host");

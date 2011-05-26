@@ -5,11 +5,11 @@ using FubuCore;
 
 namespace Bottles.Deployers.Iis
 {
-    public class IISWebsiteDeployer : IDeployer<Website>
+    public class IisWebsiteDeployer : IDeployer<Website>
     {
         private readonly IisWebsiteCreator _websiteCreator;
 
-        public IISWebsiteDeployer(IisWebsiteCreator websiteCreator)
+        public IisWebsiteDeployer(IisWebsiteCreator websiteCreator)
         {
             _websiteCreator = websiteCreator;
         }

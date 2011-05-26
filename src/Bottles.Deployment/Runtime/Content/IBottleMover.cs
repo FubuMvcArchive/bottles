@@ -22,7 +22,12 @@ namespace Bottles.Deployment.Runtime.Content
 
         public void Move(IPackageLog log, IBottleDestination destination, IEnumerable<BottleReference> references)
         {
-            var manifests = references.Select(r => _repository.ReadManifest(r.Name));
+            var manifests = references.Select(r => 
+            { 
+                log.Trace("Reading manifest for bottle '{0}'", r.Name);
+                return _repository.ReadManifest(r.Name); 
+            });
+
             var explosionRequests = manifests.SelectMany(destination.DetermineExplosionRequests).ToList();
             log.Trace("Explosion requests: {0}", explosionRequests.Count);
 
