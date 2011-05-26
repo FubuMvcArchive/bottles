@@ -118,7 +118,6 @@
     <Compile Include="ProfileFiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ServiceInfo.cs" />
-    <Compile Include="Services\IBottleAwareService.cs" />
     <Compile Include="SkipOverForProvenanceAttribute.cs" />
     <Compile Include="SolutionDirectoryPackageLoader.cs" />
     <Compile Include="StringExtensions.cs" />
