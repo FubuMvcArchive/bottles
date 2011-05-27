@@ -50,8 +50,9 @@ namespace Bottles.Deployers.Topshelf
             var sb = new StringBuilder();
             sb.Append("install");
 
-            directive.DisplayName.IsNotEmpty(s => sb.AppendFormat(" -displayname:{0}", s));
-            directive.Description.IsNotEmpty(s => sb.AppendFormat(" -description:{0}", s));
+            //these first two allow for spaces
+            directive.DisplayName.IsNotEmpty(s => sb.AppendFormat(" -displayname \"{0}\"", s));
+            directive.Description.IsNotEmpty(s => sb.AppendFormat(" -description \"{0}\"", s));
             directive.ServiceName.IsNotEmpty(s => sb.AppendFormat(" -servicename:{0}", s));
 
 
@@ -67,8 +68,9 @@ namespace Bottles.Deployers.Topshelf
             var sb = new StringBuilder();
             sb.Append("install");
 
-            directive.DisplayName.IsNotEmpty(s => sb.AppendFormat(" -displayname:{0}", s));
-            directive.Description.IsNotEmpty(s => sb.AppendFormat(" -description:{0}", s));
+            //these first two allow for spaces
+            directive.DisplayName.IsNotEmpty(s => sb.AppendFormat(" -displayname \"{0}\"", s));
+            directive.Description.IsNotEmpty(s => sb.AppendFormat(" -description \"{0}\"", s));
             directive.ServiceName.IsNotEmpty(s => sb.AppendFormat(" -servicename:{0}", s));
 
 

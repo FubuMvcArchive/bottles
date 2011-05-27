@@ -21,7 +21,7 @@ namespace Bottles.Host
 
         public void Start()
         {
-            var manifest = _fileSystem.LoadFromFile<ServiceInfo>(ServiceInfo.FILE);
+            var manifest = LoadFromFile(ServiceInfo.FILE);
 
             var type = Type.GetType(manifest.Bootstrapper, true, true);
 
@@ -45,6 +45,24 @@ namespace Bottles.Host
         public void Stop()
         {
             _svc.Stop();
+        }
+
+        ServiceInfo LoadFromFile(string file)
+        {
+            var si = new ServiceInfo();
+            _fileSystem.ReadTextFile(file, s =>
+            {
+                var bits = s.Split('=');
+                if(bits[0]=="Bootstrapper")
+                {
+                    si.Bootstrapper = bits[1];
+                }
+                else
+                {
+                    si.Name = bits[1];
+                }
+            });
+            return si;
         }
     }
 }
