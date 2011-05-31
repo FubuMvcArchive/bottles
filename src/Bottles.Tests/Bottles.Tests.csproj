@@ -125,6 +125,7 @@
     <Compile Include="Exploding\PackageExploderTester.cs" />
     <Compile Include="FileSystemExtensionsTester.cs" />
     <Compile Include="FileSystemTester.cs" />
+    <Compile Include="Host.Packaging\TopshelfBottleDestinationTester.cs" />
     <Compile Include="LambdaActivatorTester.cs" />
     <Compile Include="PackageInfoTester.cs" />
     <Compile Include="PackageManifestTester.cs" />
@@ -137,7 +138,6 @@
     <Compile Include="RecipeTester.cs" />
     <Compile Include="Runtime\BootstrappingIntegratedTester.cs" />
     <Compile Include="Deployment\Runtime\DirectiveBuilderTester.cs" />
-    <Compile Include="Services\BottleLoaderTester.cs" />
     <Compile Include="SolutionDirectoryPackageLoaderTester.cs" />
     <Compile Include="StubPackage.cs" />
     <Compile Include="ZipFileServiceTester.cs" />
@@ -169,6 +169,10 @@
       <Project>{665AEFFB-7582-484F-8C77-8310B1AE55F2}</Project>
       <Name>Bottles.Deployment</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Bottles.Host.Packaging\Bottles.Host.Packaging.csproj">
+      <Project>{3EB7B41A-CE35-495B-9845-036B0013A6F6}</Project>
+      <Name>Bottles.Host.Packaging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bottles\Bottles.csproj">
       <Project>{E208A2B1-31B0-4455-BA16-3D79F5887ECE}</Project>
       <Name>Bottles</Name>
@@ -193,7 +197,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

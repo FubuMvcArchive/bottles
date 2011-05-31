@@ -33,6 +33,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestProjects", "TestProject
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bottles.Storyteller", "Bottles.Storyteller\Bottles.Storyteller.csproj", "{609019BD-8FA1-495E-B8E1-2F0E237EFF34}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bottles.Host.Packaging", "Bottles.Host.Packaging\Bottles.Host.Packaging.csproj", "{3EB7B41A-CE35-495B-9845-036B0013A6F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -226,6 +228,21 @@ Global
 		{609019BD-8FA1-495E-B8E1-2F0E237EFF34}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{609019BD-8FA1-495E-B8E1-2F0E237EFF34}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
 		{609019BD-8FA1-495E-B8E1-2F0E237EFF34}.Retail|x86.ActiveCfg = Release|Any CPU
+		{3EB7B41A-CE35-495B-9845-036B0013A6F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EB7B41A-CE35-495B-9845-036B0013A6F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EB7B41A-CE35-495B-9845-036B0013A6F6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3EB7B41A-CE35-495B-9845-036B0013A6F6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3EB7B41A-CE35-495B-9845-036B0013A6F6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3EB7B41A-CE35-495B-9845-036B0013A6F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EB7B41A-CE35-495B-9845-036B0013A6F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EB7B41A-CE35-495B-9845-036B0013A6F6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3EB7B41A-CE35-495B-9845-036B0013A6F6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3EB7B41A-CE35-495B-9845-036B0013A6F6}.Release|x86.ActiveCfg = Release|Any CPU
+		{3EB7B41A-CE35-495B-9845-036B0013A6F6}.Retail|Any CPU.ActiveCfg = Release|Any CPU
+		{3EB7B41A-CE35-495B-9845-036B0013A6F6}.Retail|Any CPU.Build.0 = Release|Any CPU
+		{3EB7B41A-CE35-495B-9845-036B0013A6F6}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3EB7B41A-CE35-495B-9845-036B0013A6F6}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
+		{3EB7B41A-CE35-495B-9845-036B0013A6F6}.Retail|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,10 +9,17 @@ namespace Bottles.Deployment
         {
             info.UseShellExecute = false; //don't start from cmd.exe
             info.CreateNoWindow = true; //don't use a window
-            
+            info.RedirectStandardOutput = true;
+
             int exitCode = 0;
             using (var proc = Process.Start(info))
             {
+                using(var reader = proc.StandardOutput)
+                {
+                    var result = reader.ReadToEnd();
+                    Console.Write(result);
+                }
+                
                 proc.WaitForExit((int)waitDuration.TotalMilliseconds);
                 exitCode = proc.ExitCode;
             }

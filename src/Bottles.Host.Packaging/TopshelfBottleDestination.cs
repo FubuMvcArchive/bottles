@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
 using Bottles.Deployment.Runtime.Content;
 using FubuCore;
 
-namespace Bottles.Deployers.Topshelf
+namespace Bottles.Host.Packaging
 {
     public class TopshelfBottleDestination : IBottleDestination
     {
@@ -18,13 +17,12 @@ namespace Bottles.Deployers.Topshelf
         {
             switch(manifest.Role)
             {
-                case BottleRoles.Binaries:
                 case BottleRoles.Module:
                     yield return new BottleExplosionRequest
                                  {
-                                     BottleDirectory = BottleFiles.PackagesFolder,
+                                     BottleDirectory = TopshelfPackageFacility.TopshelfPackagesFolder,
                                      BottleName = manifest.Name,
-                                     DestinationDirectory = _physicalPath.AppendPath("svc",BottleFiles.PackagesFolder) //is this correct
+                                     DestinationDirectory = _physicalPath.AppendPath(BottleFiles.PackagesFolder) //is this correct
                                  };
                     break;
                 case BottleRoles.Config:
@@ -35,12 +33,13 @@ namespace Bottles.Deployers.Topshelf
                                      DestinationDirectory = _physicalPath.AppendPath(BottleFiles.ConfigFolder)
                                  };
                     break;
+                case BottleRoles.Binaries:
                 case BottleRoles.Application:
                     yield return new BottleExplosionRequest
                                  {
                                      BottleDirectory = BottleFiles.BinaryFolder,
                                      BottleName = manifest.Name,
-                                     DestinationDirectory = _physicalPath.AppendPath("svc")
+                                     DestinationDirectory = _physicalPath
                                  };
                     break;
                 default:

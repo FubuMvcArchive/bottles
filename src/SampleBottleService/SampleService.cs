@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Bottles;
 using Bottles.Diagnostics;
-using Bottles.Services;
+using Bottles.Host.Packaging;
 
 namespace SampleBottleService
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Bottles.Exploding;
+using Bottles.Host.Packaging;
 using Bottles.Services;
 using FubuCore;
 
@@ -20,10 +21,7 @@ namespace Bottles.Host
 
         public void Start()
         {
-            //sets bottles to look for things in '~/packages'
-            BottleFiles.PackagesFolder = "packages";
-
-            var manifest = _fileSystem.LoadFromFile<ServicePackageManifest>("svc", ServicePackageManifest.FILE);
+            var manifest = LoadFromFile(ServiceInfo.FILE);
 
             var type = Type.GetType(manifest.Bootstrapper, true, true);
 
@@ -34,11 +32,9 @@ namespace Bottles.Host
             //this is done so that start can return, as 'LoadPackages' may take some time.
             ThreadPool.QueueUserWorkItem(cb =>
             {
-                int shutUpResharper = 0;
-
                 PackageRegistry.LoadPackages(pkg =>
                 {
-                    pkg.Loader(new BottleHostLoader(_fileSystem, _exploder));
+                    pkg.Loader(new TopshelfPackageLoader(_exploder));
 
                     pkg.Bootstrapper(_svc);
                 });
@@ -49,6 +45,24 @@ namespace Bottles.Host
         public void Stop()
         {
             _svc.Stop();
+        }
+
+        ServiceInfo LoadFromFile(string file)
+        {
+            var si = new ServiceInfo();
+            _fileSystem.ReadTextFile(file, s =>
+            {
+                var bits = s.Split('=');
+                if(bits[0]=="Bootstrapper")
+                {
+                    si.Bootstrapper = bits[1];
+                }
+                else
+                {
+                    si.Name = bits[1];
+                }
+            });
+            return si;
         }
     }
 }
