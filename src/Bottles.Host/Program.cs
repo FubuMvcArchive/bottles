@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Bottles.Exploding;
 using Bottles.Zipping;
 using FubuCore;
@@ -10,7 +11,8 @@ namespace Bottles.Host
     {
         static void Main(string[] args)
         {
-            log4net.Config.BasicConfigurator.Configure();
+            File.WriteAllText("pwd.txt", System.Environment.CurrentDirectory);
+            log4net.Config.XmlConfigurator.ConfigureAndWatch(new FileInfo("log4net.config"));
 
             HostFactory.Run(h =>
             {
