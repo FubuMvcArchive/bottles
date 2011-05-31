@@ -111,5 +111,18 @@ namespace Bottles.Deployment
             return new FileSystem().FindFileInDirectories(directories, filename) 
                 ?? DeploymentDirectory.AppendPath(ProfileFiles.ProfilesDirectory, filename);
         }
+
+        public string BottleFileFor(string bottleName)
+        {
+            var filename = bottleName;
+            if (!bottleName.EndsWith(BottleFiles.Extension))
+            {
+                filename = bottleName + "." + BottleFiles.Extension;
+            }
+
+            var bottleDirectories = _allFolders.Select(x => x.AppendPath(ProfileFiles.BottlesDirectory));
+            return new FileSystem().FindFileInDirectories(bottleDirectories, filename)
+                   ?? bottleDirectories.First().AppendPath(filename);
+        }
     }
 }

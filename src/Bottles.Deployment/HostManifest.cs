@@ -108,6 +108,7 @@ namespace Bottles.Deployment
                 return (IDirective)provider.SettingsFor(type);
             });
 
+            _directives.Clear();
             _directives.AddRange(directives);
         }
 

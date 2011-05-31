@@ -34,7 +34,7 @@ namespace Bottles.Deployment.Parsing
 
         public static IEnumerable<Recipe> ReadRecipes(string recipesDir)
         {
-            return Directory.GetDirectories(recipesDir).Select(ReadFrom);
+            return Directory.GetDirectories(recipesDir).Select(ReadFrom).ToList();
         }
     }
 }
