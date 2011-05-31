@@ -17,12 +17,6 @@ namespace Bottles.Deployment
             int exitCode = 0;
             using (var proc = Process.Start(info))
             {
-                using(var reader = proc.StandardOutput)
-                {
-                    var result = reader.ReadToEnd();
-                    Console.Write(result);
-                }
-                
                 proc.WaitForExit((int)waitDuration.TotalMilliseconds);
                 exitCode = proc.ExitCode;
             }
