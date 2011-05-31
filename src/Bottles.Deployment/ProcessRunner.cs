@@ -7,9 +7,12 @@ namespace Bottles.Deployment
     {
         public int Run(ProcessStartInfo info, TimeSpan waitDuration)
         {
-            info.UseShellExecute = false; //don't start from cmd.exe
-            info.CreateNoWindow = true; //don't use a window
-            info.RedirectStandardOutput = true;
+            //use the operating system shell to start the process
+            //this allows credentials to flow through.
+            info.UseShellExecute = true; 
+
+            //don't open a new terminal window
+            info.CreateNoWindow = true;
 
             int exitCode = 0;
             using (var proc = Process.Start(info))
