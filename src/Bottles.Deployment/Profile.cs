@@ -23,7 +23,7 @@ namespace Bottles.Deployment
         public static Profile ReadFrom(DeploymentSettings settings, string profileName)
         {
             var profile = new Profile(profileName);
-            var profileFile = settings.GetProfile(profileName);
+            var profileFile = settings.ProfileFileNameFor(profileName);
 
             var fileSystem = new FileSystem();
             if (!fileSystem.FileExists(profileFile))

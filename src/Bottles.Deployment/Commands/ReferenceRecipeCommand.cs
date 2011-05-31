@@ -41,7 +41,7 @@ namespace Bottles.Deployment.Commands
         public void Execute(ReferenceRecipeInput input, EnvironmentSettings settings, IFileSystem fileSystem, DeploymentSettings deploymentSettings)
         {
             var recipeText = Profile.RecipePrefix + input.Recipe;
-            var profileFile = deploymentSettings.GetProfile(input.Profile);
+            var profileFile = deploymentSettings.ProfileFileNameFor(input.Profile);
 
             fileSystem.AlterFlatFile(profileFile, list =>
             {

@@ -1,14 +1,25 @@
 using Bottles.Deployment;
+using Bottles.Deployment.Configuration;
 using Bottles.Deployment.Writing;
 using FubuCore;
 using NUnit.Framework;
 using FubuTestingSupport;
+using System.Linq;
 
 namespace Bottles.Tests.Deployment
 {
     [TestFixture]
     public class DeploymentSettingsTester
     {
+        private FileSystem system;
+
+        [SetUp]
+        public void SetUp()
+        {
+            system = new FileSystem();
+            system.CleanDirectory("firefly");
+        }
+
         [Test]
         public void build_the_default_ctor()
         {
@@ -19,7 +30,7 @@ namespace Bottles.Tests.Deployment
 
             settings.BottlesDirectory.ShouldEqual("dir\\bottles");
             settings.RecipesDirectory.ShouldEqual("dir\\recipes");
-            settings.EnvironmentFile.ShouldEqual("dir\\environment.settings");
+            settings.EnvironmentFile().ShouldEqual("dir\\environment.settings");
             settings.TargetDirectory.ShouldEqual("dir\\target");
             settings.DeploymentDirectory.ShouldEqual("dir");
             settings.BottleManifestFile.ShouldEqual("dir\\bottles.manifest");
@@ -27,7 +38,6 @@ namespace Bottles.Tests.Deployment
             settings.DeployersDirectory.ShouldEqual(FileSystem.Combine("dir", "deployers"));
 
             settings.ProfilesDirectory.ShouldEqual(FileSystem.Combine("dir", ProfileFiles.ProfilesDirectory));
-            settings.EnvironmentsDirectory.ShouldEqual(FileSystem.Combine("dir", ProfileFiles.EnvironmentsDirectory));
 
             settings.GetHost("x", "z").ShouldEqual("dir\\recipes\\x\\z.host");
             settings.GetRecipeDirectory("a").ShouldEqual("dir\\recipes\\a");
@@ -38,5 +48,55 @@ namespace Bottles.Tests.Deployment
             var pr = new DeploymentWriter(name);
             pr.Flush(FlushOptions.Wipeout);
         }
+
+        private void writeEnvironmentFileTo(string directory)
+        {
+            system.WriteStringToFile(directory.AppendPath(EnvironmentSettings.EnvironmentSettingsFileName), "1");
+        }
+
+        private void writeProfileFileTo(string directory, string profileName)
+        {
+            var filename = profileName + "." + ProfileFiles.ProfileExtension;
+            filename = directory.AppendPath(ProfileFiles.ProfilesDirectory).AppendPath(filename);
+
+            system.WriteStringToFile(filename, "a");
+        }
+
+        [Test]
+        public void find_the_environment_file_with_no_included_folders()
+        {
+            var settings = new DeploymentSettings("firefly");
+            var defaultEnvironmentFile = "firefly".AppendPath(EnvironmentSettings.EnvironmentSettingsFileName);
+            system.WriteStringToFile(defaultEnvironmentFile, "something");
+
+            settings.Directories.Count().ShouldEqual(1);
+
+            settings.EnvironmentFile().ShouldEqual("firefly".AppendPath(EnvironmentSettings.EnvironmentSettingsFileName));
+        }
+
+        [Test]
+        public void find_environment_file_with_included_folders_should_still_choose_the_main_environment_settings_file()
+        {
+            var settings = new DeploymentSettings("firefly");
+            var defaultEnvironmentFile = "firefly".AppendPath(EnvironmentSettings.EnvironmentSettingsFileName);
+            system.WriteStringToFile(defaultEnvironmentFile, "something");
+
+            writeEnvironmentFileTo("a");
+            settings.AddImportedFolder("a");
+            settings.EnvironmentFile().ShouldEqual("firefly".AppendPath(EnvironmentSettings.EnvironmentSettingsFileName));
+        }
+
+        [Test]
+        public void find_environment_file_from_included_folders_when_it_is_not_in_the_root()
+        {
+            var settings = new DeploymentSettings("firefly");
+
+            writeEnvironmentFileTo("a");
+            settings.AddImportedFolder("a");
+            settings.EnvironmentFile().ShouldEqual("a".AppendPath(EnvironmentSettings.EnvironmentSettingsFileName));
+
+        }
+
+      
     }
 }

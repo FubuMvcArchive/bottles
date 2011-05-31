@@ -76,7 +76,6 @@ namespace Bottles.Deployment.Commands
 
             createDirectory(fileSystem, logger, input.Settings.BottlesDirectory);
             createDirectory(fileSystem, logger, input.Settings.RecipesDirectory);
-            createDirectory(fileSystem, logger, input.Settings.EnvironmentsDirectory);
             createDirectory(fileSystem, logger, input.Settings.ProfilesDirectory);
 
             return true;

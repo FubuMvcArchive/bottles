@@ -45,7 +45,7 @@ namespace Bottles.Deployment.Commands
     {
         public override bool Execute(SetEnvPropInput input)
         {
-            var path = DeploymentSettings.ForDirectory(input.DeploymentFlag).EnvironmentFile;
+            var path = DeploymentSettings.ForDirectory(input.DeploymentFlag).EnvironmentFile();
             new FileSystem().WriteProperty(path, input.PropertyValue);
 
             return true;
@@ -70,7 +70,7 @@ namespace Bottles.Deployment.Commands
 
         public override bool Execute(SetProfilePropInput input)
         {
-            var path = DeploymentSettings.ForDirectory(input.DeploymentFlag).GetProfile(input.Profile);
+            var path = DeploymentSettings.ForDirectory(input.DeploymentFlag).ProfileFileNameFor(input.Profile);
             new FileSystem().WriteProperty(path, input.PropertyValue);
 
             return true;

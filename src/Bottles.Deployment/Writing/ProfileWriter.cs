@@ -7,7 +7,7 @@ namespace Bottles.Deployment.Writing
     {
         public void WriteTo(ProfileDefinition profile, DeploymentSettings settings)
         {
-            var filename = settings.GetProfile(profile.Name);
+            var filename = settings.ProfileFileNameFor(profile.Name);
             new FileSystem().WriteToFlatFile(filename, writer =>
             {
                 profile.Recipes.Each(r => writer.WriteLine(Profile.RecipePrefix + r));

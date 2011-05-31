@@ -1,5 +1,8 @@
+using System.IO;
 using Bottles.Deployment.Configuration;
 using Bottles.Deployment.Runtime;
+using System.Linq;
+using FubuCore;
 
 namespace Bottles.Deployment.Parsing
 {
@@ -19,12 +22,25 @@ namespace Bottles.Deployment.Parsing
 
         public DeploymentGraph Read(DeploymentOptions options)
         {
+            var allRecipes = _settings.Directories.Select(x => x.AppendPath(ProfileFiles.RecipesDirectory)).SelectMany(RecipeReader.ReadRecipes);
             return new DeploymentGraph{
-                Environment = EnvironmentSettings.ReadFrom(_settings.EnvironmentFile),
+                Environment = EnvironmentSettings.ReadFrom(_settings.EnvironmentFile()),
                 Profile = Profile.ReadFrom(_settings, options.ProfileName),
-                Recipes = RecipeReader.ReadRecipes(_settings.RecipesDirectory),
+                Recipes = allRecipes,
                 Settings = _settings
             };
+            
+            /* DeploymentOptions.IncludedLinks
+             * For env, look in primary first, then all secondaries
+             * For Profile, look in primary first, then all secondaries
+             * For Recipes, fully additive
+             * 
+             * Change BottleRepository.pathForBottle to look at multiple places
+             * Need to add something to deployment options command line goop
+             * 
+             * 
+             * FileSystem extension -> FindFileInDirectories(string fileName, IEnumerable<string> directories)
+             */
         }
     }
 }

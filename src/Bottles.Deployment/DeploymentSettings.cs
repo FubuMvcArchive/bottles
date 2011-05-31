@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using Bottles.Deployment.Configuration;
 using Bottles.Deployment.Parsing;
 using FubuCore;
 using FubuCore.Configuration;
+using System.Linq;
 
 namespace Bottles.Deployment
 {
@@ -11,13 +13,12 @@ namespace Bottles.Deployment
         //path points to ~/deployment
         public DeploymentSettings(string path)
         {
+            _allFolders.Add(path);
             DeploymentDirectory = path;
             BottlesDirectory = FileSystem.Combine(path, ProfileFiles.BottlesDirectory);
             RecipesDirectory = FileSystem.Combine(path, ProfileFiles.RecipesDirectory);
-            EnvironmentFile = FileSystem.Combine(path, EnvironmentSettings.EnvironmentSettingsFileName);
             TargetDirectory = FileSystem.Combine(path, ProfileFiles.TargetDirectory);
             BottleManifestFile = FileSystem.Combine(path, ProfileFiles.BottlesManifestFile);
-            EnvironmentsDirectory = FileSystem.Combine(path, ProfileFiles.EnvironmentsDirectory);
             ProfilesDirectory = FileSystem.Combine(path, ProfileFiles.ProfilesDirectory);
             DeployersDirectory = FileSystem.Combine(path, ProfileFiles.DeployersDirectory);
         }
@@ -32,9 +33,31 @@ namespace Bottles.Deployment
         public string TargetDirectory { get; set; }
         public string BottlesDirectory { get; set; }
         public string RecipesDirectory { get; set; }
-        public string EnvironmentFile { get; set; }
+
+        private readonly IList<string> _allFolders = new List<string>();
+        public void AddImportedFolders(IEnumerable<string> folders)
+        {
+            _allFolders.AddRange(folders);
+        }
+
+        public void AddImportedFolder(string folder)
+        {
+            _allFolders.Add(folder);
+        }
+
+        public IEnumerable<string> Directories
+        {
+            get { return _allFolders; }
+        }
+
+
+        public string EnvironmentFile()
+        {
+            return new FileSystem().FindFileInDirectories(_allFolders, EnvironmentSettings.EnvironmentSettingsFileName)
+                   ?? DeploymentDirectory.AppendPath(EnvironmentSettings.EnvironmentSettingsFileName);
+        }
+
         public string BottleManifestFile { get; set; }
-        public string EnvironmentsDirectory { get; set; }
         public string ProfilesDirectory { get; set; }
 
         public EnvironmentSettings Environment { get; set; }
@@ -80,9 +103,13 @@ namespace Bottles.Deployment
             return p;
         }
 
-        public string GetProfile(string profileName)
+        public string ProfileFileNameFor(string profileName)
         {
-            return FileSystem.Combine(ProfilesDirectory, profileName + "." + ProfileFiles.ProfileSuffix);
+            var directories = _allFolders.Select(x => x.AppendPath(ProfilesDirectory));
+            var filename = profileName + "." + ProfileFiles.ProfileExtension;
+
+            return new FileSystem().FindFileInDirectories(directories, filename) 
+                ?? DeploymentDirectory.AppendPath(ProfileFiles.ProfilesDirectory, filename);
         }
     }
 }

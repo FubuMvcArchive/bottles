@@ -20,13 +20,13 @@ namespace Bottles.Deployment.Runtime.Content
 
         public virtual void CopyTo(string bottleName, string destination)
         {
-            var path = pathForBottle(bottleName);
+            var path = PathForBottle(bottleName);
             _fileSystem.CopyToDirectory(path, destination);
         }
 
         public void ExplodeTo(string bottleName, string destination)
         {
-            var bottleFile = pathForBottle(bottleName);
+            var bottleFile = PathForBottle(bottleName);
 
             // TODO -- needs logging?
             //REVIEW: get_app_dir, zip-filename == path???
@@ -43,7 +43,7 @@ namespace Bottles.Deployment.Runtime.Content
                 return;
             }
 
-            var bottleFile = pathForBottle(bottleName);
+            var bottleFile = PathForBottle(bottleName);
             _fileSystem.CreateDirectory(_settings.StagingDirectory);
 
             var tempDirectory = FileSystem.Combine(_settings.StagingDirectory, bottleName);
@@ -69,7 +69,7 @@ namespace Bottles.Deployment.Runtime.Content
 
         public PackageManifest ReadManifest(string bottleName)
         {
-            var fileName = pathForBottle(bottleName);
+            var fileName = PathForBottle(bottleName);
             return _zipService.GetPackageManifest(fileName);
         }
 
@@ -87,10 +87,12 @@ namespace Bottles.Deployment.Runtime.Content
             _bottlesExplodedToStaging.Add(request.BottleName);
         }
 
-        private string pathForBottle(string bottleName)
+        public string PathForBottle(string bottleName)
         {
             if (!bottleName.EndsWith(BottleFiles.Extension))
+            {
                 bottleName = bottleName + "." + BottleFiles.Extension;
+            }
 
             //this should be a file
             return FileSystem.Combine(_settings.BottlesDirectory, bottleName);
