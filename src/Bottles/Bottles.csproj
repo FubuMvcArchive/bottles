@@ -64,7 +64,6 @@
     <Compile Include="Diagnostics\LoggingSession.cs" />
     <Compile Include="Diagnostics\LoggingSessionWriter.cs" />
     <Compile Include="ISimpleLogger.cs" />
-    <Compile Include="Commands\ListCommand.cs" />
     <Compile Include="Creation\CreatePackageInput.cs" />
     <Compile Include="Creation\IPackageLogger.cs" />
     <Compile Include="Creation\PackageLogger.cs" />

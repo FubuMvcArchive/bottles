@@ -113,6 +113,13 @@ namespace Bottles.Creation
 
         public void AddConfigFiles(CreatePackageInput input, IZipFile zipFile, PackageManifest manifest)
         {
+            if (manifest.ConfigFileSet == null)
+            {
+                Console.WriteLine("      No config files");
+                return;
+            }
+
+
             Console.WriteLine("      Adding Config folder for " + manifest.ConfigFileSet);
             zipFile.AddFiles(new ZipFolderRequest(){
                 FileSet = manifest.ConfigFileSet,
