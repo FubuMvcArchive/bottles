@@ -1,3 +1,8 @@
+using Bottles.Assemblies;
+using Bottles.Commands;
+using Bottles.Creation;
+using Bottles.Zipping;
+using FubuCore;
 using NUnit.Framework;
 using FubuTestingSupport;
 using System.Linq;
@@ -38,6 +43,20 @@ namespace Bottles.Tests
             
         }
 
+
+        [Test]
+        public void read_config_manifest_from_file()
+        {
+            var manifest = new PackageManifest();
+            manifest.SetRole(BottleRoles.Config);
+
+            var system = new FileSystem();
+            system.WriteObjectToFile("manifest.xml", manifest);
+
+            var manifest2 = system.LoadFromFile<PackageManifest>("manifest.xml");
+            manifest2.ContentFileSet.ShouldBeNull();
+        }
+
         [Test]
         public void set_role_to_binaries()
         {
@@ -48,5 +67,7 @@ namespace Bottles.Tests
             manifest.DataFileSet.ShouldBeNull();
             manifest.ConfigFileSet.ShouldBeNull();
         }
+
+
     }
 }

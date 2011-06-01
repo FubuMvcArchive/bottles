@@ -7,17 +7,14 @@ namespace Bottles.Zipping
 {
     public class ZipFolderRequest
     {
-        public ZipFolderRequest()
-        {
-            FileSet = new FileSet();
-        }
-
         public FileSet FileSet { get; set; }
         public string RootDirectory { get; set; }
         public string ZipDirectory { get; set; }
 
         public void WriteToZipFile(IZipFile zipFile)
         {
+            if (FileSet == null) return;
+
             var cache = new Cache<string, string>(file => Path.Combine(ZipDirectory, file.PathRelativeTo(RootDirectory)));
 
             FileSet.IncludedFilesFor(RootDirectory).Each(cache.FillDefault);

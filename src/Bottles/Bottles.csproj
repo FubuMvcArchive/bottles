@@ -114,7 +114,6 @@
     <Compile Include="Diagnostics\PackagingDiagnosticsExtensions.cs" />
     <Compile Include="BottleRoles.cs" />
     <Compile Include="PackagingRuntimeGraph.cs" />
-    <Compile Include="Parsing\PackageManifestXmlReader.cs" />
     <Compile Include="ProfileFiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ServiceInfo.cs" />
