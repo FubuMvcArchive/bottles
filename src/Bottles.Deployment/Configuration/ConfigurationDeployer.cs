@@ -39,6 +39,8 @@ namespace Bottles.Deployment.Configuration
             // log each file to there
 
             var configDirectory = directive.ConfigDirectory.CombineToPath(_deploymentSettings.TargetDirectory);
+            _fileSystem.CreateDirectory(configDirectory);
+
             _fileSystem.Copy(_deploymentSettings.EnvironmentFile(), configDirectory);
 
             var destinationDirectory = FileSystem.Combine(_deploymentSettings.TargetDirectory,
