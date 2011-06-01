@@ -15,12 +15,6 @@ namespace Bottles
         public PackageManifest()
         {
             Role = BottleRoles.Module;
-
-            DataFileSet = new FileSet();
-            ContentFileSet = new FileSet(){
-                Include = "*.as*x;*.master;Content{0}*.*;*.config".ToFormat(Path.DirectorySeparatorChar),
-                Exclude = "data/*"
-            };
         }
 
         [XmlIgnore]
@@ -98,18 +92,30 @@ namespace Bottles
         {
             Role = role;
 
+
+
             switch (role)
             {
                 case BottleRoles.Config:
                     ConfigFileSet = new FileSet(){Include = "*.*", DeepSearch = true};
                     ContentFileSet = null;
                     DataFileSet = null;
+                    RemoveAllAssemblies();
                     break;
 
                 case BottleRoles.Binaries:
                     ConfigFileSet = null;
                     ContentFileSet = null;
                     DataFileSet = null;
+                    break;
+
+                default:
+                    DataFileSet = new FileSet();
+                    ContentFileSet = new FileSet()
+                    {
+                        Include = "*.as*x;*.master;Content{0}*.*;*.config".ToFormat(Path.DirectorySeparatorChar),
+                        Exclude = "data/*"
+                    };
                     break;
 
             }

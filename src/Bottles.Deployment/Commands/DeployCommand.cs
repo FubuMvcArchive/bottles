@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using Bottles.Deployment.Bootstrapping;
 using Bottles.Deployment.Runtime;
+using FubuCore;
 using FubuCore.CommandLine;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,9 +26,12 @@ namespace Bottles.Deployment.Commands
         [Description("File where the installation report should be written.  Default is installation_report.htm")]
         public string ReportFlag { get; set; }
 
-        [Description("Override any profile settings in form arg1:value1 arg2:value2 arg3:value3")]
-        [RequiredUsage("overrides")]
-        public string[] Overrides { get; set; }
+        [Description("Override any profile settings in form arg1:value1;arg2:value2;arg3:value3")]
+        public string OverrideFlag { get; set; }
+
+        [Description("Import any other ~/deployment folders for this deployment")]
+        [RequiredUsage("imports")]
+        public string[] ImportedFolders { get; set; }
 
         public DeploymentOptions CreateDeploymentOptions()
         {
@@ -35,12 +39,17 @@ namespace Bottles.Deployment.Commands
                 ReportName = ReportFlag
             };
 
-            if (Overrides != null)
+            if (OverrideFlag.IsNotEmpty())
             {
-                Overrides.Select(x => x.Split(':')).Each(parts =>
+                OverrideFlag.Split(';').Select(x => x.Split(':')).Each(parts =>
                 {
                     options.Overrides[parts[0]] = parts[1];
                 });
+            }
+
+            if (ImportedFolders != null)
+            {
+                options.ImportedFolders.AddRange(ImportedFolders);
             }
 
             return options;
@@ -48,8 +57,8 @@ namespace Bottles.Deployment.Commands
     }
 
     [CommandDescription("Deploys the given profile")]
-    [Usage("overrides", "Deploy with property overrides")]
     [Usage("default", "Deploy with only the environment settings in the deployment folder")]
+    [Usage("imports", "Deploy with imported folders")]
     public class DeployCommand : FubuCommand<DeployInput>
     {
         public override bool Execute(DeployInput input)

@@ -22,6 +22,8 @@ namespace Bottles.Deployment.Parsing
 
         public DeploymentGraph Read(DeploymentOptions options)
         {
+            _settings.AddImportedFolders(options.ImportedFolders);
+
             var allRecipes = _settings.Directories.Select(x => x.AppendPath(ProfileFiles.RecipesDirectory)).SelectMany(RecipeReader.ReadRecipes);
             return new DeploymentGraph{
                 Environment = EnvironmentSettings.ReadFrom(_settings.EnvironmentFile()),
@@ -29,18 +31,6 @@ namespace Bottles.Deployment.Parsing
                 Recipes = allRecipes,
                 Settings = _settings
             };
-            
-            /* DeploymentOptions.IncludedLinks
-             * For env, look in primary first, then all secondaries
-             * For Profile, look in primary first, then all secondaries
-             * For Recipes, fully additive
-             * 
-             * Change BottleRepository.pathForBottle to look at multiple places
-             * Need to add something to deployment options command line goop
-             * 
-             * 
-             * FileSystem extension -> FindFileInDirectories(string fileName, IEnumerable<string> directories)
-             */
         }
     }
 }

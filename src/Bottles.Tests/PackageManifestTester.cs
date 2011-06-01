@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using FubuTestingSupport;
+using System.Linq;
 
 namespace Bottles.Tests
 {
@@ -32,6 +33,8 @@ namespace Bottles.Tests
             manifest.ConfigFileSet.ShouldNotBeNull();
 
             manifest.ConfigFileSet.Include.ShouldEqual("*.*");
+
+            manifest.Assemblies.Any().ShouldBeFalse();
             
         }
 

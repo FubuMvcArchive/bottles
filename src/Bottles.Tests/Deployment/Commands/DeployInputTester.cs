@@ -16,9 +16,7 @@ namespace Bottles.Tests.Deployment.Commands
         public void SetUp()
         {
             theInput = new DeployInput();
-            theInput.Overrides = new string[]{
-                "a:1", "b:2", "c:3"
-            };
+            theInput.OverrideFlag = "a:1;b:2;c:3";
 
             theOptions = theInput.CreateDeploymentOptions();
         }
@@ -49,10 +47,26 @@ namespace Bottles.Tests.Deployment.Commands
         public void do_not_set_any_overrides_if_none_on_input()
         {
             var input = new DeployInput{
-                Overrides = null
+                OverrideFlag = null
             };
 
             input.CreateDeploymentOptions().Overrides.GetAllKeys().Any().ShouldBeFalse();
+        }
+
+        [Test]
+        public void no_imported_folders()
+        {
+            new DeployInput().CreateDeploymentOptions().ImportedFolders.Any().ShouldBeFalse();
+        }
+
+        [Test]
+        public void imported_folders()
+        {
+            var input = new DeployInput(){
+                ImportedFolders = new string[]{"a", "b", "c"}
+            };
+
+            input.CreateDeploymentOptions().ImportedFolders.ShouldHaveTheSameElementsAs("a", "b", "c");
         }
     }
 }
