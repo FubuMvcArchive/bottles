@@ -5,6 +5,7 @@ using Bottles.Deployment.Runtime.Content;
 using Bottles.Diagnostics;
 using FubuCore;
 using System.Collections.Generic;
+using FubuCore.Configuration;
 
 namespace Bottles.Deployment.Configuration
 {
@@ -41,10 +42,14 @@ namespace Bottles.Deployment.Configuration
             var configDirectory = directive.ConfigDirectory.CombineToPath(_deploymentSettings.TargetDirectory);
             _fileSystem.CreateDirectory(configDirectory);
 
-            _fileSystem.CopyToDirectory(_deploymentSettings.EnvironmentFile(), configDirectory);
+            writeEnvironmentFile(configDirectory, log);
+            
+            if (_deploymentSettings.Profile != null)
+            {
+                var profileFile = configDirectory.AppendPath("profile.config");
+                XmlSettingsParser.Write(_deploymentSettings.Profile.Data, profileFile);
+            }
 
-            var destinationDirectory = FileSystem.Combine(_deploymentSettings.TargetDirectory,
-                                                          directive.ConfigDirectory);
 
             // TODO -- diagnostics?
             host.BottleReferences.Each(x =>
@@ -53,11 +58,18 @@ namespace Bottles.Deployment.Configuration
                 {
                     BottleDirectory = BottleFiles.ConfigFolder,
                     BottleName = x.Name,
-                    DestinationDirectory = destinationDirectory
+                    DestinationDirectory = configDirectory
                 };
 
                 _repository.ExplodeFiles(request);
             });
+        }
+
+        private void writeEnvironmentFile(string configDirectory, IPackageLog log)
+        {
+            var environmentFile = configDirectory.AppendPath("environment.config");
+            log.Trace("Writing the environment settings to " + environmentFile);
+            XmlSettingsParser.Write(_deploymentSettings.Environment.Data, environmentFile);
         }
     }
 }
