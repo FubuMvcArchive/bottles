@@ -58,6 +58,11 @@ namespace Bottles
 
         private static IEnumerable<string> findCandidateAssemblyFiles(string binPath)
         {
+            if (!Directory.Exists(binPath))
+            {
+                return new string[0];
+            }
+
             return Directory.GetFiles(binPath).Where(IsPotentiallyAnAssembly);
         }
 
