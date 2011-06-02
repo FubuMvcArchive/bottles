@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using BottleDeployers1;
 using Bottles.Deployment;
+using Bottles.Deployment.Runtime;
+using Bottles.Diagnostics;
 
 namespace BottleDeployers2
 {
@@ -32,5 +34,15 @@ namespace BottleDeployers2
     {
         public int Threshold { get; set; }
         public string Direction { get; set; }
+    }
+
+    public class SevenDirective : IDirective{}
+
+    public class SevenFinalizer : IFinalizer<SevenDirective>
+    {
+        public void Execute(SevenDirective directive, HostManifest host, IPackageLog log)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

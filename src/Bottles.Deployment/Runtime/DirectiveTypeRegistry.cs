@@ -15,7 +15,7 @@ namespace Bottles.Deployment.Runtime
         public DirectiveTypeRegistry(IContainer container)
         {
             container.Model.PluginTypes
-                .Select(x => x.PluginType.FindInterfaceThatCloses(typeof (IDeployer<>)))
+                .Select(x => x.PluginType.FindInterfaceThatCloses(typeof(IDeploymentAction<>)))
                 .Where(x => x != null).Each(type =>
                 {
                     // TODO -- need to blow up if duplicate names are hit?
@@ -35,6 +35,7 @@ namespace Bottles.Deployment.Runtime
 
             throw new ArgumentException("Couldn't find type '{0}'\nAvailable directives are {1}".ToFormat(name, description));
         }
+
 
         public IEnumerable<Type> DirectiveTypes()
         {

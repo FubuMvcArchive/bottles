@@ -36,7 +36,8 @@ namespace Bottles.Tests.Deployment.Bootstrapping
                 typeof(BottleDeployers1.ThreeDirective),
                 typeof(BottleDeployers2.FourDirective),
                 typeof(BottleDeployers2.FiveDirective),
-                typeof(BottleDeployers2.SixDirective)//,
+                typeof(BottleDeployers2.SixDirective),
+                typeof(BottleDeployers2.SevenDirective)//,
                 //typeof(FubuWebsite),
                 //typeof(TopshelfService),
                 //typeof(ScheduledTask)

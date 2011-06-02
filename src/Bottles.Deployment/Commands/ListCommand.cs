@@ -2,6 +2,8 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using Bottles.Deployment.Bootstrapping;
+using Bottles.Deployment.Runtime;
 using FubuCore;
 using FubuCore.CommandLine;
 using System.Collections.Generic;
@@ -11,9 +13,11 @@ namespace Bottles.Deployment.Commands
     public enum ListMode
     {
         manifests,
+        directives,
         recipes,
         profiles,
         bottles,
+        hosts,
         all
     }
 
@@ -51,7 +55,7 @@ namespace Bottles.Deployment.Commands
         public override bool Execute(ListInput input)
         {
             var point = input.PointToScan();
-            ConsoleWriter.Write("Looking for manifests starting from: {0}", point);
+            
             
 
 
@@ -59,6 +63,11 @@ namespace Bottles.Deployment.Commands
 
             switch (input.Mode)
             {
+
+                case ListMode.directives:
+                    writeDirectives(input, system);
+                    break;
+
                 case ListMode.bottles:
                     writeBottles(input, system);
                     break;
@@ -71,6 +80,10 @@ namespace Bottles.Deployment.Commands
                     writeRecipes(input, system);
                     break;
 
+                case ListMode.hosts:
+                    writeHosts(input, system);
+                    break;
+
                 case ListMode.profiles:
                     writeProfiles(input, system);
                     break;
@@ -79,7 +92,9 @@ namespace Bottles.Deployment.Commands
                     write("Bottles", () => writeBottles(input, system));
                     write("Package Manifests", () => writePackages(input, point, system));
                     write("Recipes", () => writeRecipes(input, system));
+                    write("Hosts", () => writeHosts(input, system));
                     write("Profiles", () => writeProfiles(input, system));
+                    write("Directive Types", () => writeDirectives(input, system));
 
                     break;
             }
@@ -90,17 +105,40 @@ namespace Bottles.Deployment.Commands
             return true;
         }
 
+        private void writeHosts(ListInput input, FileSystem system)
+        {
+            var settings = DeploymentSettings.ForDirectory(input.DeploymentFlag);
+            system.ChildDirectoriesFor(settings.RecipesDirectory).Each(x =>
+            {
+                var recipeName = Path.GetFileNameWithoutExtension(x);
+                system.FindFiles(x, new FileSet(){
+                    Include = "*.host"
+                }).Each(file =>
+                {
+                    var hostName = Path.GetFileNameWithoutExtension(file);
+                    ConsoleWriter.Write(recipeName + " / " + hostName);
+                });
+            });
+        }
+
+        private void writeDirectives(ListInput input, FileSystem system)
+        {
+            var settings = DeploymentSettings.ForDirectory(input.DeploymentFlag);
+            var container = DeploymentBootstrapper.Bootstrap(settings);
+            container.GetInstance<IDirectiveTypeRegistry>().DirectiveTypes().Each(type =>
+            {
+                ConsoleWriter.Write(type.Name);
+            });
+        }
+
         private void writeProfiles(ListInput input, FileSystem system)
         {
             var settings = DeploymentSettings.ForDirectory(input.DeploymentFlag);
             system.FindFiles(settings.ProfilesDirectory, new FileSet(){
                 Include = "*.*"
             })
-                .Select(x => Path.GetFileNameWithoutExtension(x))
-                .Each(x =>
-                {
-                    ConsoleWriter.Write(x);
-                });
+                .Select(Path.GetFileNameWithoutExtension)
+                .Each(ConsoleWriter.Write);
         }
 
         private void writeRecipes(ListInput input, FileSystem system)
@@ -136,6 +174,8 @@ namespace Bottles.Deployment.Commands
 
         private void writePackages(ListInput input, string point, FileSystem system)
         {
+            ConsoleWriter.Write("Looking for manifests starting from: {0}", point);
+
             var fileSet = new FileSet()
                           {
                               DeepSearch = true,

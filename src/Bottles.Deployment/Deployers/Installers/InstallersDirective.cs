@@ -79,7 +79,7 @@ namespace Bottles.Deployment.Deployers.Installers
         }
     }
 
-    public class InstallersDeployer : IDeployer<InstallersDirective>
+    public class InstallersDeployer : IFinalizer<InstallersDirective>
     {
         public void Execute(InstallersDirective directive, HostManifest host, IPackageLog log)
         {
