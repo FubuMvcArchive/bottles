@@ -5,7 +5,9 @@ namespace :nug do
 	
 	desc "Build the nuget package"
 	task :build do
-		sh "#{@nuget} pack packaging/nuget/bottles.nuspec -o #{ARTIFACTS} -Version #{BUILD_NUMBER}"
+		FileList["packaging/nuget/*.nuspec"].each do |spec|
+		  sh "#{@nuget} pack #{spec} -o #{ARTIFACTS} -Version #{BUILD_NUMBER} -Symbols"
+		end
 	end
 
 	
