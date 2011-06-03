@@ -18,6 +18,14 @@ namespace :nug do
 			sh "#{@nuget} install #{f} /Source #{@nugroot} /ExcludeVersion /OutputDirectory .\\lib"
 		end
 	end
+	
+	desc "Updates dependencies from nuget.org"
+	task :update do
+    FileList["**/packages.config"].each do |proj|
+      sh "#{@nuget} update #{proj}"
+      sh "#{@nuget} install #{proj}"
+    end
+	end
 		
 	desc "pushes new NuGet udates to your local machine"
 	task :push, [:location] => [:build] do |t, args|
@@ -31,5 +39,33 @@ namespace :nug do
 			FileUtils.cp fn, @nugroot
 		end
 	end
+
+  def unzip_file (file, destination)
+    require 'rubygems'
+    require 'zip/zip'
+    Zip::ZipFile.open(file) { |zip_file|
+     zip_file.each { |f|
+       f_path=File.join(destination, f.name)
+       FileUtils.mkdir_p(File.dirname(f_path))
+       zip_file.extract(f, f_path) unless File.exist?(f_path)
+     }
+    }
+  end
 	
+	desc "Pushes nuget packages to the official feed"
+	task :release do
+    require 'open-uri'
+
+    mkdir_p 'packaging/release'
+    rm_r Dir.glob("packaging/release/*.*")
+
+    artifact_url = "http://teamcity.codebetter.com/guestAuth/repository/downloadAll/#{@teamcity_build_id}/.lastSuccessful/artifacts.zip"
+    artifact = open(artifact_url)
+    unzip_file artifact.path, "packaging/release"
+    FileList['packaging/release/*.nupkg'].exclude(".symbols.nupkg").each do |nupkg|
+      sh "#{@nuget} push #{nupkg}" do |ok, res|
+        puts "May not have published #{nupkg}" unless ok
+      end
+    end
+	end	
 end
