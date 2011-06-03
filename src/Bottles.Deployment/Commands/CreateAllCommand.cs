@@ -1,8 +1,11 @@
+using System;
 using System.ComponentModel;
+using System.IO;
 using Bottles.Commands;
 using Bottles.Creation;
 using FubuCore;
 using FubuCore.CommandLine;
+using System.Collections.Generic;
 
 namespace Bottles.Deployment.Commands
 {
@@ -11,7 +14,11 @@ namespace Bottles.Deployment.Commands
         public CreateAllInput()
         {
             TargetFlag = CompileTargetEnum.debug;
+            DirectoryFlag = ".".ToFullPath();
         }
+
+        [Description("Overrides the top level directory to begin searching for package manifests")]
+        public string DirectoryFlag { get; set; }
 
         [Description("Overrides the deployment directory ~/deployment")]
         public string DeploymentFlag { get; set; }
@@ -21,6 +28,9 @@ namespace Bottles.Deployment.Commands
 
         [Description("Overrides the compilation target.  The default is debug")]
         public CompileTargetEnum TargetFlag { get; set; }
+
+        [Description("Directs the command to remove all bottle files before creating new files.  Can be destructive")]
+        public bool CleanFlag { get; set; }
 
         public string DeploymentRoot()
         {
@@ -42,16 +52,21 @@ namespace Bottles.Deployment.Commands
             var settings = DeploymentSettings.ForDirectory(input.DeploymentFlag);
 
             ConsoleWriter.Write("Creating all packages");
-            ConsoleWriter.Write("  Removing all previous package files");
-            system.CleanDirectory(settings.BottlesDirectory);
 
-            ConsoleWriter.Write("  Reading bottle manifest file at " + settings.BottleManifestFile);
-            var bottleManifestFile = settings.BottleManifestFile;
-            system.ReadTextFile(bottleManifestFile, dir =>
+            if (input.CleanFlag)
             {
-                createPackage(dir, settings.BottlesDirectory, input);
+                ConsoleWriter.Write("  Removing all previous package files");
+                system.CleanDirectory(settings.BottlesDirectory);
+            }
+
+            ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 2,"Looking for package manifest files starting at:");
+            ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 2,input.DirectoryFlag);
+            PackageManifest.FindManifestFilesInDirectory(input.DirectoryFlag).Each(file =>
+            {
+                var folder = Path.GetDirectoryName(file);
+                createPackage(folder, settings.BottlesDirectory, input);
             });
-            
+
             return true;
         }
 

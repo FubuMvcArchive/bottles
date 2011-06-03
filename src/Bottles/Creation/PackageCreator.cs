@@ -4,6 +4,7 @@ using System.IO;
 using Bottles.Assemblies;
 using Bottles.Zipping;
 using FubuCore;
+using FubuCore.CommandLine;
 
 namespace Bottles.Creation
 {
@@ -39,7 +40,14 @@ namespace Bottles.Creation
 
         private void writeZipFile(CreatePackageInput input, PackageManifest manifest, AssemblyFiles assemblies)
         {
-            _zipFileService.CreateZipFile(input.GetZipFileName(manifest), zipFile =>
+            var zipFileName = input.GetZipFileName(manifest);
+            if (_fileSystem.FileExists(zipFileName))
+            {
+                ConsoleWriter.WriteWithIndent(ConsoleColor.Cyan, 4, "Deleting existing file at " + zipFileName);
+                _fileSystem.DeleteFile(zipFileName);
+            }
+
+            _zipFileService.CreateZipFile(zipFileName, zipFile =>
             {
                 assemblies.Files.Each(file =>
                 {
