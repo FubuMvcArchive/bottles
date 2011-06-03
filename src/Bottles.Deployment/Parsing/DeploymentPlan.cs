@@ -5,6 +5,7 @@ using Bottles.Deployment.Configuration;
 using Bottles.Deployment.Runtime;
 using FubuCore;
 using FubuCore.Binding;
+using FubuCore.CommandLine;
 using FubuCore.Configuration;
 
 namespace Bottles.Deployment.Parsing
@@ -37,6 +38,36 @@ namespace Bottles.Deployment.Parsing
             {
                 _graph.Profile.Data[key] = value;
             });
+        }
+
+        public void WriteToConsole()
+        {
+            ConsoleWriter.Line();
+            ConsoleWriter.PrintHorizontalLine();
+            ConsoleWriter.Write("Deploying profile {0}".ToFormat(Options.ProfileName));
+            ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 2, "from deployment directory " + Settings.DeploymentDirectory);
+            ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 2, "to target directory " + Settings.TargetDirectory);
+            ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 2, "Applying recipe(s):  " + Recipes.Select(x => x.Name).Join(", "));
+            ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 2, "Deploying host(s):  " + Hosts.Select(x => x.Name).Join(", "));
+            ConsoleWriter.PrintHorizontalLine(); 
+        }
+
+        public string ProfileName
+        {
+            get
+            {
+                return _options.ProfileName;
+            }
+        }
+
+        // TESTING CTOR ONLY!!!!!!!!
+        public DeploymentPlan(DeploymentSettings settings, DeploymentOptions options, IEnumerable<Recipe> recipes, IEnumerable<HostManifest> hosts)
+        {
+            _recipes = recipes;
+            settings.Plan = this;
+            _hosts = hosts;
+            _options = options;
+            _rootData = new SettingsData();
         }
 
         public IEnumerable<SettingDataSource> GetSubstitutionDiagnosticReport()
@@ -160,6 +191,11 @@ namespace Bottles.Deployment.Parsing
         public HostManifest GetHost(string hostName)
         {
             return Hosts.FirstOrDefault(x => x.Name == hostName);
+        }
+
+        public static DeploymentPlan Blank()
+        {
+            return new DeploymentPlan(new DeploymentSettings(), new DeploymentOptions(), new Recipe[0], new HostManifest[0]);
         }
     }
 

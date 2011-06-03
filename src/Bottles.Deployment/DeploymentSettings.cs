@@ -36,12 +36,12 @@ namespace Bottles.Deployment
         private readonly IList<string> _allFolders = new List<string>();
         public void AddImportedFolders(IEnumerable<string> folders)
         {
-            _allFolders.AddRange(folders);
+            _allFolders.Fill(folders);
         }
 
         public void AddImportedFolder(string folder)
         {
-            _allFolders.Add(folder);
+            _allFolders.Fill(folder);
         }
 
         public IEnumerable<string> Directories

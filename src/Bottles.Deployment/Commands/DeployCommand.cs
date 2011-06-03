@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Bottles.Deployment.Commands
 {
-    public class DeployInput
+    public class DeployInput : PlanInput
     {
         public DeployInput()
         {
@@ -17,28 +17,11 @@ namespace Bottles.Deployment.Commands
             ReportFlag = "installation_report.htm";
         }
 
-        [Description("The profile to execute.  'default' is the default.")]
-        public string ProfileFlag { get; set; }
-
-        [Description("Path to where the deployment folder is ~/deployment")]
-        public string DeploymentFlag { get; set; }
-
-        [Description("File where the installation report should be written.  Default is installation_report.htm")]
-        public string ReportFlag { get; set; }
-
         [Description("Override any profile settings in form arg1:value1;arg2:value2;arg3:value3")]
         public string OverrideFlag { get; set; }
 
-        [Description("Import any other ~/deployment folders for this deployment")]
-        [RequiredUsage("imports")]
-        public string[] ImportedFolders { get; set; }
-
-        public DeploymentOptions CreateDeploymentOptions()
+        protected override void enhanceDeploymentOptions(DeploymentOptions options)
         {
-            var options = new DeploymentOptions(ProfileFlag){
-                ReportName = ReportFlag
-            };
-
             if (OverrideFlag.IsNotEmpty())
             {
                 OverrideFlag.Split(';').Select(x => x.Split(':')).Each(parts =>
@@ -46,13 +29,6 @@ namespace Bottles.Deployment.Commands
                     options.Overrides[parts[0]] = parts[1];
                 });
             }
-
-            if (ImportedFolders != null)
-            {
-                options.ImportedFolders.AddRange(ImportedFolders);
-            }
-
-            return options;
         }
     }
 

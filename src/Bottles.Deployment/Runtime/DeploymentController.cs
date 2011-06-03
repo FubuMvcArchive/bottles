@@ -28,11 +28,7 @@ namespace Bottles.Deployment.Runtime
         public void Deploy(DeploymentOptions options)
         {
             // need to log inside of reader
-            var plan = _reader.Read(options);
-
-            writeOptionsToConsole(plan);
-
-            _bottles.AssertAllBottlesExist(plan.BottleNames());
+            var plan = BuildPlan(options);
 
             var runners = _factory.BuildRunners(plan);
 
@@ -43,16 +39,15 @@ namespace Bottles.Deployment.Runtime
            _reporter.WriteReport(options, plan);
         }
 
-        private static void writeOptionsToConsole(DeploymentPlan plan)
+        public DeploymentPlan BuildPlan(DeploymentOptions options)
         {
-            ConsoleWriter.Line();
-            ConsoleWriter.PrintHorizontalLine();
-            ConsoleWriter.Write("Deploying profile {0}".ToFormat(plan.Options.ProfileName));
-            ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 2, "from deployment directory " + plan.Settings.DeploymentDirectory);
-            ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 2, "to target directory " + plan.Settings.TargetDirectory);
-            ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 2, "Applying recipe(s):  " + plan.Recipes.Select(x => x.Name).Join(", "));
-            ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 2, "Deploying host(s):  " + plan.Hosts.Select(x => x.Name).Join(", "));
-            ConsoleWriter.PrintHorizontalLine();
+            var plan = _reader.Read(options);
+
+            plan.WriteToConsole();
+
+            _bottles.AssertAllBottlesExist(plan.BottleNames());
+            return plan;
         }
+
     }
 }

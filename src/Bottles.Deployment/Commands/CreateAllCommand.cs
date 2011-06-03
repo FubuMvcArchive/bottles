@@ -51,7 +51,7 @@ namespace Bottles.Deployment.Commands
         {
             var settings = DeploymentSettings.ForDirectory(input.DeploymentFlag);
 
-            ConsoleWriter.Write("Creating all packages");
+            ConsoleWriter.Write("Creating all packages from directory " + input.DirectoryFlag);
 
             if (input.CleanFlag)
             {

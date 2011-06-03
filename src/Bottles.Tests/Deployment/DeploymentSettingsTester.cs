@@ -62,6 +62,14 @@ namespace Bottles.Tests.Deployment
         }
 
         [Test]
+        public void find_the_environment_file_defaults_to_the_main_directory_if_it_cannot_be_found()
+        {
+            var settings = new DeploymentSettings("firefly");
+            var defaultEnvironmentFile = "firefly".AppendPath(EnvironmentSettings.EnvironmentSettingsFileName);
+            settings.EnvironmentFile().ShouldEqual(defaultEnvironmentFile);
+        }
+
+        [Test]
         public void find_the_environment_file_with_no_included_folders()
         {
             var settings = new DeploymentSettings("firefly");

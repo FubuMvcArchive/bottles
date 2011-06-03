@@ -59,6 +59,7 @@
     <Compile Include="Commands\AddDirectiveCommand.cs" />
     <Compile Include="Commands\AddProfileCommand.cs" />
     <Compile Include="Commands\AddRecipeCommand.cs" />
+    <Compile Include="Commands\BundleCommand.cs" />
     <Compile Include="Commands\IInstallationLogger.cs" />
     <Compile Include="Commands\InitializeCommand.cs" />
     <Compile Include="Commands\InstallationLogger.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Commands\InstallInput.cs" />
     <Compile Include="Commands\InstallMode.cs" />
     <Compile Include="Commands\ListCommand.cs" />
+    <Compile Include="Commands\PlanInput.cs" />
     <Compile Include="Commands\ReferenceBottleCommand.cs" />
     <Compile Include="Commands\PreviewCommand.cs" />
     <Compile Include="Commands\ReferenceRecipeCommand.cs" />
@@ -103,6 +105,7 @@
     <Compile Include="EntryLogWriter.cs" />
     <Compile Include="Diagnostics\IDeploymentDiagnostics.cs" />
     <Compile Include="Parsing\DeploymentGraphReader.cs" />
+    <Compile Include="Runtime\Bundler.cs" />
     <Compile Include="Runtime\Content\IBottleMover.cs" />
     <Compile Include="Parsing\DeploymentPlan.cs" />
     <Compile Include="Parsing\HostReader.cs" />

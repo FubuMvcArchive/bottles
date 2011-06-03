@@ -93,6 +93,7 @@
     <Compile Include="Deployment\Commands\DeployInputTester.cs" />
     <Compile Include="Deployment\Deployers\Configuration\ConfigInitializerTester.cs" />
     <Compile Include="Deployment\Parsing\DeploymentPlanTester.cs" />
+    <Compile Include="Deployment\Runtime\BundlerTester.cs" />
     <Compile Include="Deployment\Runtime\Content\BottleMoverTester.cs" />
     <Compile Include="Deployment\Runtime\Content\BottleRepositoryTester.cs" />
     <Compile Include="Deployment\Commands\InitializeCommandTester.cs" />
