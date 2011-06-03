@@ -74,7 +74,6 @@
     <Compile Include="Commands\LinkCommandTester.cs" />
     <Compile Include="Configuration\ConnectionStringResolverTester.cs" />
     <Compile Include="Configuration\ResolveDbConnectionDeployerTester.cs" />
-    <Compile Include="DeploymentFolderFinderTester.cs" />
     <Compile Include="Commands\AliasLibraryTester.cs" />
     <Compile Include="Commands\AssembliesInputTester.cs" />
     <Compile Include="Commands\CreatePackageCommandTester.cs" />

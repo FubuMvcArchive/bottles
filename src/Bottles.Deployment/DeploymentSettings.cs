@@ -18,7 +18,6 @@ namespace Bottles.Deployment
             BottlesDirectory = FileSystem.Combine(path, ProfileFiles.BottlesDirectory);
             RecipesDirectory = FileSystem.Combine(path, ProfileFiles.RecipesDirectory);
             TargetDirectory = FileSystem.Combine(path, ProfileFiles.TargetDirectory);
-            BottleManifestFile = FileSystem.Combine(path, ProfileFiles.BottlesManifestFile);
             ProfilesDirectory = FileSystem.Combine(path, ProfileFiles.ProfilesDirectory);
             DeployersDirectory = FileSystem.Combine(path, ProfileFiles.DeployersDirectory);
         }
@@ -57,7 +56,6 @@ namespace Bottles.Deployment
                    ?? DeploymentDirectory.AppendPath(EnvironmentSettings.EnvironmentSettingsFileName);
         }
 
-        public string BottleManifestFile { get; set; }
         public string ProfilesDirectory { get; set; }
 
         public EnvironmentSettings Environment { get; set; }

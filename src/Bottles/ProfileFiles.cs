@@ -11,8 +11,6 @@
         public static readonly string DeployersDirectory = "deployers";
         public static readonly string ProfilesDirectory = "profiles";
 
-        public static readonly string BottlesManifestFile = "bottles.manifest";
-
         public static readonly string TargetDirectory = "target";
 
         public static readonly string ConfigDirectory = "config";

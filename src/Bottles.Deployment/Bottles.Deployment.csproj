@@ -56,7 +56,6 @@
     <Compile Include="Bootstrapping\DeploymentBootstrapper.cs" />
     <Compile Include="Bootstrapping\DeploymentRegistry.cs" />
     <Compile Include="BottleReference.cs" />
-    <Compile Include="Commands\AddPakInput.cs" />
     <Compile Include="Commands\AddDirectiveCommand.cs" />
     <Compile Include="Commands\AddProfileCommand.cs" />
     <Compile Include="Commands\AddRecipeCommand.cs" />
@@ -69,7 +68,6 @@
     <Compile Include="Commands\InstallMode.cs" />
     <Compile Include="Commands\ListCommand.cs" />
     <Compile Include="Commands\ReferenceBottleCommand.cs" />
-    <Compile Include="Commands\OpenBottleManifestCommand.cs" />
     <Compile Include="Commands\PreviewCommand.cs" />
     <Compile Include="Commands\ReferenceRecipeCommand.cs" />
     <Compile Include="Commands\SetPropCommand.cs" />

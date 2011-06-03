@@ -71,9 +71,6 @@ namespace Bottles.Deployment.Commands
 
             createDirectory(fileSystem, logger, deploymentDirectory);
 
-            Console.WriteLine("Writing blank file to " + input.Settings.BottleManifestFile);
-            fileSystem.WriteStringToFile(input.Settings.BottleManifestFile, "");
-
             createDirectory(fileSystem, logger, input.Settings.BottlesDirectory);
             createDirectory(fileSystem, logger, input.Settings.RecipesDirectory);
             createDirectory(fileSystem, logger, input.Settings.ProfilesDirectory);

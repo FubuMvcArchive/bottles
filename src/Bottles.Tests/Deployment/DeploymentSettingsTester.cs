@@ -33,7 +33,6 @@ namespace Bottles.Tests.Deployment
             settings.EnvironmentFile().ShouldEqual("dir\\environment.settings");
             settings.TargetDirectory.ShouldEqual("dir\\target");
             settings.DeploymentDirectory.ShouldEqual("dir");
-            settings.BottleManifestFile.ShouldEqual("dir\\bottles.manifest");
 
             settings.DeployersDirectory.ShouldEqual(FileSystem.Combine("dir", "deployers"));
 
