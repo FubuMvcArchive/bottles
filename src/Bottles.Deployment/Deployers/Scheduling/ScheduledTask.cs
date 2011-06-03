@@ -14,5 +14,7 @@ namespace Bottles.Deployment.Deployers.Scheduling
         public string Modifier { get; set; } //could be int?
         public string UserAccount { get; set; } //username/password/domain account???
         public string TaskToRun { get; set; }
+
+        public string InstallLocation { get; set; } //where we should install the bits
     }
 }
