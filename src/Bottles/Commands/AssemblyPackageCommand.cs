@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Xml;
 using Bottles.Zipping;
 using FubuCore;
@@ -57,6 +58,7 @@ namespace Bottles.Commands
 
                 file.AddFiles(new ZipFolderRequest()
                               {
+                                  FileSet = new FileSet(){DeepSearch = true, Include="*.*"}, 
                                   RootDirectory = contentDirectory,
                                   ZipDirectory = string.Empty
                               });
