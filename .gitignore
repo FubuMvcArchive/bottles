@@ -51,3 +51,4 @@ Core
 External
 
 lib/**/*.nupkg
+packaging/release
