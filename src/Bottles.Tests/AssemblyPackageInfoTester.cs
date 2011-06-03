@@ -46,6 +46,7 @@ namespace Bottles.Tests
         [SetUp]
         public void SetUp()
         {
+            new FileSystem().DeleteDirectory("content");
             thePackage = AssemblyPackageInfo.CreateFor(typeof (AssemblyPackageMarker).Assembly);
         }
 
