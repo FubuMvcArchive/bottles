@@ -13,6 +13,15 @@ namespace Bottles.Tests
     public class PackageManifestTester
     {
         [Test]
+        public void fileset_for_searching()
+        {
+            var fileSet = PackageManifest.FileSetForSearching();
+            fileSet.DeepSearch.ShouldBeTrue();
+            fileSet.Include.ShouldEqual(PackageManifest.FILE);
+            fileSet.Exclude.ShouldBeNull();
+        }
+
+        [Test]
         public void set_role_to_module()
         {
             var manifest = new PackageManifest();

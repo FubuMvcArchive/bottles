@@ -18,14 +18,12 @@ namespace Bottles
 
         public IEnumerable<IPackageInfo> Load(IPackageLog log)
         {
-            var fileSystem = new FileSystem();
-            var manifestFileSpec = new FileSet { Include = PackageManifest.FILE, DeepSearch = true };
-            var manifestReader = new PackageManifestReader(fileSystem, folder => folder);
+            var manifestReader = new PackageManifestReader(new FileSystem(), folder => folder);
             
             //how can i 'where' the manifests
                
 
-            var pis = fileSystem.FileNamesFor(manifestFileSpec, _sourceRoot)
+            var pis = PackageManifest.FindManifestFilesInDirectory(_sourceRoot)
                 .Select(Path.GetDirectoryName)
                 .Select(manifestReader.LoadFromFolder);
 

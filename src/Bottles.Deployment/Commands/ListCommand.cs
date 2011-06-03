@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -6,7 +7,6 @@ using Bottles.Deployment.Bootstrapping;
 using Bottles.Deployment.Runtime;
 using FubuCore;
 using FubuCore.CommandLine;
-using System.Collections.Generic;
 
 namespace Bottles.Deployment.Commands
 {
@@ -31,15 +31,15 @@ namespace Bottles.Deployment.Commands
         [Description("What to list")]
         [RequiredUsage("mode")]
         public ListMode Mode { get; set; }
-        
-        
+
+
         [Description("Where to scan")]
         public string PointFlag { get; set; }
 
         [Description("The directory where the deployment settings are stored")]
         public string DeploymentFlag { get; set; }
 
-        
+
         public string PointToScan()
         {
             var x = PointFlag ?? ".";
@@ -47,7 +47,7 @@ namespace Bottles.Deployment.Commands
         }
     }
 
-    [CommandDescription("Lists all discovered manifests", Name="list")]
+    [CommandDescription("Lists all discovered manifests", Name = "list")]
     [Usage("default", "List manifests")]
     [Usage("mode", "list something specific")]
     public class ListCommand : FubuCommand<ListInput>
@@ -55,17 +55,14 @@ namespace Bottles.Deployment.Commands
         public override bool Execute(ListInput input)
         {
             var point = input.PointToScan();
-            
-            
 
 
             var system = new FileSystem();
 
             switch (input.Mode)
             {
-
                 case ListMode.directives:
-                    writeDirectives(input, system);
+                    writeDirectives(input);
                     break;
 
                 case ListMode.bottles:
@@ -73,7 +70,7 @@ namespace Bottles.Deployment.Commands
                     break;
 
                 case ListMode.manifests:
-                    writePackages(input, point, system);
+                    writePackages(point, system);
                     break;
 
                 case ListMode.recipes:
@@ -90,28 +87,26 @@ namespace Bottles.Deployment.Commands
 
                 case ListMode.all:
                     write("Bottles", () => writeBottles(input, system));
-                    write("Package Manifests", () => writePackages(input, point, system));
+                    write("Package Manifests", () => writePackages(point, system));
                     write("Recipes", () => writeRecipes(input, system));
                     write("Hosts", () => writeHosts(input, system));
                     write("Profiles", () => writeProfiles(input, system));
-                    write("Directive Types", () => writeDirectives(input, system));
+                    write("Directive Types", () => writeDirectives(input));
 
                     break;
             }
-
-            
 
 
             return true;
         }
 
-        private void writeHosts(ListInput input, FileSystem system)
+        private static void writeHosts(ListInput input, FileSystem system)
         {
             var settings = DeploymentSettings.ForDirectory(input.DeploymentFlag);
             system.ChildDirectoriesFor(settings.RecipesDirectory).Each(x =>
             {
                 var recipeName = Path.GetFileNameWithoutExtension(x);
-                system.FindFiles(x, new FileSet(){
+                system.FindFiles(x, new FileSet{
                     Include = "*.host"
                 }).Each(file =>
                 {
@@ -121,36 +116,33 @@ namespace Bottles.Deployment.Commands
             });
         }
 
-        private void writeDirectives(ListInput input, FileSystem system)
+        private static void writeDirectives(ListInput input)
         {
             var settings = DeploymentSettings.ForDirectory(input.DeploymentFlag);
             var container = DeploymentBootstrapper.Bootstrap(settings);
-            container.GetInstance<IDirectiveTypeRegistry>().DirectiveTypes().Each(type =>
-            {
-                ConsoleWriter.Write(type.Name);
-            });
+            container.GetInstance<IDirectiveTypeRegistry>()
+                .DirectiveTypes()
+                .Each(type => ConsoleWriter.Write(type.Name));
         }
 
-        private void writeProfiles(ListInput input, FileSystem system)
+        private static void writeProfiles(ListInput input, FileSystem system)
         {
             var settings = DeploymentSettings.ForDirectory(input.DeploymentFlag);
-            system.FindFiles(settings.ProfilesDirectory, new FileSet(){
+            system.FindFiles(settings.ProfilesDirectory, new FileSet{
                 Include = "*.*"
             })
                 .Select(Path.GetFileNameWithoutExtension)
                 .Each(ConsoleWriter.Write);
         }
 
-        private void writeRecipes(ListInput input, FileSystem system)
+        private static void writeRecipes(ListInput input, FileSystem system)
         {
             var settings = DeploymentSettings.ForDirectory(input.DeploymentFlag);
-            system.ChildDirectoriesFor(settings.RecipesDirectory).Each(x =>
-            {
-                ConsoleWriter.Write(Path.GetFileNameWithoutExtension(x));
-            });
+            system.ChildDirectoriesFor(settings.RecipesDirectory)
+                .Each(x => ConsoleWriter.Write(Path.GetFileNameWithoutExtension(x)));
         }
 
-        private void write(string title, Action action)
+        private static void write(string title, Action action)
         {
             ConsoleWriter.Write(ConsoleColor.Cyan, title);
             action();
@@ -158,34 +150,29 @@ namespace Bottles.Deployment.Commands
             ConsoleWriter.Line();
         }
 
-        private void writeBottles(ListInput input, IFileSystem fileSystem)
+        private static void writeBottles(ListInput input, IFileSystem fileSystem)
         {
             var settings = DeploymentSettings.ForDirectory(input.DeploymentFlag);
             var bottlesDir = settings.BottlesDirectory;
 
             ConsoleWriter.Line();
             ConsoleWriter.Write(ConsoleColor.White, "Bottles at " + bottlesDir);
-            fileSystem.FindFiles(bottlesDir, new FileSet(){
+            fileSystem.FindFiles(bottlesDir, new FileSet{
                 Include = "*.*"
             }).OrderBy(x => x).Each(x => ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 2, x));
         }
 
 
-
-        private void writePackages(ListInput input, string point, FileSystem system)
+        private static void writePackages(string point, FileSystem system)
         {
             ConsoleWriter.Write("Looking for manifests starting from: {0}", point);
 
-            var fileSet = new FileSet()
-                          {
-                              DeepSearch = true,
-                              Include = PackageManifest.FILE
-                          };
-            var manifests = system.FileNamesFor(fileSet, input.PointToScan())
-                .Select(filename => Path.GetDirectoryName(filename));
+            var manifests = PackageManifest.FindManifestFilesInDirectory(point);
 
-            foreach (var manifestDir in manifests)
+            foreach (var manifest in manifests)
             {
+                var manifestDir = Path.GetDirectoryName(manifest);
+
                 ConsoleWriter.PrintHorizontalLine();
                 var shorty = manifestDir.Remove(0, point.Length);
                 ConsoleWriter.Write("Found manifest at: {0}", shorty);

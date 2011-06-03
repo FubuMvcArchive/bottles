@@ -12,6 +12,19 @@ namespace Bottles
     {
         public static readonly string FILE = ".package-manifest";
 
+        public static FileSet FileSetForSearching()
+        {
+            return new FileSet(){
+                DeepSearch = true,
+                Include = FILE
+            };
+        }
+
+        public static IEnumerable<string> FindManifestFilesInDirectory(string directory)
+        {
+            return new FileSystem().FindFiles(directory, FileSetForSearching());
+        }
+
         public PackageManifest()
         {
             Role = BottleRoles.Module;

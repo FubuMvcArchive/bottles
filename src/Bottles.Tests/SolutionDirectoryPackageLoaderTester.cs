@@ -21,8 +21,9 @@ namespace Bottles.Tests
             fs.CreateDirectory(thePathToScan, "bin");
 
             theLoader = new SolutionDirectoryPackageLoader(thePathToScan.ToFullPath());
-            var manifest = new PackageManifest();
-            manifest.Name = "test-mani";
+            var manifest = new PackageManifest{
+                Name = "test-mani"
+            };
 
             fs.PersistToFile(manifest, thePathToScan, PackageManifest.FILE);
         }

@@ -47,7 +47,10 @@ namespace Bottles.Deployment.Commands
 
             ConsoleWriter.Write("  Reading bottle manifest file at " + settings.BottleManifestFile);
             var bottleManifestFile = settings.BottleManifestFile;
-            system.ReadTextFile(bottleManifestFile, dir => createPackage(dir, settings.BottlesDirectory, input));
+            system.ReadTextFile(bottleManifestFile, dir =>
+            {
+                createPackage(dir, settings.BottlesDirectory, input);
+            });
             
             return true;
         }
