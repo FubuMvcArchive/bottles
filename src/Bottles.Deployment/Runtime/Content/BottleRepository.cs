@@ -1,7 +1,10 @@
+using System;
+using System.IO;
 using Bottles.Exploding;
 using Bottles.Zipping;
 using FubuCore;
 using System.Collections.Generic;
+using FubuCore.CommandLine;
 
 namespace Bottles.Deployment.Runtime.Content
 {
@@ -71,6 +74,25 @@ namespace Bottles.Deployment.Runtime.Content
         {
             var fileName = _settings.BottleFileFor(bottleName);
             return _zipService.GetPackageManifest(fileName);
+        }
+
+        public void AssertAllBottlesExist(IEnumerable<string> names)
+        {
+            var writer = new StringWriter();
+            names.Each(name =>
+            {
+                var file = _settings.BottleFileFor(name);
+                if (!_fileSystem.FileExists(file))
+                {
+                    writer.WriteLine("Cannot find a bottle for for " + name);
+                }
+            });
+
+            if (writer.ToString().IsNotEmpty())
+            {
+                
+                throw new ApplicationException(writer.ToString());
+            }
         }
 
         private readonly IList<string> _bottlesExplodedToStaging = new List<string>();

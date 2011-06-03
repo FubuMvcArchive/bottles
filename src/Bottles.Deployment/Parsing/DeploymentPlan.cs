@@ -109,6 +109,11 @@ namespace Bottles.Deployment.Parsing
             get { return _hosts; }
         }
 
+        public IEnumerable<string> BottleNames()
+        {
+            return _hosts.SelectMany(x => x.BottleReferences).Select(x => x.Name).Distinct();
+        }
+
         private static IEnumerable<HostManifest> collateHosts(IEnumerable<Recipe> recipes)
         {
             if (recipes == null)

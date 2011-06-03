@@ -1,4 +1,6 @@
-﻿namespace Bottles.Deployment.Runtime.Content
+﻿using System.Collections.Generic;
+
+namespace Bottles.Deployment.Runtime.Content
 {
     public interface IBottleRepository
     {
@@ -8,5 +10,7 @@
         void ExplodeFiles(BottleExplosionRequest request);
 
         PackageManifest ReadManifest(string bottleName);
+
+        void AssertAllBottlesExist(IEnumerable<string> names);
     }
 }

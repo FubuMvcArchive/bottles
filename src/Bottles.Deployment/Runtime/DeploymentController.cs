@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Bottles.Deployment.Diagnostics;
 using Bottles.Deployment.Parsing;
+using Bottles.Deployment.Runtime.Content;
 using FubuCore.CommandLine;
 using FubuCore;
 using System.Linq;
@@ -14,12 +15,14 @@ namespace Bottles.Deployment.Runtime
         private readonly IProfileReader _reader;
         private readonly IDiagnosticsReporter _reporter;
         private readonly IDirectiveRunnerFactory _factory;
+        private readonly IBottleRepository _bottles;
 
-        public DeploymentController(IProfileReader reader, IDiagnosticsReporter reporter, IDirectiveRunnerFactory factory)
+        public DeploymentController(IProfileReader reader, IDiagnosticsReporter reporter, IDirectiveRunnerFactory factory, IBottleRepository bottles)
         {
             _reader = reader;
             _reporter = reporter;
             _factory = factory;
+            _bottles = bottles;
         }
 
         public void Deploy(DeploymentOptions options)
@@ -29,6 +32,7 @@ namespace Bottles.Deployment.Runtime
 
             writeOptionsToConsole(plan);
 
+            _bottles.AssertAllBottlesExist(plan.BottleNames());
 
             var runners = _factory.BuildRunners(plan);
 
