@@ -89,7 +89,6 @@
     <Compile Include="Deployers\Configuration\ConfigInitializer.cs" />
     <Compile Include="Deployers\Configuration\ConnectionStringResolver.cs" />
     <Compile Include="Deployers\Configuration\IConfigurationWriter.cs" />
-    <Compile Include="Deployers\CommandLine\ExecuteCommandLine.cs" />
     <Compile Include="Deployers\Configuration\IConnectionStringResolver.cs" />
     <Compile Include="Deployers\Configuration\ResolveDbConnection.cs" />
     <Compile Include="Deployers\Configuration\ResolveDbConnectionDeployer.cs" />
