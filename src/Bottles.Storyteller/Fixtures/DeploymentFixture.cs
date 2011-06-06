@@ -34,6 +34,7 @@ namespace Bottles.Storyteller.Fixtures
         public override void SetUp(ITestContext context)
         {
             _options = new DeploymentOptions();
+
             context.Store(_options);
         }
 
@@ -101,7 +102,7 @@ namespace Bottles.Storyteller.Fixtures
             HostNames.Each(hn => _writer.RecipeFor(RecipeName).HostFor(hn));
         }
 
-        [FormatAs("A recipie {recipe} that is standalone")]
+        [FormatAs("A recipe {recipe} that is standalone")]
         public void RecipeStandalone(string recipe)
         {
             _writer.RecipeFor(recipe);
@@ -166,7 +167,7 @@ namespace Bottles.Storyteller.Fixtures
         public IGrammar CheckRecipes()
         {
             return VerifyStringList(findRecipies)
-                .Titled("The recipies in order are")
+                .Titled("The recipes in order are")
                 .Ordered()
                 .Grammar();
         }
