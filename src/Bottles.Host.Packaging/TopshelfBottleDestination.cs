@@ -20,9 +20,9 @@ namespace Bottles.Host.Packaging
                 case BottleRoles.Module:
                     yield return new BottleExplosionRequest
                                  {
-                                     BottleDirectory = TopshelfPackageFacility.TopshelfPackagesFolder,
+                                     BottleDirectory = BottleFiles.BinaryFolder,
                                      BottleName = manifest.Name,
-                                     DestinationDirectory = _physicalPath.AppendPath(BottleFiles.PackagesFolder) //is this correct
+                                     DestinationDirectory = _physicalPath.AppendPath(TopshelfPackageFacility.TopshelfPackagesFolder) //is this correct
                                  };
                     break;
                 case BottleRoles.Config:
