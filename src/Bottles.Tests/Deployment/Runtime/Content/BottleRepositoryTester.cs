@@ -128,5 +128,25 @@ namespace Bottles.Tests.Deployment.Runtime.Content
             }).Select(x => Path.GetFileName(x)).ShouldHaveTheSameElementsAs("1.config", "2.config", "3.config",
                                                                             "1.config", "2.config");
         }
+
+        [Test]
+        public void explode_files_preserve()
+        {
+            new FileSystem().DeleteDirectory("exploded");
+
+            var packageLog = new PackageLog();
+            
+            new FileSystem().WriteStringToFile("exploded".AppendPath("1.config"), "original");
+            
+            theRepository.ExplodeFiles(new BottleExplosionRequest(packageLog)
+            {
+                BottleDirectory = "Config",
+                BottleName = "Fake",
+                DestinationDirectory = FileSystem.Combine("exploded", "config"),
+                CopyBehavior = CopyBehavior.preserve
+            });
+
+            new FileSystem().ReadStringFromFile("exploded", "1.config").ShouldEqual("original");
+        }
     }
 }

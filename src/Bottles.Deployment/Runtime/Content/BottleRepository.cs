@@ -66,7 +66,7 @@ namespace Bottles.Deployment.Runtime.Content
                 var destinationFile = FileSystem.Combine(request.DestinationDirectory, file.PathRelativeTo(sourceDirectory));
                 request.Log.Trace("Copying {0} to {1}", file, destinationFile);
                 
-                _fileSystem.Copy(file, destinationFile);
+                _fileSystem.Copy(file, destinationFile, request.CopyBehavior);
             });
         }
 

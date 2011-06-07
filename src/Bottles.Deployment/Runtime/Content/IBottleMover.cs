@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Bottles.Diagnostics;
 using System.Linq;
+using FubuCore;
 
 namespace Bottles.Deployment.Runtime.Content
 {
@@ -51,15 +52,19 @@ namespace Bottles.Deployment.Runtime.Content
     {
         public BottleExplosionRequest(IPackageLog log)
         {
-            Log = log;
+            Log = log; 
+            CopyBehavior = CopyBehavior.overwrite;
         }
 
         public BottleExplosionRequest()
         {
             Log = new PackageLog();
+            CopyBehavior = CopyBehavior.overwrite;
         }
 
         public string BottleName { get; set; }
+
+        public CopyBehavior CopyBehavior { get; set; }
 
         /// <summary>
         /// This is the directory within the bottle
