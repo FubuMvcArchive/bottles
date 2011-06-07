@@ -21,7 +21,9 @@ namespace Bottles.Tests.Deployment.Deployers.Configuration
         protected override void beforeEach()
         {
             theCentralConfig = new CentralConfig(){
-                Directory = "config"
+                Directory = "config",
+                ProfileFile = "config".AppendPath("Profile.config"),
+                EnvironmentFile = "config".AppendPath("EnvironmentSettings.config")
             };
 
             theHost = new HostManifest("host");
@@ -49,9 +51,27 @@ namespace Bottles.Tests.Deployment.Deployers.Configuration
         public void should_explode_all_the_bottles()
         {
             var theBottleRepository = MockFor<IBottleRepository>();
-            theBottleRepository.AssertWasCalled(x => x.ExplodeTo("A", theCentralConfig.Directory));
-            theBottleRepository.AssertWasCalled(x => x.ExplodeTo("B", theCentralConfig.Directory));
-            theBottleRepository.AssertWasCalled(x => x.ExplodeTo("C", theCentralConfig.Directory));
+            theBottleRepository.AssertWasCalled(x => x.ExplodeFiles(new BottleExplosionRequest(){
+                BottleDirectory = BottleFiles.ConfigFolder,
+                BottleName = "A",
+                DestinationDirectory = theCentralConfig.Directory
+            }));
+
+            theBottleRepository.AssertWasCalled(x => x.ExplodeFiles(new BottleExplosionRequest()
+            {
+                BottleDirectory = BottleFiles.ConfigFolder,
+                BottleName = "B",
+                DestinationDirectory = theCentralConfig.Directory
+            }));
+
+            theBottleRepository.AssertWasCalled(x => x.ExplodeFiles(new BottleExplosionRequest()
+            {
+                BottleDirectory = BottleFiles.ConfigFolder,
+                BottleName = "C",
+                DestinationDirectory = theCentralConfig.Directory
+            }));
+
+
         }
 
         [Test]

@@ -30,19 +30,23 @@ namespace Bottles.Deployment.Deployers.Configuration
             host.BottleReferences.Each(r =>
             {
                 log.Trace("Exploding bottle {0} to {1}", r.Name, directive.Directory);
-                _repository.ExplodeTo(r.Name, directive.Directory);
+                _repository.ExplodeFiles(new BottleExplosionRequest(log){
+                    BottleDirectory = BottleFiles.ConfigFolder,
+                    CopyBehavior = directive.CopyBehavior,
+                    BottleName = r.Name,
+                    DestinationDirectory = directive.Directory
+                });
             });
 
-            if (_settings.Environment != null)
+            if (_settings.Environment != null && directive.EnvironmentFile.IsNotEmpty())
             {
-                var filename = directive.Directory.AppendPath("EnvironmentSettings.config");
-                _writer.Write(filename, _settings.Environment);
+                log.Trace("Writing environment settings to " + _settings.EnvironmentFile());
+                _writer.Write(directive.EnvironmentFile, _settings.Environment);
             }
 
-            if (_settings.Profile != null)
+            if (_settings.Profile != null && directive.ProfileFile.IsNotEmpty())
             {
-                var filename = directive.Directory.AppendPath("Profile.config");
-                _writer.Write(filename, _settings.Profile);
+                _writer.Write(directive.ProfileFile, _settings.Profile);
             }
         }
     }
