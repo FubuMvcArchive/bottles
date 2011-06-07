@@ -19,12 +19,12 @@ namespace Bottles.Deployment.Commands
 
         public void Execute(InstallInput input, IFileSystem fileSystem)
         {
-            InstallManifest(input, fileSystem);
+            installManifest(input);
         }
 
-        public virtual void InstallManifest(InstallInput input, IFileSystem fileSystem)
+        private void installManifest(InstallInput input)
         {
-            Console.WriteLine("Executing the installers for the FubuMVC application at {0}", input.AppFolder);
+            Console.WriteLine("Executing the installers for the FubuMVC application at '{0}'", input.AppFolder);
 
             var run = CreateEnvironmentRun(input);
 
@@ -34,17 +34,17 @@ namespace Bottles.Deployment.Commands
             }
             catch (EnvironmentRunnerException e)
             {
-                Console.WriteLine("The supplied directives to the installers command are either incomplete or invalid");
+                Console.WriteLine("The supplied directives to the installer commands are either incomplete or invalid");
                 Console.WriteLine(e.Message);
 
                 throw;
             }
 
-            RunTheEnvironment(input, new EnvironmentGateway(run));
+            runTheEnvironment(input, new EnvironmentGateway(run));
         }
 
 
-        public virtual void RunTheEnvironment(InstallInput input, IEnvironmentGateway gateway)
+        private void runTheEnvironment(InstallInput input, IEnvironmentGateway gateway)
         {
             var runner = new InstallationRunner(gateway, new InstallationLogger());
             runner.RunTheInstallation(input);

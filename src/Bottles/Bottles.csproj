@@ -61,6 +61,7 @@
     <Compile Include="Commands\CreatePackageCommand.cs" />
     <Compile Include="Commands\InitPakCommand.cs" />
     <Compile Include="Commands\LinkCommand.cs" />
+    <Compile Include="Diagnostics\LogEntry.cs" />
     <Compile Include="Diagnostics\LoggingSession.cs" />
     <Compile Include="Diagnostics\LoggingSessionWriter.cs" />
     <Compile Include="ISimpleLogger.cs" />
@@ -77,7 +78,6 @@
     <Compile Include="Environment\IEnvironment.cs" />
     <Compile Include="Environment\IEnvironmentGateway.cs" />
     <Compile Include="Environment\IInstaller.cs" />
-    <Compile Include="Environment\LogEntry.cs" />
     <Compile Include="BottleFiles.cs" />
     <Compile Include="FileSystemExtensions.cs" />
     <Compile Include="IActivator.cs" />

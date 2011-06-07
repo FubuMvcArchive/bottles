@@ -1,7 +1,6 @@
-using System;
-using Bottles.Diagnostics;
+﻿using System;
 
-namespace Bottles.Environment
+namespace Bottles.Diagnostics
 {
     [Serializable]
     public class LogEntry
@@ -11,7 +10,7 @@ namespace Bottles.Environment
         public string Description { get; set; }
         public long TimeInMilliseconds { get; set; }
 
-        public static LogEntry FromPackageLog(object target, PackageLog log)
+        public static LogEntry FromPackageLog(object target, IPackageLog log)
         {
             return new LogEntry(){
                 Description = target.ToString(),

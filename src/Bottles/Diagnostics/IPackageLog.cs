@@ -10,6 +10,8 @@ namespace Bottles.Diagnostics
         void MarkFailure(string text);
         string FullTraceText();
         string Description { get; }
+        bool Success { get; }
+        long TimeInMilliseconds { get; }
     }
 
     public static class IPackageLogExtensions

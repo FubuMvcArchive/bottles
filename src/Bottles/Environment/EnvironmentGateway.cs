@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Bottles.Diagnostics;
 
 namespace Bottles.Environment
 {

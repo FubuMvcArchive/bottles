@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Bottles.Environment;
+using Bottles.Diagnostics;
 
 namespace Bottles.Deployment.Commands
 {

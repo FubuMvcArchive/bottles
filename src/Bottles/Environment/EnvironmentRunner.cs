@@ -16,36 +16,35 @@ namespace Bottles.Environment
 
         public IEnumerable<LogEntry> ExecuteEnvironment(params Action<IInstaller, IPackageLog>[] actions)
         {
+            var log = new PackageLog();
+
             var list = new List<LogEntry>();
 
-            var environment = findEnvironment(list);
+            var environment = findEnvironment(list, log);
             
             if (environment != null)
             {
-                startTheEnvironment(list, environment, actions);    
+                startTheEnvironment(list, environment, log, actions);
             }
 
             return list;
         }
 
-        private static void startTheEnvironment(IList<LogEntry> list, IEnvironment environment, params Action<IInstaller, IPackageLog>[] actions)
-        {
-            var log = new PackageLog();
-            
+        private static void startTheEnvironment(IList<LogEntry> list, IEnvironment environment, IPackageLog log, params Action<IInstaller, IPackageLog>[] actions)
+        {          
             try
             {
                 var installers = environment.StartUp(log);
 
                 // This needs to happen regardless, but we want these logs put in before
                 // logs for the installers, so we don't do it in the finally{}
-                AddPackagingLogEntries(list);
+                addPackagingLogEntries(list);
 
                 executeInstallers(list, installers, actions);
-                
             }
             catch (Exception ex)
             {
-                AddPackagingLogEntries(list);
+                addPackagingLogEntries(list);
                 log.MarkFailure(ex.ToString());
             }
             finally
@@ -76,9 +75,9 @@ namespace Bottles.Environment
             }
         }
 
-        private IEnvironment findEnvironment(List<LogEntry> list)
+        private IEnvironment findEnvironment(List<LogEntry> list, IPackageLog log)
         {
-            var environmentType = _run.FindEnvironmentType();
+            var environmentType = _run.FindEnvironmentType(log);
             if (environmentType == null)
             {
                 throw new EnvironmentRunnerException("Unable to find an IEnvironment type");
@@ -103,7 +102,7 @@ namespace Bottles.Environment
             return environment;
         }
 
-        public static void AddPackagingLogEntries(IList<LogEntry> list)
+        private static void addPackagingLogEntries(IList<LogEntry> list)
         {
             if (PackageRegistry.Diagnostics != null)
             {

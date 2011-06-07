@@ -1,3 +1,4 @@
+using Bottles.Diagnostics;
 using Bottles.Environment;
 using FubuTestingSupport;
 using NUnit.Framework;
@@ -17,7 +18,7 @@ namespace Bottles.Tests.Environment
                           EnvironmentClassName = typeof(FakeEnvironment).AssemblyQualifiedName
                       };
 
-            run.FindEnvironmentType().ShouldEqual(typeof (FakeEnvironment));
+            run.FindEnvironmentType(new PackageLog()).ShouldEqual(typeof (FakeEnvironment));
         }
 
         [Test]
@@ -28,7 +29,7 @@ namespace Bottles.Tests.Environment
                           EnvironmentClassName = typeof(FakeEnvironment).AssemblyQualifiedName
                       };
 
-            run.FindEnvironmentType().ShouldEqual(typeof(FakeEnvironment));
+            run.FindEnvironmentType(new PackageLog()).ShouldEqual(typeof(FakeEnvironment));
         }
 
         [Test]

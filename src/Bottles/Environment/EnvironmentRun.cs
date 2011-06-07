@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Bottles.Diagnostics;
 using FubuCore;
 
 namespace Bottles.Environment
@@ -34,17 +35,22 @@ namespace Bottles.Environment
         }
 
         // TODO -- harden with a better exception
-        public Type FindEnvironmentType()
+        public Type FindEnvironmentType(IPackageLog log)
         {
             if (EnvironmentClassName.IsNotEmpty())
             {
+                log.Trace("Environment class was specified '{0}'", EnvironmentClassName);
                 return Type.GetType(EnvironmentClassName);
             }
 
-            return AppDomain.CurrentDomain
-                .Load(AssemblyName)
-                .GetExportedTypes()
-                .First(x => x.IsConcreteTypeOf<IEnvironment>());
+            log.Trace("Scanning AppDomain for IEnvironment");
+            var foundClass = AppDomain.CurrentDomain
+                                .Load(AssemblyName)
+                                .GetExportedTypes()
+                                .First(x => x.IsConcreteTypeOf<IEnvironment>());
+
+            log.Trace("Found Environment class '{0}'", foundClass);
+            return foundClass;
         }
 
         public void AssertIsValid()
