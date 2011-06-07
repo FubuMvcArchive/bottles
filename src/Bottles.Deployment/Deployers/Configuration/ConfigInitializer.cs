@@ -27,6 +27,11 @@ namespace Bottles.Deployment.Deployers.Configuration
             log.Trace("Creating folder " + directive.Directory);
             _fileSystem.CreateDirectory(directive.Directory);
 
+            if (directive.CopyBehavior == CopyBehavior.overwrite)
+            {
+                _fileSystem.CleanDirectory(directive.Directory);
+            }
+
 
             host.BottleReferences.Each(r =>
             {

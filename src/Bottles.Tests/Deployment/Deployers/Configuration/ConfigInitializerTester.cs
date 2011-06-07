@@ -12,6 +12,80 @@ using Rhino.Mocks;
 namespace Bottles.Tests.Deployment.Deployers.Configuration
 {
     [TestFixture]
+    public class clean_the_directory_if_overwrite : InteractionContext<ConfigInitializer>
+    {
+        private CentralConfig theCentralConfig;
+        private HostManifest theHost;
+        private DeploymentSettings theSettings;
+
+        protected override void beforeEach()
+        {
+            theCentralConfig = new CentralConfig()
+            {
+                Directory = "config",
+                ProfileFile = "config".AppendPath("Profile.config"),
+                EnvironmentFile = "config".AppendPath("EnvironmentSettings.config"),
+                CopyBehavior = CopyBehavior.overwrite
+            };
+
+            theHost = new HostManifest("host");
+
+            theSettings = new DeploymentSettings()
+            {
+                Environment = new EnvironmentSettings(),
+                Profile = new Profile("something")
+            };
+
+            Services.Inject(theSettings);
+
+            ClassUnderTest.Execute(theCentralConfig, theHost, MockFor<IPackageLog>());
+        }
+
+        [Test]
+        public void should_clean_the_directory()
+        {
+            MockFor<IFileSystem>().AssertWasCalled(x => x.CleanDirectory(theCentralConfig.Directory));
+        }
+    }
+
+    [TestFixture]
+    public class do_not_clean_the_directory_if_preserve : InteractionContext<ConfigInitializer>
+    {
+        private CentralConfig theCentralConfig;
+        private HostManifest theHost;
+        private DeploymentSettings theSettings;
+
+        protected override void beforeEach()
+        {
+            theCentralConfig = new CentralConfig()
+            {
+                Directory = "config",
+                ProfileFile = "config".AppendPath("Profile.config"),
+                EnvironmentFile = "config".AppendPath("EnvironmentSettings.config"),
+                CopyBehavior = CopyBehavior.preserve
+            };
+
+            theHost = new HostManifest("host");
+
+            theSettings = new DeploymentSettings()
+            {
+                Environment = new EnvironmentSettings(),
+                Profile = new Profile("something")
+            };
+
+            Services.Inject(theSettings);
+
+            ClassUnderTest.Execute(theCentralConfig, theHost, MockFor<IPackageLog>());
+        }
+
+        [Test]
+        public void should_NOT_clean_the_directory()
+        {
+            MockFor<IFileSystem>().AssertWasNotCalled(x => x.CleanDirectory(theCentralConfig.Directory));
+        }
+    }
+
+    [TestFixture]
     public class ConfigInitializerTester : InteractionContext<ConfigInitializer>
     {
         private CentralConfig theCentralConfig;
