@@ -1,6 +1,8 @@
 COMPILE_TARGET = ENV['config'].nil? ? "debug" : ENV['config']
-require File.dirname(__FILE__) + "/build_support/BuildUtils.rb"
-require File.dirname(__FILE__) + "/build_support/nugs.rb"
+
+buildsupportfiles = Dir["#{File.dirname(__FILE__)}/buildsupport/*.rb"]
+raise "Run `git submodule update --init` to populate your buildsupport folder." unless buildsupportfiles.any?
+buildsupportfiles.each { |ext| load ext }
 
 include FileTest
 require 'albacore'
