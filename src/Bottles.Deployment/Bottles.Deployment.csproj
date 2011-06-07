@@ -78,7 +78,6 @@
     <Compile Include="Commands\VdirCommand.cs" />
     <Compile Include="Commands\DeployCommand.cs" />
     <Compile Include="Commands\CreateAllCommand.cs" />
-    <Compile Include="Configuration\ConfigurationDeployer.cs" />
     <Compile Include="Configuration\EnvironmentSettings.cs" />
     <Compile Include="Configuration\EnvironmentSettingsException.cs" />
     <Compile Include="Configuration\ProfileBase.cs" />
