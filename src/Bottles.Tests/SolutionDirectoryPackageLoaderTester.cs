@@ -9,7 +9,7 @@ namespace Bottles.Tests
     [TestFixture]
     public class SolutionDirectoryPackageLoaderTester
     {
-        private string thePathToScan = ".\\solDirPackLoad";
+        private string thePathToScan = "solDirPackLoad";
         private SolutionDirectoryPackageLoader theLoader;
 
         [SetUp]

@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using FubuCore;
 using NUnit.Framework;
 using StoryTeller.Execution;
 
@@ -11,7 +14,8 @@ namespace StoryTellerTestHarness
         [TestFixtureSetUp]
         public void SetupRunner()
         {
-            runner = new ProjectTestRunner(@"C:\git\bottles\src\Bottles.Storyteller\BottlesStoryTeller.xml");
+            var root = Path.GetPathRoot(AppDomain.CurrentDomain.BaseDirectory);
+            runner = new ProjectTestRunner(root.AppendPath("git", "bottles", "src", "Bottles.Storyteller", "BottlesStoryTeller.xml"));
         }
 
         [Test]

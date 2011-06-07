@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Bottles.Assemblies;
 using FubuCore;
@@ -25,7 +26,8 @@ namespace Bottles.Tests
             MockFor<IFileSystem>().Stub(x => x.FindFiles(theBinPath, FileSet.ForAssemblyDebugFiles(theAssemblyNames)))
                 .Return(theDebugFiles);
 
-            theBinPath = "c:\\bin";
+            var root = System.IO.Path.GetPathRoot(AppDomain.CurrentDomain.BaseDirectory);
+            theBinPath = root.AppendPath("bin");
         }
 
         private void theActualAssemblyFilesAre(params string[] files)

@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using Bottles.Commands;
 using Bottles.Creation;
 using FubuCore;
@@ -15,10 +17,11 @@ namespace Bottles.Tests.Commands
 
         protected override void beforeEach()
         {
+            var root = Path.GetPathRoot(AppDomain.CurrentDomain.BaseDirectory);
             theInput = new CreatePackageInput()
             {
                 PackageFolder = "some folder",
-                ZipFile = "c:\\package1.zip"
+                ZipFile = root.AppendPath("package1.zip")
             };
 
             theManifest = new PackageManifest();

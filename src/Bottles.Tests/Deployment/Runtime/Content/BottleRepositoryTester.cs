@@ -53,8 +53,8 @@ namespace Bottles.Tests.Deployment.Runtime.Content
 
         protected override void beforeEach()
         {
-            new DeploymentWriter(".\\brt").Flush(FlushOptions.Wipeout);
-            theSettings = new DeploymentSettings(".\\brt");
+            new DeploymentWriter("brt").Flush(FlushOptions.Wipeout);
+            theSettings = new DeploymentSettings("brt");
             repo = new BottleRepository(MockFor<IFileSystem>(), MockFor<IZipFileService>(), theSettings);
         }
 

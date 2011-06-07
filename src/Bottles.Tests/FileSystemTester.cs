@@ -11,12 +11,12 @@ namespace Bottles.Tests
     {
         protected override void beforeEach()
         {
-            clearDir(@".\home");
+            clearDir(@"home");
 
-            Directory.CreateDirectory(@".\home");
+            Directory.CreateDirectory(@"home");
 
-            File.Create(@".\home\bob.txt").Close();
-            File.Create(@".\home\mary.txt").Close();
+            File.Create("home".AppendPath("bob.txt")).Close();
+            File.Create("home".AppendPath("mary.txt")).Close();
         }
 
         void clearFile(string file)
@@ -34,51 +34,51 @@ namespace Bottles.Tests
         [Test]
         public void should_work_with_relative_paths()
         {
-            clearDir(@".\rome");
+            clearDir(@"rome");
 
-            ClassUnderTest.Copy(@".\home", @"rome");
+            ClassUnderTest.Copy("home", "rome");
 
-            ClassUnderTest.DirectoryExists(@".\rome").ShouldBeTrue();
-            ClassUnderTest.FileExists(@".\rome\bob.txt").ShouldBeTrue();
-            ClassUnderTest.FileExists(@".\rome\mary.txt").ShouldBeTrue();
+            ClassUnderTest.DirectoryExists("rome").ShouldBeTrue();
+            ClassUnderTest.FileExists("rome".AppendPath("bob.txt")).ShouldBeTrue();
+            ClassUnderTest.FileExists("rome".AppendPath("mary.txt")).ShouldBeTrue();
 
-            clearDir(@".\rome");
+            clearDir(@"rome");
         }
 
         [Test]
         public void should_copy_file_to_dir()
         {
-            clearDir(@".\italy");
+            clearDir(@"italy");
 
-            Directory.CreateDirectory(@".\italy");
+            Directory.CreateDirectory(@"italy");
 
-            ClassUnderTest.Copy(@".\home\bob.txt", @".\italy");
+            ClassUnderTest.Copy("home".AppendPath("bob.txt"), @"italy");
 
-            ClassUnderTest.FileExists(@".\italy\bob.txt").ShouldBeTrue();
+            ClassUnderTest.FileExists("italy".AppendPath("bob.txt")).ShouldBeTrue();
         }
 
         [Test]
         public void should_copy_to_non_existent_dirs()
         {
-            clearDir(@".\atlantis\");
+            clearDir(@"atlantis");
 
-            ClassUnderTest.Copy(@".\home\bob.txt", @".\atlantis\");
+            ClassUnderTest.Copy("home".AppendPath("bob.txt"), @"atlantis\");
 
-            ClassUnderTest.FileExists(@".\atlantis\bob.txt").ShouldBeTrue();
+            ClassUnderTest.FileExists("atlantis".AppendPath("bob.txt")).ShouldBeTrue();
 
-            clearDir(@".\atlantis\");
+            clearDir(@"atlantis");
         }
 
         [Test]
         public void should_copy_as_a_file()
         {
-            clearFile(@".\atlantis");
+            clearFile(@"atlantis");
 
-            ClassUnderTest.Copy(@".\home\bob.txt", @".\atlantis");
+            ClassUnderTest.Copy("home".AppendPath("bob.txt"), "atlantis");
 
-            ClassUnderTest.FileExists(@".\atlantis").ShouldBeTrue();
+            ClassUnderTest.FileExists("atlantis").ShouldBeTrue();
 
-            clearFile(@".\atlantis");
+            clearFile("atlantis");
         }
 
         

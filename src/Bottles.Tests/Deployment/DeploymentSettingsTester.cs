@@ -28,18 +28,18 @@ namespace Bottles.Tests.Deployment
             //review there is a check inside of here
             var settings = new DeploymentSettings("dir");
 
-            settings.BottlesDirectory.ShouldEqual("dir\\bottles");
-            settings.RecipesDirectory.ShouldEqual("dir\\recipes");
-            settings.EnvironmentFile().ShouldEqual("dir\\environment.settings");
-            settings.TargetDirectory.ShouldEqual("dir\\target");
+            settings.BottlesDirectory.ShouldEqual("dir".AppendPath("bottles"));
+            settings.RecipesDirectory.ShouldEqual("dir".AppendPath("recipes"));
+            settings.EnvironmentFile().ShouldEqual("dir".AppendPath("environment.settings"));
+            settings.TargetDirectory.ShouldEqual("dir".AppendPath("target"));
             settings.DeploymentDirectory.ShouldEqual("dir");
 
-            settings.DeployersDirectory.ShouldEqual(FileSystem.Combine("dir", "deployers"));
+            settings.DeployersDirectory.ShouldEqual("dir".AppendPath("deployers"));
 
             settings.ProfilesDirectory.ShouldEqual(FileSystem.Combine("dir", ProfileFiles.ProfilesDirectory));
 
-            settings.GetHost("x", "z").ShouldEqual("dir\\recipes\\x\\z.host");
-            settings.GetRecipeDirectory("a").ShouldEqual("dir\\recipes\\a");
+            settings.GetHost("x", "z").ShouldEqual("dir".AppendPath("recipes", "x", "z.host"));
+            settings.GetRecipeDirectory("a").ShouldEqual("dir".AppendPath("recipes","a"));
         }
 
         private void setupValidDeploymentFolderAt(string name)

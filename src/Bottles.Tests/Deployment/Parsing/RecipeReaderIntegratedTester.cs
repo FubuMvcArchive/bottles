@@ -220,7 +220,7 @@ namespace Bottles.Tests.Deployment.Parsing
             var environmentSettings = new EnvironmentSettings();
             environmentSettings.Data["setting"] = "environment setting";
 
-            theRecipes = RecipeReader.ReadRecipes("starwars\\recipes");
+            theRecipes = RecipeReader.ReadRecipes("starwars".AppendPath("recipes"));
         }
 
         [Test]

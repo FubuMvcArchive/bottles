@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Bottles.Deployment.Commands;
 using Bottles.Diagnostics;
 using Bottles.Environment;
+using FubuCore;
 using FubuTestingSupport;
 using NUnit.Framework;
 using Rhino.Mocks;
@@ -22,8 +25,9 @@ namespace Bottles.Tests.Commands
                 new LogEntry(), 
             };
 
+            var root = Path.GetPathRoot(AppDomain.CurrentDomain.BaseDirectory);
             theInput = new InstallInput(){
-                AppFolder = "c:\\folder1"
+                AppFolder = root.AppendPath("folder1")
             };
 
             MockFor<IEnvironmentGateway>().Stub(x => x.Install()).Return(theEntries);

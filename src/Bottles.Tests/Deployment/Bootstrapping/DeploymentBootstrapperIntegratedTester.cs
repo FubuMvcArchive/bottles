@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using BottleDeployers2;
 using Bottles.Deployment;
 using Bottles.Deployment.Bootstrapping;
@@ -10,7 +9,6 @@ using NUnit.Framework;
 using StructureMap;
 using FubuTestingSupport;
 using System.Linq;
-using System.Collections.Generic;
 
 namespace Bottles.Tests.Deployment.Bootstrapping
 {
@@ -22,8 +20,8 @@ namespace Bottles.Tests.Deployment.Bootstrapping
         [SetUp]
         public void SetUp()
         {
-            new DeploymentWriter(".\\dbit").Flush(FlushOptions.Wipeout);
-            theContainer = DeploymentBootstrapper.Bootstrap(new DeploymentSettings(".\\dbit"));
+            new DeploymentWriter("dbit").Flush(FlushOptions.Wipeout);
+            theContainer = DeploymentBootstrapper.Bootstrap(new DeploymentSettings("dbit"));
         }
 
         [Test]

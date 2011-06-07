@@ -66,18 +66,18 @@ namespace Bottles.Tests.Zipping
         public void create_test_zip_to_a_nonexistent_path()
         {
             var fileSystem = new FileSystem();
-            fileSystem.DeleteDirectory(".\\nonexist");
+            fileSystem.DeleteDirectory("nonexist");
 
-            fileSystem.FileExists(".\\nonexist\\silly.zip").ShouldBeFalse();
+            fileSystem.FileExists("nonexist".AppendPath("silly.zip")).ShouldBeFalse();
 
-            fileSystem.WriteStringToFile(".\\bob.txt","hi");
+            fileSystem.WriteStringToFile("bob.txt","hi");
             var service = new ZipFileService(fileSystem);
-            service.CreateZipFile(".\\nonexist\\silly.zip", f=>
+            service.CreateZipFile("nonexist".AppendPath("silly.zip"), f=>
             {
-                f.AddFile(".\\bob.txt","");
+                f.AddFile("bob.txt","");
             });
 
-            fileSystem.FileExists(".\\nonexist\\silly.zip").ShouldBeTrue();
+            fileSystem.FileExists("nonexist".AppendPath("silly.zip")).ShouldBeTrue();
         }
     }
 }

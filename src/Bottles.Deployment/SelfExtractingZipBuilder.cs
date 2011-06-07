@@ -1,5 +1,7 @@
 using System;
+using System.IO;
 using Ionic.Zip;
+using FubuCore;
 
 namespace Bottles.Deployment
 {
@@ -7,7 +9,9 @@ namespace Bottles.Deployment
     {
         public void Do()
         {
-            var pathToCompress = @"C:\dev\posh-git";
+            var root = Path.GetPathRoot(AppDomain.CurrentDomain.BaseDirectory);
+            var pathToCompress = root.AppendPath("dev", "posh-git");
+
             using (var zip = new ZipFile())
             {
                 zip.AddDirectory(pathToCompress, "pathToStoreAsInZip");
@@ -15,7 +19,7 @@ namespace Bottles.Deployment
 
                 var opts = new SelfExtractorSaveOptions();
                 opts.Flavor = SelfExtractorFlavor.WinFormsApplication; //winform or console modes
-                opts.DefaultExtractDirectory = @"C:\dev\bob";
+                opts.DefaultExtractDirectory = root.AppendPath("dev","bob");
                 opts.PostExtractCommandLine = "install.exe";
                 opts.RemoveUnpackedFilesAfterExecute = false;
 

@@ -1,9 +1,9 @@
+using System;
+using System.IO;
 using Bottles.Deployers.Iis;
 using Bottles.Deployment;
 using Bottles.Deployment.Runtime.Content;
 using Bottles.Diagnostics;
-using Bottles.Exploding;
-using Bottles.Tests.Deployment.Runtime;
 using Bottles.Zipping;
 using FubuCore;
 using NUnit.Framework;
@@ -18,7 +18,8 @@ namespace Bottles.Tests.Deployment
         public void DeployHelloWorld()
         {
             IFileSystem fileSystem = new FileSystem();
-            var settings = new DeploymentSettings(@"C:\dev\test-profile\");
+            var root = Path.GetPathRoot(AppDomain.CurrentDomain.BaseDirectory);
+            var settings = new DeploymentSettings(root.AppendPath("dev","test-profile"));
             IBottleRepository bottles = new BottleRepository(fileSystem, new ZipFileService(fileSystem), settings);
 
             var initializer = new WebAppOfflineInitializer(fileSystem);
@@ -28,9 +29,9 @@ namespace Bottles.Tests.Deployment
 
             var directive = new Website();
             directive.WebsiteName = "fubu";
-            directive.WebsitePhysicalPath = @"C:\dev\test-web";
+            directive.WebsitePhysicalPath = root.AppendPath("dev","test-web");
             directive.VDir = "bob";
-            directive.VDirPhysicalPath = @"C:\dev\test-app";
+            directive.VDirPhysicalPath = root.AppendPath("dev", "test-app");
             directive.AppPool = "fubizzle";
 
             directive.DirectoryBrowsing = Activation.Enable;
