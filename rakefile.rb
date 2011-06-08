@@ -108,3 +108,14 @@ zip :package do |zip|
 	zip.output_file = 'bottles.zip'
 	zip.output_path = [props[:artifacts]]
 end
+
+desc "Creates the deployer bottle files"
+task :create_deployer_bottles => :compile do
+  bottles 'create-pak src/Bottles.Console build/bottles.zip'
+  bottles 'create-pak src/Bottles.Host build/topshelf-deployers.zip'
+  bottles 'create-pak src/Bottles.Deployers.Iis build/iis-deployers.zip'
+end
+
+def bottles(args)
+  sh "src/Bottles.Console/bin/#{COMPILE_TARGET}/BottleRunner.exe #{args}"
+end

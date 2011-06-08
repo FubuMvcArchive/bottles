@@ -2,5 +2,8 @@
 <aliases xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Aliases>
     <alias name="bottleshost" folder="src/Bottles.Host" />
+    <alias name="src\Bottles.Console" folder="console" />
+    <alias name="bottles" folder="src\Bottles.Console" />
+    <alias name="iis-deployers" folder="src\Bottles.Deployers.Iis" />
   </Aliases>
 </aliases>

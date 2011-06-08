@@ -118,9 +118,22 @@ namespace Bottles.Deployment
                 filename = bottleName + "." + BottleFiles.Extension;
             }
 
-            var bottleDirectories = _allFolders.Select(x => x.AppendPath(ProfileFiles.BottlesDirectory));
-            return new FileSystem().FindFileInDirectories(bottleDirectories, filename)
-                   ?? bottleDirectories.First().AppendPath(filename);
+            return
+                _allFolders.Select(x => x.AppendPath(ProfileFiles.BottlesDirectory)).FindFileInDirectories(filename)
+                ??
+                _allFolders.Select(x => x.AppendPath(ProfileFiles.DeployersDirectory)).FindFileInDirectories(filename)
+                ??
+                _allFolders.First().AppendPath(ProfileFiles.BottlesDirectory, filename);
+        }
+
+
+    }
+
+    public static class StringExtensions
+    {
+        public static string FindFileInDirectories(this IEnumerable<string> directories, string filename)
+        {
+            return new FileSystem().FindFileInDirectories(directories, filename);
         }
     }
 }

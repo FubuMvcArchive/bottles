@@ -1,21 +1,12 @@
 <?xml version="1.0"?>
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Role>application</Role>
-  <Name>bottleshost</Name>
+  <Role>binaries</Role>
+  <Name>topshelf-deployers</Name>
   <assembly>Bottles.Host</assembly>
-  <assembly>Bottles.Deployment</assembly>
-  <assembly>Bottles</assembly>
   <assembly>Bottles.Host.Packaging</assembly>
-  <assembly>FubuCore</assembly>
-  <assembly>HtmlTags</assembly>
-  <assembly>Ionic.Zip</assembly>
-  <assembly>log4net</assembly>
-  <assembly>StructureMap</assembly>
   <assembly>Topshelf</assembly>
-  <DataFileSet Include="*.*">
-    <DeepSearch>true</DeepSearch>
-  </DataFileSet>
-  <ContentFileSet Include="*.nothing">
-    <DeepSearch>true</DeepSearch>
-  </ContentFileSet>
+  <assembly>FubuCore</assembly>
+  <assembly>Bottles</assembly>
+  <assembly>Bottles.Deployment</assembly>
+  <assembly>Microsoft.Practices.ServiceLocation</assembly>
 </package>

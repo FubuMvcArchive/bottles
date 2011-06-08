@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using Bottles.Deployment;
+using Bottles.Deployment.Commands;
 using Bottles.Deployment.Configuration;
 using Bottles.Deployment.Writing;
 using FubuCore;
@@ -105,5 +107,83 @@ namespace Bottles.Tests.Deployment
         }
 
       
+    }
+
+    [TestFixture]
+    public class DeploymentSettings_find_bottle_file_IntegratedTester
+    {
+        private DeploymentSettings theSettings;
+
+        [SetUp]
+        public void SetUp()
+        {
+            var fileSystem = new FileSystem();
+            fileSystem.DeleteDirectory("naboo");
+            fileSystem.CreateDirectory("naboo");
+
+            new InitializeCommand().Execute(new InitializeInput(){
+                DeploymentFlag = "naboo".AppendPath("deployment"),
+                ForceFlag = true
+            });
+
+            fileSystem.DeleteDirectory("other");
+            fileSystem.CreateDirectory("other");
+            new InitializeCommand().Execute(new InitializeInput()
+            {
+                DeploymentFlag = "other".AppendPath("deployment"),
+                ForceFlag = true
+            });
+
+            theSettings = new DeploymentSettings("naboo".AppendPath("deployment"));
+            theSettings.AddImportedFolder("other".AppendPath("deployment"));
+        }
+
+        private void fileExistsAtFolder(string folder, string name)
+        {
+            new FileSystem().WriteStringToFile("naboo".AppendPath("deployment", folder, name), "something");
+        }
+
+        private void fileExistsAtOtherFolder(string folder, string name)
+        {
+            new FileSystem().WriteStringToFile("other".AppendPath("deployment", folder, name), "something");
+        }
+
+        [Test]
+        public void use_the_default_bottles_directory_name_if_the_bottle_exists_nowhere()
+        {
+            theSettings.BottleFileFor("a").ShouldEqual(theSettings.BottlesDirectory.AppendPath("a.zip"));  
+        }
+
+        [Test]
+        public void use_the_bottles_directory_if_it_can_be_found()
+        {
+            fileExistsAtFolder(ProfileFiles.BottlesDirectory, "a.zip");
+            theSettings.BottleFileFor("a").ShouldEqual(theSettings.BottlesDirectory.AppendPath("a.zip"));  
+
+        }
+
+        [Test]
+        public void use_the_bottles_directory_in_other_if_it_can_be_found()
+        {
+            fileExistsAtOtherFolder(ProfileFiles.BottlesDirectory, "a.zip");
+            theSettings.BottleFileFor("a").ShouldEqual("other".AppendPath("deployment", ProfileFiles.BottlesDirectory,"a.zip"));  
+
+        }
+
+        [Test]
+        public void use_the_deployers_directory_if_it_is_there_but_not_in_bottles()
+        {
+            fileExistsAtFolder(ProfileFiles.DeployersDirectory, "a.zip");
+            theSettings.BottleFileFor("a").ShouldEqual(theSettings.DeployersDirectory.AppendPath("a.zip"));  
+
+        }
+
+        [Test]
+        public void use_the_deployers_directory_in_other_if_it_can_be_found()
+        {
+            fileExistsAtOtherFolder(ProfileFiles.DeployersDirectory, "a.zip");
+            theSettings.BottleFileFor("a").ShouldEqual("other".AppendPath("deployment", ProfileFiles.DeployersDirectory, "a.zip"));
+
+        }
     }
 }
