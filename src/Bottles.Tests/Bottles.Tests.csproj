@@ -111,7 +111,6 @@
     <Compile Include="Deployment\FakeDeployer.cs" />
     <Compile Include="Deployment\HostManifestTester.cs" />
     <Compile Include="Deployment\IntegrationIisFubuDeploymentTester.cs" />
-    <Compile Include="Deployment\IntegrationTopshelfDeploymentTester.cs" />
     <Compile Include="Deployment\Parsing\FakeSettings.cs" />
     <Compile Include="Deployment\Parsing\RecipeReaderIntegratedTester.cs" />
     <Compile Include="Deployment\Parsing\RecipeReaderTester.cs" />

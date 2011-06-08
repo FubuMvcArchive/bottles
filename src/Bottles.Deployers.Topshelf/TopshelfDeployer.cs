@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using Bottles.Deployment;
@@ -13,8 +14,11 @@ namespace Bottles.Deployers.Topshelf
     //assumes its on the same server
     public class TopshelfDeployer : IDeployer<TopshelfService>
     {
+        public static readonly string BOTTLE_NAME = "topshelf-deployers";
+        
         private readonly IProcessRunner _runner;
         private readonly IBottleMover _bottelMover;
+
 
         public TopshelfDeployer(IProcessRunner runner, IBottleMover bottelMover)
         {
@@ -25,7 +29,12 @@ namespace Bottles.Deployers.Topshelf
         public void Execute(TopshelfService directive, HostManifest host, IPackageLog log)
         {
             var destination = new TopshelfBottleDestination(directive.InstallLocation);
-            _bottelMover.Move(log, destination, host.BottleReferences);
+            var bottleReferences = new List<BottleReference>(host.BottleReferences){
+                new BottleReference(BOTTLE_NAME)
+            };
+
+
+            _bottelMover.Move(log, destination, bottleReferences);
 
             var cfgFile  = directive.InstallLocation.AppendPath(ServiceInfo.FILE);
 
