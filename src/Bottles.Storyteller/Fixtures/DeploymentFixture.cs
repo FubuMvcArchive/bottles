@@ -149,6 +149,8 @@ namespace Bottles.Storyteller.Fixtures
             _hostData = ahost.CreateDiagnosticReport();
         }
 
+        
+
         public IGrammar CheckPropertiesForHost()
         {
             return VerifySetOf(() => _hostData)
@@ -195,6 +197,14 @@ namespace Bottles.Storyteller.Fixtures
 
             var property = typeof (Website).GetProperty(propertyName);
             return property.GetValue(website, null) as string;
+        }
+
+        [FormatAs("The environment setting {setting} is {value}")]
+        public string CheckEnvSetting(string setting)
+        {
+            //any way to get the SettingsProvider?
+
+            return _deploymentSettings.Environment.GetKey(setting).ToString();
         }
     }
 }

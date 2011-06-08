@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using FubuCore.Configuration;
 
 namespace Bottles.Deployment.Configuration
@@ -11,7 +12,15 @@ namespace Bottles.Deployment.Configuration
         {
         }
 
+        public object GetKey(string key)
+        {
+            IEnumerable<ISettingsSource> sources = new[]{new SettingsSource(new []{Data})};
+            var sp = new SettingsProvider(null, sources);
 
+            var result = sp.SettingFor(key);
+
+            return result;
+        }
         public static EnvironmentSettings ReadFrom(string environmentFile)
         {
             var environment = new EnvironmentSettings();
