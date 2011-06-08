@@ -1,5 +1,6 @@
 using System;
 using Bottles.Deployment.Parsing;
+using Bottles.Deployment.Runtime.Content;
 using FubuCore;
 using System.Collections.Generic;
 using FubuCore.CommandLine;
@@ -16,12 +17,14 @@ namespace Bottles.Deployment.Runtime
         private readonly IFileSystem _system;
         private readonly IDeploymentController _controller;
         private readonly DeploymentSettings _settings;
+        private readonly IBottleRepository _bottles;
 
-        public Bundler(IFileSystem system, IDeploymentController controller, DeploymentSettings settings)
+        public Bundler(IFileSystem system, IDeploymentController controller, DeploymentSettings settings, IBottleRepository bottles)
         {
             _system = system;
             _controller = controller;
             _settings = settings;
+            _bottles = bottles;
         }
 
         public void CreateBundle(string destination, DeploymentOptions options)
@@ -30,12 +33,25 @@ namespace Bottles.Deployment.Runtime
             CreateBundle(destination, plan);
         }
 
+        // TODO -- want an end to end test on this mess
         public virtual void CreateBundle(string destination, DeploymentPlan plan)
         {
             var destinationSettings = createDestination(destination);
 
             var copier = new DeploymentFileCopier(_system, _settings, destinationSettings);
             copyFiles(copier, plan);
+
+            // Need to explode the bottles zip too
+            _settings.DeployerBottleNames().Each(name =>
+            {
+                var request = new BottleExplosionRequest(){
+                    BottleDirectory = BottleFiles.BinaryFolder,
+                    BottleName = name,
+                    DestinationDirectory = destination
+                };
+
+                _bottles.ExplodeFiles(request);
+            });
         }
 
         private DeploymentSettings createDestination(string destination)
@@ -55,6 +71,8 @@ namespace Bottles.Deployment.Runtime
             plan.BottleNames().Each(name => copier.CopyFile(x => x.BottleFileFor(name)));
 
             plan.Recipes.Each(r => copier.CopyFile(x => x.GetRecipeDirectory(r.Name)));
+
+            
         }
     }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Bottles.Deployment.Configuration;
 using Bottles.Deployment.Parsing;
 using FubuCore;
@@ -126,7 +127,21 @@ namespace Bottles.Deployment
                 _allFolders.First().AppendPath(ProfileFiles.BottlesDirectory, filename);
         }
 
+        public IEnumerable<string> DeployerBottleFiles()
+        {
+            return _allFolders.SelectMany(x =>
+            {
+                var deployerFolder = x.AppendPath(ProfileFiles.DeployersDirectory);
+                return new FileSystem().FindFiles(deployerFolder, new FileSet(){
+                    Include = "*.zip"
+                });
+            });
+        }
 
+        public IEnumerable<string> DeployerBottleNames()
+        {
+            return DeployerBottleFiles().Select(Path.GetFileNameWithoutExtension).Distinct().ToList();
+        }
     }
 
     public static class StringExtensions

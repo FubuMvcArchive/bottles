@@ -7,6 +7,7 @@ using FubuCore;
 using NUnit.Framework;
 using FubuTestingSupport;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Bottles.Tests.Deployment
 {
@@ -107,6 +108,86 @@ namespace Bottles.Tests.Deployment
         }
 
       
+    }
+
+    [TestFixture]
+    public class DeploymentSettings_find_deployer_bottles
+    {
+        private DeploymentSettings theSettings;
+
+        [SetUp]
+        public void SetUp()
+        {
+            var fileSystem = new FileSystem();
+            fileSystem.DeleteDirectory("hoth");
+            fileSystem.CreateDirectory("hoth");
+
+            new InitializeCommand().Execute(new InitializeInput()
+            {
+                DeploymentFlag = "hoth".AppendPath("deployment"),
+                ForceFlag = true
+            });
+
+            fileSystem.DeleteDirectory("tatooine");
+            fileSystem.CreateDirectory("tatooine");
+            new InitializeCommand().Execute(new InitializeInput()
+            {
+                DeploymentFlag = "tatooine".AppendPath("deployment"),
+                ForceFlag = true
+            });
+
+            theSettings = new DeploymentSettings("hoth".AppendPath("deployment"));
+            theSettings.AddImportedFolder("tatooine".AppendPath("deployment"));
+        }
+
+        private void fileExistsAtFolder(string folder, string name)
+        {
+            new FileSystem().WriteStringToFile("hoth".AppendPath("deployment", folder, name), "something");
+        }
+
+        private void fileExistsAtOtherFolder(string folder, string name)
+        {
+            new FileSystem().WriteStringToFile("tatooine".AppendPath("deployment", folder, name), "something");
+        }
+
+        [Test]
+        public void find_deployer_files_from_a_mix_of_imported_and_base_folder()
+        {
+            fileExistsAtFolder(ProfileFiles.BottlesDirectory, "a.zip");
+            fileExistsAtFolder(ProfileFiles.BottlesDirectory, "b.zip");
+            fileExistsAtFolder(ProfileFiles.DeployersDirectory, "c.zip");
+            fileExistsAtFolder(ProfileFiles.DeployersDirectory, "d.zip");
+
+            fileExistsAtOtherFolder(ProfileFiles.BottlesDirectory, "e.zip");
+            fileExistsAtOtherFolder(ProfileFiles.BottlesDirectory, "f.zip");
+            fileExistsAtOtherFolder(ProfileFiles.DeployersDirectory, "g.zip");
+            fileExistsAtOtherFolder(ProfileFiles.DeployersDirectory, "h.zip");
+
+            theSettings.DeployerBottleFiles().ShouldHaveTheSameElementsAs(
+                theSettings.DeployersDirectory.AppendPath("c.zip"),
+                theSettings.DeployersDirectory.AppendPath("d.zip"),
+                "tatooine".AppendPath("deployment", ProfileFiles.DeployersDirectory, "g.zip"),
+                "tatooine".AppendPath("deployment", ProfileFiles.DeployersDirectory, "h.zip")
+                );
+        }
+
+        [Test]
+        public void find_unique_deployer_names()
+        {
+            fileExistsAtFolder(ProfileFiles.BottlesDirectory, "a.zip");
+            fileExistsAtFolder(ProfileFiles.BottlesDirectory, "b.zip");
+            fileExistsAtFolder(ProfileFiles.DeployersDirectory, "c.zip");
+            fileExistsAtFolder(ProfileFiles.DeployersDirectory, "d.zip");
+
+            fileExistsAtOtherFolder(ProfileFiles.BottlesDirectory, "e.zip");
+            fileExistsAtOtherFolder(ProfileFiles.BottlesDirectory, "f.zip");
+            fileExistsAtOtherFolder(ProfileFiles.DeployersDirectory, "g.zip");
+            fileExistsAtOtherFolder(ProfileFiles.DeployersDirectory, "h.zip"); 
+            fileExistsAtOtherFolder(ProfileFiles.DeployersDirectory, "c.zip"); 
+            fileExistsAtOtherFolder(ProfileFiles.DeployersDirectory, "d.zip");
+
+            theSettings.DeployerBottleNames().ShouldHaveTheSameElementsAs("c", "d", "g", "h");
+        }
     }
 
     [TestFixture]
