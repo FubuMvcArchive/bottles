@@ -95,6 +95,7 @@
     <Compile Include="Deployment\Bootstrapping\DeploymentBootstrapperIntegratedTester.cs" />
     <Compile Include="Deployment\Commands\DeployInputTester.cs" />
     <Compile Include="Deployment\Deployers\Configuration\ConfigInitializerTester.cs" />
+    <Compile Include="Deployment\Deployers\Simple\SingleBottleDeployerTester.cs" />
     <Compile Include="Deployment\Deployers\WebsiteBottleDestinationTester.cs" />
     <Compile Include="Deployment\Parsing\DeploymentPlanTester.cs" />
     <Compile Include="Deployment\Runtime\BundlerTester.cs" />
