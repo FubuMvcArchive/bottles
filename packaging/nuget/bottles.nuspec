@@ -21,6 +21,5 @@
 	  <file src="..\..\build\Bottles.dll" target="lib" />
 	  <file src="..\..\build\Bottles.pdb" target="lib" />
 	  <file src="..\..\src\Bottles\**\*.cs" target="src" />
-	  <file src="..\..\build\bottles.zip" target="lib"/>
   </files>
 </package>
