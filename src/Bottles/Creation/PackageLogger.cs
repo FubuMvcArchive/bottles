@@ -15,6 +15,9 @@ namespace Bottles.Creation
             Console.WriteLine("But only found:");
             if(!theAssemblyFiles.Files.Any()) Console.WriteLine("  Found no files");
             theAssemblyFiles.Files.Each(file => Console.WriteLine("  " + file));
+
+            Console.WriteLine("Missing");
+            theAssemblyFiles.MissingAssemblies.Each(file => Console.WriteLine("  " + file));
         
             throw new ApplicationException("Invalid package manifest or missing files");
         }

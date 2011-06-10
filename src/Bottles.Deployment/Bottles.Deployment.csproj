@@ -94,8 +94,8 @@
     <Compile Include="Deployers\Installers\InstallersDirective.cs" />
     <Compile Include="Deployers\Scheduling\SchedTaskPackageFacility.cs" />
     <Compile Include="Deployers\Scheduling\WinSchedBottleDestination.cs" />
-    <Compile Include="Deployers\Simple\SingleBottle.cs" />
-    <Compile Include="Deployers\Simple\SingleBottleDeployer.cs" />
+    <Compile Include="Deployers\Simple\ExplodeBottles.cs" />
+    <Compile Include="Deployers\Simple\ExplodeBottlesDeployer.cs" />
     <Compile Include="DeploymentSettings.cs" />
     <Compile Include="Diagnostics\DeploymentReport.cs" />
     <Compile Include="Diagnostics\DiagnosticsReporter.cs" />

@@ -2,9 +2,9 @@ using System;
 
 namespace Bottles.Deployment.Deployers.Simple
 {
-    public class SingleBottle : IDirective
+    public class ExplodeBottles : IDirective
     {
-        public SingleBottle()
+        public ExplodeBottles()
         {
             WebContentDirectory = string.Empty;
             BinDirectory = "bin";
@@ -13,6 +13,7 @@ namespace Bottles.Deployment.Deployers.Simple
         public string RootDirectory { get; set; }
         public string WebContentDirectory { get; set; }
         public string BinDirectory { get; set; }
-        public string BottleName { get; set; }
     }
+
+    
 }

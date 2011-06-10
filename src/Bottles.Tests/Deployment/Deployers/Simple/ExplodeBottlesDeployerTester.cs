@@ -11,20 +11,23 @@ using Rhino.Mocks;
 namespace Bottles.Tests.Deployment.Deployers.Simple
 {
     [TestFixture]
-    public class SingleBottleDeployerTester : InteractionContext<SingleBottleDeployer>
+    public class ExplodeBottlesDeployerTester : InteractionContext<ExplodeBottlesDeployer>
     {
-        private SingleBottle theBottle;
+        private ExplodeBottles theBottle;
 
         protected override void beforeEach()
         {
-            theBottle = new SingleBottle(){
+            theBottle = new ExplodeBottles(){
                 RootDirectory = "root",
                 BinDirectory = "bin",
-                BottleName = "bottle1",
                 WebContentDirectory = "web"
             };
 
-            ClassUnderTest.Execute(theBottle, new HostManifest("something"), new PackageLog());
+            var hostManifest = new HostManifest("something");
+            hostManifest.RegisterBottle(new BottleReference("bottle1"));
+            hostManifest.RegisterBottle(new BottleReference("bottle2"));
+
+            ClassUnderTest.Execute(theBottle, hostManifest, new PackageLog());
         }
 
         [Test]
@@ -41,7 +44,17 @@ namespace Bottles.Tests.Deployment.Deployers.Simple
             {
                 x.ExplodeFiles(new BottleExplosionRequest(){
                     BottleDirectory = BottleFiles.BinaryFolder,
-                    BottleName = theBottle.BottleName,
+                    BottleName = "bottle1",
+                    DestinationDirectory = theBottle.RootDirectory.AppendPath(theBottle.BinDirectory)
+                });
+            });
+
+            MockFor<IBottleRepository>().AssertWasCalled(x =>
+            {
+                x.ExplodeFiles(new BottleExplosionRequest()
+                {
+                    BottleDirectory = BottleFiles.BinaryFolder,
+                    BottleName = "bottle2",
                     DestinationDirectory = theBottle.RootDirectory.AppendPath(theBottle.BinDirectory)
                 });
             });
@@ -55,7 +68,17 @@ namespace Bottles.Tests.Deployment.Deployers.Simple
                 x.ExplodeFiles(new BottleExplosionRequest()
                 {
                     BottleDirectory = BottleFiles.WebContentFolder,
-                    BottleName = theBottle.BottleName,
+                    BottleName = "bottle1",
+                    DestinationDirectory = theBottle.RootDirectory.AppendPath(theBottle.WebContentDirectory)
+                });
+            });
+
+            MockFor<IBottleRepository>().AssertWasCalled(x =>
+            {
+                x.ExplodeFiles(new BottleExplosionRequest()
+                {
+                    BottleDirectory = BottleFiles.WebContentFolder,
+                    BottleName = "bottle2",
                     DestinationDirectory = theBottle.RootDirectory.AppendPath(theBottle.WebContentDirectory)
                 });
             }); 
