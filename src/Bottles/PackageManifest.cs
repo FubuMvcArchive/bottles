@@ -125,6 +125,7 @@ namespace Bottles
                 case BottleRoles.Data:
                     ConfigFileSet = null;
                     ContentFileSet = null;
+                    RemoveAllAssemblies();
                     DataFileSet = new FileSet(){DeepSearch = true, Include = "*.*"};
                     break;
 
