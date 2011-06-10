@@ -23,5 +23,11 @@
         /// This represents an application like a console or website project
         /// </summary>
         public const string Application = "application";
+
+
+        /// <summary>
+        /// Packages that are strictly data
+        /// </summary>
+        public const string Data = "data";
     }
 }

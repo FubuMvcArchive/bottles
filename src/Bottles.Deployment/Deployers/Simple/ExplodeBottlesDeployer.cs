@@ -1,15 +1,15 @@
+using System.Collections.Generic;
 using Bottles.Deployment.Runtime;
 using Bottles.Deployment.Runtime.Content;
 using Bottles.Diagnostics;
 using FubuCore;
-using System.Collections.Generic;
 
 namespace Bottles.Deployment.Deployers.Simple
 {
     public class ExplodeBottlesDeployer : IDeployer<ExplodeBottles>
     {
-        private readonly IFileSystem _fileSystem;
         private readonly IBottleRepository _bottles;
+        private readonly IFileSystem _fileSystem;
 
         public ExplodeBottlesDeployer(IFileSystem fileSystem, IBottleRepository bottles)
         {
@@ -33,12 +33,18 @@ namespace Bottles.Deployment.Deployers.Simple
                 BottleName = bottleName
             });
 
+            _bottles.ExplodeFiles(new BottleExplosionRequest(log){
+                BottleDirectory = BottleFiles.WebContentFolder,
+                DestinationDirectory = directive.RootDirectory.AppendPath(directive.WebContentDirectory ?? string.Empty),
+                BottleName = bottleName
+            });
+
             _bottles.ExplodeFiles(new BottleExplosionRequest(log)
-                                  {
-                                      BottleDirectory = BottleFiles.WebContentFolder,
-                                      DestinationDirectory = directive.RootDirectory.AppendPath(directive.WebContentDirectory ?? string.Empty),
-                                      BottleName = bottleName
-                                  });
+            {
+                BottleDirectory = BottleFiles.DataFolder,
+                DestinationDirectory = directive.RootDirectory.AppendPath(directive.DataDirectory ?? string.Empty),
+                BottleName = bottleName
+            });
         }
     }
 }

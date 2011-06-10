@@ -20,7 +20,8 @@ namespace Bottles.Tests.Deployment.Deployers.Simple
             theBottle = new ExplodeBottles(){
                 RootDirectory = "root",
                 BinDirectory = "bin",
-                WebContentDirectory = "web"
+                WebContentDirectory = "web",
+                DataDirectory = "data"
             };
 
             var hostManifest = new HostManifest("something");
@@ -82,6 +83,30 @@ namespace Bottles.Tests.Deployment.Deployers.Simple
                     DestinationDirectory = theBottle.RootDirectory.AppendPath(theBottle.WebContentDirectory)
                 });
             }); 
+        }
+
+        [Test]
+        public void should_explode_the_data_content()
+        {
+            MockFor<IBottleRepository>().AssertWasCalled(x =>
+            {
+                x.ExplodeFiles(new BottleExplosionRequest()
+                {
+                    BottleDirectory = BottleFiles.DataFolder,
+                    BottleName = "bottle1",
+                    DestinationDirectory = theBottle.RootDirectory.AppendPath(theBottle.DataDirectory)
+                });
+            });
+
+            MockFor<IBottleRepository>().AssertWasCalled(x =>
+            {
+                x.ExplodeFiles(new BottleExplosionRequest()
+                {
+                    BottleDirectory = BottleFiles.DataFolder,
+                    BottleName = "bottle2",
+                    DestinationDirectory = theBottle.RootDirectory.AppendPath(theBottle.DataDirectory)
+                });
+            });
         }
     }
 }

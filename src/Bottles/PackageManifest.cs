@@ -122,6 +122,12 @@ namespace Bottles
                     DataFileSet = null;
                     break;
 
+                case BottleRoles.Data:
+                    ConfigFileSet = null;
+                    ContentFileSet = null;
+                    DataFileSet = new FileSet(){DeepSearch = true, Include = "*.*"};
+                    break;
+
                 default:
                     DataFileSet = new FileSet();
                     ContentFileSet = new FileSet()

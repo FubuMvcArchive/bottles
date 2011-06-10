@@ -12,6 +12,7 @@ namespace Bottles.Deployment.Deployers.Simple
 
         public string RootDirectory { get; set; }
         public string WebContentDirectory { get; set; }
+        public string DataDirectory { get; set; }
         public string BinDirectory { get; set; }
     }
 

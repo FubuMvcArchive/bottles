@@ -77,6 +77,18 @@ namespace Bottles.Tests
             manifest.ConfigFileSet.ShouldBeNull();
         }
 
+        [Test]
+        public void set_role_to_data()
+        {
+            var manifest = new PackageManifest();
+            manifest.SetRole(BottleRoles.Data);
+
+            manifest.ContentFileSet.ShouldBeNull();
+            manifest.ConfigFileSet.ShouldBeNull();
+
+            manifest.DataFileSet.DeepSearch.ShouldBeTrue();
+            manifest.DataFileSet.Include.ShouldEqual("*.*");
+        }
 
     }
 }
