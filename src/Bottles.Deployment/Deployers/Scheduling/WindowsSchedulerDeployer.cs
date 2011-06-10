@@ -25,7 +25,7 @@ namespace Bottles.Deployment.Deployers.Scheduling
 
             var psi = new ProcessStartInfo("schtasks");
 
-            var args = @"/create /tn {0} /sc {1} /mo {2} /ru {3} /tr {4};".ToFormat(directive.Name, directive.ScheduleType, directive.Modifier, directive.UserAccount, directive.TaskToRun);
+            var args = @"/create /tn {0} /sc {1} /mo {2} /ru {3} /tr {4} /F".ToFormat(directive.Name, directive.ScheduleType, directive.Modifier, directive.UserAccount, directive.TaskToRun);
             psi.Arguments = args;
 
             log.Trace(args);
