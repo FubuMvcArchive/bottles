@@ -138,7 +138,7 @@ namespace Bottles.Deployment
             });
         }
 
-        public IEnumerable<string> DeployerBottleNames()
+        public virtual IEnumerable<string> DeployerBottleNames()
         {
             return DeployerBottleFiles().Select(Path.GetFileNameWithoutExtension).Distinct().ToList();
         }

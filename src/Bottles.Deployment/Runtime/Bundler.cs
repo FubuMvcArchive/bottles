@@ -42,6 +42,11 @@ namespace Bottles.Deployment.Runtime
             copyFiles(copier, plan);
 
             // Need to explode the bottles zip too
+            ExplodeDeployerBottles(destination);
+        }
+
+        public void ExplodeDeployerBottles(string destination)
+        {
             _settings.DeployerBottleNames().Each(name =>
             {
                 var request = new BottleExplosionRequest(){
