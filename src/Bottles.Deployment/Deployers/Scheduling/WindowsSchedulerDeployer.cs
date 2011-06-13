@@ -23,15 +23,28 @@ namespace Bottles.Deployment.Deployers.Scheduling
             var dest = new WinSchedBottleDestination(directive.InstallLocation);
             _mover.Move(log, dest, host.BottleReferences);
 
-            var psi = new ProcessStartInfo("schtasks");
+            disableService(directive, log);
+            installService(directive, log);
+        }
 
-            var args = @"/create /tn {0} /sc {1} /mo {2} /ru {3} /tr {4} /F".ToFormat(directive.Name, directive.ScheduleType, directive.Modifier, directive.UserAccount, directive.TaskToRun);
+        private void disableService(ScheduledTask directive, IPackageLog log)
+        {
+            log.Trace("Disabling the scheduled task {0}".ToFormat(directive.Name));
+            var psi = new ProcessStartInfo("schtasks");
+            var args = "/change /tn {0} /DISABLE".ToFormat(directive.Name);
             psi.Arguments = args;
 
             log.Trace(args);
-
             _runner.Run(psi, new TimeSpan(0, 0, 1, 0));
         }
 
+        private void installService(ScheduledTask directive, IPackageLog log)
+        {
+            var psi = new ProcessStartInfo("schtasks");
+            var args = @"/create /tn {0} /sc {1} /mo {2} /ru {3} /tr ""{4}"" /F".ToFormat(directive.Name, directive.ScheduleType, directive.Modifier, directive.UserAccount, directive.TaskToRun);
+            psi.Arguments = args;
+            log.Trace(args);
+            _runner.Run(psi, new TimeSpan(0, 0, 1, 0));
+        }
     }
 }
