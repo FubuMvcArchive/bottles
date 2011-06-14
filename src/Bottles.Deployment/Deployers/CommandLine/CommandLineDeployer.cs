@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.IO;
 using Bottles.Deployment.Runtime;
@@ -17,10 +18,10 @@ namespace Bottles.Deployment.Deployers.CommandLine
 
         public void Execute(CommandLineExecution directive, HostManifest host, IPackageLog log)
         {
-            ProcessStartInfo processStartInfo = GetProcessStartInfo(directive);
+            var processStartInfo = GetProcessStartInfo(directive);
 
             log.Trace("Executing the command '{0}' with args '{1}'", directive.FileName, directive.Arguments);
-            var exitCode = _processRunner.Run(processStartInfo); 
+            var exitCode = _processRunner.Run(processStartInfo, new TimeSpan(0, 0, directive.TimeoutInSeconds));
             log.Trace("Command completed with exit code '{0}'", exitCode);
         }
 
@@ -32,13 +33,13 @@ namespace Bottles.Deployment.Deployers.CommandLine
                 fileName = directive.WorkingDirectory.AppendPath(directive.FileName);
             }
 
-            return new ProcessStartInfo
-                   {
-                       FileName = fileName,
-                       Arguments = directive.Arguments,
-                       WorkingDirectory = directive.WorkingDirectory,
-                       ErrorDialog = false
-                   };
+            return new ProcessStartInfo{
+                FileName = fileName,
+                Arguments = directive.Arguments,
+                WorkingDirectory = directive.WorkingDirectory,
+                ErrorDialog = false
+                
+            };
         }
     }
 }
