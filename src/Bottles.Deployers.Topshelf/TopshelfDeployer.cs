@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.ServiceProcess;
 using System.Text;
 using Bottles.Deployment;
 using Bottles.Deployment.Runtime;
@@ -28,11 +31,11 @@ namespace Bottles.Deployers.Topshelf
 
         public void Execute(TopshelfService directive, HostManifest host, IPackageLog log)
         {
+            stopServiceIfItExists(directive, log);
             var destination = new TopshelfBottleDestination(directive.InstallLocation);
             var bottleReferences = new List<BottleReference>(host.BottleReferences){
                 new BottleReference(BOTTLE_NAME)
             };
-
 
             _bottelMover.Move(log, destination, bottleReferences);
 
@@ -52,6 +55,19 @@ namespace Bottles.Deployers.Topshelf
 
             log.Trace("Topshelf Install: {0}", buildInstallArgsForDisplay(directive));
             _runner.Run(psi);
+        }
+
+        private void stopServiceIfItExists(TopshelfService directive, IPackageLog log)
+        {
+            var service = ServiceController.GetServices()
+                .DefaultIfEmpty(null)
+                .SingleOrDefault(sn=>sn.ServiceName.Equals(directive.ServiceName));
+            
+            if(service != null && service.CanStop)
+            {
+                log.Trace("Found service '{0}' and stopping", directive.ServiceName);
+                service.Stop();
+            }
         }
 
         private static string buildInstallArgs(TopshelfService directive)
