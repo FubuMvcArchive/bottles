@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using FubuCore;
 
@@ -8,7 +9,14 @@ namespace Bottles.Deployment.Parsing
         public static HostManifest ReadFrom(string fileName)
         {
             var parser = new SettingsParser(fileName);
-            new FileSystem().ReadTextFile(fileName, parser.ParseText);
+            try
+            {
+                new FileSystem().ReadTextFile(fileName, parser.ParseText);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Failed trying to read " + fileName);
+            }
 
             var hostName = Path.GetFileNameWithoutExtension(fileName);
             var host = new HostManifest(hostName);

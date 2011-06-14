@@ -142,6 +142,11 @@ namespace Bottles.Deployment
         {
             return DeployerBottleFiles().Select(Path.GetFileNameWithoutExtension).Distinct().ToList();
         }
+
+        public virtual IEnumerable<string> AllBottleNames()
+        {
+            return Plan.BottleNames();
+        }
     }
 
     public static class StringExtensions
