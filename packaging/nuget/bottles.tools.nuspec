@@ -13,6 +13,8 @@
     <tags>packaging areas slices</tags>
   </metadata>
   <files>
+      <file src="..\..\build\bottles.zip" target="tools" />
+  
 	  <file src="..\..\build\BottleRunner.exe" target="tools" />
 	  <file src="..\..\build\BottleRunner.exe.config" target="tools" />
 	  <file src="..\..\build\Bottles.dll" target="tools" />

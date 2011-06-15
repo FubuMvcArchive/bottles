@@ -18,6 +18,7 @@
     </dependencies>
   </metadata>
   <files>
+	  <file src="..\..\build\topshelf-deployers.zip" target="tools" />
 	  <file src="..\..\build\Bottles.Deployers.TopShelf.*" target="lib" />
 	  <file src="..\..\src\Bottles.Deployers.TopShelf\**\*.cs" target="src" />
   </files>

@@ -3,7 +3,6 @@
   <Role>binaries</Role>
   <Name>bottles</Name>
   <assembly>BottleRunner</assembly>
-  <assembly>Bottles.Deployers.Iis</assembly>
   <assembly>Bottles.Deployment</assembly>
   <assembly>Bottles</assembly>
   <assembly>FubuCore</assembly>
@@ -11,5 +10,4 @@
   <assembly>Ionic.Zip</assembly>
   <assembly>Microsoft.Practices.ServiceLocation</assembly>
   <assembly>StructureMap</assembly>
-  <assembly>BottleRunner</assembly>
 </package>

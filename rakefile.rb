@@ -116,6 +116,9 @@ task :create_deployer_bottles => :compile do
   bottles "create-pak src/Bottles.Deployers.Iis build/iis-deployers.zip -target #{COMPILE_TARGET}"
 end
 
+desc "Compiles, bottle-izes, and creates all the proper nugets"
+task :create_nugets => [:create_deployer_bottles, "nuget:build"]
+
 def bottles(args)
   sh "src/Bottles.Console/bin/#{COMPILE_TARGET}/BottleRunner.exe #{args}"
 end

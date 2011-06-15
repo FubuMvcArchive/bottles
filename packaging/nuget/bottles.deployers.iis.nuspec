@@ -17,6 +17,7 @@
     </dependencies>
   </metadata>
   <files>
+      <file src="..\..\build\iis-deployers.zip" target="tools" />
 	  <file src="..\..\build\Bottles.Deployers.Iis.*" target="lib" />
 	  <file src="..\..\src\Bottles.Deployers.Iis\**\*.cs" target="src" />
   </files>

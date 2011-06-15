@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Bottles.Creation;
+using Bottles.Diagnostics;
 using FubuCore;
 
 namespace Bottles
@@ -61,6 +62,8 @@ namespace Bottles
             {
                 binFolder = debugFolder;
             }
+
+            LogWriter.Trace("Looking for binaries at " + binFolder);
 
             return binFolder;
         }
