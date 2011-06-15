@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Bottles.Deployment
 {
@@ -15,12 +16,34 @@ namespace Bottles.Deployment
             info.CreateNoWindow = true;
 
             int exitCode = 0;
+            int pid = 0;
             using (var proc = Process.Start(info))
             {
+                pid = proc.Id;
                 proc.WaitForExit((int)waitDuration.TotalMilliseconds);
                 exitCode = proc.ExitCode;
             }
+
+            killProcessIfItStillExists(pid);
+
             return exitCode;
+        }
+
+        private void killProcessIfItStillExists(int pid)
+        {
+            if (Process.GetProcesses()
+                .Where(p => p.Id == pid)
+                .Any())
+            {
+                try
+                {
+                    Process.GetProcessById(pid).Kill();
+                }
+                catch (ArgumentException)
+                {
+                    //ignore
+                }
+            }
         }
 
         public int Run(ProcessStartInfo info)
