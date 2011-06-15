@@ -25,6 +25,8 @@ namespace Bottles.Deployment.Diagnostics
             ConsoleWriter.PrintHorizontalLine();
             ConsoleWriter.Write("Writing deployment report to " + options.ReportName.ToFullPath());
             report.Document.WriteToFile(options.ReportName);
+
+            _diagnostics.AssertNoFailures();
         }
     }
 }

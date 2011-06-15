@@ -34,6 +34,11 @@ namespace Bottles.Tests.Deployment.Runtime
             throw new NotImplementedException();
         }
 
+        public void AssertNoFailures()
+        {
+            throw new NotImplementedException();
+        }
+
         public LoggingSession Session
         {
             get { throw new NotImplementedException(); }

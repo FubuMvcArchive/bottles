@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using Bottles.Diagnostics;
 using FubuCore;
 
@@ -31,6 +33,28 @@ namespace Bottles.Deployment.Diagnostics
         public LoggingSession Session
         {
             get { return this; }
+        }
+
+        public void AssertNoFailures()
+        {
+            if (!HasErrors()) return;
+
+
+            var writer = new StringWriter();
+            writer.WriteLine("Package loading and aplication bootstrapping failed");
+            writer.WriteLine();
+            EachLog((o, log) =>
+            {
+                if (!log.Success)
+                {
+                    writer.WriteLine(o.ToString());
+                    writer.WriteLine(log.FullTraceText());
+                    writer.WriteLine("------------------------------------------------------------------------------------------------");
+                }
+            });
+
+            throw new ApplicationException(writer.GetStringBuilder().ToString());
+
         }
     }
 }

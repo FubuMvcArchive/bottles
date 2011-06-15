@@ -23,6 +23,7 @@ namespace Bottles.Deployment.Runtime
             _bottles = bottles;
         }
 
+        // TODO -- end to end tests on this monster -- including failure cases
         public void Deploy(DeploymentOptions options)
         {
             // need to log inside of reader
@@ -40,6 +41,8 @@ namespace Bottles.Deployment.Runtime
             runners.Each(x => x.FinalizeDeployment());
 
             _reporter.WriteReport(options, plan);
+
+
         }
 
         public DeploymentPlan BuildPlan(DeploymentOptions options)

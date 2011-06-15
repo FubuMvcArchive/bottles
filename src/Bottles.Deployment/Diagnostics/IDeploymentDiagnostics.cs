@@ -1,4 +1,4 @@
-﻿using Bottles.Diagnostics;
+using Bottles.Diagnostics;
 
 namespace Bottles.Deployment.Diagnostics
 {
@@ -12,5 +12,6 @@ namespace Bottles.Deployment.Diagnostics
 
 
         PackageLog LogAction(HostManifest host, IDirective directive, object action, string description);
+        void AssertNoFailures();
     }
 }
