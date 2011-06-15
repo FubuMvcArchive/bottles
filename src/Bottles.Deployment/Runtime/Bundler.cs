@@ -10,6 +10,7 @@ namespace Bottles.Deployment.Runtime
     public interface IBundler
     {
         void CreateBundle(string destination, DeploymentOptions options);
+        void ExplodeDeployerBottles(string destination);
     }
 
     public class Bundler : IBundler
@@ -62,9 +63,9 @@ namespace Bottles.Deployment.Runtime
         private DeploymentSettings createDestination(string destination)
         {
             ConsoleWriter.WriteWithIndent(ConsoleColor.White, 2, "Creating directory " + destination);
-            var destinationSettings = new DeploymentSettings(destination);
-            _system.DeleteDirectory(destinationSettings.DeploymentDirectory);
-            _system.CreateDirectory(destinationSettings.DeploymentDirectory);
+            var destinationSettings = new DeploymentSettings(destination.AppendPath(ProfileFiles.DeploymentFolder));
+            _system.DeleteDirectory(destination);
+            _system.CreateDirectory(destination);
             return destinationSettings;
         }
 

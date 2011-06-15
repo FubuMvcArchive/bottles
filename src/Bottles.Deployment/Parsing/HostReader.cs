@@ -13,9 +13,10 @@ namespace Bottles.Deployment.Parsing
             {
                 new FileSystem().ReadTextFile(fileName, parser.ParseText);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Console.WriteLine("Failed trying to read " + fileName);
+                var message = "Failed trying to read " + fileName;
+                throw new ApplicationException(message, ex);
             }
 
             var hostName = Path.GetFileNameWithoutExtension(fileName);

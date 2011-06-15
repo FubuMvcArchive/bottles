@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Bottles.Deployment.Bootstrapping;
 using Bottles.Deployment.Runtime;
+using FubuCore;
 using FubuCore.CommandLine;
 
 namespace Bottles.Deployment.Commands
@@ -47,6 +49,38 @@ namespace Bottles.Deployment.Commands
             });
 
             inputs.Each(x => createAllCommand.Execute(x));
+        }
+    }
+
+    public class CopyInput
+    {
+        [Description("The directory name where the deployment artifacts are going to be written")]
+        public string Destination { get; set; }
+
+        [FlagAlias("create-bottles")]
+        public bool CreateBottlesFlag { get; set; }
+
+        [Description("Path to where the deployment folder is ~/deployment")]
+        public string DeploymentFlag { get; set; }
+    }
+
+    // TODO -- put integration test on this mess
+    [CommandDescription("Copies all of the deployment structure to another folder with all the necessary bottle support", Name = "copy")]
+    public class CopyCommand : FubuCommand<CopyInput>
+    {
+        public override bool Execute(CopyInput input)
+        {
+            var settings = DeploymentSettings.ForDirectory(input.DeploymentFlag);
+
+            var system = new FileSystem();
+            system.DeleteDirectory(input.Destination);
+            system.CreateDirectory(input.Destination);
+            system.Copy(settings.DeploymentDirectory, input.Destination);
+
+            DeploymentBootstrapper
+                .UsingService<IBundler>(settings, x => x.ExplodeDeployerBottles(input.Destination));
+
+            return true;
         }
     }
 }

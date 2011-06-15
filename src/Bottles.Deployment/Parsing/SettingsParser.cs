@@ -32,6 +32,8 @@ namespace Bottles.Deployment.Parsing
         public void ParseText(string text)
         {
             text = text.Trim();
+            if (text.IsEmpty()) return;
+
             try
             {
                 if (text.StartsWith(ProfileFiles.BottlePrefix))
