@@ -55,6 +55,8 @@ namespace Bottles.Commands
                 Name = input.Name
             };
 
+            manifest.AddAssembly(assemblyName);
+
             manifest.SetRole(input.RoleFlag ?? BottleRoles.Module);
 
             if (input.NoWebContentFlag)
@@ -64,7 +66,7 @@ namespace Bottles.Commands
 
             
 
-            manifest.AddAssembly(assemblyName);
+            
 
 			if(input.ForceFlag || !fileSystem.FileExists(FileSystem.Combine(input.Path, PackageManifest.FILE)))
 			{
