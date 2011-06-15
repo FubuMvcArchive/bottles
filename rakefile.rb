@@ -111,9 +111,9 @@ end
 
 desc "Creates the deployer bottle files"
 task :create_deployer_bottles => :compile do
-  bottles 'create-pak src/Bottles.Console build/bottles.zip -target release'
-  bottles 'create-pak src/Bottles.Host build/topshelf-deployers.zip -target release'
-  bottles 'create-pak src/Bottles.Deployers.Iis build/iis-deployers.zip -target release'
+  bottles "create-pak src/Bottles.Console build/bottles.zip -target #{COMPILE_TARGET}"
+  bottles "create-pak src/Bottles.Host build/topshelf-deployers.zip -target #{COMPILE_TARGET}"
+  bottles "create-pak src/Bottles.Deployers.Iis build/iis-deployers.zip -target #{COMPILE_TARGET}"
 end
 
 def bottles(args)
