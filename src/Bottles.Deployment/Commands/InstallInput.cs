@@ -68,5 +68,10 @@ namespace Bottles.Deployment.Commands
 
             return format.ToFormat(ManifestFileName);
         }
+
+        public override string ToString()
+        {
+            return string.Format("Executing installers at {0} with mode {1}", AppFolder, ModeFlag);
+        }
     }
 }

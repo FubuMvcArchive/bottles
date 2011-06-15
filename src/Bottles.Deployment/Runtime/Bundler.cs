@@ -1,6 +1,7 @@
 using System;
 using Bottles.Deployment.Parsing;
 using Bottles.Deployment.Runtime.Content;
+using Bottles.Diagnostics;
 using FubuCore;
 using System.Collections.Generic;
 using FubuCore.CommandLine;
@@ -62,23 +63,30 @@ namespace Bottles.Deployment.Runtime
 
         private DeploymentSettings createDestination(string destination)
         {
-            ConsoleWriter.WriteWithIndent(ConsoleColor.White, 2, "Creating directory " + destination);
-            var destinationSettings = new DeploymentSettings(destination.AppendPath(ProfileFiles.DeploymentFolder));
-            _system.DeleteDirectory(destination);
-            _system.CreateDirectory(destination);
-            return destinationSettings;
+            return LogWriter.Indent(() =>
+            {
+                LogWriter.Header2("Creating directory " + destination);
+
+                var destinationSettings = new DeploymentSettings(destination.AppendPath(ProfileFiles.DeploymentFolder));
+                _system.DeleteDirectory(destination);
+                _system.CreateDirectory(destination);
+                return destinationSettings;
+            });
+
+
         }
 
         private static void copyFiles(DeploymentFileCopier copier, DeploymentPlan plan)
         {
-            copier.CopyFile(x => x.EnvironmentFile());
-            copier.CopyFile(x => x.ProfileFileNameFor(plan.ProfileName));
+            LogWriter.Indent(() =>
+            {
+                copier.CopyFile(x => x.EnvironmentFile());
+                copier.CopyFile(x => x.ProfileFileNameFor(plan.ProfileName));
 
-            plan.BottleNames().Each(name => copier.CopyFile(x => x.BottleFileFor(name)));
+                plan.BottleNames().Each(name => copier.CopyFile(x => x.BottleFileFor(name)));
 
-            plan.Recipes.Each(r => copier.CopyFile(x => x.GetRecipeDirectory(r.Name)));
-
-            
+                plan.Recipes.Each(r => copier.CopyFile(x => x.GetRecipeDirectory(r.Name)));
+            }); 
         }
     }
 
@@ -106,7 +114,7 @@ namespace Bottles.Deployment.Runtime
             var destination = pathSource(_destination);
 
 
-            ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 4, "Copying {0} to {1}".ToFormat(source, destination));
+            LogWriter.Trace("Copying {0} to {1}", source, destination);
             _system.Copy(source, destination);
         }
     }

@@ -15,5 +15,10 @@ namespace Bottles.Tests.Deployment
             PassedInDirective = directive;
             DeployWasCalled = true;
         }
+
+        public string GetDescription(T directive)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

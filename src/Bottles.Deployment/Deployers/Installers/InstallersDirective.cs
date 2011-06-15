@@ -77,6 +77,8 @@ namespace Bottles.Deployment.Deployers.Installers
                 _input.EnvironmentAssemblyFlag = value == string.Empty ? null : value;
             }
         }
+
+
     }
 
     public class InstallersDeployer : IFinalizer<InstallersDirective>
@@ -86,6 +88,11 @@ namespace Bottles.Deployment.Deployers.Installers
             log.Trace(directive.Input.Title());
             log.Trace("Writing the installer log file to " + directive.Input.LogFileFlag.ToFullPath());
             new InstallCommand().Execute(directive.Input);
+        }
+
+        public string GetDescription(InstallersDirective directive)
+        {
+            return "Running the installers at " + directive.Input.AppFolder;
         }
     }
 }

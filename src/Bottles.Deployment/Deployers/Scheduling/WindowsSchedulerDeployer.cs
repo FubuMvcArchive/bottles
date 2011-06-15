@@ -46,5 +46,10 @@ namespace Bottles.Deployment.Deployers.Scheduling
             log.Trace(args);
             _runner.Run(psi, new TimeSpan(0, 0, 1, 0));
         }
+
+        public string GetDescription(ScheduledTask directive)
+        {
+            return "Creating a scheduled task for " + directive.TaskToRun;
+        }
     }
 }

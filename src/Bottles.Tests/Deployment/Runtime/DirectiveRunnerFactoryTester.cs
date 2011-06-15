@@ -89,6 +89,11 @@ namespace Bottles.Tests.Deployment.Runtime
         {
             directive.As<FakeDirective>().HitIt();
         }
+
+        public string GetDescription(T directive)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class FakeInitializer2<T> : FakeInitializer<T> where T : IDirective
@@ -100,6 +105,11 @@ namespace Bottles.Tests.Deployment.Runtime
         public void Execute(T directive, HostManifest host, IPackageLog log)
         {
             directive.As<FakeDirective>().HitIt();
+        }
+
+        public string GetDescription(T directive)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -116,6 +126,11 @@ namespace Bottles.Tests.Deployment.Runtime
         public void Execute(T directive, HostManifest host, IPackageLog log)
         {
             directive.As<FakeDirective>().HitIt();
+        }
+
+        public string GetDescription(T directive)
+        {
+            throw new NotImplementedException();
         }
     }
 }

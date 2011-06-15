@@ -11,6 +11,6 @@ namespace Bottles.Deployment.Diagnostics
         void LogDirective(HostManifest host, IDirective directive);
 
 
-        PackageLog LogAction(HostManifest host, IDirective directive, object action);
+        PackageLog LogAction(HostManifest host, IDirective directive, object action, string description);
     }
 }

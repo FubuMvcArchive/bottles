@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Bottles.Deployment.Runtime;
 using Bottles.Deployment.Runtime.Content;
@@ -23,6 +24,11 @@ namespace Bottles.Deployment.Deployers.Simple
             _fileSystem.CreateDirectory(directive.RootDirectory);
 
             host.BottleReferences.Each(x => explodeBottle(directive, log, x.Name));
+        }
+
+        public string GetDescription(ExplodeBottles directive)
+        {
+            return "Exploding bottles to " + directive.RootDirectory;
         }
 
         private void explodeBottle(ExplodeBottles directive, IPackageLog log, string bottleName)

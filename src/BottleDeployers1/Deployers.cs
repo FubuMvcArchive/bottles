@@ -17,6 +17,11 @@ namespace BottleDeployers1
         {
             DeploymentRecorder.Directives.Add(directive);
         }
+
+        public string GetDescription(T directive)
+        {
+            return "something";
+        }
     }
 
     public class OneDeployer : StubDeployer<OneDirective>{}

@@ -43,15 +43,16 @@ namespace Bottles.Diagnostics
             }
         }
 
-        public void Trace(string text)
+        public void Trace(ConsoleColor color, string format, params object[] parameters)
         {
-            ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 4, text);
+            // Later -- do something here.
+            var text = format.ToFormat(parameters);
             _text.WriteLine(text);
         }
 
         public void Trace(string format, params object[] parameters)
         {
-            Trace(format.ToFormat(parameters));
+            Trace(ConsoleColor.Gray, format, parameters);
         }
 
         public bool Success { get; private set; }

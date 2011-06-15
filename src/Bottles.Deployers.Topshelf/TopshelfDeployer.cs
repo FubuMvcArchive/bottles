@@ -106,5 +106,9 @@ namespace Bottles.Deployers.Topshelf
             return sb.ToString();
         }
 
+        public string GetDescription(TopshelfService directive)
+        {
+            return "Creating TopShelf service " + directive;
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using Bottles.Deployment;
 using Bottles.Deployment.Runtime;
 using Bottles.Diagnostics;
@@ -26,6 +27,11 @@ namespace Bottles.Deployers.Iis
             log.Trace("Applying the application offline file to " + appOfflineFile);
             _fileSystem.WriteStringToFile(appOfflineFile,
                                           "&lt;html&gt;&lt;body&gt;Application is being rebuilt&lt;/body&gt;&lt;/html&gt;");
+        }
+
+        public string GetDescription(Website directive)
+        {
+            return "Writing the app_offline_htm file to " + directive.VDirPhysicalPath;
         }
     }
 }

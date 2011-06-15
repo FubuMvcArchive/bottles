@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Xml.Serialization;
+using Bottles.Diagnostics;
 using Bottles.Exploding;
 using FubuCore;
 using Ionic.Zip;
@@ -32,7 +33,7 @@ namespace Bottles.Zipping
 
         public void ExtractTo(string description, Stream stream, string directory)
         {
-            Console.WriteLine("Writing contents of zip file {0} to {1}", description, directory);
+            LogWriter.Trace("Writing contents of zip file {0} to {1}", description, directory);
 
             _fileSystem.DeleteDirectory(directory);
             _fileSystem.CreateDirectory(directory);
@@ -51,7 +52,7 @@ namespace Bottles.Zipping
 
         public void ExtractTo(string fileName, string directory, ExplodeOptions options)
         {
-            Console.WriteLine("Writing contents of zip file {0} to {1}", fileName, directory);
+            LogWriter.Trace("Writing contents of zip file {0} to {1}", fileName, directory);
 
             if (options == ExplodeOptions.DeleteDestination)
             {

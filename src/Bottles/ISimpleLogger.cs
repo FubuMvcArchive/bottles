@@ -1,4 +1,5 @@
-﻿using FubuCore.CommandLine;
+﻿using Bottles.Diagnostics;
+using FubuCore.CommandLine;
 
 namespace Bottles
 {
@@ -11,7 +12,7 @@ namespace Bottles
     {
         public void Log(string text, params object[] parameters)
         {
-            ConsoleWriter.Write(text, parameters);
+            LogWriter.Trace(text, parameters);
         }
     }
 }

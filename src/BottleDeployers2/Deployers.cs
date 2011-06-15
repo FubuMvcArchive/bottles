@@ -44,5 +44,10 @@ namespace BottleDeployers2
         {
             throw new NotImplementedException();
         }
+
+        public string GetDescription(SevenDirective directive)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

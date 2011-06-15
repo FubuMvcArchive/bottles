@@ -51,7 +51,7 @@ namespace Bottles.Tests.Deployment.Runtime
             for (int i = 0; i < theLogs.Length; i++)
             {
                 theLogs[i] = new PackageLog();
-                MockFor<IDeploymentDiagnostics>().Expect(x => x.LogAction(theHost, theDirective, theInitializers[i]))
+                MockFor<IDeploymentDiagnostics>().Expect(x => x.LogAction(theHost, theDirective, theInitializers[i], null))
                     .Return(theLogs[i]);
 
                 
@@ -99,7 +99,7 @@ namespace Bottles.Tests.Deployment.Runtime
             for (int i = 0; i < theLogs.Length; i++)
             {
                 theLogs[i] = new PackageLog();
-                MockFor<IDeploymentDiagnostics>().Expect(x => x.LogAction(theHost, theDirective, theDeployers[i]))
+                MockFor<IDeploymentDiagnostics>().Expect(x => x.LogAction(theHost, theDirective, theDeployers[i], null))
                     .Return(theLogs[i]);
 
 
@@ -146,7 +146,7 @@ namespace Bottles.Tests.Deployment.Runtime
             for (int i = 0; i < theLogs.Length; i++)
             {
                 theLogs[i] = new PackageLog();
-                MockFor<IDeploymentDiagnostics>().Expect(x => x.LogAction(theHost, theDirective, theFinalizers[i]))
+                MockFor<IDeploymentDiagnostics>().Expect(x => x.LogAction(theHost, theDirective, theFinalizers[i], null))
                     .Return(theLogs[i]);
 
 

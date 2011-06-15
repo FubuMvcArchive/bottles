@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Bottles.Deployment.Runtime;
 using Bottles.Deployment.Runtime.Content;
@@ -53,6 +54,11 @@ namespace Bottles.Deployment.Deployers.Configuration
             {
                 _writer.Write(directive.ProfileFile, _settings.Profile);
             }
+        }
+
+        public string GetDescription(CentralConfig directive)
+        {
+            return "Initializing centralized configuration at " + directive.Directory;
         }
     }
 }

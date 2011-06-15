@@ -14,5 +14,10 @@ namespace Bottles.Deployment.Deployers.CommandLine
         public string Arguments { get; set; }
         public string WorkingDirectory { get; set; }
         public int TimeoutInSeconds { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0} {1} in {2}", FileName, Arguments, WorkingDirectory);
+        }
     }
 }

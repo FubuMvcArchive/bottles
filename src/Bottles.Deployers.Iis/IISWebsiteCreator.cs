@@ -1,7 +1,6 @@
-using System;
-using FubuCore.CommandLine;
-using Microsoft.Web.Administration;
+using Bottles.Diagnostics;
 using FubuCore;
+using Microsoft.Web.Administration;
 
 namespace Bottles.Deployers.Iis
 {
@@ -23,24 +22,32 @@ namespace Bottles.Deployers.Iis
                     pool.ProcessModel.Password = website.Password;
                 }
 
-                ConsoleWriter.WriteWithIndent(ConsoleColor.Cyan, 4, "Trying to create a new website at {0}, port {1}".ToFormat(website.WebsitePhysicalPath.ToFullPath(), website.Port));
-                var site = iisManager.CreateSite(website.WebsiteName, website.WebsitePhysicalPath.ToFullPath(), website.Port);
+                LogWriter.Indent(() =>
+                {
+                    LogWriter.Highlight("Trying to create a new website at {0}, port {1}",
+                                        website.WebsitePhysicalPath.ToFullPath(), website.Port);
+                    var site = iisManager.CreateSite(website.WebsiteName, website.WebsitePhysicalPath.ToFullPath(),
+                                                     website.Port);
 
-                ConsoleWriter.WriteWithIndent(ConsoleColor.Cyan, 4, "Trying to create a new virtual directory at " + website.VDirPhysicalPath.ToFullPath());
-                var app = site.CreateApplication(website.VDir, website.VDirPhysicalPath.ToFullPath());
-                app.ApplicationPoolName = website.AppPool;
+                    LogWriter.Highlight("Trying to create a new virtual directory at " +
+                                        website.VDirPhysicalPath.ToFullPath());
+                    var app = site.CreateApplication(website.VDir, website.VDirPhysicalPath.ToFullPath());
+                    app.ApplicationPoolName = website.AppPool;
 
-                //flush the changes so that we can now tweak them.
-                iisManager.CommitChanges();
+                    //flush the changes so that we can now tweak them.
+                    iisManager.CommitChanges();
 
-                app.DirectoryBrowsing(website.DirectoryBrowsing);
+                    app.DirectoryBrowsing(website.DirectoryBrowsing);
 
-                // TODO -- just take these out
-                //app.AnonAuthentication(website.AnonAuth);
-                //app.BasicAuthentication(website.BasicAuth);
-                //app.WindowsAuthentication(website.WindowsAuth);
+                    // TODO -- just take these out
+                    //app.AnonAuthentication(website.AnonAuth);
+                    //app.BasicAuthentication(website.BasicAuth);
+                    //app.WindowsAuthentication(website.WindowsAuth);
 
-                iisManager.CommitChanges();
+                    iisManager.CommitChanges();
+
+                    LogWriter.Success("Success.");
+                });
             }
         }
     }

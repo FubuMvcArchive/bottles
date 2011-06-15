@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using Bottles.Deployment.Diagnostics;
+using Bottles.Diagnostics;
+using System.Linq;
 
 namespace Bottles.Deployment.Runtime
 {
@@ -9,6 +11,9 @@ namespace Bottles.Deployment.Runtime
         void InitializeDeployment();
         void Deploy();
         void FinalizeDeployment();
+        int InitializerCount { get; }
+        int DeployerCount { get; }
+        int FinalizerCount { get; }
     }
 
     public class DirectiveRunner<T> : IDirectiveRunner where T : IDirective
@@ -66,12 +71,42 @@ namespace Bottles.Deployment.Runtime
             get { return _finalizers; }
         }
 
+        public int InitializerCount
+        {
+            get
+            {
+                return _initializers.Count();
+            }
+        }
+
+        public int DeployerCount
+        {
+            get
+            {
+                return _deployers.Count();
+            }
+        }
+
+        public int FinalizerCount
+        {
+            get
+            {
+                return _finalizers.Count();
+            }
+        }
+
         private void runActions(IEnumerable<IDeploymentAction<T>> actions)
         {
             actions.Each(action =>
             {
-                var log = _diagnostics.LogAction(_host, _directive, action);
-                log.Execute(() => action.Execute(_directive, _host, log));
+                var description = action.GetDescription(_directive);
+                var log = _diagnostics.LogAction(_host, _directive, action, description);
+                
+                // TODO -- maybe combine this
+                LogWriter.WithLog(log, () =>
+                {
+                    log.Execute(() => action.Execute(_directive, _host, log));
+                });
             });
         }
     }

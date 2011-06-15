@@ -1,23 +1,21 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using Bottles.Deployment.Diagnostics;
 using Bottles.Deployment.Parsing;
 using Bottles.Deployment.Runtime.Content;
-using FubuCore.CommandLine;
-using FubuCore;
+using Bottles.Diagnostics;
 using System.Linq;
 
 namespace Bottles.Deployment.Runtime
 {
     public class DeploymentController : IDeploymentController
     {
+        private readonly IBottleRepository _bottles;
+        private readonly IDirectiveRunnerFactory _factory;
         private readonly IProfileReader _reader;
         private readonly IDiagnosticsReporter _reporter;
-        private readonly IDirectiveRunnerFactory _factory;
-        private readonly IBottleRepository _bottles;
 
-        public DeploymentController(IProfileReader reader, IDiagnosticsReporter reporter, IDirectiveRunnerFactory factory, IBottleRepository bottles)
+        public DeploymentController(IProfileReader reader, IDiagnosticsReporter reporter,
+                                    IDirectiveRunnerFactory factory, IBottleRepository bottles)
         {
             _reader = reader;
             _reporter = reporter;
@@ -32,11 +30,16 @@ namespace Bottles.Deployment.Runtime
 
             var runners = _factory.BuildRunners(plan);
 
+            int totalCount = runners.Sum(x => x.InitializerCount + x.DeployerCount + x.FinalizerCount);
+            LogWriter.StartSteps(totalCount, "Running all directives");
+
+            
+
             runners.Each(x => x.InitializeDeployment());
             runners.Each(x => x.Deploy());
             runners.Each(x => x.FinalizeDeployment());
 
-           _reporter.WriteReport(options, plan);
+            _reporter.WriteReport(options, plan);
         }
 
         public DeploymentPlan BuildPlan(DeploymentOptions options)
@@ -48,6 +51,5 @@ namespace Bottles.Deployment.Runtime
             _bottles.AssertAllBottlesExist(plan.BottleNames());
             return plan;
         }
-
     }
 }

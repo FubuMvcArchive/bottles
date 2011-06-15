@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Bottles.Deployment;
 using Bottles.Deployment.Diagnostics;
 using Bottles.Deployment.Runtime;
@@ -29,7 +29,7 @@ namespace Bottles.Tests.Deployment.Runtime
             
         }
 
-        public PackageLog LogAction(HostManifest host, IDirective directive, object action)
+        public PackageLog LogAction(HostManifest host, IDirective directive, object action, string description)
         {
             throw new NotImplementedException();
         }

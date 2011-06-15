@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Bottles.Deployment;
 using Bottles.Deployment.Runtime;
@@ -21,10 +22,20 @@ namespace Bottles.Deployers.Iis
         public void Execute(Website directive, HostManifest host, IPackageLog log)
         {
             directive.VDirPhysicalPath = directive.VDirPhysicalPath.ToFullPath();
-            _websiteCreator.Create(directive);
 
-            var destination = new WebsiteBottleDestination(directive.VDirPhysicalPath);
-            _bottleMover.Move(log, destination, host.BottleReferences);
+            LogWriter.WithLog(log, () =>
+            {
+                _websiteCreator.Create(directive);
+
+                var destination = new WebsiteBottleDestination(directive.VDirPhysicalPath);
+                _bottleMover.Move(log, destination, host.BottleReferences);
+            });
+
+        }
+
+        public string GetDescription(Website directive)
+        {
+            return "Creating a new IIS website " + directive;
         }
     }
 

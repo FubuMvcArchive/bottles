@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Bottles.Deployment.Runtime;
 using Bottles.Diagnostics;
@@ -26,8 +27,15 @@ namespace Bottles.Deployment.Deployers.Configuration
 
             var file = pathedDirective.ApplicationRootDirectory().AppendPath(directive.File).ToFullPath();
 
-            log.Trace("Resolving the connection string data at " + file);
+            var description = "Resolving the connection string data at " + file;
+
+            log.Trace(description);
             _resolver.Resolve(file);
+        }
+
+        public string GetDescription(ResolveDbConnection directive)
+        {
+            return "Resolving the connection string at " + directive.File;
         }
     }
 }

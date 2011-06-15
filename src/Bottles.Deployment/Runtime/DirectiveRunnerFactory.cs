@@ -15,7 +15,6 @@ namespace Bottles.Deployment.Runtime
     {
         private readonly IContainer _container;
         private readonly IDirectiveTypeRegistry _types;
-        private readonly IObjectResolver _resolver = ObjectResolver.Basic();
 
         public DirectiveRunnerFactory(IContainer container, IDirectiveTypeRegistry types)
         {

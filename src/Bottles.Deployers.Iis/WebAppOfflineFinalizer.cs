@@ -19,5 +19,10 @@ namespace Bottles.Deployers.Iis
         {
             _fileSystem.DeleteFile(FileSystem.Combine(directive.VDirPhysicalPath, "app_offline.htm"));
         }
+
+        public string GetDescription(Website directive)
+        {
+            return "Removing the app_offline.htm file from " + directive.VDirPhysicalPath;
+        }
     }
 }

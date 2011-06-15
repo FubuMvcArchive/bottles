@@ -25,6 +25,12 @@ namespace Bottles.Deployment.Deployers.CommandLine
             log.Trace("Command completed with exit code '{0}'", exitCode);
         }
 
+        public string GetDescription(CommandLineExecution directive)
+        {
+            return "Execute '{0}'".ToFormat(directive);
+        }
+
+
         public ProcessStartInfo GetProcessStartInfo(CommandLineExecution directive)
         {
             var fileName = directive.FileName;

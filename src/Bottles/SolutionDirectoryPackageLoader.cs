@@ -29,10 +29,14 @@ namespace Bottles
 
             var filtered = pis.Where(pi=>BottleRoles.Module.Equals(pi.Role));
 
-            ConsoleWriter.PrintHorizontalLine();
-            ConsoleWriter.Write("Solution Package Loader found:");
-            filtered.Each(p=>ConsoleWriter.Write("  {0}", p.Name));
-            ConsoleWriter.PrintHorizontalLine();
+            LogWriter.PrintHorizontalLine();
+            LogWriter.Trace("Solution Package Loader found:");
+            LogWriter.Indent(() =>
+            {
+                filtered.Each(p => LogWriter.Trace(p.Name));
+            });
+
+            LogWriter.PrintHorizontalLine();
 
             return filtered;
         }

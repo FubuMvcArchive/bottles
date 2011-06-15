@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using Bottles.Commands;
 using Bottles.Creation;
+using Bottles.Diagnostics;
 using FubuCore;
 using FubuCore.CommandLine;
 using System.Collections.Generic;
@@ -51,16 +52,21 @@ namespace Bottles.Deployment.Commands
         {
             var settings = DeploymentSettings.ForDirectory(input.DeploymentFlag);
 
-            ConsoleWriter.Write("Creating all packages from directory " + input.DirectoryFlag);
+            LogWriter.Trace("Creating all packages from directory " + input.DirectoryFlag);
 
-            if (input.CleanFlag)
+            LogWriter.Indent(() =>
             {
-                ConsoleWriter.Write("  Removing all previous package files");
-                system.CleanDirectory(settings.BottlesDirectory);
-            }
+                if (input.CleanFlag)
+                {
+                    LogWriter.Trace("Removing all previous package files");
+                    system.CleanDirectory(settings.BottlesDirectory);
+                }
 
-            ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 2,"Looking for package manifest files starting at:");
-            ConsoleWriter.WriteWithIndent(ConsoleColor.Gray, 2,input.DirectoryFlag);
+                LogWriter.Trace("Looking for package manifest files starting at:");
+                LogWriter.Trace(input.DirectoryFlag); 
+            });
+
+
             PackageManifest.FindManifestFilesInDirectory(input.DirectoryFlag).Each(file =>
             {
                 var folder = Path.GetDirectoryName(file);

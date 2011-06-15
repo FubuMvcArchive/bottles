@@ -29,6 +29,11 @@ namespace Bottles.Deployment.Deployers.Simple
             var references = _settings.AllBottleNames().Select(x => new BottleReference(x));
             _bottleMover.Move(log, destination, references);
         }
+
+        public string GetDescription(CopyAllModules directive)
+        {
+            return "Copying all module bottles to " + directive.Destination;
+        }
     }
 
     public class CopyAllModulesDestination : IBottleDestination

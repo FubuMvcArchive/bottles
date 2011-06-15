@@ -1,9 +1,5 @@
-using System;
-using System.Diagnostics;
-using Bottles.Deployment.Runtime;
 using Bottles.Diagnostics;
 using FubuCore;
-using FubuCore.CommandLine;
 
 namespace Bottles.Deployment.Diagnostics
 {
@@ -21,17 +17,13 @@ namespace Bottles.Deployment.Diagnostics
             LogFor(host).AddChild(directive);
         }
 
-        public PackageLog LogAction(HostManifest host, IDirective directive, object action)
+        public PackageLog LogAction(HostManifest host, IDirective directive, object action, string description)
         {
-            var provenance = "{0} / {1}".ToFormat(host.Name, directive.GetType().Name);
+            var provenance = "Host {0} / Directive {1}".ToFormat(host.Name, directive.GetType().Name);
             LogObject(action, provenance);
             LogFor(directive).AddChild(action);
-            
 
-            ConsoleWriter.Line();
-            ConsoleWriter.PrintHorizontalLine();
-            ConsoleWriter.WriteWithIndent(ConsoleColor.White, 4, "Running {0} for {1}".ToFormat(action, provenance));
-            
+            LogWriter.RunningStep("{0} for {1}", description, provenance);
 
             return LogFor(action);
         }
