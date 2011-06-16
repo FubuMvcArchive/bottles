@@ -88,6 +88,8 @@ namespace Bottles.Deployment.Commands
             DeploymentBootstrapper
                 .UsingService<IBundler>(settings, x => x.ExplodeDeployerBottles(input.Destination));
 
+            system.DeleteDirectory(settings.StagingDirectory);
+
             return true;
         }
     }
