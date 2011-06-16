@@ -45,6 +45,8 @@ namespace Bottles.Deployment.Runtime
 
             // Need to explode the bottles zip too
             ExplodeDeployerBottles(destination);
+
+            _system.DeleteDirectory(_settings.StagingDirectory);
         }
 
         public void ExplodeDeployerBottles(string destination)
