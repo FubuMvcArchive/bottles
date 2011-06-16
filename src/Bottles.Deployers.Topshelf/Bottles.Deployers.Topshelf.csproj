@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StartServiceFinalizer.cs" />
     <Compile Include="TopshelfDeployer.cs" />
     <Compile Include="TopshelfService.cs" />
   </ItemGroup>
