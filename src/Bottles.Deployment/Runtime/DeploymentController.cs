@@ -30,6 +30,8 @@ namespace Bottles.Deployment.Runtime
         {
             // need to log inside of reader
             var plan = BuildPlan(options);
+
+            plan.AssertAllRequiredValuesAreFilled();
             
             try
             {

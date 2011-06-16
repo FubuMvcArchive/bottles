@@ -34,6 +34,7 @@ namespace Bottles.Deployment.Parsing
             graph.Settings.Environment = _graph.Environment;
             graph.Settings.Profile = _graph.Profile;
 
+
             options.Overrides.Each((key, value) =>
             {
                 _graph.Profile.Data[key] = value;
@@ -160,7 +161,7 @@ namespace Bottles.Deployment.Parsing
         }
 
         private IEnumerable<Recipe> readRecipes()
-        {;
+        {
             var recipes = buildEntireRecipeGraph(_graph.Recipes);
 
             // TODO -- log which recipes were selected
@@ -196,6 +197,12 @@ namespace Bottles.Deployment.Parsing
         public static DeploymentPlan Blank()
         {
             return new DeploymentPlan(new DeploymentSettings(), new DeploymentOptions(), new Recipe[0], new HostManifest[0]);
+        }
+
+        public void AssertAllRequiredValuesAreFilled()
+        {
+            var settingData = _hosts.SelectMany(x => x.AllSettingsData()).Union(Substitutions()).ToArray();
+            SettingsProvider.For(settingData).AssertAllSubstitutionsCanBeResolved();
         }
     }
 
