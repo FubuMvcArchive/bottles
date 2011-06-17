@@ -25,6 +25,9 @@ props = { :stage => File.expand_path("build"), :artifacts => ARTIFACTS }
 desc "**Default**, compiles and runs tests"
 task :default => [:compile, :unit_test]
 
+desc "Creates and publishes the nuget files for the current code"
+task :local_nuget_push => [:compile, :create_deployer_bottles, "nuget:build", "nuget:push"]
+
 desc "Target used for the CI server"
 task :ci => [:default,:package,:create_deployer_bottles,"nuget:build"]
 
