@@ -55,7 +55,8 @@ namespace Bottles.Deployers.Topshelf
             };
 
             log.Trace("Topshelf Install: {0}", buildInstallArgsForDisplay(directive));
-            _runner.Run(psi).AssertMandatorySuccess();
+            _runner.Run(psi, new TimeSpan(0, 0, 0, 20))
+                .AssertMandatorySuccess();
         }
 
         private void stopServiceIfItExists(TopshelfService directive, IPackageLog log)
