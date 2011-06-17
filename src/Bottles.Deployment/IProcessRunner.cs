@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
+using Bottles.Diagnostics;
 
 namespace Bottles.Deployment
 {
     public interface IProcessRunner
     {
-        int Run(ProcessStartInfo info, TimeSpan waitDuration);
-        int Run(ProcessStartInfo info);
+        ProcessReturn Run(ProcessStartInfo info, TimeSpan waitDuration);
+        ProcessReturn Run(ProcessStartInfo info);
     }
 }

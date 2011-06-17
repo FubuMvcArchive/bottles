@@ -21,7 +21,7 @@ namespace Bottles.Deployment.Diagnostics
                             Title = title
                         };
 
-            //_document.AddStyle(getCss());
+            _document.AddStyle(getCss());
             _document.Push("div").AddClass("main");
 
             _document.Add("h2").Text(title);

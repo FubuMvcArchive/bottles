@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
@@ -54,7 +55,7 @@ namespace Bottles.Deployers.Topshelf
             };
 
             log.Trace("Topshelf Install: {0}", buildInstallArgsForDisplay(directive));
-            _runner.Run(psi);
+            _runner.Run(psi).AssertMandatorySuccess();
         }
 
         private void stopServiceIfItExists(TopshelfService directive, IPackageLog log)
@@ -65,8 +66,16 @@ namespace Bottles.Deployers.Topshelf
             
             if(service != null && service.CanStop)
             {
-                log.Trace("Found service '{0}' and stopping", directive.ServiceName);
-                service.Stop();
+                log.Trace("Found service '{0}' and trying to stop it", directive.ServiceName);
+                try
+                {
+                    service.Stop();
+                }
+                catch (Exception e)
+                {
+                    log.Trace("Unable to stop the service");
+                    log.Trace(e.ToString());
+                }
             }
         }
 
