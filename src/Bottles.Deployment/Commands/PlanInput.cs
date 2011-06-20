@@ -20,7 +20,8 @@ namespace Bottles.Deployment.Commands
 
         [Description("Import any other ~/deployment folders for this deployment")]
         [RequiredUsage("imports")]
-        public string[] ImportedFolders { get; set; }
+        // TODO -- want an end to end test on this
+        public IList<string> ImportedFolders { get; set; }
 
         [Description("File where the installation report should be written.  Default is installation_report.htm")]
         public string ReportFlag { get; set; }

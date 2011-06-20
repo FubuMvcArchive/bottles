@@ -104,7 +104,7 @@ namespace Bottles.Deployment
 
         public string ProfileFileNameFor(string profileName)
         {
-            var directories = _allFolders.Select(x => x.AppendPath(ProfilesDirectory));
+            var directories = _allFolders.Select(x => x.AppendPath(ProfileFiles.ProfilesDirectory)).ToList();
             var filename = profileName + "." + ProfileFiles.ProfileExtension;
 
             return new FileSystem().FindFileInDirectories(directories, filename) 
