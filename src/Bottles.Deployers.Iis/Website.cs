@@ -26,6 +26,8 @@ namespace Bottles.Deployers.Iis
 
 
             AppPool = APP_POOL.ToSubstitution();
+
+            Force = false;
         }
 
         /// <summary>
@@ -65,6 +67,8 @@ namespace Bottles.Deployers.Iis
         public Activation AnonAuth { get; set; }
         public Activation BasicAuth { get; set; }
         public Activation WindowsAuth { get; set; }
+
+        public bool Force { get; set; }
 
         public override string ToString()
         {

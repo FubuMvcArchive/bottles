@@ -11,11 +11,18 @@ namespace Bottles.Deployers.Iis
     {
         private static IFileSystem _fileSystem = new FileSystem();
 
-        public static Site CreateSite(this ServerManager iisManager, string name, string directory, int port)
+        public static Site CreateSite(this ServerManager iisManager, string name, string directory, int port, bool force)
         {
             //add a guard clause for any sites already listening on this port?
+            
+            if (force && iisManager.HasSite(name))
+            {
+                iisManager.Sites[name]
+                    .Delete();
+                iisManager.CommitChanges();
+            }
 
-            if (iisManager.Sites.Any(s => s.Name.Equals(name)))
+            if (iisManager.HasSite(name))
             {
                 return iisManager.Sites[name];
             }
@@ -24,12 +31,22 @@ namespace Bottles.Deployers.Iis
             return iisManager.Sites.Add(name, directory, port);
         }
 
-        public static Application CreateApplication(this Site site, string vdir, string physicalPath)
+        public static bool HasSite(this ServerManager iisManager, string name)
         {
-            //needs to start with this
-            if (vdir[0] != '/') vdir = '/' + vdir;
+            return iisManager.Sites.Any(s => s.Name.Equals(name));
+        }
 
-            if (site.Applications.Any(app => app.Path.Equals(vdir)))
+        public static Application CreateApplication(this Site site, string vdir, string physicalPath, bool force)
+        {
+            vdir = fixVDir(vdir);
+
+            if(force && site.HasApplication(vdir))
+            {
+                site.Applications[vdir].Delete();
+                //do I need to commit?
+            }
+
+            if (site.HasApplication(vdir))
             {
                 return site.Applications[vdir];
             }
@@ -37,6 +54,13 @@ namespace Bottles.Deployers.Iis
             _fileSystem.CreateDirectory(physicalPath);
             return site.Applications.Add(vdir, physicalPath);
 
+        }
+
+        public static bool HasApplication(this Site site, string vdir)
+        {
+            vdir = fixVDir(vdir);
+
+            return site.Applications.Any(a => a.Path.Equals(vdir));
         }
 
         public static ApplicationPool CreateAppPool(this ServerManager iisManager, string name)
@@ -99,6 +123,14 @@ namespace Bottles.Deployers.Iis
         {
             var config = app.GetWebConfiguration().GetSection("system.webServer/security/authentication/windowsAuthentication");
             config["enabled"] = activation == Activation.Enable;
+        }
+        static string fixVDir(string vdir)
+        {
+            if (vdir[0] != '/')
+            {
+                vdir = '/' + vdir;
+            }
+            return vdir;
         }
     }
 }

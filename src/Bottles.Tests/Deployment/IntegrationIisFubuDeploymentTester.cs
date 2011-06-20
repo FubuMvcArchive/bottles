@@ -39,10 +39,41 @@ namespace Bottles.Tests.Deployment
 
             initializer.Execute(directive, new HostManifest("something"), new PackageLog());
 
-            var host = new HostManifest("a");
-
             deployer.Create(directive);
         }
-        
+
+        [Test]
+        [Explicit]
+        public void VerifyCanOverride()
+        {
+            IFileSystem fileSystem = new FileSystem();
+            var root = Path.GetPathRoot(AppDomain.CurrentDomain.BaseDirectory);
+            var settings = new DeploymentSettings(root.AppendPath("dev", "test-profile"));
+            IBottleRepository bottles = new BottleRepository(fileSystem, new ZipFileService(fileSystem), settings);
+
+            var initializer = new WebAppOfflineInitializer(fileSystem);
+
+            var deployer = new IisWebsiteCreator();
+
+
+            var directive = new Website();
+            directive.WebsiteName = "fubu";
+            directive.WebsitePhysicalPath = root.AppendPath("dev", "test-web");
+            directive.VDir = "bob";
+            directive.VDirPhysicalPath = root.AppendPath("dev", "test-app");
+            directive.AppPool = "fubizzle";
+
+            directive.DirectoryBrowsing = Activation.Enable;
+
+
+            initializer.Execute(directive, new HostManifest("something"), new PackageLog());
+
+            deployer.Create(directive);
+
+            //override test
+            directive.Force = true;
+            directive.VDirPhysicalPath = root.AppendPath("dev", "test-app2");
+            deployer.Create(directive);
+        }
     }
 }
