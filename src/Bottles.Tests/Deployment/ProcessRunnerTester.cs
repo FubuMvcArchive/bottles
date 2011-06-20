@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Bottles.Deployment;
 using NUnit.Framework;
+using FubuCore;
 
 namespace Bottles.Tests.Deployment
 {
@@ -11,7 +12,8 @@ namespace Bottles.Tests.Deployment
         public void ShouldntBeAnyExceptionsIfTheProcessHasExited()
         {
             var pr = new ProcessRunner();
-            pr.Run(new ProcessStartInfo("ping", "127.0.0.1"));
+            var x = pr.Run(new ProcessStartInfo("ping", "127.0.0.1"));
+            x.OutputText.IsNotEmpty();
         }
     }
 }
