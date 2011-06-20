@@ -18,6 +18,7 @@ namespace Bottles.Deployment.Diagnostics
         public void WriteReport(DeploymentOptions options, DeploymentPlan plan)
         {
             var report = new DeploymentReport("Deployment Report");
+            report.WriteSuccessOrFail(_diagnostics.Session);
             report.WriteDeploymentPlan(plan);
             report.WriteLoggingSession(_diagnostics.Session);
         

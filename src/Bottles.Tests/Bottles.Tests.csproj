@@ -37,6 +37,10 @@
     <Reference Include="FubuTestingSupport">
       <HintPath>..\packages\FubuTestingSupport.0.9.1.24\lib\FubuTestingSupport.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlTags, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\HtmlTags.1.0.0.23\lib\4.0\HtmlTags.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\packages\DotNetZip.1.9\lib\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -99,6 +103,7 @@
     <Compile Include="Deployment\Deployers\Simple\CopyAllModulesInitializerTester.cs" />
     <Compile Include="Deployment\Deployers\Simple\ExplodeBottlesInitializerTester.cs" />
     <Compile Include="Deployment\Deployers\WebsiteBottleDestinationTester.cs" />
+    <Compile Include="Deployment\DeploymentReportTester.cs" />
     <Compile Include="Deployment\Parsing\DeploymentPlanTester.cs" />
     <Compile Include="Deployment\ProcessReturnTester.cs" />
     <Compile Include="Deployment\ProcessRunnerTester.cs" />

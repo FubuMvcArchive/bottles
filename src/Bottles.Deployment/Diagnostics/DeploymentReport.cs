@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using Bottles.Deployment.Parsing;
 using Bottles.Diagnostics;
-using FubuCore.Binding;
 using FubuCore.Configuration;
 using HtmlTags;
 
@@ -107,6 +106,20 @@ namespace Bottles.Deployment.Diagnostics
             _document.Add("h3").Text("Logs");
             var tag = LoggingSessionWriter.Write(session);
             _document.Push(tag);
+        }
+
+        public void WriteSuccessOrFail(LoggingSession session)
+        {
+            var tag = _document.Add("div");
+            var msg = "SUCCESS";
+            
+            if(session.HasErrors())
+            {
+                msg = "FAIL";
+                tag.AddClass("failure");
+            }
+
+            tag.Add("p").Style("margin", "0px 10px").Text(msg);
         }
     }
 }
