@@ -25,14 +25,14 @@ namespace Bottles
             catch (CommandFailureException e)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("ERROR: " + e.Message);
+                ConsoleWriter.Write("ERROR: " + e.Message);
                 Console.ResetColor();
                 return 1;
             }
             catch (Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("ERROR: " + ex);
+                ConsoleWriter.Write("ERROR: " + ex);
                 Console.ResetColor();
                 return 1;
             }

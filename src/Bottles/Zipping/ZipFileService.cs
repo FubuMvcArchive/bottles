@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 using Bottles.Diagnostics;
 using Bottles.Exploding;
 using FubuCore;
+using FubuCore.CommandLine;
 using Ionic.Zip;
 using System.Linq;
 
@@ -20,7 +21,7 @@ namespace Bottles.Zipping
 
         public void CreateZipFile(string fileName, Action<IZipFile> configure)
         {
-            Console.WriteLine("    Starting to write contents to new Zip file at " + fileName);
+            ConsoleWriter.Write("    Starting to write contents to new Zip file at " + fileName);
 
             _fileSystem.CreateDirectory(Path.GetDirectoryName(fileName));
 

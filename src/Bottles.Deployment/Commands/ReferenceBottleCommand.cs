@@ -46,14 +46,14 @@ namespace Bottles.Deployment.Commands
 
 
             var hostPath = deploymentSettings.GetHost(input.Recipe, input.Host);
-            Console.WriteLine("Analyzing the host file at " + input.Host);
+            ConsoleWriter.Write("Analyzing the host file at " + input.Host);
             fileSystem.AlterFlatFile(hostPath, list =>
             {
                 list.Fill(bottleText);
                 list.Sort();
 
-                Console.WriteLine("Contents of file " + hostPath);
-                list.Each(x => Console.WriteLine("  " + x));
+                ConsoleWriter.Write("Contents of file " + hostPath);
+                list.Each(x => ConsoleWriter.Write("  " + x));
             });
         }
 

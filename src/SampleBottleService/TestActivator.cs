@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Bottles;
 using Bottles.Diagnostics;
+using FubuCore.CommandLine;
 
 namespace SampleBottleService
 {
@@ -11,10 +12,10 @@ namespace SampleBottleService
     {
         public void Activate(IEnumerable<IPackageInfo> packages, IPackageLog log)
         {
-            Console.WriteLine("hi, poopy pants");
+            ConsoleWriter.Write("hi, poopy pants");
 
             packages.Select(p => p.Name)
-                .Each(s => Console.WriteLine(s));
+                .Each(s => ConsoleWriter.Write(s));
         }
     }
 }

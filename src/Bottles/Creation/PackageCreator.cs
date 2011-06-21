@@ -89,11 +89,11 @@ namespace Bottles.Creation
         {
             if (manifest.ContentFileSet == null)
             {
-                Console.WriteLine("      No WebContent files");
+                ConsoleWriter.Write("      No WebContent files");
                 return;
             }
 
-            Console.WriteLine("      Adding WebContent folder for " + manifest.ContentFileSet);
+            ConsoleWriter.Write("      Adding WebContent folder for " + manifest.ContentFileSet);
             manifest.ContentFileSet.AppendExclude(FileSystem.Combine("bin","*.*"));
 
             zipFile.AddFiles(new ZipFolderRequest()
@@ -108,11 +108,11 @@ namespace Bottles.Creation
         {
             if (manifest.DataFileSet == null)
             {
-                Console.WriteLine("      No data files");
+                ConsoleWriter.Write("      No data files");
                 return;
             }
 
-            Console.WriteLine("      Adding Data folder for " + manifest.DataFileSet);
+            ConsoleWriter.Write("      Adding Data folder for " + manifest.DataFileSet);
             zipFile.AddFiles(new ZipFolderRequest()
                              {
                                  FileSet = manifest.DataFileSet,
@@ -125,12 +125,12 @@ namespace Bottles.Creation
         {
             if (manifest.ConfigFileSet == null)
             {
-                Console.WriteLine("      No config files");
+                ConsoleWriter.Write("      No config files");
                 return;
             }
 
 
-            Console.WriteLine("      Adding Config folder for " + manifest.ConfigFileSet);
+            ConsoleWriter.Write("      Adding Config folder for " + manifest.ConfigFileSet);
             zipFile.AddFiles(new ZipFolderRequest(){
                 FileSet = manifest.ConfigFileSet,
                 RootDirectory = input.PackageFolder,

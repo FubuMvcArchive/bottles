@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FubuCore;
+using FubuCore.CommandLine;
 
 namespace Bottles.Exploding
 {
@@ -38,12 +39,12 @@ namespace Bottles.Exploding
         {
             if (packageFileNames.Any())
             {
-                Console.WriteLine("Found these package zip files:");
-                packageFileNames.Each(x => Console.WriteLine("  " + x));
+                ConsoleWriter.Write("Found these package zip files:");
+                packageFileNames.Each(x => ConsoleWriter.Write("  " + x));
             }
             else
             {
-                Console.WriteLine("No package zip files found for the application at {0}", applicationDirectory);
+                ConsoleWriter.Write("No package zip files found for the application at {0}", applicationDirectory);
             }
         }
 
@@ -52,13 +53,13 @@ namespace Bottles.Exploding
         {
             if (existingDirectories.Any())
             {
-                Console.WriteLine("Found {0} exploded package directories in the application at {0}", applicationDirectory);
+                ConsoleWriter.Write("Found {0} exploded package directories in the application at {0}", applicationDirectory);
 
-                existingDirectories.Each(dir => Console.WriteLine("  " + dir));
+                existingDirectories.Each(dir => ConsoleWriter.Write("  " + dir));
             }
             else
             {
-                Console.WriteLine("No exploded package directories in the application at {0}", applicationDirectory);
+                ConsoleWriter.Write("No exploded package directories in the application at {0}", applicationDirectory);
             }
         }
     }

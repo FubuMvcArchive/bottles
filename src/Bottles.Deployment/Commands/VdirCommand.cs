@@ -179,7 +179,7 @@ namespace Bottles.Deployment.Commands
             // Remove Entry from container.
             var strName = vdir.Name;
             root.Children.Remove(vdir);
-            Console.WriteLine(strName + " entry was removed from container.");
+            ConsoleWriter.Write(strName + " entry was removed from container.");
             root.CommitChanges();
             root.Close();
         }

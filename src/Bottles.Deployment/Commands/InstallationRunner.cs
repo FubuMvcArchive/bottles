@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Bottles.Diagnostics;
 using Bottles.Environment;
+using FubuCore.CommandLine;
 
 namespace Bottles.Deployment.Commands
 {
@@ -41,7 +42,7 @@ namespace Bottles.Deployment.Commands
 
         private IEnumerable<LogEntry> execute(InstallInput input)
         {
-            Console.WriteLine(input.Title());
+            ConsoleWriter.Write(input.Title());
 
             switch (input.ModeFlag)
             {

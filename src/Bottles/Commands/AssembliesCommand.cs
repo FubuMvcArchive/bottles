@@ -141,17 +141,17 @@ namespace Bottles.Commands
 
         public static void ListAssemblies(IFileSystem fileSystem, AssembliesInput input)
         {
-            Console.WriteLine("Assemblies referenced in {0} are:", input.Manifest.ManifestFileName);
+            ConsoleWriter.Write("Assemblies referenced in {0} are:", input.Manifest.ManifestFileName);
 
-            input.Manifest.Assemblies.Each(name => Console.WriteLine(" * " + name));
+            input.Manifest.Assemblies.Each(name => ConsoleWriter.Write(" * " + name));
 
-            Console.WriteLine("");
-            Console.WriteLine("Assemblies at {0} not referenced in the manifest:");
+            ConsoleWriter.Line();
+            ConsoleWriter.Write("Assemblies at {0} not referenced in the manifest:");
 
             fileSystem
                 .FindAssemblyNames(input.BinariesFolder)
                 .Where(x => !input.Manifest.Assemblies.Contains(x))
-                .Each(x => Console.WriteLine(" * " + x));
+                .Each(x => ConsoleWriter.Write(" * " + x));
         }
     }
 }

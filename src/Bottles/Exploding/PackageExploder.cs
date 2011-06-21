@@ -174,7 +174,7 @@ namespace Bottles.Exploding
                 GetVersion = () => assembly.GetName().Version.ToString(),
                 LogSameVersion =
                     () =>
-                    Console.WriteLine(
+                    ConsoleWriter.Write(
                         "Assembly {0} has already been 'exploded' onto disk".ToFormat(assembly.GetName().FullName)),
                 ExplodeAction = () => explodeAssembly(assembly, directory)
             };

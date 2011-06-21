@@ -3,6 +3,7 @@ using System.IO;
 using Bottles.Exploding;
 using Bottles.Zipping;
 using FubuCore;
+using FubuCore.CommandLine;
 using Topshelf;
 
 namespace Bottles.Host
@@ -26,7 +27,7 @@ namespace Bottles.Host
                     {
                         var fileSystem = new FileSystem();
                         var packageExploder = new PackageExploder(new ZipFileService(fileSystem),
-                                                                  new PackageExploderLogger(Console.WriteLine),
+                                                                  new PackageExploderLogger(ConsoleWriter.Write),
                                                                   fileSystem);
                         return new BottleHost(packageExploder, fileSystem);
                     });

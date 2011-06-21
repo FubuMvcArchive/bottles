@@ -48,8 +48,8 @@ namespace Bottles.Deployment.Commands
                 list.Fill(recipeText);
                 list.Sort();
 
-                Console.WriteLine("Contents of file " + profileFile);
-                list.Each(x => Console.WriteLine("  " + x));
+                ConsoleWriter.Write("Contents of file " + profileFile);
+                list.Each(x => ConsoleWriter.Write("  " + x));
             });
         }
 

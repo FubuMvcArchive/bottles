@@ -18,7 +18,7 @@ namespace Bottles.Deployment.Commands
             var document = EntryLogWriter.Write(entries, input.Title() + " at " + DateTime.UtcNow.ToLongDateString());
             document.WriteToFile(input.LogFileFlag);
 
-            Console.WriteLine("Output writing to {0}", input.LogFileFlag.ToFullPath());
+            ConsoleWriter.Write("Output writing to {0}", input.LogFileFlag.ToFullPath());
 
             if (input.OpenFlag)
             {
@@ -28,7 +28,7 @@ namespace Bottles.Deployment.Commands
 
         public void WriteSuccessToConsole()
         {
-            Console.WriteLine("All installers succeeded without problems");
+            ConsoleWriter.Write("All installers succeeded without problems");
         }
 
         public void WriteFailureToConsole()
@@ -38,11 +38,11 @@ namespace Bottles.Deployment.Commands
 
         private void writeLog(LogEntry log)
         {
-            Console.WriteLine("{0}, Success = {1}", log.Description, log.Success);
-            Console.WriteLine(log.TraceText);
+            ConsoleWriter.Write("{0}, Success = {1}", log.Description, log.Success);
+            ConsoleWriter.Write(log.TraceText);
 
-            Console.WriteLine();
-            Console.WriteLine();
+            ConsoleWriter.Line();
+            ConsoleWriter.Line();
         }
     }
 }

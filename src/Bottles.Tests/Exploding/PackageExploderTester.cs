@@ -5,6 +5,7 @@ using Bottles.Diagnostics;
 using Bottles.Exploding;
 using Bottles.Zipping;
 using FubuCore;
+using FubuCore.CommandLine;
 using FubuTestingSupport;
 using NUnit.Framework;
 using Rhino.Mocks;
@@ -24,7 +25,7 @@ namespace Bottles.Tests.Exploding
             var fileSystem = new FileSystem();
             fileSystem.DeleteDirectory("app1");
             var exploder = new PackageExploder(new ZipFileService(fileSystem),
-                                               new PackageExploderLogger(s => Console.WriteLine(s)), fileSystem);
+                                               new PackageExploderLogger(s => ConsoleWriter.Write(s)), fileSystem);
 
             theFiles = new PackageFiles();
             exploder.ExplodeAssembly("app1", typeof(AssemblyPackageMarker).Assembly, theFiles);

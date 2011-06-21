@@ -94,12 +94,12 @@ namespace Bottles.Commands
         {
             if (manifest.LinkedFolders.Any())
             {
-                Console.WriteLine("  Links for " + appFolder);
-                manifest.LinkedFolders.Each(x => { Console.WriteLine("    " + x); });
+                ConsoleWriter.Write("  Links for " + appFolder);
+                manifest.LinkedFolders.Each(x => { ConsoleWriter.Write("    " + x); });
             }
             else
             {
-                Console.WriteLine("  No package links for " + appFolder);
+                ConsoleWriter.Write("  No package links for " + appFolder);
             }
         }
 
@@ -125,16 +125,17 @@ namespace Bottles.Commands
         private void remove(LinkInput input, LinkManifest manifest)
         {
             manifest.RemoveLink(input.RelativePathOfPackage());
-            Console.WriteLine("Folder {0} was removed from the application at {1}", input.PackageFolder, input.AppFolder);
+            ConsoleWriter.Write("Folder {0} was removed from the application at {1}", input.PackageFolder, input.AppFolder);
         }
 
         private static void add(LinkInput input, LinkManifest manifest)
         {
             var wasAdded = manifest.AddLink(input.RelativePathOfPackage());
-            Console.WriteLine(
-                wasAdded
-                    ? "Folder {0} was added to the application at {1}"
-                    : "Folder {0} is already included in the application at {1}", input.PackageFolder, input.AppFolder);
+            var msg = wasAdded
+                          ? "Folder {0} was added to the application at {1}"
+                          : "Folder {0} is already included in the application at {1}";
+
+            ConsoleWriter.Write(msg, input.PackageFolder, input.AppFolder);
         }
     }
 }
