@@ -16,10 +16,13 @@ namespace Bottles.Deployment.Runtime
         public DeploymentOptions(string profileName)
         {
             ProfileName = profileName;
+            ProfileFileName = "C:\\TODO";
             ReportName = "report.htm";
         }
 
         public string ProfileName { get; set; }
+        public string ProfileFileName { get; set; }
+
         public string ReportName { get; set; }
 
         public IList<string> RecipeNames

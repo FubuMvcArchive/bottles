@@ -16,10 +16,18 @@ a, a:visited{
 	background-color: #fff;
 }
 
-.main h2 {
+.main h1 {
 	-moz-background-clip:border;
 	-moz-border-radius-topleft:6px;
 	-moz-border-radius-topright:6px;
+	background-color:#EBEAEA;
+	border-color:#FAFAFA #DDDDDD #D2D2D2;
+	border-style:solid;
+	border-width:1px;
+	margin: 0;
+	padding: 10px;    
+}
+.main h2 {
 	background-color:#EBEAEA;
 	border-color:#FAFAFA #DDDDDD #D2D2D2;
 	border-style:solid;
@@ -44,6 +52,17 @@ a, a:visited{
 	border-color:#FAFAFA #DDDDDD #D2D2D2;
 	border-style:solid;
 	border-width:1px;
+}
+
+.main #status 
+{
+    /*jack with font here*/
+}
+.main #status.failure {
+    background-color: #FFFFAA;
+}
+.main #status.success {
+    background-color: #AAFFAA;
 }
 
 .main .homelink {
