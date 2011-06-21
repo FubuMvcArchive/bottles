@@ -58,10 +58,13 @@ namespace Bottles.Deployment.Runtime.Content
 
             _fileSystem.CreateDirectory(request.DestinationDirectory);
 
-            _fileSystem.FindFiles(sourceDirectory, new FileSet(){
+            var files = _fileSystem.FindFiles(sourceDirectory, new FileSet
+                                                   {
                 DeepSearch = true,
                 Include = "*.*"
-            }).Each(file =>
+            });
+
+            files.Each(file =>
             {
                 var destinationFile = FileSystem.Combine(request.DestinationDirectory, file.PathRelativeTo(sourceDirectory));
                 request.Log.Trace("Copying {0} to {1}", file, destinationFile);

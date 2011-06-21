@@ -43,11 +43,10 @@ namespace Bottles.Deployment.Runtime
                 runners.Each(x => x.InitializeDeployment());
                 runners.Each(x => x.Deploy());
                 runners.Each(x => x.FinalizeDeployment());
-
-                _reporter.WriteReport(options, plan);
             }
             finally
             {
+                _reporter.WriteReport(options, plan);
                 _system.DeleteDirectory(plan.Settings.StagingDirectory);
             }
 

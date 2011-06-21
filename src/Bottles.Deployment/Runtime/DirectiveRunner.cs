@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using Bottles.Deployment.Diagnostics;
 using Bottles.Diagnostics;
 using System.Linq;
+using FubuCore;
 
 namespace Bottles.Deployment.Runtime
 {
@@ -105,7 +107,14 @@ namespace Bottles.Deployment.Runtime
                 // TODO -- maybe combine this
                 LogWriter.WithLog(log, () =>
                 {
+                    //this is swallowing the exception
                     log.Execute(() => action.Execute(_directive, _host, log));
+                    if(!log.Success)
+                    {
+                        var msg = "Bailing on deployment because '{0}' was not successful".ToFormat(description);
+                        log.Trace(msg);
+                        throw new DeploymentException(msg);
+                    }
                 });
             });
         }

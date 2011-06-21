@@ -97,6 +97,7 @@
     <Compile Include="Deployers\Simple\CopyAllModules.cs" />
     <Compile Include="Deployers\Simple\ExplodeBottles.cs" />
     <Compile Include="Deployers\Simple\ExplodeBottlesInitializer.cs" />
+    <Compile Include="DeploymentException.cs" />
     <Compile Include="DeploymentSettings.cs" />
     <Compile Include="Diagnostics\DeploymentReport.cs" />
     <Compile Include="Diagnostics\DiagnosticsReporter.cs" />
