@@ -112,7 +112,6 @@
     <Compile Include="Deployment\Runtime\Content\BottleMoverTester.cs" />
     <Compile Include="Deployment\Runtime\Content\BottleRepositoryTester.cs" />
     <Compile Include="Deployment\Commands\InitializeCommandTester.cs" />
-    <Compile Include="Deployment\Deployers\WindowsSchedulerDeployerTester.cs" />
     <Compile Include="Deployment\DeploymentSettingsTester.cs" />
     <Compile Include="Deployment\ProfileTester.cs" />
     <Compile Include="Deployment\Runtime\DirectiveRunnerTester.cs" />
