@@ -1,6 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Bottles.Commands;
+using Bottles.Diagnostics;
 using Bottles.Environment;
 using FubuCore;
 using FubuCore.CommandLine;
@@ -24,7 +24,7 @@ namespace Bottles.Deployment.Commands
 
         private void installManifest(InstallInput input)
         {
-            ConsoleWriter.Write("Executing the installers for the FubuMVC application at '{0}'", input.AppFolder);
+            LogWriter.Trace("Executing the installers for the FubuMVC application at '{0}'", input.AppFolder);
 
             var run = CreateEnvironmentRun(input);
 
@@ -34,8 +34,8 @@ namespace Bottles.Deployment.Commands
             }
             catch (EnvironmentRunnerException e)
             {
-                ConsoleWriter.Write("The supplied directives to the installer commands are either incomplete or invalid");
-                ConsoleWriter.Write(e.Message);
+                LogWriter.Trace("The supplied directives to the installer commands are either incomplete or invalid");
+                LogWriter.Trace(e.Message);
 
                 throw;
             }
@@ -52,8 +52,8 @@ namespace Bottles.Deployment.Commands
 
         public virtual void WriteEnvironmentRunIsInvalid(string message)
         {
-            ConsoleWriter.Write("Application Manifest file is incomplete or invalid");
-            ConsoleWriter.Write(message);
+            LogWriter.Trace("Application Manifest file is incomplete or invalid");
+            LogWriter.Trace(message);
         }
 
         public static EnvironmentRun CreateEnvironmentRun(InstallInput input)
