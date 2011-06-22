@@ -23,19 +23,8 @@ namespace Bottles.Deployment.Deployers.Scheduling
             var dest = new WinSchedBottleDestination(directive.InstallLocation);
             _mover.Move(log, dest, host.BottleReferences);
 
-            disableService(directive, log);
             installService(directive, log);
-        }
-
-        private void disableService(ScheduledTask directive, IPackageLog log)
-        {
-            log.Trace("Disabling the scheduled task {0}".ToFormat(directive.Name));
-            var psi = new ProcessStartInfo("schtasks");
-            var args = "/change /tn {0} /DISABLE".ToFormat(directive.Name);
-            psi.Arguments = args;
-
-            log.Trace(args);
-            _runner.Run(psi, new TimeSpan(0, 0, 1, 0));
+            new WindowsScedulerDisabler(_runner).Execute(directive, host, log);
         }
 
         private void installService(ScheduledTask directive, IPackageLog log)
