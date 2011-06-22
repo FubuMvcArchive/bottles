@@ -6,6 +6,7 @@ using Bottles.Deployment.Parsing;
 using Bottles.Diagnostics;
 using FubuCore.Configuration;
 using HtmlTags;
+using FubuCore;
 
 namespace Bottles.Deployment.Diagnostics
 {
@@ -21,7 +22,10 @@ namespace Bottles.Deployment.Diagnostics
                         };
 
             _document.AddStyle(getCss());
-            _document.AddJavaScript(getJs());
+            _document.AddJavaScript(getJs("jquery-1.6.1.min.js"));
+            _document.AddJavaScript(getJs("sneaky.js"));
+            _document.AddStyle(".header {text-indent:20px;background:" + getPngAsCssData("bullet_arrow_right.png") + " 5px 13px no-repeat; cursor:pointer;}");
+            _document.AddStyle(".expanded {background:" + getPngAsCssData("bullet_arrow_down.png") + " 5px 13px no-repeat}");
 
             _document.Push("div").AddClass("main");
 
@@ -56,49 +60,41 @@ namespace Bottles.Deployment.Diagnostics
             });
         }
 
+        
+        private void writeEnvironmentSettings(DeploymentPlan plan)
+        {
+            wrapInCollapsable("Profile / Environment Substitutions", div =>
+            {
+                var report = plan.GetSubstitutionDiagnosticReport();
+
+                div.Append(writeSettings(report));
+            });
+        }
+
+        private void writeHostSettings(DeploymentPlan plan)
+        {
+            wrapInCollapsable("Hosts and Directives", div =>
+            {
+                plan.Hosts.Each(h =>
+                {
+                    div.Append(writeHostSettings(h));
+                });
+            });
+        }
+
         private void wrapInCollapsable(string title, Action<HtmlTag> stuff)
         {
             var id = Guid.NewGuid().ToString();
+            var hid = "h" + id;
             _document.Add("h2")
-                .Text(title).Attr("onclick", "$('#" + id + "').toggle();");
+                .AddClass("header")
+                .Text(title)
+                .Id(hid);
 
             var div = new DivTag(id);
             div.Style("display", "none");
 
             stuff(div);
-
-            _document.Add(div);
-        }
-        private void writeEnvironmentSettings(DeploymentPlan plan)
-        {
-            var id = Guid.NewGuid().ToString();
-            _document.Add("h2")
-                .Text("Profile / Environment Substitutions")
-                .Attr("onclick","$('#"+id+"').toggle();");
-
-            var div = new DivTag(id);
-            div.Style("display", "none");
-
-            var report = plan.GetSubstitutionDiagnosticReport();
-
-            div.Append(writeSettings(report));
-
-            _document.Add(div);
-        }
-
-        private void writeHostSettings(DeploymentPlan plan)
-        {
-            var id = Guid.NewGuid().ToString();
-            _document.Add("h2").Text("Hosts and Directives")
-                .Attr("onclick", "$('#" + id + "').toggle();");
-
-            var div = new DivTag(id);
-            div.Style("display", "none");
-
-            plan.Hosts.Each(h=>
-            {
-                div.Append(writeHostSettings(h));
-            });
 
             _document.Add(div);
         }
@@ -128,9 +124,12 @@ namespace Bottles.Deployment.Diagnostics
 
         public void WriteLoggingSession(LoggingSession session)
         {
-            _document.Add("h3").Text("Logs");
-            var tag = LoggingSessionWriter.Write(session);
-            _document.Push(tag);
+            wrapInCollapsable("Logs", div =>
+            {
+                var tag = LoggingSessionWriter.Write(session);
+                tag.AddClass("details");
+                div.Append(tag);
+            });
         }
 
         public void WriteSuccessOrFail(LoggingSession session)
@@ -147,7 +146,10 @@ namespace Bottles.Deployment.Diagnostics
                 msg = "FAIL";
             }
 
-            tag.Add("p").Style("margin", "0px 10px").Text(msg);
+            tag.Add("p")
+                .Style("margin", "0px 0px")
+                .Style("text-indent","10px")
+                .Text(msg);
         }
 
 
@@ -164,13 +166,34 @@ namespace Bottles.Deployment.Diagnostics
             var reader = new StreamReader(stream);
             return reader.ReadToEnd();
         }
-        private static string getJs()
+        private static string getJs(string name)
         {
             var type = typeof(DeploymentReport);
-            var stream = type.Assembly.GetManifestResourceStream(type, "jquery-1.6.1.min.js");
+            var stream = type.Assembly.GetManifestResourceStream(type, name);
             if (stream == null) return String.Empty;
             var reader = new StreamReader(stream);
             return reader.ReadToEnd();
+        }
+        private static string getPngAsCssData(string imageName)
+        {
+            var type = typeof(DeploymentReport);
+            using(var stream = type.Assembly.GetManifestResourceStream(type, imageName))
+            {
+                if (stream == null) return String.Empty;
+                var bytes=stream.ReadAllBytes();
+
+                return "url(data:image/png;base64,{0})".ToFormat(Convert.ToBase64String(bytes));
+            }
+        }
+    }
+
+    public static class StreamExtensions
+    {
+        public static byte[] ReadAllBytes(this Stream stream)
+        {
+            var buffer = new Byte[stream.Length];
+            stream.Read(buffer, 0, buffer.Length);
+            return buffer;
         }
     }
 }

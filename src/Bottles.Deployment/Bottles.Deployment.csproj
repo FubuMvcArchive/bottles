@@ -175,6 +175,13 @@
   <ItemGroup>
     <EmbeddedResource Include="Diagnostics\jquery-1.6.1.min.js" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Diagnostics\bullet_arrow_down.png" />
+    <EmbeddedResource Include="Diagnostics\bullet_arrow_right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Diagnostics\sneaky.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

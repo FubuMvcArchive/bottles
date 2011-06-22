@@ -25,7 +25,8 @@ a, a:visited{
 	border-style:solid;
 	border-width:1px;
 	margin: 0;
-	padding: 10px;    
+	padding: 10px;
+	font-size:115%;
 }
 .main h2 {
 	background-color:#EBEAEA;
@@ -34,6 +35,7 @@ a, a:visited{
 	border-width:1px;
 	margin: 0;
 	padding: 10px;
+	font-size:110%;
 }
 
 .main h3 {
@@ -43,6 +45,7 @@ a, a:visited{
 	border-color:#FAFAFA #DDDDDD #D2D2D2;
 	border-style:solid;
 	border-width:1px;
+	font-size:105%;
 }
 
 .main h4 {
@@ -52,6 +55,8 @@ a, a:visited{
 	border-color:#FAFAFA #DDDDDD #D2D2D2;
 	border-style:solid;
 	border-width:1px;
+	font-size:100%;
+	text-indent:25px;
 }
 
 .main #status 
@@ -139,7 +144,6 @@ a, a:visited{
 
 table.details
 {
-    border: solid thin black;
     margin-bottom: 25px;
 }
 
@@ -223,6 +227,11 @@ table.details TH
 .failure
 {
 	background-color: #FFFFAA;
+}
+
+.success
+{
+    background-color:#AAFFAA;
 }
 
 pre.failure
