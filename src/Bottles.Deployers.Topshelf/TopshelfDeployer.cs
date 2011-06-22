@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.ServiceProcess;
 using System.Text;
 using Bottles.Deployment;
 using Bottles.Deployment.Runtime;
@@ -32,7 +30,7 @@ namespace Bottles.Deployers.Topshelf
 
         public void Execute(TopshelfService directive, HostManifest host, IPackageLog log)
         {
-            stopServiceIfItExists(directive, log);
+            
             var destination = new TopshelfBottleDestination(directive.InstallLocation);
             var bottleReferences = new List<BottleReference>(host.BottleReferences){
                 new BottleReference(BOTTLE_NAME)
@@ -55,31 +53,11 @@ namespace Bottles.Deployers.Topshelf
             };
 
             log.Trace("Topshelf Install: {0}", buildInstallArgsForDisplay(directive));
-            _runner.Run(psi, new TimeSpan(0, 0, 0, 20))
-                .AssertMandatorySuccess();
+            var x = _runner.Run(psi, new TimeSpan(0, 0, 0, 20));
+            log.Trace("Exited with {0}", x.ExitCode);
+            x.AssertMandatorySuccess();
         }
-
-        private void stopServiceIfItExists(TopshelfService directive, IPackageLog log)
-        {
-            var service = ServiceController.GetServices()
-                .DefaultIfEmpty(null)
-                .SingleOrDefault(sn=>sn.ServiceName.Equals(directive.ServiceName));
-            
-            if(service != null && service.CanStop)
-            {
-                log.Trace("Found service '{0}' and trying to stop it", directive.ServiceName);
-                try
-                {
-                    service.Stop();
-                }
-                catch (Exception e)
-                {
-                    log.Trace("Unable to stop the service");
-                    log.Trace(e.ToString());
-                }
-            }
-        }
-
+        
         private static string buildInstallArgs(TopshelfService directive)
         {
             var sb = new StringBuilder();

@@ -47,6 +47,7 @@
     <Compile Include="StartServiceFinalizer.cs" />
     <Compile Include="TopshelfDeployer.cs" />
     <Compile Include="TopshelfService.cs" />
+    <Compile Include="TopshelfServiceStopper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bottles.Deployment\Bottles.Deployment.csproj">
