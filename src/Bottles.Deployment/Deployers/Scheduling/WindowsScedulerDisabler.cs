@@ -22,7 +22,8 @@ namespace Bottles.Deployment.Deployers.Scheduling
             var args = "/change /tn {0} /DISABLE".ToFormat(directive.Name);
             psi.Arguments = args;
             log.Trace(args);
-            _runner.Run(psi, new TimeSpan(0,0,1,0)).AssertMandatorySuccess();
+            _runner.Run(psi, new TimeSpan(0,0,1,0))
+                .AssertOptionalSuccess();
         }
 
         public string GetDescription(ScheduledTask directive)
