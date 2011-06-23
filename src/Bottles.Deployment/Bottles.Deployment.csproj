@@ -62,6 +62,8 @@
     <Compile Include="Commands\AddProfileCommand.cs" />
     <Compile Include="Commands\AddRecipeCommand.cs" />
     <Compile Include="Commands\BundleCommand.cs" />
+    <Compile Include="Commands\CopyCommand.cs" />
+    <Compile Include="Commands\CopyInput.cs" />
     <Compile Include="Commands\IInstallationLogger.cs" />
     <Compile Include="Commands\InitializeCommand.cs" />
     <Compile Include="Commands\InstallationLogger.cs" />
