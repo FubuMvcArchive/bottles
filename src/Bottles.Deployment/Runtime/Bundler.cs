@@ -4,7 +4,6 @@ using Bottles.Deployment.Runtime.Content;
 using Bottles.Diagnostics;
 using FubuCore;
 using System.Collections.Generic;
-using FubuCore.CommandLine;
 
 namespace Bottles.Deployment.Runtime
 {

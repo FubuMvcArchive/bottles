@@ -89,7 +89,10 @@ namespace Bottles.Deployment
 
         public string GetRecipeDirectory(string recipe)
         {
-            return FileSystem.Combine(RecipesDirectory, recipe);
+            var directories = _allFolders.Select(x => x.AppendPath(ProfileFiles.RecipesDirectory)).ToList();
+
+            return new FileSystem().FindDirectoryInDirectories(directories, recipe)
+                   ?? DeploymentDirectory.AppendPath(ProfileFiles.RecipesDirectory, recipe);
         }
 
         public string GetHost(string recipe, string host)
@@ -155,5 +158,14 @@ namespace Bottles.Deployment
         {
             return new FileSystem().FindFileInDirectories(directories, filename);
         }
+
+        public static string FindDirectoryInDirectories(this IFileSystem fileSystem, IEnumerable<string> directories, string directory)
+        {
+            return directories
+                .Select(dir => dir.AppendPath(directory))
+                .FirstOrDefault(fileSystem.DirectoryExists);
+        }
     }
+
+    
 }

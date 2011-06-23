@@ -5,8 +5,6 @@ using System.IO;
 using System.Linq;
 using Bottles.Deployment.Bootstrapping;
 using Bottles.Deployment.Runtime;
-using Bottles.Diagnostics;
-using FubuCore;
 using FubuCore.CommandLine;
 
 namespace Bottles.Deployment.Commands
@@ -54,43 +52,5 @@ namespace Bottles.Deployment.Commands
         }
     }
 
-    public class CopyInput
-    {
-        [Description("The directory name where the deployment artifacts are going to be written")]
-        public string Destination { get; set; }
-
-        [FlagAlias("create-bottles")]
-        public bool CreateBottlesFlag { get; set; }
-
-        [Description("Path to where the deployment folder is ~/deployment")]
-        public string DeploymentFlag { get; set; }
-    }
-
     // TODO -- put integration test on this mess
-    [CommandDescription("Copies all of the deployment structure to another folder with all the necessary bottle support", Name = "copy")]
-    public class CopyCommand : FubuCommand<CopyInput>
-    {
-        public override bool Execute(CopyInput input)
-        {
-            var settings = DeploymentSettings.ForDirectory(input.DeploymentFlag);
-
-            LogWriter.Header2("Copying deployment from {0} to {1}", settings.DeploymentDirectory, input.Destination);
-
-            var system = new FileSystem();
-            system.DeleteDirectory(input.Destination);
-            system.CreateDirectory(input.Destination);
-
-
-            var destinationDeploymentDirectory = input.Destination.AppendPath(ProfileFiles.DeploymentFolder);
-            system.CopyToDirectory(settings.DeploymentDirectory, destinationDeploymentDirectory);
-            system.DeleteDirectory(destinationDeploymentDirectory.AppendPath(ProfileFiles.TargetDirectory));
-
-            DeploymentBootstrapper
-                .UsingService<IBundler>(settings, x => x.ExplodeDeployerBottles(input.Destination));
-
-            system.DeleteDirectory(settings.StagingDirectory);
-
-            return true;
-        }
-    }
 }
