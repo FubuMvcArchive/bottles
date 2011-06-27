@@ -9,4 +9,5 @@
   <assembly>Bottles</assembly>
   <assembly>Bottles.Deployment</assembly>
   <assembly>Microsoft.Practices.ServiceLocation</assembly>
+  <assembly>Bottles.Deployers.Topshelf</assembly>
 </package>
