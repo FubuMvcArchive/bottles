@@ -29,14 +29,34 @@ namespace Bottles.Deployment.Runtime.Content
                 return _repository.ReadManifest(r.Name); 
             });
 
-            var explosionRequests = manifests.SelectMany(destination.DetermineExplosionRequests).ToList();
-            log.Trace("Explosion requests: {0}", explosionRequests.Count);
+            var explosionRequests = getExplosionRequests(log, manifests, destination);
 
             foreach (var request in explosionRequests)
             {
                 log.Trace("Exploding: '{0}' from '{1}' to '{2}'", request.BottleName, request.BottleDirectory, request.DestinationDirectory);
                 _repository.ExplodeFiles(request);
             }
+        }
+
+        private IList<BottleExplosionRequest> getExplosionRequests(IPackageLog log, IEnumerable<PackageManifest> manifests, IBottleDestination destination)
+        {
+            List<BottleExplosionRequest> explosionRequests;
+            string currentManifest="<empty>";
+            try
+            {
+                explosionRequests = manifests.SelectMany(m=>
+                {
+                    currentManifest = m.Name;
+                    return destination.DetermineExplosionRequests(m);
+                }).ToList();
+
+                log.Trace("Explosion requests: '{0}'", explosionRequests.Count);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Problem building the explosion requests for '{0}'".ToFormat(currentManifest), ex);
+            }
+            return explosionRequests;
         }
     }
 
