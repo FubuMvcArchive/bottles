@@ -21,8 +21,18 @@ namespace Bottles.Deployment.Deployers.CommandLine
             var processStartInfo = GetProcessStartInfo(directive);
 
             log.Trace("Executing the command '{0}' with args '{1}'", directive.FileName, directive.Arguments);
-            var exitCode = _processRunner.Run(processStartInfo, new TimeSpan(0, 0, directive.TimeoutInSeconds));
-            log.Trace("Command completed with exit code '{0}'", exitCode);
+            ProcessReturn rtnVal = null;
+            try
+            {
+                rtnVal = _processRunner.Run(processStartInfo, new TimeSpan(0, 0, directive.TimeoutInSeconds));
+                log.Trace("Command completed with exit code '{0}'", rtnVal.ExitCode);
+            }
+            catch(Exception ex)
+            {
+                if(rtnVal != null)
+                    log.Trace(rtnVal.OutputText);
+                log.MarkFailure(ex);
+            }          
         }
 
         public string GetDescription(CommandLineExecution directive)

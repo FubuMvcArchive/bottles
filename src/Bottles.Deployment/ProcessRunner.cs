@@ -84,7 +84,11 @@ namespace Bottles.Deployment
             {
                 try
                 {
-                    Process.GetProcessById(pid).Kill();
+                    var p = Process.GetProcessById(pid);
+                    if(!p.HasExited)
+                    {
+                        p.Kill();
+                    }
                 }
                 catch (ArgumentException)
                 {
