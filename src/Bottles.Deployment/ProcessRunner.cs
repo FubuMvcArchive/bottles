@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Bottles.Diagnostics;
 using FubuCore;
+using System.Text;
 
 namespace Bottles.Deployment
 {
@@ -59,19 +60,26 @@ namespace Bottles.Deployment
             }
 
             ProcessReturn returnValue = null;
+			var output = new StringBuilder();
             int pid = 0;
             using (var proc = Process.Start(info))
             {
-                pid = proc.Id;
+                pid = proc.Id;				
+				proc.OutputDataReceived += (sender, outputLine) => 
+				{ 
+					output.Append(outputLine.Data); 
+				};
+				
+				proc.BeginOutputReadLine();
                 proc.WaitForExit((int)waitDuration.TotalMilliseconds);
-
-                returnValue = new ProcessReturn(){
-                    ExitCode = proc.ExitCode,
-                    OutputText = proc.StandardOutput.ReadToEnd()
+				
+				killProcessIfItStillExists(pid);
+				
+                returnValue = new ProcessReturn(){              
+					ExitCode = proc.ExitCode,
+                    OutputText = output.ToString()
                 };                
             }
-
-            killProcessIfItStillExists(pid);
 
             return returnValue;
         }
@@ -99,7 +107,7 @@ namespace Bottles.Deployment
 
         public ProcessReturn Run(ProcessStartInfo info)
         {
-            return Run(info, new TimeSpan(0,0,0,10));
+            return Run(info, new TimeSpan(0,0,0,15));
         }
     }
 }
