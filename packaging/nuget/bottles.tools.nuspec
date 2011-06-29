@@ -14,6 +14,8 @@
   </metadata>
   <files>
       <file src="..\..\build\bottles.zip" target="tools" />
+      <file src="..\..\build\iis-deployers.zip" target="tools" />
+      <file src="..\..\build\topshelf-deployers.zip" target="tools" />
   
 	  <file src="..\..\build\BottleRunner.exe" target="tools" />
 	  <file src="..\..\build\BottleRunner.exe.config" target="tools" />
