@@ -5,6 +5,7 @@ using System.Linq;
 using Bottles.Diagnostics;
 using FubuCore;
 using System.Text;
+using System.Threading;
 
 namespace Bottles.Deployment
 {
@@ -96,6 +97,7 @@ namespace Bottles.Deployment
                     if(!p.HasExited)
                     {
                         p.Kill();
+						Thread.Sleep(100);
                     }
                 }
                 catch (ArgumentException)
@@ -107,7 +109,7 @@ namespace Bottles.Deployment
 
         public ProcessReturn Run(ProcessStartInfo info)
         {
-            return Run(info, new TimeSpan(0,0,0,15));
+            return Run(info, new TimeSpan(0,0,0,10));
         }
     }
 }
