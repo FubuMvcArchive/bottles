@@ -62,7 +62,7 @@ namespace Bottles.Tests
         {
             clearDir(@"atlantis");
 
-            ClassUnderTest.Copy("home".AppendPath("bob.txt"), @"atlantis\");
+			ClassUnderTest.Copy("home".AppendPath("bob.txt"), @"atlantis{0}".ToFormat(Path.DirectorySeparatorChar));
 
             ClassUnderTest.FileExists("atlantis".AppendPath("bob.txt")).ShouldBeTrue();
 
