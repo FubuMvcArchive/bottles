@@ -1,4 +1,5 @@
-COMPILE_TARGET = ENV['config'].nil? ? "debug" : ENV['config']
+COMPILE_TARGET = ENV['config'].nil? ? "Debug" : ENV['config']
+CLR_TOOLS_VERSION = "v4.0.30319"
 
 buildsupportfiles = Dir["#{File.dirname(__FILE__)}/buildsupport/*.rb"]
 raise "Run `git submodule update --init` to populate your buildsupport folder." unless buildsupportfiles.any?
@@ -12,7 +13,6 @@ RESULTS_DIR = "results"
 PRODUCT = "FubuMVC"
 COPYRIGHT = 'Copyright 2010-2011 Jeremy D. Miller, Dru Sellers, et al. All rights reserved.';
 COMMON_ASSEMBLY_INFO = 'src/CommonAssemblyInfo.cs';
-CLR_TOOLS_VERSION = "v4.0.30319"
 
 @teamcity_build_id = "bt392"
 tc_build_number = ENV["BUILD_NUMBER"]
@@ -74,8 +74,8 @@ end
 
 desc "Compiles the app"
 task :compile => [:clean, :version] do
-  MSBuildRunner.compile :compilemode => 'debug', :solutionfile => 'src/Bottles.Console/Bottles.Console.csproj', :clrversion => CLR_TOOLS_VERSION
-  sh "bottles.cmd assembly-pak .\\src\\AssemblyPackage"
+  MSBuildRunner.compile :compilemode => COMPILE_TARGET, :solutionfile => 'src/Bottles.Console/Bottles.Console.csproj', :clrversion => CLR_TOOLS_VERSION
+  bottles "assembly-pak src/AssemblyPackage"
   MSBuildRunner.compile :compilemode => COMPILE_TARGET, :solutionfile => 'src/Bottles.sln', :clrversion => CLR_TOOLS_VERSION
   
   copyOutputFiles "src/Bottles.Deployers.Iis/bin/#{COMPILE_TARGET}", "*.{dll,pdb}", props[:stage]  
@@ -120,5 +120,5 @@ task :create_deployer_bottles => :compile do
 end
 
 def bottles(args)
-  sh "src/Bottles.Console/bin/#{COMPILE_TARGET}/BottleRunner.exe #{args}"
+  sh Platform.runtime("src/Bottles.Console/bin/#{COMPILE_TARGET}/BottleRunner.exe #{args}")
 end
