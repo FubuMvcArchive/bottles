@@ -56,14 +56,18 @@ namespace Bottles
 
         public static string FindBinaryDirectory(this IFileSystem fileSystem, string directory, CompileTargetEnum target)
         {
-            var binFolder = FileSystem.Combine(directory, "bin");
-            var debugFolder = FileSystem.Combine(binFolder, target.ToString());
-            if (fileSystem.DirectoryExists(debugFolder))
+            var binFolder = directory.AppendPath("bin");
+            var compileTargetFolder = binFolder.AppendPath(target.ToString());
+            if (fileSystem.DirectoryExists(compileTargetFolder))
             {
-                binFolder = debugFolder;
+                binFolder = compileTargetFolder;
+            }
+            else
+            {
+                LogWriter.Trace("'{0}' did not exist.", compileTargetFolder);
             }
 
-            LogWriter.Trace("Looking for binaries at " + binFolder);
+            LogWriter.Trace("  Looking for binaries at " + binFolder);
 
             return binFolder;
         }
