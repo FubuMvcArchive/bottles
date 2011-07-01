@@ -8,9 +8,9 @@ namespace Bottles.Creation
 {
     public class PackageLogger : IPackageLogger
     {
-        public void WriteAssembliesNotFound(AssemblyFiles theAssemblyFiles, PackageManifest manifest, CreatePackageInput input)
+        public void WriteAssembliesNotFound(AssemblyFiles theAssemblyFiles, PackageManifest manifest, CreatePackageInput input, string binFolder)
         {
-            ConsoleWriter.Write("Did not locate all designated assemblies at {0}", input.PackageFolder);
+            ConsoleWriter.Write("Did not locate all designated assemblies at '{0}'", binFolder);
             ConsoleWriter.Write("Looking for these assemblies in the package manifest file:");
             manifest.Assemblies.Each(name => ConsoleWriter.Write("  " + name));
             ConsoleWriter.Write("But only found:");

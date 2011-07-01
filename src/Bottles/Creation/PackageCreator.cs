@@ -35,7 +35,7 @@ namespace Bottles.Creation
             }
             else
             {
-                _logger.WriteAssembliesNotFound(assemblies, manifest, input);
+                _logger.WriteAssembliesNotFound(assemblies, manifest, input, binFolder);
             }
         }
 

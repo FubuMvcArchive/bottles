@@ -77,7 +77,7 @@ namespace Bottles.Tests.Creation
         [Test]
         public void should_not_log_assemblies_missing()
         {
-            MockFor<IPackageLogger>().AssertWasNotCalled(x => x.WriteAssembliesNotFound(theAssemblyFiles, theManifest, theInput));
+            MockFor<IPackageLogger>().AssertWasNotCalled(x => x.WriteAssembliesNotFound(theAssemblyFiles, theManifest, theInput, theBinFolder));
         }
 
         [Test]
@@ -299,7 +299,7 @@ namespace Bottles.Tests.Creation
         [Test]
         public void log_the_missing_assemblies()
         {
-            MockFor<IPackageLogger>().AssertWasCalled(x => x.WriteAssembliesNotFound(theAssemblyFiles, theManifest, theInput));
+            MockFor<IPackageLogger>().AssertWasCalled(x => x.WriteAssembliesNotFound(theAssemblyFiles, theManifest, theInput, theBinFolder));
         }
 
         [Test]
