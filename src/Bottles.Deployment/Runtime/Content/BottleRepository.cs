@@ -49,12 +49,12 @@ namespace Bottles.Deployment.Runtime.Content
             var bottleFile = _settings.BottleFileFor(bottleName);
             _fileSystem.CreateDirectory(_settings.StagingDirectory);
 
-            var tempDirectory = FileSystem.Combine(_settings.StagingDirectory, bottleName);
+            var tempDirectory = _settings.StagingDirectory.AppendPath(bottleName);
 
 
             explodeToStaging(request, bottleFile, tempDirectory);
 
-            var sourceDirectory = FileSystem.Combine(tempDirectory, request.BottleDirectory);
+            var sourceDirectory = tempDirectory.AppendPath(request.BottleDirectory);
 
             _fileSystem.CreateDirectory(request.DestinationDirectory);
 
@@ -64,10 +64,16 @@ namespace Bottles.Deployment.Runtime.Content
                 Include = "*.*"
             });
 
+
+            request.Log.Trace("Copying directory '{0}' to '{1}'", sourceDirectory, request.DestinationDirectory);
             files.Each(file =>
             {
-                var destinationFile = FileSystem.Combine(request.DestinationDirectory, file.PathRelativeTo(sourceDirectory));
-                request.Log.Trace("Copying {0} to {1}", file, destinationFile);
+                var destinationFile = request.DestinationDirectory.AppendPath(file.PathRelativeTo(sourceDirectory));
+                if(request.DetailedLogging)
+                {
+                    request.Log.Trace("Copying {0} to {1}", file, destinationFile);
+                }
+                
                 
                 _fileSystem.Copy(file, destinationFile, request.CopyBehavior);
             });

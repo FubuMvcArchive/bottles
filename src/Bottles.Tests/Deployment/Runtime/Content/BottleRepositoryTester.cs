@@ -113,7 +113,8 @@ namespace Bottles.Tests.Deployment.Runtime.Content
             theRepository.ExplodeFiles(new BottleExplosionRequest(packageLog){
                 BottleDirectory = "Config",
                 BottleName = "Fake",
-                DestinationDirectory = FileSystem.Combine("exploded", "config")
+                DestinationDirectory = FileSystem.Combine("exploded", "config"),
+                DetailedLogging = true
             });
 
             packageLog.FullTraceText().ShouldContain("1.config");

@@ -95,6 +95,8 @@ namespace Bottles.Deployment.Runtime.Content
 
         public IPackageLog Log { get; private set; }
 
+        public bool DetailedLogging { get; set; }
+
         public bool Equals(BottleExplosionRequest other)
         {
             if (ReferenceEquals(null, other)) return false;
