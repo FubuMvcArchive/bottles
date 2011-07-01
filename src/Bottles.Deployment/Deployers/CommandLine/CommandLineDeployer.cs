@@ -26,6 +26,7 @@ namespace Bottles.Deployment.Deployers.CommandLine
             {
                 rtnVal = _processRunner.Run(processStartInfo, new TimeSpan(0, 0, directive.TimeoutInSeconds));
                 log.Trace("Command completed with exit code '{0}'", rtnVal.ExitCode);
+                log.Trace(rtnVal.OutputText);
             }
             catch(Exception ex)
             {

@@ -17,7 +17,7 @@ namespace Bottles.Deployment.Deployers.CommandLine
 
         public override string ToString()
         {
-            return string.Format("{0} {1} in {2}", FileName, Arguments, WorkingDirectory);
+            return string.Format("'{0} {1}' in {2}", FileName, Arguments, WorkingDirectory);
         }
     }
 }
