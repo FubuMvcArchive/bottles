@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FubuCore;
 using FubuCore.Reflection;
 
@@ -28,7 +27,7 @@ namespace Bottles.Deployment.Writing
             {
                 recipe.Dependencies.Each(d =>
                 {
-                    var line = "Dependency:{0}".ToFormat(d);
+                    var line = "dependency:{0}".ToFormat(d);
                     writer.WriteLine(line);
                 });
             });

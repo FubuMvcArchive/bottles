@@ -89,6 +89,13 @@ namespace Bottles.Storyteller.Fixtures
             _writer.ProfileFor(ProfileName).AddProperty(Key, Value);
         }
 
+        [FormatAs("A profile {profile} that depends on profile(s) {profileNames}")]
+        public void ProfileProfiles(string profile, string[] profileNames)
+        {
+            var profileDef = _writer.ProfileFor(profile);
+            profileNames.Each(profileDef.AddProfileDependency);
+        }
+
         [FormatAs("A profile {profile} that contains the recipe(s) {recipeNames}")]
         public void ProfileRecipes(string profile, string[] recipeNames)
         {

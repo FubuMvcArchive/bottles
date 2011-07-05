@@ -9,7 +9,9 @@ namespace Bottles.Deployment
     public class Profile : ProfileBase
     {
         public static readonly string RecipePrefix = "recipe:";
+        public static string ProfileDependencyPrefix = "dependency:";
         private readonly IList<string> _recipes = new List<string>();
+        private readonly IList<string> _profiles = new List<string>();
 
         public Profile(string profileName) : base(SettingCategory.profile, "Profile:  " + profileName)
         {
@@ -18,6 +20,11 @@ namespace Bottles.Deployment
         public IEnumerable<string> Recipes
         {
             get { return _recipes; }
+        }
+
+        public IEnumerable<string> ProfileDependencies
+        {
+            get { return _profiles; }
         }
 
         public static Profile ReadFrom(DeploymentSettings settings, string profileName)
@@ -45,10 +52,20 @@ namespace Bottles.Deployment
                 var recipeName = text.Substring(RecipePrefix.Length).Trim();
                 AddRecipe(recipeName);
             }
+            else if(text.StartsWith(ProfileDependencyPrefix))
+            {
+                var profileName = text.Substring(ProfileDependencyPrefix.Length).Trim();
+                AddProfileDependency(profileName);
+            }
             else
             {
                 Data.Read(text);
             }
+        }
+
+        private void AddProfileDependency(string profileName)
+        {
+            _profiles.Fill(profileName);
         }
 
         public void AddRecipe(string recipe)

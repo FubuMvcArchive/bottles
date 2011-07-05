@@ -4,7 +4,6 @@ using System.Linq;
 using Bottles.Deployment.Configuration;
 using Bottles.Deployment.Runtime;
 using FubuCore;
-using FubuCore.Binding;
 using FubuCore.CommandLine;
 using FubuCore.Configuration;
 
@@ -174,6 +173,10 @@ namespace Bottles.Deployment.Parsing
             var recipesToRun = new List<string>();
 
             recipesToRun.AddRange(_graph.Profile.Recipes);
+            
+            //add on profile dependencies recipes
+            recipesToRun.AddRange(dependentProfileRecipes());
+
             recipesToRun.AddRange(_options.RecipeNames);
 
             var dependencies = new List<string>();
@@ -187,6 +190,16 @@ namespace Bottles.Deployment.Parsing
             recipesToRun.AddRange(dependencies.Distinct());
 
             return recipesToRun.Distinct().Select(name => allRecipesAvailable.Single(o => o.Name == name));
+        }
+
+        private IEnumerable<string> dependentProfileRecipes()
+        {
+            var x = _graph.Profile.ProfileDependencies.SelectMany(p =>
+            {
+                var profile = Profile.ReadFrom(Settings, p);
+                return profile.Recipes;
+            });
+            return x;
         }
 
         public HostManifest GetHost(string hostName)

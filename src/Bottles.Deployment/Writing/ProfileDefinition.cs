@@ -9,6 +9,7 @@ namespace Bottles.Deployment.Writing
     {
         private readonly string _name;
         private readonly IList<string> _recipes = new List<string>();
+        private readonly IList<string> _profileDependencies = new List<string>();
         private readonly IList<PropertyValue> _values = new List<PropertyValue>();
 
         public ProfileDefinition(string name)
@@ -21,6 +22,10 @@ namespace Bottles.Deployment.Writing
             get { return _name; }
         }
 
+        public void AddProfileDependency(string profile)
+        {
+            _profileDependencies.Fill(profile);
+        }
         public void AddRecipe(string recipe)
         {
             _recipes.Fill(recipe);            
@@ -29,6 +34,11 @@ namespace Bottles.Deployment.Writing
         public IEnumerable<string> Recipes
         {
             get { return _recipes; }
+        }
+
+        public IEnumerable<string> ProfileDependencies
+        {
+            get { return _profileDependencies; }
         }
 
         public void AddProperty<T>(Expression<Func<T, object>> expression, object value)

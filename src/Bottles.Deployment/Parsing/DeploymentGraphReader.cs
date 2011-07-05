@@ -1,4 +1,3 @@
-using System.IO;
 using Bottles.Deployment.Configuration;
 using Bottles.Deployment.Runtime;
 using System.Linq;

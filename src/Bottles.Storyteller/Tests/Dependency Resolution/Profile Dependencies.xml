@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<Test name="Profile Dependencies" lifecycle="Acceptance">
+  <Deployment>
+    <Configure isStep="True">
+      <DeploymentConfiguration>
+        <ProfileRecipes isStep="True" profile="Bob" recipeNames="A,B" />
+        <RecipeStandalone isStep="True" recipe="A" />
+        <RecipeStandalone isStep="True" recipe="B" />
+        <ProfileRecipes isStep="True" profile="Bill" recipeNames="C" />
+        <RecipeStandalone isStep="True" recipe="C" />
+        <ProfileProfiles isStep="True" profile="Bob" profileNames="Bill" />
+      </DeploymentConfiguration>
+    </Configure>
+    <Options isStep="True">
+      <DeploymentOptions>
+        <ProfileIs isStep="True" profile="Bob" />
+      </DeploymentOptions>
+    </Options>
+    <ReadingProfile isStep="True">
+      <ProfileReader>
+        <CheckRecipes isStep="True">
+          <Rows>
+            <row isStep="True" expected="A" />
+            <row isStep="True" expected="B" />
+            <row isStep="True" expected="C" />
+          </Rows>
+        </CheckRecipes>
+      </ProfileReader>
+    </ReadingProfile>
+  </Deployment>
+</Test>

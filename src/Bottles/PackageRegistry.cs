@@ -98,7 +98,7 @@ namespace Bottles
             AssertNoFailures(() =>
             {
                 var writer = new StringWriter();
-                writer.WriteLine("Package loading and aplication bootstrapping failed");
+                writer.WriteLine("Package loading and application bootstrapping failed");
                 writer.WriteLine();
                 Diagnostics.EachLog((o, log) =>
                 {

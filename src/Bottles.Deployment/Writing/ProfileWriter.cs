@@ -12,6 +12,8 @@ namespace Bottles.Deployment.Writing
             {
                 profile.Recipes.Each(r => writer.WriteLine(Profile.RecipePrefix + r));
 
+                profile.ProfileDependencies.Each(pd => writer.WriteLine(Profile.ProfileDependencyPrefix + pd));
+
                 profile.Values.Each(v => v.Write(writer));
             });
         }
