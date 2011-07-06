@@ -22,7 +22,7 @@ namespace Bottles.Host.Packaging
                                  {
                                      BottleDirectory = BottleFiles.BinaryFolder,
                                      BottleName = manifest.Name,
-                                     DestinationDirectory = _physicalPath.AppendPath(TopshelfPackageFacility.TopshelfPackagesFolder) //is this correct
+                                     DestinationDirectory = _physicalPath.AppendPath(TopshelfPackageLoader.TopshelfPackagesFolder) //is this correct
                                  };
                     break;
                 case BottleRoles.Config:

@@ -25,7 +25,7 @@ namespace Bottles.Tests.Host.Packaging
 
             req.BottleDirectory.ShouldEqual(BottleFiles.BinaryFolder);
             req.BottleName = mani.Name;
-            req.DestinationDirectory = "bob".AppendPath(TopshelfPackageFacility.TopshelfPackagesFolder);
+            req.DestinationDirectory = "bob".AppendPath(TopshelfPackageLoader.TopshelfPackagesFolder);
         }
 
         [Test]
