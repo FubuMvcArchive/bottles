@@ -24,11 +24,6 @@ namespace Bottles
         	_packages = packages;
         }
 
-        private string currentProvenance
-        {
-            get { return _provenanceStack.Peek(); }
-        }
-
 
         public void PushProvenance(string provenance)
         {
@@ -40,19 +35,57 @@ namespace Bottles
             _provenanceStack.Pop();
         }
 
-        public void DiscoverAndLoadPackages(Action onAssembliesScanned)
+        public void DiscoverAndLoadPackages(Action onAssembliesScanned, bool runActivators = true)
         {
             findAllPackages();
 
             loadAssemblies(_packages, onAssembliesScanned);
             var discoveredActivators = runAllBootstrappers();
-            activatePackages(_packages, discoveredActivators);
+
+            if(runActivators)
+            {
+                activatePackages(_packages, discoveredActivators);    
+            }
         }
 
         private void activatePackages(IList<IPackageInfo> packages, IList<IActivator> discoveredActivators)
         {
-            _diagnostics.LogExecutionOnEach(discoveredActivators.Union(_activators),
-                                            a => { a.Activate(packages, _diagnostics.LogFor(a)); });
+            var discoveredPlusRegisteredActivators = discoveredActivators.Union(_activators);
+            _diagnostics.LogExecutionOnEach(discoveredPlusRegisteredActivators,
+                                            activator => activator.Activate(packages, _diagnostics.LogFor(activator)));
+        }
+
+        public void AddBootstrapper(IBootstrapper bootstrapper)
+        {
+            _bootstrappers.Add(bootstrapper);
+            _diagnostics.LogObject(bootstrapper, currentProvenance);
+        }
+
+        public void AddLoader(IPackageLoader loader)
+        {
+            _loaders.Add(loader);
+            _diagnostics.LogObject(loader, currentProvenance);
+        }
+
+        public void AddActivator(IActivator activator)
+        {
+            _activators.Add(activator);
+            _diagnostics.LogObject(activator, currentProvenance);
+        }
+
+        public void AddFacility(IPackageFacility facility)
+        {
+            _diagnostics.LogObject(facility, currentProvenance);
+
+            PushProvenance(facility.ToString());
+            
+            facility.As<IPackagingRuntimeGraphConfigurer>().Configure(this);
+            PopProvenance();
+        }
+
+        private string currentProvenance
+        {
+            get { return _provenanceStack.Peek(); }
         }
 
         private List<IActivator> runAllBootstrappers()
@@ -83,34 +116,6 @@ namespace Bottles
                 _diagnostics.LogPackages(loader, packageInfos);
                 _packages.AddRange(packageInfos);
             });
-        }
-
-        public void AddBootstrapper(IBootstrapper bootstrapper)
-        {
-            _bootstrappers.Add(bootstrapper);
-            _diagnostics.LogObject(bootstrapper, currentProvenance);
-        }
-
-        public void AddLoader(IPackageLoader loader)
-        {
-            _loaders.Add(loader);
-            _diagnostics.LogObject(loader, currentProvenance);
-        }
-
-        public void AddActivator(IActivator activator)
-        {
-            _activators.Add(activator);
-            _diagnostics.LogObject(activator, currentProvenance);
-        }
-
-        public void AddFacility(IPackageFacility facility)
-        {
-            _diagnostics.LogObject(facility, currentProvenance);
-
-            PushProvenance(facility.ToString());
-            
-            facility.As<IPackagingRuntimeGraphConfigurer>().Configure(this);
-            PopProvenance();
         }
     }
 }

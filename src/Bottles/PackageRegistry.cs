@@ -43,26 +43,27 @@ namespace Bottles
             get { return _packages; }
         }
 
-        public static void LoadPackages(Action<IPackageFacility> configuration)
+        public static void LoadPackages(Action<IPackageFacility> configuration, bool runActivators=true)
         {
+            Diagnostics = new PackagingDiagnostics();
 			_packages.Clear();
 
             var facility = new PackageFacility();
-            Diagnostics = new PackagingDiagnostics();
             var assemblyLoader = new AssemblyLoader(Diagnostics);
             var graph = new PackagingRuntimeGraph(Diagnostics, assemblyLoader, _packages);
 
             var codeLocation = findCallToLoadPackages();
             graph.PushProvenance(codeLocation);
             configuration(facility);
-            facility.As<IPackagingRuntimeGraphConfigurer>().Configure(graph);
+            facility.Configure(graph);
 
+            
             graph.PopProvenance();
         	graph.DiscoverAndLoadPackages(() =>
         	                              	{
         	                              		_assemblies.Clear();
         	                              		_assemblies.AddRange(assemblyLoader.Assemblies);
-        	                              	});
+        	                              	}, runActivators);
         }
 
         public static PackagingDiagnostics Diagnostics { get; private set; }

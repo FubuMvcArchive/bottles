@@ -10,46 +10,43 @@ using FubuCore.Reflection;
 
 namespace Bottles
 {
-
-
     public class PackageFacility : IPackageFacility, IPackagingRuntimeGraphConfigurer
     {
-        private readonly IList<Action<PackagingRuntimeGraph>> _configurations =
+        private readonly IList<Action<PackagingRuntimeGraph>> _configurableActions =
             new List<Action<PackagingRuntimeGraph>>();
 
-        private Action<PackagingRuntimeGraph> configure
+        //TODO: this is pants on head stupid -dru
+        private Action<PackagingRuntimeGraph> configurableActions
         {
-            set { _configurations.Add(value); }
+            set { _configurableActions.Add(value); }
         }
 
         public void Assembly(Assembly assembly)
         {
-            configure = g => g.AddLoader(new AssemblyPackageLoader(assembly));
+            configurableActions = g => g.AddLoader(new AssemblyPackageLoader(assembly));
         }
 
         public void Bootstrapper(IBootstrapper bootstrapper)
         {
-            configure = g => g.AddBootstrapper(bootstrapper);
+            configurableActions = g => g.AddBootstrapper(bootstrapper);
         }
 
         public void Loader(IPackageLoader loader)
         {
-            configure = g => g.AddLoader(loader);
+            configurableActions = g => g.AddLoader(loader);
         }
 
         public void Facility(IPackageFacility facility)
         {
-            configure = graph =>
+            configurableActions = graph =>
             {
                 graph.AddFacility(facility);
-                
-
             };
         }
 
         public void Activator(IActivator activator)
         {
-            configure = g => g.AddActivator(activator);
+            configurableActions = g => g.AddActivator(activator);
         }
 
         public void Bootstrap(Func<IPackageLog, IEnumerable<IActivator>> lambda)
@@ -78,9 +75,9 @@ namespace Bottles
             return "Unknown";
         }
 
-        void IPackagingRuntimeGraphConfigurer.Configure(PackagingRuntimeGraph graph)
+        public void Configure(PackagingRuntimeGraph graph)
         {
-            _configurations.Each(x => x(graph));
+            _configurableActions.Each(cfgAction => cfgAction(graph));
         }
     }
 }

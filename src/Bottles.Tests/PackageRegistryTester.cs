@@ -38,5 +38,40 @@ namespace Bottles.Tests
                 PackageRegistry.AssertNoFailures();
             }).Message.ShouldContain("You shall not pass");
         }
+
+        [Test]
+        public void should_run_activators()
+        {
+            bool ran = false;
+            PackageRegistry.LoadPackages(x =>
+            {
+                x.Bootstrap(log =>
+                {
+                    return new List<IActivator>(){new LambdaActivator("x",()=>
+                    {
+                        ran = true;
+                    })};
+                });
+            });
+            ran.ShouldBeTrue();
+        }
+
+
+        [Test]
+        public void should_NOT_run_activators()
+        {
+            bool hasNotRun = true;
+            PackageRegistry.LoadPackages(x =>
+            {
+                x.Bootstrap(log =>
+                {
+                    return new List<IActivator>(){new LambdaActivator("x",()=>
+                    {
+                        hasNotRun = false;
+                    })};
+                });
+            }, runActivators:false);
+            hasNotRun.ShouldBeTrue();
+        }
     }
 }
