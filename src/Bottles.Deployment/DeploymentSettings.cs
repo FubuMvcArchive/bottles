@@ -154,6 +154,12 @@ namespace Bottles.Deployment
 
     public static class StringExtensions
     {
+        static readonly char[] newline = System.Environment.NewLine.ToCharArray();
+
+        public static string[] SplitOnNewLine(this string input)
+        {    
+            return input.Split(newline);
+        }
         public static string FindFileInDirectories(this IEnumerable<string> directories, string filename)
         {
             return new FileSystem().FindFileInDirectories(directories, filename);

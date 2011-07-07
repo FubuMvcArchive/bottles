@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using Bottles.Deployment.Runtime;
@@ -31,7 +32,10 @@ namespace Bottles.Deployment.Deployers.CommandLine
             catch(Exception ex)
             {
                 if(rtnVal != null)
-                    log.Trace(rtnVal.OutputText);
+                {
+                    rtnVal.OutputText.SplitOnNewLine().Each(l => log.Trace(l));
+                }
+                    
                 log.MarkFailure(ex);
             }          
         }
