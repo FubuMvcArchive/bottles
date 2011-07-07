@@ -52,6 +52,14 @@ namespace Bottles.Deployers.Topshelf
                     "Unable to stop service '{0}' using conventional stop after 30 seconds".ToFormat(
                         directive.ServiceName));
             }
+            catch (InvalidOperationException ioex)
+            {
+                if(!ioex.Message.Contains("does not exist"))
+                {
+                    throw;
+                }
+                log.Trace("Service is not there anymore. Carry on.");
+            }
             catch (Exception e)
             {
                 log.Trace("Encountered an exception while stopping the service '{0}'", directive.ServiceName);
