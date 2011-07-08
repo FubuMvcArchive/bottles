@@ -23,6 +23,9 @@ namespace Bottles.Deployment.Commands
         // TODO -- want an end to end test on this
         public IList<string> ImportedFolders { get; set; }
 
+        [Description("Tacks on ONE additional recipie. Great for including tests.")] //until fubu command gets better at parsing command lines
+        public string RecipeFlag { get; set; }
+
         [Description("File where the installation report should be written.  Default is installation_report.htm")]
         public string ReportFlag { get; set; }
 
@@ -36,8 +39,9 @@ namespace Bottles.Deployment.Commands
             var options = new DeploymentOptions(ProfileFlag){
                 ReportName = ReportFlag
             };
-
             enhanceDeploymentOptions(options);
+
+            options.RecipeNames.Fill(RecipeFlag);
 
             if (ImportedFolders != null)
             {
