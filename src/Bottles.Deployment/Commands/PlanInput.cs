@@ -41,7 +41,10 @@ namespace Bottles.Deployment.Commands
             };
             enhanceDeploymentOptions(options);
 
-            options.RecipeNames.Fill(RecipeFlag);
+            if(RecipeFlag != null)
+            {
+                options.RecipeNames.Fill(RecipeFlag);
+            }
 
             if (ImportedFolders != null)
             {
