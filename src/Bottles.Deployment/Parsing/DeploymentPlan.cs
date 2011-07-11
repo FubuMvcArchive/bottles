@@ -183,8 +183,15 @@ namespace Bottles.Deployment.Parsing
 
             recipesToRun.Each(r =>
             {
-                var rec = allRecipesAvailable.Single(x => x.Name == r);
-                dependencies.AddRange(rec.Dependencies);
+                try
+                {
+                    var rec = allRecipesAvailable.Single(x => x.Name == r);
+                    dependencies.AddRange(rec.Dependencies);
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Couldn't find recipe '{0}'".ToFormat(r));
+                }
             });
 
             recipesToRun.AddRange(dependencies.Distinct());
