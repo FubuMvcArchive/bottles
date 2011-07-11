@@ -62,8 +62,7 @@ namespace Bottles.Deployers.Topshelf
             }
             catch (Exception e)
             {
-                log.Trace("Encountered an exception while stopping the service '{0}'", directive.ServiceName);
-                log.MarkFailure(e);
+                log.Trace("Encountered an exception while stopping the service '{0}': {1}", directive.ServiceName, e);
             }
 
         }
