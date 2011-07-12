@@ -35,6 +35,9 @@ namespace Bottles.Tests
             theAssemblyFiles = files;
             MockFor<IFileSystem>().Stub(x => x.FindFiles(theBinPath, FileSet.ForAssemblyNames(theAssemblyNames)))
                 .Return(files);
+            // The real FileSystem implemention will return all files in path if the Include specification is empty
+            MockFor<IFileSystem>().Stub(x => x.FindFiles(theBinPath, new FileSet{DeepSearch = false, Include = ""}))
+                .Return(files);
         }
 
         [Test]
@@ -68,6 +71,16 @@ namespace Bottles.Tests
 
             var files = ClassUnderTest.FindAssemblies(theBinPath, theAssemblyNames);
             files.PdbFiles.ShouldBeTheSameAs(theDebugFiles);
+        }
+
+        [Test]
+        public void should_not_find_any_assemblies_when_no_names_are_given()
+        {
+            theActualAssemblyFilesAre("a.dll", "b.exe", "c.dll", "D.exe");
+
+            var files = ClassUnderTest.FindAssemblies(theBinPath, new string[0]);
+            files.Success.ShouldBeTrue();
+            files.Files.Any().ShouldBeFalse();
         }
     }
 }

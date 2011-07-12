@@ -16,6 +16,7 @@ namespace Bottles.Assemblies
 
         public AssemblyFiles FindAssemblies(string binDirectory, IEnumerable<string> assemblyNames)
         {
+            if (!assemblyNames.Any()) return AssemblyFiles.Empty;
             var assemblySet = FileSet.ForAssemblyNames(assemblyNames);
             var debugSet = FileSet.ForAssemblyDebugFiles(assemblyNames);
 

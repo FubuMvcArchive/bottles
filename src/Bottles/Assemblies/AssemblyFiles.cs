@@ -10,5 +10,19 @@ namespace Bottles.Assemblies
         public IEnumerable<string> MissingAssemblies { get; set; }
 
         public bool Success { get; set; }
+
+        public static AssemblyFiles Empty
+        {
+            get
+            {
+                return new AssemblyFiles
+                {
+                    Success = true, 
+                    Files = new string[0],
+                    PdbFiles = new string[0],
+                    MissingAssemblies = new string[0]
+                };
+            }
+        }
     }
 }
