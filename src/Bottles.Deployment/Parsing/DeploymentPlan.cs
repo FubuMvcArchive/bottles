@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Bottles.Deployment.Configuration;
 using Bottles.Deployment.Runtime;
 using FubuCore;
@@ -190,7 +191,14 @@ namespace Bottles.Deployment.Parsing
                 }
                 catch (Exception)
                 {
-                    throw new Exception("Couldn't find recipe '{0}'".ToFormat(r));
+                    var message = new StringBuilder();
+                    message.AppendFormat("Couldn't find recipe '{0}'", r);
+                    message.AppendLine();
+                    message.AppendLine("Recipes found were:");
+                    allRecipesAvailable.Each(rcp => message.AppendFormat("    {0}", rcp));
+                    
+                    message.AppendLine();
+                    throw new Exception(message.ToString());
                 }
             });
 
