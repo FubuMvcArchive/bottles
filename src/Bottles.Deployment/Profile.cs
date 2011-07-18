@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using Bottles.Deployment.Configuration;
 using FubuCore;
 using FubuCore.Configuration;
@@ -35,7 +36,13 @@ namespace Bottles.Deployment
             var fileSystem = new FileSystem();
             if (!fileSystem.FileExists(profileFile))
             {
-                throw new Exception("Couldn't find the profile '{0}'".ToFormat(profileFile));
+                var sb = new StringBuilder();
+                sb.AppendFormat("Couldn't find the profile '{0}'", profileFile);
+                sb.AppendLine();
+                sb.AppendLine("Looked in:");
+                settings.Directories.Each(d => sb.AppendLine("  {0}".ToFormat(d)));
+
+                throw new Exception(sb.ToString());
             }
 
             fileSystem.ReadTextFile(profileFile, profile.ReadText);
