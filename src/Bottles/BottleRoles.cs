@@ -26,7 +26,7 @@
 
 
         /// <summary>
-        /// Packages that are strictly data
+        /// Packages that are strictly data. aka just files
         /// </summary>
         public const string Data = "data";
     }
