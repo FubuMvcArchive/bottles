@@ -1,4 +1,3 @@
-using System;
 using Bottles.Deployment;
 using Bottles.Deployment.Runtime;
 using Bottles.Diagnostics;

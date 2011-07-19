@@ -1,4 +1,3 @@
-using System;
 using FubuCore;
 
 namespace Bottles.Deployment.Deployers.Simple
