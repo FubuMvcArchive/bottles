@@ -1,3 +1,5 @@
+using FubuCore;
+
 namespace Bottles.Deployment.Deployers.Scheduling
 {
     /// <summary>
@@ -16,5 +18,10 @@ namespace Bottles.Deployment.Deployers.Scheduling
         public string TaskToRun { get; set; }
 
         public string InstallLocation { get; set; } //where we should install the bits
+
+        public override string ToString()
+        {
+            return "Scheduled Task '{0}'".ToFormat(Name);
+        }
     }
 }

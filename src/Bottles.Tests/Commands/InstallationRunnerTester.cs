@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Bottles.Deployment.Commands;
+using Bottles.Deployment.Diagnostics;
 using Bottles.Diagnostics;
 using Bottles.Environment;
 using FubuCore;

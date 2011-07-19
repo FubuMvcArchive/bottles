@@ -1,4 +1,5 @@
 using System;
+using FubuCore;
 
 namespace Bottles.Deployment.Deployers.Simple
 {
@@ -14,6 +15,11 @@ namespace Bottles.Deployment.Deployers.Simple
         public string WebContentDirectory { get; set; }
         public string DataDirectory { get; set; }
         public string BinDirectory { get; set; }
+
+        public override string ToString()
+        {
+            return "Expolding bottles to '{0}'".ToFormat(RootDirectory);
+        }
     }
 
     

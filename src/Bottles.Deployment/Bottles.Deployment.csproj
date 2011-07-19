@@ -64,9 +64,7 @@
     <Compile Include="Commands\BundleCommand.cs" />
     <Compile Include="Commands\CopyCommand.cs" />
     <Compile Include="Commands\CopyInput.cs" />
-    <Compile Include="Commands\IInstallationLogger.cs" />
     <Compile Include="Commands\InitializeCommand.cs" />
-    <Compile Include="Commands\InstallationLogger.cs" />
     <Compile Include="Commands\InstallationRunner.cs" />
     <Compile Include="Commands\InstallCommand.cs" />
     <Compile Include="Commands\InstallInput.cs" />
@@ -106,6 +104,8 @@
     <Compile Include="Diagnostics\DeploymentReport.cs" />
     <Compile Include="Diagnostics\DiagnosticsReporter.cs" />
     <Compile Include="Diagnostics\IDiagnosticsReporter.cs" />
+    <Compile Include="Diagnostics\IInstallationLogger.cs" />
+    <Compile Include="Diagnostics\InstallationLogger.cs" />
     <Compile Include="Diagnostics\TableTagExtensions.cs" />
     <Compile Include="Deployers\CommandLine\CommandLineExecution.cs" />
     <Compile Include="Deployers\Scheduling\ScheduledTask.cs" />

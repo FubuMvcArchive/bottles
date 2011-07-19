@@ -1,6 +1,7 @@
 using Bottles.Assemblies;
+using Bottles.Creation;
 
-namespace Bottles.Creation
+namespace Bottles.Diagnostics
 {
     public interface IPackageLogger
     {

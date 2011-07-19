@@ -1,6 +1,7 @@
 using System;
 using Bottles.Assemblies;
 using Bottles.Creation;
+using Bottles.Diagnostics;
 using Bottles.Zipping;
 using FubuCore;
 using FubuCore.CommandLine;

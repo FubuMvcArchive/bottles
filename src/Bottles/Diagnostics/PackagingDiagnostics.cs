@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using FubuCore;
 
@@ -25,12 +26,12 @@ namespace Bottles.Diagnostics
             });
         }
 
-        // TODO:  Try to find the assembly file version here. 
         public void LogAssembly(IPackageInfo package, Assembly assembly, string provenance)
         {
+            var assVer = FileVersionInfo.GetVersionInfo(assembly.Location);
             LogObject(assembly, provenance);
             var packageLog = LogFor(package);
-            packageLog.Trace("Loaded assembly " + assembly.GetName().FullName);
+            packageLog.Trace("Loaded assembly '{0}' v{1}".ToFormat(assembly.GetName().FullName, assVer.ProductVersion));
             packageLog.AddChild(assembly);
         }
 
@@ -46,6 +47,8 @@ namespace Bottles.Diagnostics
             log.MarkFailure(exception);
             log.Trace("Failed to load assembly at '{0}'".ToFormat(fileName));
         }
+
+
 
         // TODO -- think about this little puppy
         public static string GetTypeName(object target)

@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using Bottles.Deployment.Commands;
 using Bottles.Diagnostics;
 
-namespace Bottles.Deployment.Commands
+namespace Bottles.Deployment.Diagnostics
 {
     public interface IInstallationLogger
     {

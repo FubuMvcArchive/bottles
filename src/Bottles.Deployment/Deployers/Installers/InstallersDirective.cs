@@ -1,4 +1,3 @@
-using System;
 using Bottles.Deployment.Commands;
 using Bottles.Deployment.Runtime;
 using Bottles.Diagnostics;
@@ -78,6 +77,10 @@ namespace Bottles.Deployment.Deployers.Installers
             }
         }
 
+        public override string ToString()
+        {
+            return "Running Installers Mode:'{0}'".ToFormat(Mode);
+        }
 
     }
 

@@ -24,7 +24,7 @@ namespace Bottles.Deployers.Iis
             var appOfflineFile = FileSystem.Combine(directive.VDirPhysicalPath, "app_offline.htm");
 
             // TODO -- make this nicer
-            log.Trace("Applying the application offline file to " + appOfflineFile);
+            log.Trace("Writing the application offline file to " + appOfflineFile);
             _fileSystem.WriteStringToFile(appOfflineFile,
                                           "&lt;html&gt;&lt;body&gt;Application is being rebuilt&lt;/body&gt;&lt;/html&gt;");
         }

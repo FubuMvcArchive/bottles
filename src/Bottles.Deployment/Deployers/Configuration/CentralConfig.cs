@@ -18,5 +18,10 @@ namespace Bottles.Deployment.Deployers.Configuration
 
         public string ProfileFile { get; set; }
         public string EnvironmentFile { get; set; }
+
+        public override string ToString()
+        {
+            return "Central Config Dir: '{0}' Behavior: '{1}'".ToFormat(Directory, CopyBehavior);
+        }
     }
 }

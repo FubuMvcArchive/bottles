@@ -40,8 +40,13 @@ namespace Bottles.Deployment.Runtime
                 int totalCount = runners.Sum(x => x.InitializerCount + x.DeployerCount + x.FinalizerCount);
                 LogWriter.StartSteps(totalCount, "Running all directives");
 
+                //LOG: running initializers
                 runners.Each(x => x.InitializeDeployment());
+
+                //LOG: running deployers
                 runners.Each(x => x.Deploy());
+
+                //LOG: running finalizer
                 runners.Each(x => x.FinalizeDeployment());
             }
             finally

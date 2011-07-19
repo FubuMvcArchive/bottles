@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bottles.Assemblies;
+using Bottles.Creation;
 using FubuCore.CommandLine;
 
-namespace Bottles.Creation
+namespace Bottles.Diagnostics
 {
     public class PackageLogger : IPackageLogger
     {

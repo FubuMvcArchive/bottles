@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using Bottles.Deployment.Commands;
 using Bottles.Diagnostics;
 using FubuCore;
 using FubuCore.CommandLine;
 
-namespace Bottles.Deployment.Commands
+namespace Bottles.Deployment.Diagnostics
 {
     public class InstallationLogger : IInstallationLogger
     {

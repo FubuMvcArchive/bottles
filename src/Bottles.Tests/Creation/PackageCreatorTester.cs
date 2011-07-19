@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Bottles.Assemblies;
 using Bottles.Creation;
+using Bottles.Diagnostics;
 using Bottles.Exploding;
 using Bottles.Tests.Zipping;
 using Bottles.Zipping;
