@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using Bottles.Diagnostics;
 using FubuCore;
-using FubuCore.CommandLine;
 
 namespace Bottles
 {
@@ -29,14 +28,14 @@ namespace Bottles
 
             var filtered = pis.Where(pi=>BottleRoles.Module.Equals(pi.Role));
 
-            LogWriter.PrintHorizontalLine();
-            LogWriter.Trace("Solution Package Loader found:");
-            LogWriter.Indent(() =>
+            LogWriter.Current.PrintHorizontalLine();
+            LogWriter.Current.Trace("Solution Package Loader found:");
+            LogWriter.Current.Indent(() =>
             {
-                filtered.Each(p => LogWriter.Trace(p.Name));
+                filtered.Each(p => LogWriter.Current.Trace(p.Name));
             });
 
-            LogWriter.PrintHorizontalLine();
+            LogWriter.Current.PrintHorizontalLine();
 
             return filtered;
         }

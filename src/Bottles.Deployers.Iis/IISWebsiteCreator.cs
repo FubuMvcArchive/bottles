@@ -22,7 +22,7 @@ namespace Bottles.Deployers.Iis
                     pool.ProcessModel.Password = website.Password;
                 }
 
-                LogWriter.Indent(() =>
+                LogWriter.Current.Indent(() =>
                 {
                     Site site = createSite(website, iisManager);
 
@@ -40,14 +40,14 @@ namespace Bottles.Deployers.Iis
 
                     iisManager.CommitChanges();
 
-                    LogWriter.Success("Success.");
+                    LogWriter.Current.Success("Success.");
                 });
             }
         }
 
         private Application createApp(Website website, Site site)
         {
-            LogWriter.Highlight("Trying to create a new virtual directory at " +
+            LogWriter.Current.Highlight("Trying to create a new virtual directory at " +
                                 website.VDirPhysicalPath.ToFullPath());
             var app = site.CreateApplication(website.VDir, website.VDirPhysicalPath.ToFullPath(), website.Force);
             app.ApplicationPoolName = website.AppPool;
@@ -56,7 +56,7 @@ namespace Bottles.Deployers.Iis
 
         private Site createSite(Website website, ServerManager iisManager)
         {
-            LogWriter.Highlight("Trying to create a new website at {0}, port {1}",
+            LogWriter.Current.Highlight("Trying to create a new website at {0}, port {1}",
                                 website.WebsitePhysicalPath.ToFullPath(), website.Port);
             return iisManager.CreateSite(website.WebsiteName, website.WebsitePhysicalPath.ToFullPath(),
                                          website.Port, website.Force);

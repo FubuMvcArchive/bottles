@@ -64,9 +64,9 @@ namespace Bottles.Deployment.Runtime
 
         private DeploymentSettings createDestination(string destination)
         {
-            return LogWriter.Indent(() =>
+            return LogWriter.Current.Indent(() =>
             {
-                LogWriter.Header2("Creating directory " + destination);
+                LogWriter.Current.Header2("Creating directory " + destination);
 
                 var destinationSettings = new DeploymentSettings(destination.AppendPath(ProfileFiles.DeploymentFolder));
                 _system.DeleteDirectory(destination);
@@ -79,7 +79,7 @@ namespace Bottles.Deployment.Runtime
 
         private static void copyFiles(DeploymentFileCopier copier, DeploymentPlan plan)
         {
-            LogWriter.Indent(() =>
+            LogWriter.Current.Indent(() =>
             {
                 copier.CopyFile(x => x.EnvironmentFile());
                 copier.CopyFile(x => x.ProfileFileNameFor(plan.ProfileName));
@@ -115,7 +115,7 @@ namespace Bottles.Deployment.Runtime
             var destination = pathSource(_destination);
 
 
-            LogWriter.Trace("Copying {0} to {1}", source, destination);
+            LogWriter.Current.Trace("Copying {0} to {1}", source, destination);
             _system.Copy(source, destination);
         }
     }

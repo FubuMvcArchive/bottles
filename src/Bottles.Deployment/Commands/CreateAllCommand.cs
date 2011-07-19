@@ -52,18 +52,18 @@ namespace Bottles.Deployment.Commands
         {
             var settings = DeploymentSettings.ForDirectory(input.DeploymentFlag);
 
-            LogWriter.Trace("Creating all packages from directory " + input.DirectoryFlag);
+            LogWriter.Current.Trace("Creating all packages from directory " + input.DirectoryFlag);
 
-            LogWriter.Indent(() =>
+            LogWriter.Current.Indent(() =>
             {
                 if (input.CleanFlag)
                 {
-                    LogWriter.Trace("Removing all previous package files");
+                    LogWriter.Current.Trace("Removing all previous package files");
                     system.CleanDirectory(settings.BottlesDirectory);
                 }
 
-                LogWriter.Trace("Looking for package manifest files starting at:");
-                LogWriter.Trace(input.DirectoryFlag); 
+                LogWriter.Current.Trace("Looking for package manifest files starting at:");
+                LogWriter.Current.Trace(input.DirectoryFlag); 
             });
 
 

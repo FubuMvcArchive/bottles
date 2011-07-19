@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Bottles.Deployment.Diagnostics;
 using Bottles.Deployment.Parsing;
@@ -5,6 +6,7 @@ using Bottles.Deployment.Runtime.Content;
 using Bottles.Diagnostics;
 using System.Linq;
 using FubuCore;
+using FubuCore.CommandLine;
 
 namespace Bottles.Deployment.Runtime
 {
@@ -38,7 +40,7 @@ namespace Bottles.Deployment.Runtime
                 var runners = _factory.BuildRunners(plan);
 
                 int totalCount = runners.Sum(x => x.InitializerCount + x.DeployerCount + x.FinalizerCount);
-                LogWriter.StartSteps(totalCount, "Running all directives");
+                StartSteps(totalCount, "Running all directives");
 
                 //LOG: running initializers
                 runners.Each(x => x.InitializeDeployment());
@@ -67,5 +69,25 @@ namespace Bottles.Deployment.Runtime
             _bottles.AssertAllBottlesExist(plan.BottleNames());
             return plan;
         }
+
+        private static void StartSteps(int totalCount, string header)
+        {
+            _totalSteps = totalCount;
+            _currentStep = 1;
+
+            ConsoleWriter.Write(ConsoleColor.White, header);
+        }
+
+        public static void RunningStep(string format, params object[] parameters)
+        {
+            var length = _totalSteps.ToString().Length;
+            var count = "  - {0} / {1}:  ".ToFormat(_currentStep.ToString().PadLeft(length, ' '), _totalSteps);
+            ConsoleWriter.Write(ConsoleColor.Gray, count + format.ToFormat(parameters));
+
+            _currentStep++;
+        }
+
+        private static int _totalSteps = 0;
+        private static int _currentStep = 0;
     }
 }

@@ -45,7 +45,7 @@ namespace Bottles.Creation
             
             if (_fileSystem.FileExists(zipFileName))
             {
-                LogWriter.Highlight("    Deleting existing file at " + zipFileName);
+                LogWriter.Current.Highlight("    Deleting existing file at " + zipFileName);
                 _fileSystem.DeleteFile(zipFileName);
             }
 

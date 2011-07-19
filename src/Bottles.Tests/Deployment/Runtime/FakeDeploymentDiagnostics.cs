@@ -1,7 +1,7 @@
 using System;
 using Bottles.Deployment;
 using Bottles.Deployment.Diagnostics;
-using Bottles.Deployment.Runtime;
+using Bottles.Deployment.Parsing;
 using Bottles.Diagnostics;
 
 namespace Bottles.Tests.Deployment.Runtime
@@ -13,13 +13,13 @@ namespace Bottles.Tests.Deployment.Runtime
             return null;
         }
 
-        public void LogHost(HostManifest hostManifest, Action<HostManifest> action)
+
+        public void LogDeployment(DeploymentPlan plan)
         {
-            action(hostManifest);
+            
         }
 
-
-        public void LogHost(HostManifest hostManifest)
+        public void LogHost(DeploymentPlan plan, HostManifest hostManifest)
         {
             
         }

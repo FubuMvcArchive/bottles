@@ -16,7 +16,7 @@ namespace Bottles.Deployment
 
         public void AssertOptionalSuccess()
         {
-            LogWriter.Trace(OutputText);
+            LogWriter.Current.Trace(OutputText);
         }
 
         public void AssertMandatorySuccess()
@@ -28,11 +28,11 @@ namespace Bottles.Deployment
         {
             if (exitCodeFails(ExitCode))
             {
-                LogWriter.Fail(OutputText);
+                LogWriter.Current.Fail(OutputText);
             }
             else
             {
-                LogWriter.Trace(OutputText);
+                LogWriter.Current.Trace(OutputText);
             }
         }
     }
@@ -53,7 +53,7 @@ namespace Bottles.Deployment
 
             info.RedirectStandardError = info.RedirectStandardOutput = true;
 
-            LogWriter.Trace("Running process at {0} {1}\nIn working directory {2}", info.FileName, info.Arguments, info.WorkingDirectory);
+            LogWriter.Current.Trace("Running process at {0} {1}\nIn working directory {2}", info.FileName, info.Arguments, info.WorkingDirectory);
             
             if (!Path.IsPathRooted(info.FileName))
             {

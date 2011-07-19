@@ -67,19 +67,25 @@ namespace Bottles.Deployment.Diagnostics
             {
                 var report = plan.GetSubstitutionDiagnosticReport();
 
-                div.Append(writeSettings(report));
+                div.Append(writeSettings(findProvenanceRoot(plan), report));
             });
         }
 
         private void writeHostSettings(DeploymentPlan plan)
         {
-            wrapInCollapsable("Hosts and Directives", div =>
+            var provRoot = findProvenanceRoot(plan);
+            wrapInCollapsable("Directive Values by Host", div =>
             {
                 plan.Hosts.Each(h =>
                 {
-                    div.Append(writeHostSettings(h));
+                    div.Append(writeHostSettings(provRoot, h));
                 });
             });
+        }
+
+        private string findProvenanceRoot(DeploymentPlan plan)
+        {
+            return System.Environment.CurrentDirectory;
         }
 
         private void wrapInCollapsable(string title, Action<HtmlTag> stuff)
@@ -99,16 +105,16 @@ namespace Bottles.Deployment.Diagnostics
             _document.Add(div);
         }
 
-        private IEnumerable<HtmlTag> writeHostSettings(HostManifest host)
+        private IEnumerable<HtmlTag> writeHostSettings(string provRoot, HostManifest host)
         {
             yield return new HtmlTag("h4").Text(host.Name);
             
             var settingDataSources = host.CreateDiagnosticReport();
 
-            yield return writeSettings(settingDataSources);
+            yield return writeSettings(provRoot, settingDataSources);
         }
 
-        private static HtmlTag writeSettings(IEnumerable<SettingDataSource> settingDataSources)
+        private static HtmlTag writeSettings(string provRoot ,IEnumerable<SettingDataSource> settingDataSources)
         {
             var table = new TableTag();
             table.AddClass("details");
@@ -116,6 +122,7 @@ namespace Bottles.Deployment.Diagnostics
 
             settingDataSources.Each(s =>
             {
+                var prov = s.Provenance.Replace(provRoot, "");
                 table.AddBodyRow(s.Key, s.Value, s.Provenance);
             });
 

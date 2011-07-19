@@ -64,10 +64,10 @@ namespace Bottles
             }
             else
             {
-                LogWriter.Trace("'{0}' did not exist.", compileTargetFolder);
+                LogWriter.Current.Trace("'{0}' did not exist.", compileTargetFolder);
             }
 
-            LogWriter.Trace("  Looking for binaries at " + binFolder);
+            LogWriter.Current.Trace("  Looking for binaries at " + binFolder);
 
             return binFolder;
         }

@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using Bottles.Deployment.Parsing;
+using Bottles.Deployment.Runtime;
 using Bottles.Diagnostics;
 using FubuCore;
 
@@ -7,10 +9,17 @@ namespace Bottles.Deployment.Diagnostics
 {
     public class DeploymentDiagnostics : LoggingSession, IDeploymentDiagnostics
     {
-        public void LogHost(HostManifest hostManifest)
+        public void LogDeployment(DeploymentPlan plan)
         {
+            //root?
+            LogObject(plan, "Deployment Plan");
+        }
+
+        public void LogHost(DeploymentPlan plan, HostManifest hostManifest)
+        {
+            //TODO - would this be better with a DeploymentPlan now?
             LogObject(hostManifest, "Deploying host from deployment ???");
-            LogFor("deploymentname").AddChild(hostManifest);
+            LogFor(plan).AddChild(hostManifest);
         }
 
         public void LogDirective(HostManifest host, IDirective directive)
@@ -25,7 +34,7 @@ namespace Bottles.Deployment.Diagnostics
             LogObject(action, provenance);
             LogFor(directive).AddChild(action);
 
-            LogWriter.RunningStep("{0} for {1}", description, provenance);
+            DeploymentController.RunningStep("{0} for {1}", description, provenance);
 
             return LogFor(action);
         }
@@ -41,7 +50,7 @@ namespace Bottles.Deployment.Diagnostics
 
 
             var writer = new StringWriter();
-            writer.WriteLine("Package loading and aplication bootstrapping failed");
+            writer.WriteLine("Package loading and application bootstrapping failed");
             writer.WriteLine();
             EachLog((o, log) =>
             {
@@ -49,7 +58,7 @@ namespace Bottles.Deployment.Diagnostics
                 {
                     writer.WriteLine(o.ToString());
                     writer.WriteLine(log.FullTraceText());
-                    writer.WriteLine("------------------------------------------------------------------------------------------------");
+                    writer.WriteLine(new string('-', 80));
                 }
             });
 

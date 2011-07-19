@@ -13,7 +13,7 @@ namespace Bottles.Deployment.Commands
         {
             var settings = DeploymentSettings.ForDirectory(input.DeploymentFlag);
 
-            LogWriter.Header2("Copying deployment from {0} to {1}", settings.DeploymentDirectory, input.Destination);
+            LogWriter.Current.Header2("Copying deployment from {0} to {1}", settings.DeploymentDirectory, input.Destination);
 
             var system = new FileSystem();
             system.DeleteDirectory(input.Destination);

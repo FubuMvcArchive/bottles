@@ -34,7 +34,7 @@ namespace Bottles.Zipping
 
         public void ExtractTo(string description, Stream stream, string directory)
         {
-            LogWriter.Trace("Writing contents of zip file {0} to {1}", description, directory);
+            LogWriter.Current.Trace("Writing contents of zip file {0} to {1}", description, directory);
 
             _fileSystem.DeleteDirectory(directory);
             _fileSystem.CreateDirectory(directory);
@@ -53,7 +53,7 @@ namespace Bottles.Zipping
 
         public void ExtractTo(string fileName, string directory, ExplodeOptions options)
         {
-            LogWriter.Trace("Writing contents of zip file {0} to {1}", fileName, directory);
+            LogWriter.Current.Trace("Writing contents of zip file {0} to {1}", fileName, directory);
 
             if (options == ExplodeOptions.DeleteDestination)
             {

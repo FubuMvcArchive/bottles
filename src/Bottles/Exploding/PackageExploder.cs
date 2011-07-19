@@ -55,7 +55,7 @@ namespace Bottles.Exploding
     {
         public static PackageExploder GetPackageExploder(IFileSystem fileSystem)
         {
-            return new PackageExploder(new ZipFileService(fileSystem), new PackageExploderLogger(text => LogWriter.Trace(text)), fileSystem);
+            return new PackageExploder(new ZipFileService(fileSystem), new PackageExploderLogger(text => LogWriter.Current.Trace(text)), fileSystem);
         }
 
         public static PackageExploder GetPackageExploder(IPackageLog log)
@@ -79,7 +79,7 @@ namespace Bottles.Exploding
 
         public IEnumerable<string> ExplodeAllZipsAndReturnPackageDirectories(string applicationDirectory, IPackageLog log)
         {
-            LogWriter.Trace("Exploding all the package zip files for the application at " + applicationDirectory);
+            LogWriter.Current.Trace("Exploding all the package zip files for the application at " + applicationDirectory);
 
             return ExplodeDirectory(new ExplodeDirectory(){
                 DestinationDirectory = BottleFiles.GetExplodedPackagesDirectory(applicationDirectory),

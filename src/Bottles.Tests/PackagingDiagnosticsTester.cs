@@ -204,7 +204,7 @@ namespace Bottles.Tests
         [Test]
         public void trace_for_the_package_should_say_the_assembly()
         {
-            diagnostics.LogFor(package).FullTraceText().ShouldContain("Loaded assembly " + assembly.GetName().FullName);
+            diagnostics.LogFor(package).FullTraceText().ShouldContain("Loaded assembly '" + assembly.GetName().FullName + "' v1.0.0.0");
         }
     }
 }
