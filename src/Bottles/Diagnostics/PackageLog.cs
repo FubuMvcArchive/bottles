@@ -86,6 +86,7 @@ namespace Bottles.Diagnostics
             return _children.Where(x => x is T).Cast<T>();
         }
 
+        
         public Guid Id
         {
             get; private set;

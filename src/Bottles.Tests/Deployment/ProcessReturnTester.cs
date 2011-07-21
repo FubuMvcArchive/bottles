@@ -23,7 +23,7 @@ namespace Bottles.Tests.Deployment
                 procReturn.AssertOptionalSuccess();
             });
 
-            log.AssertWasCalled(x => x.Trace(ConsoleColor.Gray, procReturn.OutputText));
+            log.AssertWasCalled(x => x.Trace(procReturn.OutputText));
         }
 
         [Test]
@@ -41,7 +41,7 @@ namespace Bottles.Tests.Deployment
                 procReturn.AssertOptionalSuccess();
             });
 
-            log.AssertWasCalled(x => x.Trace(ConsoleColor.Gray, procReturn.OutputText));
+            log.AssertWasCalled(x => x.Trace(procReturn.OutputText));
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace Bottles.Tests.Deployment
                 procReturn.AssertMandatorySuccess();
             });
 
-            log.AssertWasCalled(x => x.Trace(ConsoleColor.Gray, procReturn.OutputText));
+            log.AssertWasCalled(x => x.Trace(procReturn.OutputText));
         }
 
 

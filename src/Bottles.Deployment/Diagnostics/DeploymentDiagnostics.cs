@@ -11,20 +11,21 @@ namespace Bottles.Deployment.Diagnostics
     {
         public void LogDeployment(DeploymentPlan plan)
         {
-            //root?
-            LogObject(plan, "Deployment Plan");
+            //root log object
+            LogObject(plan, "Deployment Profile: "+ plan.ProfileName);
         }
 
         public void LogHost(DeploymentPlan plan, HostManifest hostManifest)
         {
-            //TODO - would this be better with a DeploymentPlan now?
-            LogObject(hostManifest, "Deploying host from deployment ???");
+            var provenance = "Profile {0} / Host {1}".ToFormat(plan.ProfileName, hostManifest.Name);
+            LogObject(hostManifest, provenance);
             LogFor(plan).AddChild(hostManifest);
         }
 
         public void LogDirective(HostManifest host, IDirective directive)
         {
-            LogObject(directive, "Found in '{0}'".ToFormat(host));
+            var provenance = "Found in '{0}'".ToFormat(host);
+            LogObject(directive, provenance);
             LogFor(host).AddChild(directive);
         }
 
