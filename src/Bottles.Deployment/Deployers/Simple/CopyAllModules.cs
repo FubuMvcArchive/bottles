@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using Bottles.Deployment.Runtime;
 using Bottles.Deployment.Runtime.Content;
 using Bottles.Diagnostics;
-using System.Linq;
 
 namespace Bottles.Deployment.Deployers.Simple
 {
@@ -26,7 +24,8 @@ namespace Bottles.Deployment.Deployers.Simple
         public void Execute(CopyAllModules directive, HostManifest host, IPackageLog log)
         {
             var destination = new CopyAllModulesDestination(directive.Destination);
-            var references = _settings.AllBottleNames().Select(x => new BottleReference(x));
+
+            var references = host.BottleReferences;
             _bottleMover.Move(log, destination, references);
         }
 
