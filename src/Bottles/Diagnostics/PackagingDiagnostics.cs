@@ -28,11 +28,34 @@ namespace Bottles.Diagnostics
 
         public void LogAssembly(IPackageInfo package, Assembly assembly, string provenance)
         {
-            var assVer = FileVersionInfo.GetVersionInfo(assembly.Location);
-            LogObject(assembly, provenance);
-            var packageLog = LogFor(package);
-            packageLog.Trace("Loaded assembly '{0}' v{1}".ToFormat(assembly.GetName().FullName, assVer.ProductVersion));
-            packageLog.AddChild(assembly);
+            try
+            {
+                var assVer = getVersion(assembly);
+                
+                
+                LogObject(assembly, provenance);
+                var packageLog = LogFor(package);
+                packageLog.Trace("Loaded assembly '{0}' v{1}".ToFormat(assembly.GetName().FullName,assVer.FileVersion));
+                packageLog.AddChild(assembly);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Trying to log assembly '{0}' in package '{1}' at {2}".ToFormat(assembly.FullName, package.Name, assembly.Location), ex);
+            }
+        }
+
+        private FileVersionInfo getVersion(Assembly assembly)
+        {
+            try
+            {
+                return FileVersionInfo.GetVersionInfo(assembly.Location);
+            }
+            catch (Exception)
+            {
+                //grrr
+                //blowing up at the moment
+                return (FileVersionInfo)Activator.CreateInstance(typeof (FileVersionInfo), BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.CreateInstance, null, new object[]{"name"}, null);
+            }
         }
 
         // just in log to package
