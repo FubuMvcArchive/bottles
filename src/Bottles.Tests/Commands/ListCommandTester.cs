@@ -1,4 +1,6 @@
+using System.IO;
 using Bottles.Deployment.Commands;
+using FubuCore;
 using NUnit.Framework;
 
 namespace Bottles.Tests.Commands
@@ -10,9 +12,9 @@ namespace Bottles.Tests.Commands
         public void Test()
         {
             var input = new ListInput()
-                        {
-                            PointFlag = @"..\..\..\.."
-                        };
+            {
+                PointFlag = @"..{0}..{0}..{0}..".ToFormat(Path.DirectorySeparatorChar)
+            };
 
             var cmd = new ListCommand();
 
