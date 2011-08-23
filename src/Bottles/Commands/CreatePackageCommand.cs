@@ -44,7 +44,7 @@ namespace Bottles.Commands
 
         public virtual void WriteZipFileAlreadyExists(string zipFileName)
         {
-            ConsoleWriter.Write("Package Zip file already exists at '{0}'.  Use the -force flag to overwrite the existing flag", zipFileName);
+            ConsoleWriter.Write("Package Zip file already exists at '{0}'.  Use the -f (force) flag to overwrite the existing flag", zipFileName);
         }
 
         public virtual void WritePackageManifestDoesNotExist(string packageFolder)
