@@ -49,7 +49,7 @@ namespace Bottles.Deployers.Iis
         {
             LogWriter.Current.Highlight("Trying to create a new virtual directory at " +
                                 website.VDirPhysicalPath.ToFullPath());
-            var app = site.CreateApplication(website.VDir, website.VDirPhysicalPath.ToFullPath(), website.Force);
+            var app = site.CreateApplication(website.VDir, website.VDirPhysicalPath.ToFullPath(), website.ForceApp);
             app.ApplicationPoolName = website.AppPool;
             return app;
         }
@@ -59,7 +59,7 @@ namespace Bottles.Deployers.Iis
             LogWriter.Current.Highlight("Trying to create a new website at {0}, port {1}",
                                 website.WebsitePhysicalPath.ToFullPath(), website.Port);
             return iisManager.CreateSite(website.WebsiteName, website.WebsitePhysicalPath.ToFullPath(),
-                                         website.Port, website.Force);
+                                         website.Port, website.ForceWebsite);
         }
     }
 }

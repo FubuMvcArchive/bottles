@@ -71,7 +71,7 @@ namespace Bottles.Tests.Deployment
             deployer.Create(directive);
 
             //override test
-            directive.Force = true;
+            directive.ForceWebsite = true;
             directive.VDirPhysicalPath = root.AppendPath("dev", "test-app2");
             deployer.Create(directive);
         }
