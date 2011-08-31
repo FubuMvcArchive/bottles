@@ -118,14 +118,16 @@ task :create_deployer_bottles => :compile do
   bottles "create-pak src/Bottles.Deployers.Iis build/iis-deployers.zip -target #{COMPILE_TARGET}"
 end
 
-desc "Merge assemblies into Bottles"
+desc "Merge dotnetzip assembly into Bottles projects"
 task :ilrepack do
   stage = props[:stage]
-  output = File.join(stage, 'Bottles.dll')
-  refs = ['Bottles.dll', 'Ionic.Zip.dll']
+  targets = ['Bottles.dll', 'Bottles.Deployment.dll']
 
-  pack = ILRepack.new :out => output, :lib => stage
-  pack.merge :lib => stage, :refs => refs
+  targets.each do |t|
+	output = File.join(stage, t)
+	packer = ILRepack.new :out => output, :lib => stage  
+	packer.merge :lib => stage, :refs => [t, 'Ionic.Zip.dll']
+  end
 end
 
 def bottles(args)
