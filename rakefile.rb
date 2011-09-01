@@ -1,18 +1,17 @@
-COMPILE_TARGET = ENV['config'].nil? ? "debug" : ENV['config']
-CLR_TOOLS_VERSION = "v4.0.30319"
-
-buildsupportfiles = Dir["#{File.dirname(__FILE__)}/buildsupport/*.rb"]
-raise "Run `git submodule update --init` to populate your buildsupport folder." unless buildsupportfiles.any?
-buildsupportfiles.each { |ext| load ext }
-
 include FileTest
 require 'albacore'
 load "VERSION.txt"
 
+COMPILE_TARGET = ENV['config'].nil? ? "debug" : ENV['config']
+CLR_TOOLS_VERSION = "v4.0.30319"
 RESULTS_DIR = "results"
 PRODUCT = "FubuMVC"
 COPYRIGHT = 'Copyright 2010-2011 Jeremy D. Miller, Dru Sellers, et al. All rights reserved.';
 COMMON_ASSEMBLY_INFO = 'src/CommonAssemblyInfo.cs';
+
+buildsupportfiles = Dir["#{File.dirname(__FILE__)}/buildsupport/*.rb"]
+raise "Run `git submodule update --init` to populate your buildsupport folder." unless buildsupportfiles.any?
+buildsupportfiles.each { |ext| load ext }
 
 @teamcity_build_id = "bt392"
 tc_build_number = ENV["BUILD_NUMBER"]
@@ -22,11 +21,11 @@ ARTIFACTS = File.expand_path("artifacts")
 
 props = { :stage => File.expand_path("build"), :artifacts => ARTIFACTS }
 
-desc "**Default**, compiles and runs tests"
-task :default => [:compile, :unit_test]
+desc "**Default**, compiles, merges and runs tests"
+task :default => [:compile, :ilrepack, :unit_test]
 
 desc "Creates and publishes the nuget files for the current code"
-task :local_nuget_push => [:compile, :create_deployer_bottles, "nuget:build", "nuget:push"]
+task :local_nuget_push => [:compile, :ilrepack, :create_deployer_bottles, "nuget:build", "nuget:push"]
 
 desc "Target used for the CI server"
 task :ci => [:default,:package,:create_deployer_bottles,"nuget:build"]
@@ -117,6 +116,18 @@ task :create_deployer_bottles => :compile do
   bottles "create-pak src/Bottles.Console build/bottles.zip -target #{COMPILE_TARGET}"
   bottles "create-pak src/Bottles.Host build/topshelf-deployers.zip -target #{COMPILE_TARGET}"
   bottles "create-pak src/Bottles.Deployers.Iis build/iis-deployers.zip -target #{COMPILE_TARGET}"
+end
+
+desc "Merge dotnetzip assembly into Bottles projects"
+task :ilrepack do
+  stage = props[:stage]
+  targets = ['Bottles.dll', 'Bottles.Deployment.dll']
+
+  targets.each do |t|
+	output = File.join(stage, t)
+	packer = ILRepack.new :out => output, :lib => stage  
+	packer.merge :lib => stage, :refs => [t, 'Ionic.Zip.dll']
+  end
 end
 
 def bottles(args)
