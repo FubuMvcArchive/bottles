@@ -22,7 +22,7 @@ ARTIFACTS = File.expand_path("artifacts")
 props = { :stage => File.expand_path("build"), :artifacts => ARTIFACTS }
 
 desc "**Default**, compiles, merges and runs tests"
-task :default => [:compile, :ilrepack, :unit_test]
+task :default => [:compile, :ilrepack, :create_deployer_bottles, :unit_test]
 
 desc "Creates and publishes the nuget files for the current code"
 task :local_nuget_push => [:compile, :ilrepack, :create_deployer_bottles, "nuget:build", "nuget:push"]
@@ -77,10 +77,12 @@ task :compile => [:clean, :version] do
   bottles "assembly-pak src/AssemblyPackage"
   MSBuildRunner.compile :compilemode => COMPILE_TARGET, :solutionfile => 'src/Bottles.sln', :clrversion => CLR_TOOLS_VERSION
   
-  copyOutputFiles "src/Bottles.Deployers.Iis/bin/#{COMPILE_TARGET}", "*.{dll,pdb}", props[:stage]  
-  copyOutputFiles "src/Bottles.Deployers.Topshelf/bin/#{COMPILE_TARGET}", "*.{dll,pdb}", props[:stage]
-  copyOutputFiles "src/Bottles.Host/bin/#{COMPILE_TARGET}", "*.{dll,pdb,exe}", props[:stage]
-  copyOutputFiles "src/Bottles.Console/bin/#{COMPILE_TARGET}", "*.{dll,pdb,exe,config}", props[:stage]
+  sleep 1
+  puts 'Trying to copy files from bin directories to the build directory'
+  #copyOutputFiles "src/Bottles.Deployers.Iis/bin/#{COMPILE_TARGET}", "*.{dll,pdb}", props[:stage]  
+  #copyOutputFiles "src/Bottles.Deployers.Topshelf/bin/#{COMPILE_TARGET}", "*.{dll,pdb}", props[:stage]
+  #copyOutputFiles "src/Bottles.Host/bin/#{COMPILE_TARGET}", "*.{dll,pdb,exe}", props[:stage]
+  #copyOutputFiles "src/Bottles.Console/bin/#{COMPILE_TARGET}", "*.{dll,pdb,exe,config}", props[:stage]
 end
 
 def copyOutputFiles(fromDir, filePattern, outDir)
@@ -120,7 +122,10 @@ end
 
 desc "Merge dotnetzip assembly into Bottles projects"
 task :ilrepack do
-  stage = props[:stage]
+  #stage = props[:stage]
+  
+  stage = "src/Bottles.Tests/bin/#{COMPILE_TARGET}"
+
   targets = ['Bottles.dll', 'Bottles.Deployment.dll']
 
   targets.each do |t|

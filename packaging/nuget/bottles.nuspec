@@ -18,8 +18,7 @@
     </dependencies>
   </metadata>
   <files>
-	  <file src="..\..\build\Bottles.dll" target="lib" />
-	  <file src="..\..\build\Bottles.pdb" target="lib" />
+	  <file src="..\..\src\Bottles.Tests\bin\release\Bottles.*" target="lib" />
 	  <file src="..\..\src\Bottles\**\*.cs" target="src" />
   </files>
 </package>
