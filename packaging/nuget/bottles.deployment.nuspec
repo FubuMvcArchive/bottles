@@ -20,7 +20,7 @@
     </dependencies>
   </metadata>
   <files>
-	  <file src="..\..\build\Bottles.Deployment.*" target="lib" />
+	  <file src="..\..\src\Bottles.Deployment\bin\Release\Bottles.Deployment.*" target="lib" />
 	  <file src="..\..\src\Bottles.Deployment\**\*.cs" target="src" />
   </files>
 </package>

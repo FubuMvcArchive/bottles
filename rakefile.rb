@@ -28,7 +28,7 @@ desc "Creates and publishes the nuget files for the current code"
 task :local_nuget_push => [:compile, :ilrepack, :create_deployer_bottles, "nuget:build", "nuget:push"]
 
 desc "Target used for the CI server"
-task :ci => [:default,:package,:create_deployer_bottles,"nuget:build"]
+task :ci => [:default,:package,:create_deployer_bottles,:history, :publish]
 
 desc "Update the version information for the build"
 assemblyinfo :version do |asm|
@@ -72,7 +72,7 @@ def waitfor(&block)
 end
 
 desc "Compiles the app"
-task :compile => [:clean, :version] do
+task :compile => [:restore_if_missing, :clean, :version] do
   MSBuildRunner.compile :compilemode => COMPILE_TARGET, :solutionfile => 'src/Bottles.Console/Bottles.Console.csproj', :clrversion => CLR_TOOLS_VERSION
   bottles "assembly-pak src/AssemblyPackage"
   MSBuildRunner.compile :compilemode => COMPILE_TARGET, :solutionfile => 'src/Bottles.sln', :clrversion => CLR_TOOLS_VERSION
