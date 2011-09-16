@@ -18,7 +18,7 @@
     </dependencies>
   </metadata>
   <files>
-	  <file src="..\..\build\Bottles.Host.Packaging.*" target="lib" />
+	  <file src="..\..\src\Bottles.Host.Packaging\bin\release\Bottles.Host.Packaging.*" target="lib" />
 	  <file src="..\..\src\Bottles.Host.Packaging\**\*.cs" target="src" />
   </files>
 </package>
