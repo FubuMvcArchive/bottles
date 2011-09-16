@@ -14,7 +14,6 @@
     <dependencies>
       <dependency id="FubuCore" />
       <dependency id="HtmlTags" />
-      <dependency id="DotNetZip" />
     </dependencies>
   </metadata>
   <files>
