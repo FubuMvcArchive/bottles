@@ -122,17 +122,14 @@ end
 
 desc "Merge dotnetzip assembly into Bottles projects"
 task :ilrepack do
-  #stage = props[:stage]
-  
-  stage = "src/Bottles.Tests/bin/#{COMPILE_TARGET}"
+  merge_ionic("src/Bottles/bin/#{COMPILE_TARGET}", 'Bottles.dll')
+  merge_ionic("src/Bottles.Deployment/bin/#{COMPILE_TARGET}", 'Bottles.Deployment.dll')
+end
 
-  targets = ['Bottles.dll', 'Bottles.Deployment.dll']
-
-  targets.each do |t|
-	output = File.join(stage, t)
-	packer = ILRepack.new :out => output, :lib => stage  
-	packer.merge :lib => stage, :refs => [t, 'Ionic.Zip.dll']
-  end
+def merge_ionic(dir, assembly)
+	output = File.join(dir, assembly)
+	packer = ILRepack.new :out => output, :lib => dir
+	packer.merge :lib => dir, :refs => [assembly, 'Ionic.Zip.dll']
 end
 
 def bottles(args)
