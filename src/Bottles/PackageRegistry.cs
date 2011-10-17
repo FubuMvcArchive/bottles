@@ -54,6 +54,8 @@ namespace Bottles
 
         public static void LoadPackages(Action<IPackageFacility> configuration, bool runActivators = true)
         {
+            _packages.Clear();
+
             Diagnostics = new PackagingDiagnostics();
             var record = new PackageLoadingRecord();
 
@@ -79,7 +81,7 @@ namespace Bottles
 
             record.Finished = DateTime.Now;
 
-            _packages.Clear();
+            //_packages.Clear();
 
 
         }

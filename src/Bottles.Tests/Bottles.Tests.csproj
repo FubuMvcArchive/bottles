@@ -143,6 +143,7 @@
     <Compile Include="PackageInfoTester.cs" />
     <Compile Include="PackageManifestReaderTester.cs" />
     <Compile Include="PackageManifestTester.cs" />
+    <Compile Include="PackageOrderingIntegratedTester.cs" />
     <Compile Include="PackageRegistryTester.cs" />
     <Compile Include="PackagingDependencyProcessorTester.cs" />
     <Compile Include="PackagingDiagnosticsTester.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Deployment\Runtime\DirectiveBuilderTester.cs" />
     <Compile Include="SolutionDirectoryPackageLoaderTester.cs" />
     <Compile Include="StubPackage.cs" />
+    <Compile Include="StubPackageLoader.cs" />
     <Compile Include="ZipFileServiceTester.cs" />
     <Compile Include="Zipping\ZipFileServiceTester.cs" />
     <Compile Include="Zipping\ZipFolderRequestTester.cs" />

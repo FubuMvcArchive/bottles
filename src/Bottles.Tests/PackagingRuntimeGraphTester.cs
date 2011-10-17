@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Threading;
 using Bottles.Diagnostics;
 using FubuTestingSupport;
 using NUnit.Framework;
@@ -8,7 +7,6 @@ using Rhino.Mocks;
 
 namespace Bottles.Tests
 {
-
     [TestFixture]
     public class when_adding_an_bootstrapper : InteractionContext<PackagingRuntimeGraph>
     {
@@ -139,27 +137,6 @@ namespace Bottles.Tests
         }
     }
 
-
-    public class StubPackageLoader : IPackageLoader
-    {
-        private readonly IEnumerable<IPackageInfo> _packages;
-
-        public StubPackageLoader(params string[] names)
-        {
-            _packages = names.Select(x => new StubPackage(x) as IPackageInfo);
-        }
-
-        public IEnumerable<IPackageInfo> Load(IPackageLog log)
-        {
-            Thread.Sleep(101);
-            return _packages;
-        }
-
-        public IEnumerable<IPackageInfo> Packages
-        {
-            get { return _packages; }
-        }
-    }
 
     public class StubBootstrapper : IBootstrapper
     {

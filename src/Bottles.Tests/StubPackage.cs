@@ -14,6 +14,8 @@ namespace Bottles.Tests
         public StubPackage(string name)
         {
             _name = name;
+
+            LoadingAssemblies = r => { };
         }
 
         public string Name

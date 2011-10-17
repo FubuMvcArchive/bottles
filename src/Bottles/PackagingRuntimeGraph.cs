@@ -37,7 +37,9 @@ namespace Bottles
 
         public void DiscoverAndLoadPackages(Action onAssembliesScanned, bool runActivators = true)
         {
-            findAllPackages();
+            var packages = findAllPackages();
+
+            analyzePackageDependenciesAndOrder(packages);
 
             loadAssemblies(_packages, onAssembliesScanned);
             var discoveredActivators = runAllBootstrappers();
@@ -46,6 +48,13 @@ namespace Bottles
             {
                 activatePackages(_packages, discoveredActivators);    
             }
+        }
+
+        private void analyzePackageDependenciesAndOrder(IEnumerable<IPackageInfo> packages)
+        {
+            var dependencyProcessor = new PackageDependencyProcessor(packages);
+            dependencyProcessor.LogMissingPackageDependencies(_diagnostics);
+            _packages.AddRange(dependencyProcessor.OrderedPackages());
         }
 
         private void activatePackages(IList<IPackageInfo> packages, IList<IActivator> discoveredActivators)
@@ -107,17 +116,20 @@ namespace Bottles
             onAssembliesScanned();
         }
 
-        private void findAllPackages()
+        private IEnumerable<IPackageInfo> findAllPackages()
         {
+            var list = new List<IPackageInfo>();
+
             _diagnostics.LogExecutionOnEach(_loaders, loader =>
             {
                 var log = _diagnostics.LogFor(loader);
                 var packageInfos = loader.Load(log).ToArray();
                 _diagnostics.LogPackages(loader, packageInfos);
-                _packages.AddRange(packageInfos);
 
-                // Here, need to sort and determine missings
+                list.AddRange(packageInfos);
             });
+
+            return list;
         }
     }
 }
