@@ -115,6 +115,8 @@ namespace Bottles
                 var packageInfos = loader.Load(log).ToArray();
                 _diagnostics.LogPackages(loader, packageInfos);
                 _packages.AddRange(packageInfos);
+
+                // Here, need to sort and determine missings
             });
         }
     }

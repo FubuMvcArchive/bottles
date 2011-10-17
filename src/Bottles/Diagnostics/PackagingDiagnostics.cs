@@ -30,12 +30,12 @@ namespace Bottles.Diagnostics
         {
             try
             {
-                var assVer = getVersion(assembly);
+                var versionInfo = getVersion(assembly);
                 
                 
                 LogObject(assembly, provenance);
                 var packageLog = LogFor(package);
-                packageLog.Trace("Loaded assembly '{0}' v{1}".ToFormat(assembly.GetName().FullName,assVer.FileVersion));
+                packageLog.Trace("Loaded assembly '{0}' v{1}".ToFormat(assembly.GetName().FullName,versionInfo.FileVersion));
                 packageLog.AddChild(assembly);
             }
             catch (Exception ex)
@@ -44,7 +44,7 @@ namespace Bottles.Diagnostics
             }
         }
 
-        private FileVersionInfo getVersion(Assembly assembly)
+        private static FileVersionInfo getVersion(Assembly assembly)
         {
             try
             {

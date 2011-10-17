@@ -15,7 +15,7 @@ namespace Bottles.Diagnostics
             _logs[target].Provenance = provenance;
         }
 
-        public PackageLog LogFor(object target)
+        public IPackageLog LogFor(object target)
         {
             return _logs[target];
         }

@@ -81,5 +81,10 @@ namespace Bottles.Assemblies
         {
             _files.ForData(searchPattern, dataCallback);
         }
+
+        public IEnumerable<Dependency> GetDependencies()
+        {
+            yield break;
+        }
     }
 }

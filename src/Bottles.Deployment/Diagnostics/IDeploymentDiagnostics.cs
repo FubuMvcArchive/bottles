@@ -5,7 +5,7 @@ namespace Bottles.Deployment.Diagnostics
 {
     public interface IDeploymentDiagnostics
     {        
-        PackageLog LogFor(object target);
+        IPackageLog LogFor(object target);
         void LogDeployment(DeploymentPlan plan);
         void LogHost(DeploymentPlan plan, HostManifest hostManifest);
 
@@ -13,7 +13,7 @@ namespace Bottles.Deployment.Diagnostics
 
         //used
         void LogDirective(HostManifest host, IDirective directive);
-        PackageLog LogAction(HostManifest host, IDirective directive, object action, string description);
+        IPackageLog LogAction(HostManifest host, IDirective directive, object action, string description);
         LoggingSession Session { get; }
         void AssertNoFailures();
     }

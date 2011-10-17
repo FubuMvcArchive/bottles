@@ -140,5 +140,35 @@ namespace Bottles
 
             }
         }
+
+        private readonly IList<Dependency> _dependencies = new List<Dependency>();
+
+        [XmlElement("dependency")]
+        public Dependency[] Dependencies
+        {
+            get
+            {
+                return _dependencies.ToArray();
+            }
+            set
+            {
+                _dependencies.Clear();
+                if (value != null) _dependencies.AddRange(value);
+            }
+        }
+
+        public void AddDependency(string packageName, bool isMandatory)
+        {
+            _dependencies.RemoveAll(x => x.Name == packageName);
+            _dependencies.Add(new Dependency(){
+                IsMandatory = isMandatory,
+                Name = packageName
+            });
+        }
+
+        public void WriteTo(string directory)
+        {
+            new FileSystem().WriteObjectToFile(directory.AppendPath(FILE), this);
+        }
     }
 }

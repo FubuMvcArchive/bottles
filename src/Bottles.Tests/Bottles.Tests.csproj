@@ -141,8 +141,10 @@
     <Compile Include="Host.Packaging\TopshelfBottleDestinationTester.cs" />
     <Compile Include="LambdaActivatorTester.cs" />
     <Compile Include="PackageInfoTester.cs" />
+    <Compile Include="PackageManifestReaderTester.cs" />
     <Compile Include="PackageManifestTester.cs" />
     <Compile Include="PackageRegistryTester.cs" />
+    <Compile Include="PackagingDependencyProcessorTester.cs" />
     <Compile Include="PackagingDiagnosticsTester.cs" />
     <Compile Include="PackagingRegistryLogTester.cs" />
     <Compile Include="PackagingRuntimeGraphTester.cs" />

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using FubuCore;
-using Bottles;
+
 
 namespace Bottles
 {
@@ -25,24 +25,44 @@ namespace Bottles
             var manifest = _fileSystem.LoadFromFile<PackageManifest>(packageDirectory, PackageManifest.FILE);
             var package = new PackageInfo(manifest.Name){
                 Description = "{0} ({1})".ToFormat(manifest.Name, packageDirectory),
+                Dependencies = manifest.Dependencies
             };
 
+            
 
             // Right here, this needs to be different
-            package.RegisterFolder(BottleFiles.WebContentFolder, _getContentFolderFromPackageFolder(packageDirectory));
-            package.RegisterFolder(BottleFiles.DataFolder, FileSystem.Combine(packageDirectory, BottleFiles.DataFolder));
-            package.RegisterFolder(BottleFiles.ConfigFolder, FileSystem.Combine(packageDirectory, BottleFiles.ConfigFolder));
+            registerFolders(packageDirectory, package);
 
+            var binPath = determineBinPath(packageDirectory);
+
+
+            package.Role = manifest.Role;
+
+            readAssemblyPaths(manifest, package, binPath);
+
+            return package;
+        }
+
+        private string determineBinPath(string packageDirectory)
+        {
             var binPath = FileSystem.Combine(packageDirectory, "bin");
             var debugPath = FileSystem.Combine(binPath, "debug");
             if (_fileSystem.DirectoryExists(debugPath))
             {
                 binPath = debugPath;
             }
+            return binPath;
+        }
 
-            //REVIEW: I feel this whole section is left-hand / right-hand code
-            package.Role = manifest.Role;
+        private void registerFolders(string packageDirectory, PackageInfo package)
+        {
+            package.RegisterFolder(BottleFiles.WebContentFolder, _getContentFolderFromPackageFolder(packageDirectory));
+            package.RegisterFolder(BottleFiles.DataFolder, FileSystem.Combine(packageDirectory, BottleFiles.DataFolder));
+            package.RegisterFolder(BottleFiles.ConfigFolder, FileSystem.Combine(packageDirectory, BottleFiles.ConfigFolder));
+        }
 
+        private void readAssemblyPaths(PackageManifest manifest, PackageInfo package, string binPath)
+        {
             var assemblyPaths = findCandidateAssemblyFiles(binPath);
             assemblyPaths.Each(path =>
             {
@@ -52,8 +72,6 @@ namespace Bottles
                     package.RegisterAssemblyLocation(assemblyName, path);
                 }
             });
-
-            return package;
         }
 
         private static IEnumerable<string> findCandidateAssemblyFiles(string binPath)

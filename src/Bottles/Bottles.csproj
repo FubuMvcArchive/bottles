@@ -105,6 +105,7 @@
     <Compile Include="Creation\PackageCreator.cs" />
     <Compile Include="LinkedFolderPackageLoader.cs" />
     <Compile Include="LinkManifest.cs" />
+    <Compile Include="PackageDependencyProcessor.cs" />
     <Compile Include="PackageFacility.cs" />
     <Compile Include="PackageFiles.cs" />
     <Compile Include="PackageInfo.cs" />

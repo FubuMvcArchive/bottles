@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using AssemblyPackage;
 using Bottles.Assemblies;
@@ -35,6 +36,12 @@ namespace Bottles.Tests
             package.LoadAssemblies(loader);
 
             loader.AssertWasCalled(x => x.Use(assembly));
+        }
+
+        [Test]
+        public void get_dependencies_is_empty_FOR_NOW()
+        {
+            package.GetDependencies().Any().ShouldBeFalse();
         }
     }
 

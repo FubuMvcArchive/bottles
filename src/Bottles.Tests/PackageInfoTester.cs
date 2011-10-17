@@ -26,6 +26,21 @@ namespace Bottles.Tests
             thePackage.RegisterFolder(BottleFiles.DataFolder, Path.GetFullPath(theDataFolder));
         }
 
+        [Test]
+        public void add_dependency_returns_later()
+        {
+            var dep1 = Dependency.Optional("Bottle1");
+            var dep2 = Dependency.Optional("Bottle2");
+            var dep3 = Dependency.Optional("Bottle3");
+        
+            thePackage.AddDependency(dep1);
+            thePackage.AddDependency(dep2);
+            thePackage.AddDependency(dep3);
+
+            thePackage.As<IPackageInfo>().GetDependencies()
+                .ShouldHaveTheSameElementsAs(dep1, dep2, dep3);
+        }
+
         private string join(params string[] paths)
         {
             return paths.Join(Path.DirectorySeparatorChar.ToString());

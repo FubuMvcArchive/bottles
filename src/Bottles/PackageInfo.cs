@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using Bottles.Assemblies;
+using System.Linq;
 
 namespace Bottles
 {
@@ -12,6 +13,7 @@ namespace Bottles
         
         private readonly PackageFiles _files = new PackageFiles();
         private readonly IList<AssemblyTarget> _assemblies = new List<AssemblyTarget>();
+        private readonly IList<Dependency> _dependencies = new List<Dependency>();
 
         public PackageInfo(string name)
         {
@@ -36,6 +38,11 @@ namespace Bottles
             });
         }
 
+        public void AddDependency(Dependency dependency)
+        {
+            _dependencies.Fill(dependency);
+        }
+
         public class AssemblyTarget
         {
             public string AssemblyName { get; set;}
@@ -51,7 +58,17 @@ namespace Bottles
 
         public string Role { get; set; }
 
-        public void LoadAssemblies(IAssemblyRegistration loader)
+        public Dependency[] Dependencies
+        {
+            get { return _dependencies.ToArray(); }
+            set
+            {
+                _dependencies.Clear();
+                _dependencies.AddRange(value);
+            }
+        }
+
+        void IPackageInfo.LoadAssemblies(IAssemblyRegistration loader)
         {
             _assemblies.Each(a => a.Load(loader));
         }
@@ -64,6 +81,11 @@ namespace Bottles
         void IPackageInfo.ForData(string searchPattern, Action<string, Stream> dataCallback)
         {
             _files.ForData(searchPattern, dataCallback);
+        }
+
+        IEnumerable<Dependency> IPackageInfo.GetDependencies()
+        {
+            return _dependencies;
         }
 
         public override string ToString()

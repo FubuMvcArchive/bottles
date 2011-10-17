@@ -12,6 +12,16 @@ using FubuCore.Reflection;
 
 namespace Bottles
 {
+    public class PackageLoadingRecord
+    {
+        public DateTime Finished { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("Bottles Packaging Process finished on {0} at {1}", Finished.ToShortDateString(), Finished.ToLongTimeString());
+        }
+    }
+
     public static class PackageRegistry
     {
         private static readonly IList<Assembly> _assemblies = new List<Assembly>();
@@ -19,10 +29,10 @@ namespace Bottles
 
         static PackageRegistry()
         {
-            AppDomain.CurrentDomain.AssemblyResolve += (s, args) => _assemblies.FirstOrDefault(assembly =>
-            {
-                return args.Name == assembly.GetName().Name || args.Name == assembly.GetName().FullName;
-            });
+            AppDomain.CurrentDomain.AssemblyResolve +=
+                (s, args) =>
+                _assemblies.FirstOrDefault(
+                    assembly => { return args.Name == assembly.GetName().Name || args.Name == assembly.GetName().FullName; });
 
             GetApplicationDirectory = () => AppDomain.CurrentDomain.BaseDirectory;
         }
@@ -32,10 +42,7 @@ namespace Bottles
 
         public static IEnumerable<Assembly> PackageAssemblies
         {
-            get
-            {
-                return _assemblies;
-            }
+            get { return _assemblies; }
         }
 
         public static IEnumerable<IPackageInfo> Packages
@@ -43,30 +50,39 @@ namespace Bottles
             get { return _packages; }
         }
 
-        public static void LoadPackages(Action<IPackageFacility> configuration, bool runActivators=true)
+        public static PackagingDiagnostics Diagnostics { get; private set; }
+
+        public static void LoadPackages(Action<IPackageFacility> configuration, bool runActivators = true)
         {
             Diagnostics = new PackagingDiagnostics();
-			_packages.Clear();
+            var record = new PackageLoadingRecord();
 
-            var facility = new PackageFacility();
-            var assemblyLoader = new AssemblyLoader(Diagnostics);
-            var graph = new PackagingRuntimeGraph(Diagnostics, assemblyLoader, _packages);
+            Diagnostics.LogExecution(record, () =>
+            {
+                var facility = new PackageFacility();
+                var assemblyLoader = new AssemblyLoader(Diagnostics);
+                var graph = new PackagingRuntimeGraph(Diagnostics, assemblyLoader, _packages);
 
-            var codeLocation = findCallToLoadPackages();
-            graph.PushProvenance(codeLocation);
-            configuration(facility);
-            facility.Configure(graph);
+                var codeLocation = findCallToLoadPackages();
+                graph.PushProvenance(codeLocation);
+                configuration(facility);
+                facility.Configure(graph);
 
-            
-            graph.PopProvenance();
-        	graph.DiscoverAndLoadPackages(() =>
-        	                              	{
-        	                              		_assemblies.Clear();
-        	                              		_assemblies.AddRange(assemblyLoader.Assemblies);
-        	                              	}, runActivators);
+
+                graph.PopProvenance();
+                graph.DiscoverAndLoadPackages(() =>
+                {
+                    _assemblies.Clear();
+                    _assemblies.AddRange(assemblyLoader.Assemblies);
+                }, runActivators);
+            });
+
+            record.Finished = DateTime.Now;
+
+            _packages.Clear();
+
+
         }
-
-        public static PackagingDiagnostics Diagnostics { get; private set; }
 
         private static string findCallToLoadPackages()
         {
@@ -107,7 +123,8 @@ namespace Bottles
                     {
                         writer.WriteLine(o.ToString());
                         writer.WriteLine(log.FullTraceText());
-                        writer.WriteLine("------------------------------------------------------------------------------------------------");
+                        writer.WriteLine(
+                            "------------------------------------------------------------------------------------------------");
                     }
                 });
 
