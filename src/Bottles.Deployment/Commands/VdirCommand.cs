@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.DirectoryServices;
 using System.IO;
+using System.Linq;
 using Bottles.Commands;
 using FubuCore.CommandLine;
 
@@ -163,7 +164,11 @@ namespace Bottles.Deployment.Commands
         {
             try
             {
-                return true;
+                var localhost = new DirectoryEntry(rootWeb);
+                return localhost
+                    .Children
+                    .OfType<DirectoryEntry>()
+                    .Any(v => v.Name == virtualDirectory);
             }
             catch
             {
