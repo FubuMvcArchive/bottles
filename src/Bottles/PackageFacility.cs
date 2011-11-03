@@ -12,41 +12,35 @@ namespace Bottles
 {
     public class PackageFacility : IPackageFacility, IPackagingRuntimeGraphConfigurer
     {
-        private readonly IList<Action<PackagingRuntimeGraph>> _configurableActions =
-            new List<Action<PackagingRuntimeGraph>>();
+        private readonly IList<Action<PackagingRuntimeGraph>> _configurableActions = new List<Action<PackagingRuntimeGraph>>();
 
-        //TODO: this is pants on head stupid -dru
-        private Action<PackagingRuntimeGraph> configurableActions
-        {
-            set { _configurableActions.Add(value); }
-        }
 
         public void Assembly(Assembly assembly)
         {
-            configurableActions = g => g.AddLoader(new AssemblyPackageLoader(assembly));
+            addConfigurableAction(g => g.AddLoader(new AssemblyPackageLoader(assembly)));
         }
 
         public void Bootstrapper(IBootstrapper bootstrapper)
         {
-            configurableActions = g => g.AddBootstrapper(bootstrapper);
+           addConfigurableAction(g => g.AddBootstrapper(bootstrapper));
         }
 
         public void Loader(IPackageLoader loader)
         {
-            configurableActions = g => g.AddLoader(loader);
+           addConfigurableAction(g => g.AddLoader(loader));
         }
 
         public void Facility(IPackageFacility facility)
         {
-            configurableActions = graph =>
+            addConfigurableAction(graph =>
             {
                 graph.AddFacility(facility);
-            };
+            });
         }
 
         public void Activator(IActivator activator)
         {
-            configurableActions = g => g.AddActivator(activator);
+           addConfigurableAction(g => g.AddActivator(activator));
         }
 
         public void Bootstrap(Func<IPackageLog, IEnumerable<IActivator>> lambda)
@@ -78,6 +72,11 @@ namespace Bottles
         public void Configure(PackagingRuntimeGraph graph)
         {
             _configurableActions.Each(cfgAction => cfgAction(graph));
+        }
+
+        private void addConfigurableAction(Action<PackagingRuntimeGraph> action)
+        {
+            _configurableActions.Add(action);
         }
     }
 }
