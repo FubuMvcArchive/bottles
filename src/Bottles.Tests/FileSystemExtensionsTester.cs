@@ -24,10 +24,10 @@ namespace Bottles.Tests
         public void find_binary_directory_if_the_target_directory_does_not_exist()
         {
             theFileSystem
-                .Stub(x => x.DirectoryExists(theFolder, "bin", CompileTargetEnum.debug.ToString()))
+                .Stub(x => x.DirectoryExists(theFolder, "bin", CompileTargetEnum.Debug.ToString()))
                 .Return(false);
 
-            theFileSystem.FindBinaryDirectory(theFolder, CompileTargetEnum.debug)
+            theFileSystem.FindBinaryDirectory(theFolder, CompileTargetEnum.Debug)
                 .ShouldEqual(FileSystem.Combine(theFolder, "bin"));
 
 
@@ -37,11 +37,11 @@ namespace Bottles.Tests
         public void find_binary_directory_when_the_target_directory_exists()
         {
             theFileSystem
-                .Stub(x => x.DirectoryExists(theFolder, "bin", CompileTargetEnum.release.ToString()))
+                .Stub(x => x.DirectoryExists(theFolder, "bin", CompileTargetEnum.Release.ToString()))
                 .Return(true);
 
-            theFileSystem.FindBinaryDirectory(theFolder, CompileTargetEnum.release)
-                .ShouldEqual(FileSystem.Combine(theFolder, "bin", "release")); 
+            theFileSystem.FindBinaryDirectory(theFolder, CompileTargetEnum.Release)
+                .ShouldEqual(FileSystem.Combine(theFolder, "bin", "Release")); 
         }
 
         [Test]

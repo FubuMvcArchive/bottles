@@ -6,15 +6,15 @@ namespace Bottles.Creation
 {
     public enum CompileTargetEnum
     {
-        debug,
-        release
+        Debug,
+        Release
     }
 
     public class CreatePackageInput
     {
         public CreatePackageInput()
         {
-            TargetFlag = CompileTargetEnum.debug;
+            TargetFlag = CompileTargetEnum.Debug;
         }
 
         [Description("The root physical folder (or valid alias) of the package")]

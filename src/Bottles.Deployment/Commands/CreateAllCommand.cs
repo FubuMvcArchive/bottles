@@ -14,7 +14,7 @@ namespace Bottles.Deployment.Commands
     {
         public CreateAllInput()
         {
-            TargetFlag = CompileTargetEnum.debug;
+            TargetFlag = CompileTargetEnum.Debug;
             DirectoryFlag = ".".ToFullPath();
         }
 

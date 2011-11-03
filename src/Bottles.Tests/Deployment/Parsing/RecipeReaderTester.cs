@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Bottles.Deployment;
 using Bottles.Deployment.Parsing;
 using Bottles.Deployment.Writing;
