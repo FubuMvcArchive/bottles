@@ -2,7 +2,7 @@ include FileTest
 require 'albacore'
 load "VERSION.txt"
 
-COMPILE_TARGET = ENV['config'].nil? ? "debug" : ENV['config']
+COMPILE_TARGET = ENV['config'].nil? ? "Debug" : ENV['config']
 CLR_TOOLS_VERSION = "v4.0.30319"
 RESULTS_DIR = "results"
 PRODUCT = "FubuMVC"
