@@ -43,3 +43,4 @@ Core
 External
 lib/**/*.nupkg
 src/packages
+results/*
