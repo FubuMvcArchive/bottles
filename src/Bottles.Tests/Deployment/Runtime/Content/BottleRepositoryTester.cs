@@ -111,7 +111,7 @@ namespace Bottles.Tests.Deployment.Runtime.Content
 
             var packageLog = new PackageLog();
             theRepository.ExplodeFiles(new BottleExplosionRequest(packageLog){
-                BottleDirectory = "Config",
+                BottleDirectory = "config",
                 BottleName = "Fake",
                 DestinationDirectory = FileSystem.Combine("exploded", "config"),
                 DetailedLogging = true
@@ -123,7 +123,7 @@ namespace Bottles.Tests.Deployment.Runtime.Content
             packageLog.FullTraceText().ShouldContain(FileSystem.Combine("a", "1.config"));
             packageLog.FullTraceText().ShouldContain(FileSystem.Combine("a", "2.config"));
 
-            new FileSystem().FindFiles(FileSystem.Combine("exploded", "Config"), new FileSet{
+            new FileSystem().FindFiles(FileSystem.Combine("exploded", "config"), new FileSet{
                 DeepSearch = true,
                 Include = "*.*"
             }).Select(x => Path.GetFileName(x)).ShouldHaveTheSameElementsAs("1.config", "2.config", "3.config",
@@ -141,7 +141,7 @@ namespace Bottles.Tests.Deployment.Runtime.Content
             
             theRepository.ExplodeFiles(new BottleExplosionRequest(packageLog)
             {
-                BottleDirectory = "Config",
+                BottleDirectory = "config",
                 BottleName = "Fake",
                 DestinationDirectory = FileSystem.Combine("exploded", "config"),
                 CopyBehavior = CopyBehavior.preserve
