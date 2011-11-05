@@ -111,7 +111,7 @@ namespace Bottles.Tests.Deployment.Runtime.Content
 
             var packageLog = new PackageLog();
             theRepository.ExplodeFiles(new BottleExplosionRequest(packageLog){
-                BottleDirectory = "config",
+                BottleDirectory = "Config",
                 BottleName = "Fake",
                 DestinationDirectory = FileSystem.Combine("exploded", "config"),
                 DetailedLogging = true
@@ -141,7 +141,7 @@ namespace Bottles.Tests.Deployment.Runtime.Content
             
             theRepository.ExplodeFiles(new BottleExplosionRequest(packageLog)
             {
-                BottleDirectory = "config",
+                BottleDirectory = "Config",
                 BottleName = "Fake",
                 DestinationDirectory = FileSystem.Combine("exploded", "config"),
                 CopyBehavior = CopyBehavior.preserve
