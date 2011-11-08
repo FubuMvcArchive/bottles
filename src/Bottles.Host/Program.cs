@@ -12,8 +12,7 @@ namespace Bottles.Host
     {
         static void Main(string[] args)
         {
-            File.WriteAllText("pwd.txt", System.Environment.CurrentDirectory);
-            log4net.Config.XmlConfigurator.ConfigureAndWatch(new FileInfo("log4net.config"));
+            setupLog4Net();
 
             HostFactory.Run(h =>
             {
@@ -35,6 +34,15 @@ namespace Bottles.Host
                     c.WhenStopped(s => s.Stop());
                 });
             });
+        }
+
+        static void setupLog4Net()
+        {
+            var fs = new FileSystem();
+            var configFolder = fs.SearchUpForDirectory(System.Environment.CurrentDirectory, "config") ?? ".";
+            var log4NetFilePath = configFolder.AppendPath("log4net.config");
+            Console.WriteLine("Using '{0}' for log4net.config", log4NetFilePath);
+            log4net.Config.XmlConfigurator.ConfigureAndWatch(new FileInfo(log4NetFilePath));
         }
     }
 }
