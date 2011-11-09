@@ -11,6 +11,8 @@ namespace Bottles.Deployment
     {
         public static readonly string RecipePrefix = "recipe:";
         public static string ProfileDependencyPrefix = "dependency:";
+        public static string Comment = "#";
+
         private readonly IList<string> _recipes = new List<string>();
         private readonly IList<string> _profiles = new List<string>();
 
@@ -53,6 +55,11 @@ namespace Bottles.Deployment
         public void ReadText(string text)
         {
             if (text.IsEmpty()) return;
+
+            if(text.StartsWith(Comment))
+            {
+                return;
+            }
 
             if (text.StartsWith(RecipePrefix))
             {

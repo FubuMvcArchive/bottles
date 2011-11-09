@@ -32,5 +32,13 @@ namespace Bottles.Tests.Deployment
             
             theProfile.Data["Key1"].ShouldEqual("Value1");
         }
+
+        [Test]
+        public void read_comment()
+        {
+            theProfile.ReadText("#a comment");
+            theProfile.Recipes.Any().ShouldBeFalse();
+
+        }
     }
 }
