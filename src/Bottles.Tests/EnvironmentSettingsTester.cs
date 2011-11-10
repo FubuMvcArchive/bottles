@@ -20,21 +20,18 @@ namespace Bottles.Tests
         [Test]
         public void read_text_with_no_equals()
         {
-            Exception<ApplicationException>.ShouldBeThrownBy(() =>
+            Exception<Exception>.ShouldBeThrownBy(() =>
             {
                 theEnvironmentSettings.Data.Read("something");
             });
-            
         }
 
         [Test]
         public void read_text_with_too_many_equals()
         {
-            Exception<ApplicationException>.ShouldBeThrownBy(() =>
-            {
-                theEnvironmentSettings.Data.Read("something=else=more");
-            });
+            theEnvironmentSettings.Data.Read("something=else=more");
 
+            theEnvironmentSettings.Data["something"].ShouldEqual("else=more");
         }
 
         [Test]
