@@ -83,6 +83,12 @@ namespace Bottles.Deployment.Runtime
             {
                 copier.CopyFile(x => x.EnvironmentFile());
                 copier.CopyFile(x => x.ProfileFileNameFor(plan.ProfileName));
+                
+                plan.Settings.Profile.ProfileDependencies.Each(dep =>
+                {
+                    copier.CopyFile(x=> x.ProfileFileNameFor(dep));
+                });
+                
 
                 plan.BottleNames().Each(name => copier.CopyFile(x => x.BottleFileFor(name)));
 
