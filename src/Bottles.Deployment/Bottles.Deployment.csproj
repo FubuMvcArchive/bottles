@@ -59,6 +59,7 @@
     <Compile Include="Commands\AddProfileCommand.cs" />
     <Compile Include="Commands\AddRecipeCommand.cs" />
     <Compile Include="Commands\BundleCommand.cs" />
+    <Compile Include="Commands\ConfigCommand.cs" />
     <Compile Include="Commands\CopyCommand.cs" />
     <Compile Include="Commands\CopyInput.cs" />
     <Compile Include="Commands\InitializeCommand.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Deployers\Simple\ExplodeBottlesInitializer.cs" />
     <Compile Include="DeploymentException.cs" />
     <Compile Include="DeploymentSettings.cs" />
+    <Compile Include="Diagnostics\ConsoleDiagnosticsReporter.cs" />
     <Compile Include="Diagnostics\DeploymentReport.cs" />
     <Compile Include="Diagnostics\DiagnosticsReporter.cs" />
     <Compile Include="Diagnostics\IDiagnosticsReporter.cs" />

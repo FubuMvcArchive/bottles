@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Bottles.Deployment.Diagnostics;
 using Bottles.Deployment.Parsing;
 using Bottles.Deployment.Runtime.Content;
-using Bottles.Diagnostics;
 using System.Linq;
 using FubuCore;
 using FubuCore.CommandLine;
