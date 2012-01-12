@@ -26,7 +26,7 @@ namespace Bottles.Deployment.Commands
         public override bool Execute(BundleInput input)
         {
             Debugger.Break();
-            var settings = DeploymentSettings.ForDirectory(input.DeploymentFlag);
+            var settings = DeploymentSettings.ForDirectory(input.GetDeployment());
             var options = input.CreateDeploymentOptions();
             settings.AddImportedFolders(options.ImportedFolders);
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Bottles.Deployment.Diagnostics;
 using Bottles.Diagnostics;

@@ -1,5 +1,4 @@
-﻿using System;
-using Bottles.Diagnostics;
+﻿using Bottles.Diagnostics;
 
 namespace Bottles.Deployment.Runtime
 {

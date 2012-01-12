@@ -37,6 +37,11 @@ namespace Bottles.Deployment
         }
     }
 
+    public interface IProcessRunner
+    {
+        ProcessReturn Run(ProcessStartInfo info, TimeSpan waitDuration);
+        ProcessReturn Run(ProcessStartInfo info);
+    }
 
     public class ProcessRunner : IProcessRunner
     {

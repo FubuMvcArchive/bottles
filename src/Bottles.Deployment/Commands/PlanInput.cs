@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using Bottles.Deployment.Runtime;
+using FubuCore;
 using FubuCore.CommandLine;
 
 namespace Bottles.Deployment.Commands
@@ -52,6 +53,16 @@ namespace Bottles.Deployment.Commands
             }
 
             return options;
+        }
+
+        public string GetProfile()
+        {
+            return ProfileFlag ?? "default";
+        }
+
+        public string GetDeployment()
+        {
+            return DeploymentFlag ?? ".".ToFullPath().AppendPath(ProfileFiles.DeploymentFolder);
         }
     }
 }

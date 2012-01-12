@@ -7,15 +7,6 @@ namespace Bottles.Deployment.Commands
 {
     public class ConfigInput : PlanInput
     {
-        public string GetProfile()
-        {
-            return ProfileFlag ?? "default";
-        }
-
-        public string GetDeployment()
-        {
-            return DeploymentFlag ?? ".";
-        }
     }
 
     

@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using Bottles.Deployment.Parsing;
-using FubuCore.Binding;
 using FubuCore.Configuration;
 using StructureMap;
 using System.Linq;
@@ -9,7 +7,10 @@ using System.Linq;
 namespace Bottles.Deployment.Runtime
 {
 
-
+    public interface IDirectiveRunnerFactory
+    {
+        IEnumerable<IDirectiveRunner> BuildRunners(DeploymentPlan plan);
+    }
 
     public class DirectiveRunnerFactory : IDirectiveRunnerFactory
     {
@@ -22,7 +23,6 @@ namespace Bottles.Deployment.Runtime
             _types = types;
         }
 
-        // Take this out of the public interface
         public IDirectiveRunner Build(IDirective directive)
         {
             return _container.ForObject(directive)
@@ -30,7 +30,6 @@ namespace Bottles.Deployment.Runtime
                 .As<IDirectiveRunner>();
         }
 
-        // Pass in DeploymentPlan instead
         public IEnumerable<IDirectiveRunner> BuildRunners(DeploymentPlan plan)
         {
             return plan.Hosts.SelectMany(x => BuildRunnersFor(plan, x));

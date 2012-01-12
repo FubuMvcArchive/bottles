@@ -8,6 +8,12 @@ using StructureMap;
 
 namespace Bottles.Deployment.Runtime
 {
+    public interface IDirectiveTypeRegistry
+    {
+        Type DirectiveTypeFor(string name);
+        IEnumerable<Type> DirectiveTypes();
+    }
+
     public class DirectiveTypeRegistry : IDirectiveTypeRegistry
     {
         private readonly Cache<string, Type> _directiveTypes = new Cache<string, Type>();

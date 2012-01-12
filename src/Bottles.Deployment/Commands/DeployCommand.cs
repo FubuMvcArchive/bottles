@@ -39,7 +39,7 @@ namespace Bottles.Deployment.Commands
     {
         public override bool Execute(DeployInput input)
         {
-            var settings = DeploymentSettings.ForDirectory(input.DeploymentFlag);
+            var settings = DeploymentSettings.ForDirectory(input.GetDeployment());
 
             var options = input.CreateDeploymentOptions();
 

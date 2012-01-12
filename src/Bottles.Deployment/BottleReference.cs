@@ -1,5 +1,8 @@
+using System.Diagnostics;
+
 namespace Bottles.Deployment
 {
+    [DebuggerDisplay("Bottle: {Name}")]
     public class BottleReference
     {
         public static BottleReference ParseFrom(string text)
