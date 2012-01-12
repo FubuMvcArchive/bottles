@@ -47,7 +47,6 @@ namespace Bottles.Deployers.Iis
         {
             if (website.IdentityType.IsEmpty()) return;
 
-
             if (website.HasCredentials())
             {
                 pool.ProcessModel.IdentityType = ProcessModelIdentityType.SpecificUser;

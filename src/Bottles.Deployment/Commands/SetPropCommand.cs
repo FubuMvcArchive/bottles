@@ -45,7 +45,7 @@ namespace Bottles.Deployment.Commands
     {
         public override bool Execute(SetEnvPropInput input)
         {
-            var path = DeploymentSettings.ForDirectory(input.DeploymentFlag).EnvironmentFile();
+            var path = DeploymentSettings.ForDirectory(input.DeploymentFlag).EnvironmentFile;
             new FileSystem().WriteProperty(path, input.PropertyValue);
 
             return true;

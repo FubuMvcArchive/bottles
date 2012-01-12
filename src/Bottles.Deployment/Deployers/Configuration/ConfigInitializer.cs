@@ -45,7 +45,7 @@ namespace Bottles.Deployment.Deployers.Configuration
 
             if (_settings.Environment != null && directive.EnvironmentFile.IsNotEmpty())
             {
-                log.Trace("Writing environment settings to " + _settings.EnvironmentFile());
+                log.Trace("Writing environment settings to " + _settings.EnvironmentFile);
                 _writer.Write(directive.EnvironmentFile, _settings.Environment);
             }
 

@@ -8,7 +8,6 @@ namespace Bottles.Deployment.Parsing
         public EnvironmentSettings Environment { get; set; }
         public IEnumerable<Recipe> Recipes { get; set; }
         public Profile Profile { get; set; }
-
         public DeploymentSettings Settings { get; set; }
     }
 }

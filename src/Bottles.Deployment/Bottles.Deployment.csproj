@@ -54,7 +54,7 @@
   <ItemGroup>
     <Compile Include="Bootstrapping\DeploymentBootstrapper.cs" />
     <Compile Include="Bootstrapping\DeploymentRegistry.cs" />
-    <Compile Include="BottleReference.cs" />
+    <Compile Include="Configuration\BottleReference.cs" />
     <Compile Include="Commands\AddDirectiveCommand.cs" />
     <Compile Include="Commands\AddProfileCommand.cs" />
     <Compile Include="Commands\AddRecipeCommand.cs" />
@@ -118,13 +118,13 @@
     <Compile Include="Runtime\Content\IBottleMover.cs" />
     <Compile Include="Parsing\DeploymentPlan.cs" />
     <Compile Include="Parsing\HostReader.cs" />
-    <Compile Include="Parsing\IProfileReader.cs" />
+    <Compile Include="Parsing\ProfileReader.cs" />
     <Compile Include="Parsing\IRecipeSorter.cs" />
     <Compile Include="Parsing\RecipeSorter.cs" />
-    <Compile Include="Profile.cs" />
-    <Compile Include="Recipe.cs" />
+    <Compile Include="Configuration\Profile.cs" />
+    <Compile Include="Configuration\Recipe.cs" />
     <Compile Include="Runtime\Content\BottleRepository.cs" />
-    <Compile Include="HostManifest.cs" />
+    <Compile Include="Configuration\HostManifest.cs" />
     <Compile Include="Runtime\Content\IBottleRepository.cs" />
     <Compile Include="IDirective.cs" />
     <Compile Include="Parsing\SettingsParserException.cs" />

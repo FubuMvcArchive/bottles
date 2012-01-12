@@ -1,7 +1,5 @@
 using Bottles.Deployment.Configuration;
 using Bottles.Deployment.Runtime;
-using System.Linq;
-using FubuCore;
 
 namespace Bottles.Deployment.Parsing
 {
@@ -23,10 +21,13 @@ namespace Bottles.Deployment.Parsing
         {
             _settings.AddImportedFolders(options.ImportedFolders);
 
-            var allRecipes = _settings.Directories.Select(x => x.AppendPath(ProfileFiles.RecipesDirectory)).SelectMany(RecipeReader.ReadRecipes);
-            return new DeploymentGraph{
-                Environment = EnvironmentSettings.ReadFrom(_settings.EnvironmentFile()),
-                Profile = Profile.ReadFrom(_settings, options.ProfileName),
+            var allRecipes = _settings.AllRecipies();
+            var env = EnvironmentSettings.ReadFrom(_settings.EnvironmentFile);
+            var profile = Profile.ReadFrom(_settings, options.ProfileName);
+
+            return new DeploymentGraph {
+                Environment = env,
+                Profile = profile,
                 Recipes = allRecipes,
                 Settings = _settings
             };

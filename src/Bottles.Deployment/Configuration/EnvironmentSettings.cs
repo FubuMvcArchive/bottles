@@ -21,6 +21,7 @@ namespace Bottles.Deployment.Configuration
 
             return result;
         }
+
         public static EnvironmentSettings ReadFrom(string environmentFile)
         {
             var environment = new EnvironmentSettings();

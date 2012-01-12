@@ -62,7 +62,7 @@ namespace Bottles.Deployment.Writing
 
         private void writeEnvironmentSettings()
         {
-            _system.WriteToFlatFile(_settings.EnvironmentFile(),
+            _system.WriteToFlatFile(_settings.EnvironmentFile,
                                     file => { _profileValues.Each(value => value.Write(file)); });
         }
 

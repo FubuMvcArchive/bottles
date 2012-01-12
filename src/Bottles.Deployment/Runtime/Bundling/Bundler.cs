@@ -81,7 +81,7 @@ namespace Bottles.Deployment.Runtime
         {
             LogWriter.Current.Indent(() =>
             {
-                copier.CopyFile(x => x.EnvironmentFile());
+                copier.CopyFile(x => x.EnvironmentFile);
                 copier.CopyFile(x => x.ProfileFileNameFor(plan.ProfileName));
                 
                 plan.Settings.Profile.ProfileDependencies.Each(dep =>

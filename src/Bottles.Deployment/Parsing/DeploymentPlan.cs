@@ -89,7 +89,7 @@ namespace Bottles.Deployment.Parsing
             var requestData = SettingsRequestData.For(_graph.Profile.Data, _graph.Environment.Data);
             var valueExists = requestData.Value(EnvironmentSettings.ROOT, value =>
             {
-                //this is jacking up bundle
+                //this is getting called on bundle. is that necessary?
                 _graph.Settings.TargetDirectory = (string) value;
             });
 
