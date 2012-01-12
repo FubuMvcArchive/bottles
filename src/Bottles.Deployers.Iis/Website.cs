@@ -1,6 +1,7 @@
 using Bottles.Deployment;
 using Bottles.Deployment.Configuration;
 using FubuCore;
+using Microsoft.Web.Administration;
 
 namespace Bottles.Deployers.Iis
 {
@@ -51,16 +52,27 @@ namespace Bottles.Deployers.Iis
         /// </summary>
         public string VDirPhysicalPath { get; set; }
 
-        public string AppPool { get; set; }
+        /// <summary>
+        /// Which port to listen on
+        /// </summary>
         public int Port { get; set; }
 
+        /// <summary>
+        /// The application pool to use
+        /// </summary>
+        public string AppPool { get; set; }
+
+        /// <summary>
+        /// What process model do you want to use for the app pool
+        /// </summary>
+        public string IdentityType { get; set; }
 
         //credentials
         public string Username { get; set; }
         public string Password { get; set; }
         public bool HasCredentials()
         {
-            return !string.IsNullOrEmpty(Username);
+            return !string.IsNullOrEmpty(Username) && IdentityType.ToLower() == "specificUser";
         }
 
         //iis options

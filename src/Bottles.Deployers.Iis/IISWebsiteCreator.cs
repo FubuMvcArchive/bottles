@@ -1,3 +1,4 @@
+using System;
 using Bottles.Diagnostics;
 using FubuCore;
 using Microsoft.Web.Administration;
@@ -16,11 +17,8 @@ namespace Bottles.Deployers.Iis
                 pool.ManagedPipelineMode = ManagedPipelineMode.Integrated;
                 pool.Enable32BitAppOnWin64 = false;
 
-                if (website.HasCredentials())
-                {
-                    pool.ProcessModel.UserName = website.Username;
-                    pool.ProcessModel.Password = website.Password;
-                }
+                poolIdentity(website, pool);
+                
 
                 LogWriter.Current.Indent(() =>
                 {
@@ -43,6 +41,23 @@ namespace Bottles.Deployers.Iis
                     LogWriter.Current.Success("Success.");
                 });
             }
+        }
+
+        private static void poolIdentity(Website website, ApplicationPool pool)
+        {
+            if (website.IdentityType.IsEmpty()) return;
+
+
+            if (website.HasCredentials())
+            {
+                pool.ProcessModel.IdentityType = ProcessModelIdentityType.SpecificUser;
+                pool.ProcessModel.UserName = website.Username;
+                pool.ProcessModel.Password = website.Password;
+                return;
+            }
+
+            var t = (ProcessModelIdentityType) Enum.Parse(typeof (ProcessModelIdentityType), website.IdentityType, true);
+            pool.ProcessModel.IdentityType = t;
         }
 
         private Application createApp(Website website, Site site)
