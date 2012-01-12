@@ -61,15 +61,7 @@ namespace Bottles.Deployment.Parsing
             }
         }
 
-        // TESTING CTOR ONLY!!!!!!!!
-        public DeploymentPlan(DeploymentSettings settings, DeploymentOptions options, IEnumerable<Recipe> recipes, IEnumerable<HostManifest> hosts)
-        {
-            _recipes = recipes;
-            settings.Plan = this;
-            _hosts = hosts;
-            _options = options;
-            _rootData = new SettingsData();
-        }
+        
 
         public IEnumerable<SettingDataSource> GetSubstitutionDiagnosticReport()
         {
@@ -89,13 +81,7 @@ namespace Bottles.Deployment.Parsing
         }
 
 
-        public DeploymentSettings Settings
-        {
-            get
-            {
-                return _graph.Settings;
-            }
-        }
+        public DeploymentSettings Settings { get { return _graph.Settings; } }
 
         private void readRoot()
         {
@@ -103,6 +89,7 @@ namespace Bottles.Deployment.Parsing
             var requestData = SettingsRequestData.For(_graph.Profile.Data, _graph.Environment.Data);
             var valueExists = requestData.Value(EnvironmentSettings.ROOT, value =>
             {
+                //this is jacking up bundle
                 _graph.Settings.TargetDirectory = (string) value;
             });
 
@@ -222,15 +209,27 @@ namespace Bottles.Deployment.Parsing
             return Hosts.FirstOrDefault(x => x.Name == hostName);
         }
 
+        public void AssertAllRequiredValuesAreFilled()
+        {
+            var settingData = _hosts.SelectMany(x => x.AllSettingsData()).Union(Substitutions()).ToArray();
+            SettingsProvider.For(settingData).AssertAllSubstitutionsCanBeResolved();
+        }
+        
+
+
         public static DeploymentPlan Blank()
         {
             return new DeploymentPlan(new DeploymentSettings(), new DeploymentOptions(), new Recipe[0], new HostManifest[0]);
         }
 
-        public void AssertAllRequiredValuesAreFilled()
+        // TESTING CTOR ONLY!!!!!!!!
+        private DeploymentPlan(DeploymentSettings settings, DeploymentOptions options, IEnumerable<Recipe> recipes, IEnumerable<HostManifest> hosts)
         {
-            var settingData = _hosts.SelectMany(x => x.AllSettingsData()).Union(Substitutions()).ToArray();
-            SettingsProvider.For(settingData).AssertAllSubstitutionsCanBeResolved();
+            _recipes = recipes;
+            settings.Plan = this;
+            _hosts = hosts;
+            _options = options;
+            _rootData = new SettingsData();
         }
     }
 

@@ -1,7 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
+using System.Diagnostics;
 using System.Linq;
 using Bottles.Deployment.Bootstrapping;
 using Bottles.Deployment.Runtime;
@@ -26,6 +25,7 @@ namespace Bottles.Deployment.Commands
     {
         public override bool Execute(BundleInput input)
         {
+            Debugger.Break();
             var settings = DeploymentSettings.ForDirectory(input.DeploymentFlag);
             var options = input.CreateDeploymentOptions();
             settings.AddImportedFolders(options.ImportedFolders);

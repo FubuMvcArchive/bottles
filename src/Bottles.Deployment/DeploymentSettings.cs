@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using Bottles.Deployment.Configuration;
@@ -16,11 +15,11 @@ namespace Bottles.Deployment
         {
             _allFolders.Add(path);
             DeploymentDirectory = path;
-            BottlesDirectory = FileSystem.Combine(path, ProfileFiles.BottlesDirectory);
-            RecipesDirectory = FileSystem.Combine(path, ProfileFiles.RecipesDirectory);
-            TargetDirectory = FileSystem.Combine(path, ProfileFiles.TargetDirectory);
-            ProfilesDirectory = FileSystem.Combine(path, ProfileFiles.ProfilesDirectory);
-            DeployersDirectory = FileSystem.Combine(path, ProfileFiles.DeployersDirectory);
+            BottlesDirectory = path.AppendPath(ProfileFiles.BottlesDirectory);
+            RecipesDirectory = path.AppendPath(ProfileFiles.RecipesDirectory);
+            TargetDirectory = path.AppendPath(ProfileFiles.TargetDirectory);
+            ProfilesDirectory = path.AppendPath(ProfileFiles.ProfilesDirectory);
+            DeployersDirectory = path.AppendPath(ProfileFiles.DeployersDirectory);
         }
 
         public DeploymentSettings() : this(".".ToFullPath())
@@ -28,7 +27,6 @@ namespace Bottles.Deployment
         }
 
         public string DeployersDirectory { get; set; }
-
         public string DeploymentDirectory { get; set; }
         public string TargetDirectory { get; set; }
         public string BottlesDirectory { get; set; }
@@ -64,7 +62,7 @@ namespace Bottles.Deployment
 
         public string StagingDirectory
         {
-            get { return FileSystem.Combine(TargetDirectory, ProfileFiles.StagingDirectory); }
+            get { return TargetDirectory.AppendPath(ProfileFiles.StagingDirectory); }
         }
 
         public DeploymentPlan Plan { get; set; }

@@ -9,6 +9,12 @@ using FubuCore.CommandLine;
 
 namespace Bottles.Deployment.Runtime
 {
+    public interface IDeploymentController
+    {
+        void Deploy(DeploymentOptions options);
+        DeploymentPlan BuildPlan(DeploymentOptions options);
+    }
+
     public class DeploymentController : IDeploymentController
     {
         private readonly IBottleRepository _bottles;

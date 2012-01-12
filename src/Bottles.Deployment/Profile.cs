@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using Bottles.Deployment.Configuration;
 using FubuCore;
@@ -7,6 +8,7 @@ using FubuCore.Configuration;
 
 namespace Bottles.Deployment
 {
+    [DebuggerDisplay("Profile:{Name}")]
     public class Profile : ProfileBase
     {
         public static readonly string RecipePrefix = "recipe:";
@@ -18,8 +20,10 @@ namespace Bottles.Deployment
 
         public Profile(string profileName) : base(SettingCategory.profile, "Profile:  " + profileName)
         {
+            Name = profileName;
         }
 
+        public string Name { get; private set; }
         public IEnumerable<string> Recipes
         {
             get { return _recipes; }

@@ -1,4 +1,3 @@
-using System;
 using Bottles.Deployment.Runtime;
 
 namespace Bottles.Deployment.Parsing

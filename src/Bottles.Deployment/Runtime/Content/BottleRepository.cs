@@ -4,7 +4,6 @@ using Bottles.Exploding;
 using Bottles.Zipping;
 using FubuCore;
 using System.Collections.Generic;
-using FubuCore.CommandLine;
 
 namespace Bottles.Deployment.Runtime.Content
 {

@@ -1,14 +1,12 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using FubuCore.Util;
 
 namespace Bottles.Deployment.Runtime
 {
+    [DebuggerDisplay("Options for {ProfileName}")]
     public class DeploymentOptions
     {
-        private readonly IList<string> _recipeNames = new List<string>();
-        private readonly IList<string> _importedFolders = new List<string>();
-        private readonly Cache<string, string> _overrides = new Cache<string,string>();
-
         public DeploymentOptions() : this("default")
         {
         }
@@ -16,28 +14,18 @@ namespace Bottles.Deployment.Runtime
         public DeploymentOptions(string profileName)
         {
             ProfileName = profileName;
-            ProfileFileName = "C:\\TODO";
+            ProfileFileName = "default.profile";
             ReportName = "report.htm";
+            RecipeNames = new List<string>();
+            ImportedFolders = new List<string>();
+            Overrides = new Cache<string, string>();
         }
 
         public string ProfileName { get; set; }
         public string ProfileFileName { get; set; }
-
         public string ReportName { get; set; }
-
-        public IList<string> RecipeNames
-        {
-            get { return _recipeNames; }
-        }
-
-        public Cache<string, string> Overrides
-        {
-            get { return _overrides; }
-        }
-
-        public IList<string> ImportedFolders
-        {
-            get { return _importedFolders; }
-        }
+        public IList<string> RecipeNames { get; private set; }
+        public IList<string> ImportedFolders { get; private set; }
+        public Cache<string, string> Overrides { get; private set; }       
     }
 }
