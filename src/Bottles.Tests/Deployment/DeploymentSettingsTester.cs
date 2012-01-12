@@ -1,4 +1,4 @@
-using System.Diagnostics;
+using System.IO;
 using Bottles.Deployment;
 using Bottles.Deployment.Commands;
 using Bottles.Deployment.Configuration;
@@ -7,7 +7,6 @@ using FubuCore;
 using NUnit.Framework;
 using FubuTestingSupport;
 using System.Linq;
-using System.Collections.Generic;
 
 namespace Bottles.Tests.Deployment
 {
@@ -33,9 +32,10 @@ namespace Bottles.Tests.Deployment
 
             settings.BottlesDirectory.ShouldEqual("dir".AppendPath("bottles"));
             settings.RecipesDirectory.ShouldEqual("dir".AppendPath("recipes"));
-            settings.EnvironmentFile().ShouldEqual("dir".AppendPath("environment.settings"));
+            settings.EnvironmentFile.ShouldEqual("dir".AppendPath("environment.settings"));
             settings.TargetDirectory.ShouldEqual("dir".AppendPath("target"));
             settings.DeploymentDirectory.ShouldEqual("dir");
+            
 
             settings.DeployersDirectory.ShouldEqual("dir".AppendPath("deployers"));
 
@@ -65,11 +65,21 @@ namespace Bottles.Tests.Deployment
         }
 
         [Test]
+        public void staging_directory()
+        {
+            setupValidDeploymentFolderAt("dir");
+
+            //review there is a check inside of here
+            var settings = new DeploymentSettings("dir");
+            settings.StagingDirectory.ShouldEqual(Path.GetTempPath().AppendPath("bottles").AppendPath("staging"));
+        }
+
+        [Test]
         public void find_the_environment_file_defaults_to_the_main_directory_if_it_cannot_be_found()
         {
             var settings = new DeploymentSettings("firefly");
             var defaultEnvironmentFile = "firefly".AppendPath(EnvironmentSettings.EnvironmentSettingsFileName);
-            settings.EnvironmentFile().ShouldEqual(defaultEnvironmentFile);
+            settings.EnvironmentFile.ShouldEqual(defaultEnvironmentFile);
         }
 
         [Test]
@@ -81,7 +91,7 @@ namespace Bottles.Tests.Deployment
 
             settings.Directories.Count().ShouldEqual(1);
 
-            settings.EnvironmentFile().ShouldEqual("firefly".AppendPath(EnvironmentSettings.EnvironmentSettingsFileName));
+            settings.EnvironmentFile.ShouldEqual("firefly".AppendPath(EnvironmentSettings.EnvironmentSettingsFileName));
         }
 
         [Test]
@@ -93,18 +103,18 @@ namespace Bottles.Tests.Deployment
 
             writeEnvironmentFileTo("a");
             settings.AddImportedFolder("a");
-            settings.EnvironmentFile().ShouldEqual("firefly".AppendPath(EnvironmentSettings.EnvironmentSettingsFileName));
+            settings.EnvironmentFile.ShouldEqual("firefly".AppendPath(EnvironmentSettings.EnvironmentSettingsFileName));
         }
 
         [Test]
         public void find_environment_file_from_included_folders_when_it_is_not_in_the_root()
         {
-            var settings = new DeploymentSettings("firefly");
-
             writeEnvironmentFileTo("a");
-            settings.AddImportedFolder("a");
-            settings.EnvironmentFile().ShouldEqual("a".AppendPath(EnvironmentSettings.EnvironmentSettingsFileName));
 
+            var settings = new DeploymentSettings("firefly");
+            settings.AddImportedFolder("a");
+
+            settings.EnvironmentFile.ShouldEqual("a".AppendPath(EnvironmentSettings.EnvironmentSettingsFileName));
         }
 
       

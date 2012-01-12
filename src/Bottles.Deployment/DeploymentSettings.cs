@@ -10,9 +10,13 @@ namespace Bottles.Deployment
 {
     public class DeploymentSettings
     {
+        private readonly IList<string> _allFolders = new List<string>();
+
         //path points to ~/deployment
         public DeploymentSettings(string path)
         {
+            var fs = new FileSystem();
+
             _allFolders.Add(path);
             DeploymentDirectory = path;
             BottlesDirectory = path.AppendPath(ProfileFiles.BottlesDirectory);
@@ -20,52 +24,53 @@ namespace Bottles.Deployment
             TargetDirectory = path.AppendPath(ProfileFiles.TargetDirectory);
             ProfilesDirectory = path.AppendPath(ProfileFiles.ProfilesDirectory);
             DeployersDirectory = path.AppendPath(ProfileFiles.DeployersDirectory);
+            StagingDirectory = buildStagingDirectory();
+
+            updateEnvironmentFile(fs);
         }
+
+        
 
         public DeploymentSettings() : this(".".ToFullPath())
         {
         }
 
-        public string DeployersDirectory { get; set; }
-        public string DeploymentDirectory { get; set; }
-        public string TargetDirectory { get; set; }
-        public string BottlesDirectory { get; set; }
-        public string RecipesDirectory { get; set; }
+        public EnvironmentSettings Environment { get; set; }
+        public Profile Profile { get; set; }
+        public DeploymentPlan Plan { get; set; }
+        public string DeployersDirectory { get; private set; }
+        public string DeploymentDirectory { get; private set; }
 
-        private readonly IList<string> _allFolders = new List<string>();
+        /// <summary>
+        /// Where are we deploying to
+        /// </summary>
+        public string TargetDirectory { get; set; }
+        public string BottlesDirectory { get; private set; }
+        public string RecipesDirectory { get; private set; }
+        public string EnvironmentFile { get; private set; }
+        public string ProfilesDirectory { get; private set; }
+
+        /// <summary>
+        /// Where we unzip bottles too
+        /// </summary>
+        public string StagingDirectory { get; private set; }
+
         public void AddImportedFolders(IEnumerable<string> folders)
         {
             _allFolders.Fill(folders);
+            updateEnvironmentFile(new FileSystem());
         }
 
         public void AddImportedFolder(string folder)
         {
             _allFolders.Fill(folder);
+            updateEnvironmentFile(new FileSystem());
         }
 
         public IEnumerable<string> Directories
         {
             get { return _allFolders; }
         }
-
-
-        public string EnvironmentFile()
-        {
-            return new FileSystem().FindFileInDirectories(_allFolders, EnvironmentSettings.EnvironmentSettingsFileName)
-                   ?? DeploymentDirectory.AppendPath(EnvironmentSettings.EnvironmentSettingsFileName);
-        }
-
-        public string ProfilesDirectory { get; set; }
-
-        public EnvironmentSettings Environment { get; set; }
-        public Profile Profile { get; set; }
-
-        public string StagingDirectory
-        {
-            get { return TargetDirectory.AppendPath(ProfileFiles.StagingDirectory); }
-        }
-
-        public DeploymentPlan Plan { get; set; }
 
         public static DeploymentSettings ForDirectory(string directory)
         {
@@ -77,7 +82,6 @@ namespace Bottles.Deployment
             var path = FileSystem.Combine(".".ToFullPath(), ProfileFiles.DeploymentFolder);
             return new DeploymentSettings(path);
         }
-
 
         public virtual IKeyValues SubstitutionValues()
         {
@@ -121,10 +125,8 @@ namespace Bottles.Deployment
             }
 
             return
-                _allFolders.Select(x => x.AppendPath(ProfileFiles.BottlesDirectory)).FindFileInDirectories(filename)
-                ??
-                _allFolders.Select(x => x.AppendPath(ProfileFiles.DeployersDirectory)).FindFileInDirectories(filename)
-                ??
+                _allFolders.Select(x => x.AppendPath(ProfileFiles.BottlesDirectory)).FindFileInDirectories(filename) ??
+                _allFolders.Select(x => x.AppendPath(ProfileFiles.DeployersDirectory)).FindFileInDirectories(filename) ??
                 _allFolders.First().AppendPath(ProfileFiles.BottlesDirectory, filename);
         }
 
@@ -147,6 +149,22 @@ namespace Bottles.Deployment
         public virtual IEnumerable<string> AllBottleNames()
         {
             return Plan.BottleNames();
+        }
+
+        public IEnumerable<Recipe>  AllRecipies()
+        {
+            return Directories.Select(x => x.AppendPath(ProfileFiles.RecipesDirectory)).SelectMany(RecipeReader.ReadRecipes);
+        }
+
+        private void updateEnvironmentFile(FileSystem fs)
+        {
+            EnvironmentFile = fs.FindFileInDirectories(_allFolders, EnvironmentSettings.EnvironmentSettingsFileName)
+                              ?? DeploymentDirectory.AppendPath(EnvironmentSettings.EnvironmentSettingsFileName);
+        }
+
+        private string buildStagingDirectory()
+        {
+            return Path.GetTempPath().AppendPath("bottles").AppendPath("staging");
         }
     }
 
