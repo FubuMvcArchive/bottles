@@ -1,3 +1,4 @@
+using System;
 using Bottles.Deployment.Diagnostics;
 using Bottles.Deployment.Runtime;
 using StructureMap.Configuration.DSL;
@@ -11,7 +12,11 @@ namespace Bottles.Deployment.Bootstrapping
             Scan(x =>
             {
                 //TODO: Add diagnostics to the scanning
-                x.AssembliesFromApplicationBaseDirectory(a => a.GetName().Name.Contains("Deployers"));
+                x.AssembliesFromApplicationBaseDirectory(a =>
+                {
+                    var assName = a.GetName().Name.ToLower();
+                    return assName.Contains("deployers");
+                });
 
                 x.Assembly(GetType().Assembly);
 
