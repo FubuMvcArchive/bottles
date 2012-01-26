@@ -31,15 +31,21 @@ namespace Bottles.Deployers.Topshelf
 
         private ServiceController getServiceController(TopshelfService directive)
         {
-            return ServiceController.GetServices()
+            var x =  ServiceController.GetServices()
                 .Where(s => s.ServiceName == directive.ServiceName)
                 .DefaultIfEmpty(null)
                 .SingleOrDefault();
+
+            if(x==null)
+            {
+                throw new DeploymentException("Couldn't find the service '{0}'".ToFormat(directive.ServiceName));
+            }
+
+            return x;
         }
 
         private bool shouldTryAndStartService(ServiceController svc)
         {
-
             return svc.Status != ServiceControllerStatus.Running;
         }
     }
