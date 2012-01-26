@@ -55,6 +55,7 @@ namespace Bottles.Deployers.Topshelf
             log.Trace("Topshelf Install: {0}", buildInstallArgsForDisplay(directive));
             var x = _runner.Run(psi, new TimeSpan(0, 0, 0, 20));
             log.Trace("Exited with {0}", x.ExitCode);
+            log.Trace("Process output:{0}{1}", System.Environment.NewLine, x.OutputText);
             x.AssertMandatorySuccess();
         }
         
