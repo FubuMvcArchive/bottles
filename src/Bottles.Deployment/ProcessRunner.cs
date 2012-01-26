@@ -21,7 +21,7 @@ namespace Bottles.Deployment
 
         public void AssertMandatorySuccess()
         {
-            AssertMandatorySuccess(code => code > 0);
+            AssertMandatorySuccess(code => code != 0);
         }
 
         public void AssertMandatorySuccess(Func<int, bool> exitCodeFails)

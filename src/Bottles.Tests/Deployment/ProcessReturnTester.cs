@@ -73,10 +73,22 @@ namespace Bottles.Tests.Deployment
             };
 
             var log = MockRepository.GenerateMock<IPackageLog>();
-            LogWriter.WithLog(log, () =>
+            LogWriter.WithLog(log, procReturn.AssertMandatorySuccess);
+
+            log.AssertWasCalled(x => x.MarkFailure(procReturn.OutputText));
+        }
+
+        [Test]
+        public void assert_mandatory_success_with_failures_of_negative_number_error_code()
+        {
+            var procReturn = new ProcessReturn()
             {
-                procReturn.AssertMandatorySuccess();
-            });
+                ExitCode = -532462766,
+                OutputText = "something"
+            };
+
+            var log = MockRepository.GenerateMock<IPackageLog>();
+            LogWriter.WithLog(log, procReturn.AssertMandatorySuccess);
 
             log.AssertWasCalled(x => x.MarkFailure(procReturn.OutputText));
         }
