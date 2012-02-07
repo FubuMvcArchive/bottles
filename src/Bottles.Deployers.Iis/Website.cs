@@ -1,7 +1,6 @@
 using Bottles.Deployment;
 using Bottles.Deployment.Configuration;
 using FubuCore;
-using Microsoft.Web.Administration;
 
 namespace Bottles.Deployers.Iis
 {
