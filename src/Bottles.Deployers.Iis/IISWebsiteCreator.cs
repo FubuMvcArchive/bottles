@@ -61,8 +61,8 @@ namespace Bottles.Deployers.Iis
 
         private Application createApp(Website website, Site site)
         {
-            LogWriter.Current.Highlight("Trying to create a new virtual directory at " +
-                                website.VDirPhysicalPath.ToFullPath());
+            LogWriter.Current.Highlight("Trying to create a new virtual directory '{0}' at '{1}'".ToFormat(website.VDir, website.VDirPhysicalPath.ToFullPath()));
+                                
             new FileSystem().CreateDirectory(website.VDirPhysicalPath.ToFullPath());
             var app = site.CreateApplication(website.VDir, website.VDirPhysicalPath.ToFullPath(), website.ForceApp);
             app.ApplicationPoolName = website.AppPool;
@@ -71,8 +71,11 @@ namespace Bottles.Deployers.Iis
 
         private Site createSite(Website website, ServerManager iisManager)
         {
-            LogWriter.Current.Highlight("Trying to create a new website at {0}, port {1}",
-                                website.WebsitePhysicalPath.ToFullPath(), website.Port);
+            LogWriter.Current.Highlight("Trying to create a new website '{0}' at '{1}', port '{2}'",
+                website.WebsiteName,
+                website.WebsitePhysicalPath.ToFullPath(),
+                website.Port);
+
             new FileSystem().CreateDirectory(website.WebsitePhysicalPath.ToFullPath());
             return iisManager.CreateSite(website.WebsiteName, website.WebsitePhysicalPath.ToFullPath(),
                                          website.Port, website.ForceWebsite);

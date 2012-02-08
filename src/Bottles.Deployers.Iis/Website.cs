@@ -85,7 +85,7 @@ namespace Bottles.Deployers.Iis
 
         public override string ToString()
         {
-            return string.Format("VDir: {0}, VDirPhysicalPath: {1}", VDir, VDirPhysicalPath);
+            return string.Format("Website: {0} VDir: {1}, VDirPhysicalPath: {2}", WebsiteName, VDir, VDirPhysicalPath);
         }
     }
 }
