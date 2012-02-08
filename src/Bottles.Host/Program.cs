@@ -38,11 +38,34 @@ namespace Bottles.Host
 
         static void setupLog4Net()
         {
+            var fileName = getFileName();
             var fs = new FileSystem();
             var configFolder = fs.SearchUpForDirectory(System.Environment.CurrentDirectory, "config") ?? ".";
-            var log4NetFilePath = configFolder.AppendPath("log4net.config");
+            var log4NetFilePath = configFolder.AppendPath(fileName);
             Console.WriteLine("Using '{0}' for log4net.config", log4NetFilePath);
             log4net.Config.XmlConfigurator.ConfigureAndWatch(new FileInfo(log4NetFilePath));
+        }
+
+        static string getFileName()
+        {
+            try
+            {
+                var processId = System.Diagnostics.Process.GetCurrentProcess().Id;
+                var query = "SELECT * FROM Win32_Services where ProcessID = " + processId;
+                var searcher = new System.Management.ManagementObjectSearcher(query);
+                foreach (var obj in searcher.Get())
+                {
+                    return obj["Name"].ToString() + "log4net.config";
+                }
+
+            }
+            catch (Exception)
+            {
+
+                //swallow
+            }
+
+            return "log4net.config";
         }
     }
 }
