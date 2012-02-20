@@ -24,7 +24,7 @@ namespace Bottles.Tests.Deployment
                 procReturn.AssertOptionalSuccess();
             });
 
-            log.FullTraceText().ShouldEqual(procReturn.OutputText+"\r\n");
+            log.FullTraceText().ShouldEqual(procReturn.OutputText+System.Environment.NewLine);
         }
 
         [Test]
@@ -42,7 +42,7 @@ namespace Bottles.Tests.Deployment
                 procReturn.AssertOptionalSuccess();
             });
 
-            log.FullTraceText().ShouldEqual(procReturn.OutputText + "\r\n");
+            log.FullTraceText().ShouldEqual(procReturn.OutputText + System.Environment.NewLine);
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace Bottles.Tests.Deployment
                 procReturn.AssertMandatorySuccess();
             });
 
-            log.FullTraceText().ShouldEqual(procReturn.OutputText + "\r\n");
+            log.FullTraceText().ShouldEqual(procReturn.OutputText + System.Environment.NewLine);
         }
 
 
@@ -76,7 +76,7 @@ namespace Bottles.Tests.Deployment
             var log = new PackageLog();
             LogWriter.WithLog(log, procReturn.AssertMandatorySuccess);
 
-            log.FullTraceText().ShouldEqual(procReturn.OutputText + "\r\n");
+            log.FullTraceText().ShouldEqual(procReturn.OutputText + System.Environment.NewLine);
             log.Success.ShouldBeFalse();
         }
 
@@ -92,7 +92,7 @@ namespace Bottles.Tests.Deployment
             var log = new PackageLog();
             LogWriter.WithLog(log, procReturn.AssertMandatorySuccess);
 
-            log.FullTraceText().ShouldEqual(procReturn.OutputText + "\r\n");
+            log.FullTraceText().ShouldEqual(procReturn.OutputText + System.Environment.NewLine);
             log.Success.ShouldBeFalse();
         }
 
