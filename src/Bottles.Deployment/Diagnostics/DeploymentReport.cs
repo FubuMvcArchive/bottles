@@ -2,34 +2,35 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Bottles.Deployment.Diagnostics.bootstrap;
 using Bottles.Deployment.Parsing;
 using Bottles.Diagnostics;
 using FubuCore.Configuration;
 using HtmlTags;
-using FubuCore;
 
 namespace Bottles.Deployment.Diagnostics
 {
     public class DeploymentReport
     {
-        private readonly HtmlDocument _document;
+        private readonly BootstrapDocument _document;
 
         public DeploymentReport(string title)
         {
-            _document = new HtmlDocument
-                        {
-                            Title = title
-                        };
+            _document = new BootstrapDocument();
+            _document.Title = title;
 
-            _document.AddStyle(getCss());
-            _document.AddJavaScript(getJs("jquery-1.6.1.min.js"));
-            _document.AddJavaScript(getJs("sneaky.js"));
-            _document.AddStyle(".header {text-indent:20px;background:" + getPngAsCssData("bullet_arrow_right.png") + " 5px 13px no-repeat; cursor:pointer;}");
-            _document.AddStyle(".expanded {background:" + getPngAsCssData("bullet_arrow_down.png") + " 5px 13px no-repeat}");
+            
+            _document.AddStyle(getFile("diagnostics.css"));
+            
+            _document.AddJavaScript(getFile("jquery-1.6.1.min.js"));
+            _document.AddJavaScript(getFile("diagnostics.js"));
 
-            _document.Push("div").AddClass("main");
 
-            _document.Add("h1").Text(title);
+            //write menu?
+
+            _document.Push("div").AddClass("container");
+
+            _document.AddPageHeader(title, "via Milkman");
         }
 
         
@@ -44,14 +45,27 @@ namespace Bottles.Deployment.Diagnostics
 
         private void writeOptions(DeploymentPlan plan)
         {
-            wrapInCollapsable("Options", div =>
+
+            wrapInSection("Options","Options used at runtime", div =>
             {
 
                 var table = new TableTag();
-                table.Id("properties");
+                table.AddClass("table");
                 table.AddProperty("Written at", DateTime.Now.ToLongTimeString());
-                table.AddProperty("Profile", plan.Options.ProfileName + " at " + plan.Options.ProfileFileName); // TODO -- add file name
-                table.AddProperty("Recipes", plan.Recipes.Select(x => x.Name).OrderBy(x => x).Join(", "));
+                table.AddProperty("Profile", plan.Options.ProfileName);
+
+                table.AddBodyRow(tr =>
+                {
+                    tr.Add("th", th =>
+                    {
+                        th.Text("Recipes").Append(new HtmlTag("small").Text(" (in order)"));
+                    });
+                    tr.Add("td", td =>
+                    {
+                        td.Text(plan.Recipes.Select(x => x.Name).Join(" > "));
+                    });
+                });
+
                 table.AddProperty("Hosts", plan.Hosts.Select(x => x.Name).OrderBy(x => x).Join(", "));
                 table.AddProperty("Bottles",
                                   plan.Hosts.SelectMany(host => host.BottleReferences).Select(bottle => bottle.Name).
@@ -59,50 +73,25 @@ namespace Bottles.Deployment.Diagnostics
                 div.Append(table);
             });
         }
-
-        
         private void writeEnvironmentSettings(DeploymentPlan plan)
         {
-            wrapInCollapsable("Profile / Environment Substitutions", div =>
+            wrapInSection("Settings", "Profile / Environment Substitutions", div =>
             {
                 var report = plan.GetSubstitutionDiagnosticReport();
 
-                div.Append(writeSettings(findProvenanceRoot(plan), report));
+                div.Append(writeSettings(findProvenanceRoot(), report));
             });
         }
-
         private void writeHostSettings(DeploymentPlan plan)
         {
-            var provRoot = findProvenanceRoot(plan);
-            wrapInCollapsable("Directive Values by Host", div =>
+            var provRoot = findProvenanceRoot();
+            wrapInSection("Directive Values","by host", div =>
             {
                 plan.Hosts.Each(h =>
                 {
                     div.Append(writeHostSettings(provRoot, h));
                 });
             });
-        }
-
-        private string findProvenanceRoot(DeploymentPlan plan)
-        {
-            return System.Environment.CurrentDirectory;
-        }
-
-        private void wrapInCollapsable(string title, Action<HtmlTag> stuff)
-        {
-            var id = Guid.NewGuid().ToString();
-            var hid = "h" + id;
-            _document.Add("h2")
-                .AddClass("header")
-                .Text(title)
-                .Id(hid);
-
-            var div = new DivTag(id);
-            div.Style("display", "none");
-
-            stuff(div);
-
-            _document.Add(div);
         }
 
         private IEnumerable<HtmlTag> writeHostSettings(string provRoot, HostManifest host)
@@ -113,11 +102,27 @@ namespace Bottles.Deployment.Diagnostics
 
             yield return writeSettings(provRoot, settingDataSources);
         }
+        private string findProvenanceRoot()
+        {
+            return System.Environment.CurrentDirectory;
+        }
+
+        private void wrapInSection(string title, string subtitle, Action<HtmlTag> stuff)
+        {
+            var section = new HtmlTag("section");
+            section.AddPageHeader(title, subtitle);
+
+            stuff(section);
+
+            _document.Add(section);
+        }
+
+
 
         private static HtmlTag writeSettings(string provRoot ,IEnumerable<SettingDataSource> settingDataSources)
         {
             var table = new TableTag();
-            table.AddClass("details");
+            table.AddClass("table");
             table.AddHeaderRow("Key", "Value", "Provenance");
 
             settingDataSources.Each(s =>
@@ -131,7 +136,7 @@ namespace Bottles.Deployment.Diagnostics
 
         public void WriteLoggingSession(LoggingSession session)
         {
-            wrapInCollapsable("Logs", div =>
+            wrapInSection("Logs", "yum", div =>
             {
                 var tag = LoggingSessionWriter.Write(session);
                 tag.AddClass("details");
@@ -143,20 +148,18 @@ namespace Bottles.Deployment.Diagnostics
         {
             var tag = _document.Add("div");
             var msg = "SUCCESS";
-            tag.AddClass("success");
+            tag.AddClass("alert");
+            tag.AddClass("alert-success");
 
             if(session.HasErrors())
             {
                 tag.RemoveClass("success");
-                tag.AddClass("failure");
+                tag.RemoveClass("alert-success");
 
                 msg = "FAIL";
             }
 
-            tag.Add("p")
-                .Style("margin", "0px 0px")
-                .Style("text-indent","10px")
-                .Text(msg);
+            tag.Text(msg);
         }
 
 
@@ -165,32 +168,13 @@ namespace Bottles.Deployment.Diagnostics
             get { return _document; }
         }
 
-        private static string getCss()
-        {
-            var type = typeof(DeploymentReport);
-            var stream = type.Assembly.GetManifestResourceStream(type, "diagnostics.css");
-            if (stream == null) return String.Empty;
-            var reader = new StreamReader(stream);
-            return reader.ReadToEnd();
-        }
-        private static string getJs(string name)
+        private static string getFile(string name)
         {
             var type = typeof(DeploymentReport);
             var stream = type.Assembly.GetManifestResourceStream(type, name);
             if (stream == null) return String.Empty;
             var reader = new StreamReader(stream);
             return reader.ReadToEnd();
-        }
-        private static string getPngAsCssData(string imageName)
-        {
-            var type = typeof(DeploymentReport);
-            using(var stream = type.Assembly.GetManifestResourceStream(type, imageName))
-            {
-                if (stream == null) return String.Empty;
-                var bytes=stream.ReadAllBytes();
-
-                return "url(data:image/png;base64,{0})".ToFormat(Convert.ToBase64String(bytes));
-            }
         }
     }
 

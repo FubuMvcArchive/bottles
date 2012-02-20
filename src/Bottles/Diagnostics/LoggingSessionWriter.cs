@@ -8,29 +8,34 @@ namespace Bottles.Diagnostics
         public static TableTag Write(LoggingSession session)
         {
             var table = new TableTag();
+            table.AddClass("table");
             table.AddHeaderRow(r =>
             {
-                r.Header("Type");
                 r.Header("Description");
                 r.Header("Provenance");
-                r.Header("Timing");
             });
 
             session.EachLog((target, log) =>
             {
                 table.AddBodyRow(row =>
                 {
-                    row.Cell(PackagingDiagnostics.GetTypeName(target));
-                    row.Cell(target.ToString());
+                    row.Add("td", td =>
+                    {
+                        td.Append(new HtmlTag("h3").Text("Directive: "+PackagingDiagnostics.GetTypeName(target)));
+                        td.Append(new HtmlTag("h5").Text("Desc: " + target.ToString()));
+                        var time = new HtmlTag("h6").Text(log.TimeInMilliseconds.ToString()+"ms");
+                        td.Append(time);
+                    });
+                    
                     row.Cell(log.Provenance);
-                    row.Cell(log.TimeInMilliseconds.ToString()).AddClass("execution-time");
+                    
                 });
 
                 if (log.FullTraceText().IsNotEmpty())
                 {
                     table.AddBodyRow(row =>
                     {
-                        row.Cell().Attr("colspan", "4").Add("pre").AddClass("log").Text(log.FullTraceText());
+                        row.Cell().Attr("colspan", "2").AddClass("log").Add("pre").Text(log.FullTraceText());
                         if (!log.Success)
                         {
                             row.AddClass("failure");

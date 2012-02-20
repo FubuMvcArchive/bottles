@@ -77,6 +77,7 @@
     <Compile Include="Commands\DeployCommand.cs" />
     <Compile Include="Commands\CreateAllCommand.cs" />
     <Compile Include="Configuration\EnvironmentSettings.cs" />
+    <Compile Include="Diagnostics\bootstrap\BootstrapDocument.cs" />
     <Compile Include="Exceptions\EnvironmentSettingsException.cs" />
     <Compile Include="Configuration\ProfileBase.cs" />
     <Compile Include="Deployers\CommandLine\CommandLineDeployer.cs" />
@@ -173,9 +174,18 @@
     <EmbeddedResource Include="Diagnostics\bullet_arrow_right.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Diagnostics\sneaky.js" />
+    <EmbeddedResource Include="Diagnostics\diagnostics.js" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Diagnostics\bootstrap\css\bootstrap-responsive.css" />
+    <EmbeddedResource Include="Diagnostics\bootstrap\css\bootstrap-responsive.min.css" />
+    <EmbeddedResource Include="Diagnostics\bootstrap\css\bootstrap.css" />
+    <EmbeddedResource Include="Diagnostics\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Diagnostics\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="Diagnostics\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="Diagnostics\bootstrap\js\bootstrap.js" />
+    <Content Include="Diagnostics\bootstrap\js\bootstrap.min.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

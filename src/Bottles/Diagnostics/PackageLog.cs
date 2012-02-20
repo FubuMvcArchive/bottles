@@ -45,7 +45,6 @@ namespace Bottles.Diagnostics
 
         public void Trace(ConsoleColor color, string format, params object[] parameters)
         {
-            // Later -- do something here.
             var text = format.ToFormat(parameters);
             _text.WriteLine(text);
         }
