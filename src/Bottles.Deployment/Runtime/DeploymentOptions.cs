@@ -14,7 +14,6 @@ namespace Bottles.Deployment.Runtime
         public DeploymentOptions(string profileName)
         {
             ProfileName = profileName;
-            ProfileFileName = "default.profile";
             ReportName = "report.htm";
             RecipeNames = new List<string>();
             ImportedFolders = new List<string>();
@@ -22,7 +21,6 @@ namespace Bottles.Deployment.Runtime
         }
 
         public string ProfileName { get; set; }
-        public string ProfileFileName { get; set; }
         public string ReportName { get; set; }
         public IList<string> RecipeNames { get; private set; }
         public IList<string> ImportedFolders { get; private set; }

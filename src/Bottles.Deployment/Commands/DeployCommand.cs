@@ -13,7 +13,6 @@ namespace Bottles.Deployment.Commands
     {
         public DeployInput()
         {
-            ProfileFlag = "default";
             ReportFlag = "installation_report.htm";
         }
 

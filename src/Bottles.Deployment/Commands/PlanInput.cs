@@ -1,18 +1,15 @@
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using Bottles.Deployment.Runtime;
 using FubuCore;
 using FubuCore.CommandLine;
+using System.Linq;
 
 namespace Bottles.Deployment.Commands
 {
     public class PlanInput
     {
-        public PlanInput()
-        {
-            ProfileFlag = "default";
-        }
-
         [Description("The profile to execute.  'default' is the default.")]
         public string ProfileFlag { get; set; }
 
@@ -37,7 +34,7 @@ namespace Bottles.Deployment.Commands
 
         public DeploymentOptions CreateDeploymentOptions()
         {
-            var options = new DeploymentOptions(ProfileFlag){
+            var options = new DeploymentOptions(GetProfile()){
                 ReportName = ReportFlag
             };
             enhanceDeploymentOptions(options);
@@ -57,7 +54,25 @@ namespace Bottles.Deployment.Commands
 
         public string GetProfile()
         {
-            return ProfileFlag ?? "default";
+            if(ProfileFlag.IsNotEmpty())
+            {
+                return ProfileFlag;
+            }
+
+            var profile = "default";
+            if(ProfileFlag.IsEmpty())
+            {
+                var x = ".".ToFullPath().AppendPath(GetDeployment(), ProfileFiles.ProfilesDirectory);
+                ConsoleWriter.Write(x);
+
+                var files = Directory.GetFiles(x);
+                if(files.Count()==1)
+                {
+                    profile = files.First();
+                    profile = Path.GetFileNameWithoutExtension(profile);
+                }
+            }
+            return profile;
         }
 
         public string GetDeployment()
