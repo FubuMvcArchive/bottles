@@ -11,7 +11,11 @@ namespace Bottles.Diagnostics
             _status.PushLog(log);
             try
             {
-                action();
+                log.Execute(action);
+            }
+            catch (Exception ex)
+            {
+                log.MarkFailure(ex);
             }
             finally
             {

@@ -73,7 +73,7 @@ namespace Bottles.Deployment
                 pid = proc.Id;				
 				proc.OutputDataReceived += (sender, outputLine) => 
 				{ 
-					output.Append(outputLine.Data); 
+					output.AppendLine(outputLine.Data); 
 				};
 				
 				proc.BeginOutputReadLine();

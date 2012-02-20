@@ -103,11 +103,9 @@ namespace Bottles.Deployment.Runtime
                 var description = action.GetDescription(_directive);
                 var log = _diagnostics.LogAction(_host, _directive, action, description);
                 
-                // TODO -- maybe combine this
                 LogWriter.WithLog(log, () =>
                 {
-                    //this is swallowing the exception
-                    log.Execute(() => action.Execute(_directive, _host, log));
+                    action.Execute(_directive, _host, log);
                     if(!log.Success)
                     {
                         var msg = "Bailing on deployment because '{0}' was not successful".ToFormat(description);

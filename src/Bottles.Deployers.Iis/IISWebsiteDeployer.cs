@@ -22,14 +22,10 @@ namespace Bottles.Deployers.Iis
         {
             directive.VDirPhysicalPath = directive.VDirPhysicalPath.ToFullPath();
 
-            LogWriter.WithLog(log, () =>
-            {
-                _websiteCreator.Create(directive);
+            _websiteCreator.Create(directive);
 
-                var destination = new WebsiteBottleDestination(directive.VDirPhysicalPath);
-                _bottleMover.Move(log, destination, host.BottleReferences);
-            });
-
+            var destination = new WebsiteBottleDestination(directive.VDirPhysicalPath);
+            _bottleMover.Move(log, destination, host.BottleReferences);
         }
 
         public string GetDescription(Website directive)

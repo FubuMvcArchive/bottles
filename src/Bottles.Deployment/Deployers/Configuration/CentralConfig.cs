@@ -21,7 +21,7 @@ namespace Bottles.Deployment.Deployers.Configuration
 
         public override string ToString()
         {
-            return "Central Config Dir: '{0}' Behavior: '{1}'".ToFormat(Directory, CopyBehavior);
+            return "Deploys central config to '{0}' (Behavior: '{1}')".ToFormat(Directory, CopyBehavior);
         }
     }
 }

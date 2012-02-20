@@ -28,18 +28,19 @@ namespace Bottles.Deployment.Deployers.CommandLine
                 rtnVal = _processRunner.Run(processStartInfo, new TimeSpan(0, 0, directive.TimeoutInSeconds));
                 log.Trace("Command completed with exit code '{0}'", rtnVal.ExitCode);
                 log.Trace(rtnVal.OutputText);
-                if(rtnVal.ExitCode != 0)
+                if (rtnVal.ExitCode != 0)
                 {
-                    log.MarkFailure("Because the process returned a non-zero number (a '{0}' in this case)".ToFormat(rtnVal.ExitCode));
+                    log.MarkFailure(
+                        "Because the process returned a non-zero number (a '{0}' in this case)".ToFormat(rtnVal.ExitCode));
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                if(rtnVal != null)
+                if (rtnVal != null)
                 {
                     rtnVal.OutputText.SplitOnNewLine().Each(l => log.Trace(l));
                 }
-                    
+
                 log.MarkFailure(ex);
             }          
         }
