@@ -3,6 +3,7 @@ using Bottles.Deployment;
 using Bottles.Diagnostics;
 using NUnit.Framework;
 using Rhino.Mocks;
+using FubuTestingSupport;
 
 namespace Bottles.Tests.Deployment
 {
@@ -17,13 +18,13 @@ namespace Bottles.Tests.Deployment
                 OutputText = "something"
             };
 
-            var log = MockRepository.GenerateMock<IPackageLog>();
+            var log = new PackageLog();
             LogWriter.WithLog(log, () =>
             {
                 procReturn.AssertOptionalSuccess();
             });
 
-            log.AssertWasCalled(x => x.Trace(procReturn.OutputText));
+            log.FullTraceText().ShouldEqual(procReturn.OutputText+"\r\n");
         }
 
         [Test]
@@ -35,13 +36,13 @@ namespace Bottles.Tests.Deployment
                 OutputText = "something"
             };
 
-            var log = MockRepository.GenerateMock<IPackageLog>();
+            var log = new PackageLog();
             LogWriter.WithLog(log, () =>
             {
                 procReturn.AssertOptionalSuccess();
             });
 
-            log.AssertWasCalled(x => x.Trace(procReturn.OutputText));
+            log.FullTraceText().ShouldEqual(procReturn.OutputText + "\r\n");
         }
 
         [Test]
@@ -53,13 +54,13 @@ namespace Bottles.Tests.Deployment
                 OutputText = "something"
             };
 
-            var log = MockRepository.GenerateMock<IPackageLog>();
+            var log = new PackageLog();
             LogWriter.WithLog(log, () =>
             {
                 procReturn.AssertMandatorySuccess();
             });
 
-            log.AssertWasCalled(x => x.Trace(procReturn.OutputText));
+            log.FullTraceText().ShouldEqual(procReturn.OutputText + "\r\n");
         }
 
 
@@ -72,10 +73,11 @@ namespace Bottles.Tests.Deployment
                 OutputText = "something"
             };
 
-            var log = MockRepository.GenerateMock<IPackageLog>();
+            var log = new PackageLog();
             LogWriter.WithLog(log, procReturn.AssertMandatorySuccess);
 
-            log.AssertWasCalled(x => x.MarkFailure(procReturn.OutputText));
+            log.FullTraceText().ShouldEqual(procReturn.OutputText + "\r\n");
+            log.Success.ShouldBeFalse();
         }
 
         [Test]
@@ -87,10 +89,11 @@ namespace Bottles.Tests.Deployment
                 OutputText = "something"
             };
 
-            var log = MockRepository.GenerateMock<IPackageLog>();
+            var log = new PackageLog();
             LogWriter.WithLog(log, procReturn.AssertMandatorySuccess);
 
-            log.AssertWasCalled(x => x.MarkFailure(procReturn.OutputText));
+            log.FullTraceText().ShouldEqual(procReturn.OutputText + "\r\n");
+            log.Success.ShouldBeFalse();
         }
 
     }

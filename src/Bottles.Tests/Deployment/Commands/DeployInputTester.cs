@@ -15,7 +15,10 @@ namespace Bottles.Tests.Deployment.Commands
         [SetUp]
         public void SetUp()
         {
-            theInput = new DeployInput();
+            theInput = new DeployInput()
+                       {
+                           ProfileFlag = "milkman"
+                       };
             theInput.OverrideFlag = "a:1;b:2;c:3";
 
             theOptions = theInput.CreateDeploymentOptions();

@@ -62,16 +62,21 @@ namespace Bottles.Deployment.Commands
             var profile = "default";
             if(ProfileFlag.IsEmpty())
             {
-                var x = ".".ToFullPath().AppendPath(GetDeployment(), ProfileFiles.ProfilesDirectory);
-                ConsoleWriter.Write(x);
+                var dir = ".".ToFullPath().AppendPath(GetDeployment(), ProfileFiles.ProfilesDirectory);
 
-                var files = Directory.GetFiles(x);
+                if(!Directory.Exists(dir))
+                {
+                    return profile;
+                }
+
+                var files = Directory.GetFiles(dir);
                 if(files.Count()==1)
                 {
                     profile = files.First();
                     profile = Path.GetFileNameWithoutExtension(profile);
                 }
             }
+
             return profile;
         }
 
