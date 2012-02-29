@@ -5,6 +5,7 @@ using Bottles.Deployment.Parsing;
 using FubuCore;
 using FubuCore.Configuration;
 using System.Linq;
+using FubuCore.Util;
 
 namespace Bottles.Deployment
 {

@@ -3,6 +3,7 @@ using System.Xml;
 using Bottles.Deployment;
 using Bottles.Deployment.Deployers.Configuration;
 using FubuCore;
+using FubuCore.Util;
 using NUnit.Framework;
 using Rhino.Mocks;
 using FubuTestingSupport;
