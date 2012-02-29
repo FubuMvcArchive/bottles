@@ -34,9 +34,6 @@
     <Reference Include="FubuCore">
       <HintPath>..\packages\FubuCore.0.9.4.113\lib\FubuCore.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Web.Administration">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Microsoft.Web.Administration\Microsoft.Web.Administration.dll</HintPath>

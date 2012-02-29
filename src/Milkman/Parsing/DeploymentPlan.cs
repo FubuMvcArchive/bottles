@@ -90,7 +90,7 @@ namespace Bottles.Deployment.Parsing
             var valueExists = requestData.Value(EnvironmentSettings.ROOT, value =>
             {
                 //this is getting called on bundle. is that necessary?
-                _graph.Settings.TargetDirectory = (string) value;
+                _graph.Settings.TargetDirectory = (string) value.RawValue;
             });
 
             if (!valueExists)

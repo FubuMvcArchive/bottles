@@ -29,7 +29,7 @@
 
 	  <file src="..\..\src\Bottles.Tests\bin\release\FubuCore.dll" target="tools" />
 	  <file src="..\..\src\Bottles.Tests\bin\release\StructureMap.dll" target="tools" />
-	  <file src="..\..\src\Bottles.Tests\bin\release\Microsoft.Practices.ServiceLocation.dll" target="tools" />
+	  
 	  <file src="..\..\src\Bottles.Tests\bin\release\HtmlTags.dll" target="tools" />
 	  <file src="..\..\lib\Microsoft.Web.Administration\Microsoft.Web.Administration.dll" target="tools" />
   </files>
