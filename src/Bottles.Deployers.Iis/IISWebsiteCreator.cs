@@ -17,6 +17,8 @@ namespace Bottles.Deployers.Iis
                 pool.ManagedPipelineMode = ManagedPipelineMode.Integrated;
                 pool.Enable32BitAppOnWin64 = false;
 
+                pool.ProcessModel.IdleTimeout = convertToTimeSpan(website);
+
                 poolIdentity(website, pool);
                 
 
@@ -41,6 +43,13 @@ namespace Bottles.Deployers.Iis
                     LogWriter.Current.Success("Success.");
                 });
             }
+        }
+
+        private static TimeSpan convertToTimeSpan(Website website)
+        {
+            var timeout = website.IdleTimeOut;
+            timeout = timeout == 0 ? 20 : timeout;
+            return new TimeSpan(0, 0, timeout, 0);
         }
 
         private static void poolIdentity(Website website, ApplicationPool pool)

@@ -10,7 +10,6 @@ using NUnit.Framework;
 
 namespace Bottles.Tests.Deployment
 {
-    // TODO -- what is this accomplishing?
     [TestFixture]
     public class IntegrationIisFubuDeploymentTester
     {
@@ -33,6 +32,7 @@ namespace Bottles.Tests.Deployment
             directive.VDir = "bob";
             directive.VDirPhysicalPath = root.AppendPath("dev", "test-app");
             directive.AppPool = "fubizzle";
+            directive.IdleTimeOut = 30;
 
             directive.DirectoryBrowsing = Activation.Enable;
 

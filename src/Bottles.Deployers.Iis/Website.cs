@@ -9,6 +9,7 @@ namespace Bottles.Deployers.Iis
         public static readonly string WEBSITE_NAME = "website-name";
         public static readonly string VIRTUAL_DIR = "virtual-dir";
         public static readonly string APP_POOL = "app-pool";
+        
 
         public Website()
         {
@@ -60,6 +61,11 @@ namespace Bottles.Deployers.Iis
         /// The application pool to use
         /// </summary>
         public string AppPool { get; set; }
+
+        /// <summary>
+        /// The idle timeout in minutes
+        /// </summary>
+        public int IdleTimeOut;
 
         /// <summary>
         /// What process model do you want to use for the app pool
