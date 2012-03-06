@@ -27,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BottleDeployers1", "BottleD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milkman.Deployers.Topshelf", "Milkman.Deployers.Topshelf\Milkman.Deployers.Topshelf.csproj", "{1508B697-B748-4D1A-B5F8-ABD967DB4ED5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milkman.Deployers.Iis", "Bottles.Deployers.Iis\Milkman.Deployers.Iis.csproj", "{607F7461-947C-42D7-A4CA-379199A74E6B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Milkman.Deployers.Iis", "Milkman.Deployers.Iis\Milkman.Deployers.Iis.csproj", "{607F7461-947C-42D7-A4CA-379199A74E6B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestProjects", "TestProjects", "{703DCA45-AAA6-4E6C-BC08-61678551B57D}"
 EndProject
