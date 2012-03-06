@@ -59,9 +59,9 @@
     <Compile Include="Website.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bottles.Deployment\Bottles.Deployment.csproj">
+    <ProjectReference Include="..\Milkman\Milkman.csproj">
       <Project>{665AEFFB-7582-484F-8C77-8310B1AE55F2}</Project>
-      <Name>Bottles.Deployment</Name>
+      <Name>Milkman %28Milkman\Milkman%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bottles\Bottles.csproj">
       <Project>{E208A2B1-31B0-4455-BA16-3D79F5887ECE}</Project>

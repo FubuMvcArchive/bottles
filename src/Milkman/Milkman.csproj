@@ -8,8 +8,8 @@
     <ProjectGuid>{665AEFFB-7582-484F-8C77-8310B1AE55F2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bottles.Deployment</RootNamespace>
-    <AssemblyName>Bottles.Deployment</AssemblyName>
+    <RootNamespace>Milkman</RootNamespace>
+    <AssemblyName>Milkman</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
