@@ -8,8 +8,8 @@
     <ProjectGuid>{607F7461-947C-42D7-A4CA-379199A74E6B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bottles.Deployers.Iis</RootNamespace>
-    <AssemblyName>Bottles.Deployers.Iis</AssemblyName>
+    <RootNamespace>Milkman.Deployers.Iis</RootNamespace>
+    <AssemblyName>Milkman.Deployers.Iis</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
