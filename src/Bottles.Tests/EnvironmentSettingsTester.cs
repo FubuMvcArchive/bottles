@@ -64,9 +64,9 @@ namespace Bottles.Tests
             theEnvironmentSettings.Data.Read("Host1.OneDirective.Age=45");
             theEnvironmentSettings.Data.Read("Host2.OneDirective.Name=Tom");
 
-            theEnvironmentSettings.DataForHost("Host1").Get("OneDirective.Name").ShouldEqual("Jeremy");
-            theEnvironmentSettings.DataForHost("Host2").Get("OneDirective.Name").ShouldEqual("Tom");
-            theEnvironmentSettings.DataForHost("Host1").Get("OneDirective.Age").ShouldEqual("45");
+            theEnvironmentSettings.DataForHost("Host1")["OneDirective.Name"].ShouldEqual("Jeremy");
+            theEnvironmentSettings.DataForHost("Host2")["OneDirective.Name"].ShouldEqual("Tom");
+            theEnvironmentSettings.DataForHost("Host1")["OneDirective.Age"].ShouldEqual("45");
         }
 
         [Test]

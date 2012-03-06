@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Bottles.Deployment.Parsing;
+using FubuCore;
 using NUnit.Framework;
 using FubuTestingSupport;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace Bottles.Tests.Deployment.Parsing
         public void parse_a_simple_name_value_pair()
         {
             theParser.ParseText("Class.Prop=1");
-            theParser.Settings.Get("Class.Prop").ShouldEqual("1");
+            theParser.Settings["Class.Prop"].ShouldEqual("1");
         }
 
 
@@ -53,28 +54,28 @@ namespace Bottles.Tests.Deployment.Parsing
         public void parse_a_missing_property_value_just_sets_it_to_empty_string()
         {
             theParser.ParseText("Class.Prop=");
-            theParser.Settings.Get("Class.Prop").ShouldBeEmpty();
+            theParser.Settings["Class.Prop"].As<string>().ShouldBeEmpty();
         }
 
         [Test]
         public void parse_a_simple_name_with_whitespace_1()
         {
             theParser.ParseText("Class.Prop=      1");
-            theParser.Settings.Get("Class.Prop").ShouldEqual("1");
+            theParser.Settings["Class.Prop"].ShouldEqual("1");
         }
 
         [Test]
         public void parse_a_simple_name_with_whitespace_2()
         {
             theParser.ParseText("Class.Prop   =      1");
-            theParser.Settings.Get("Class.Prop").ShouldEqual("1");
+            theParser.Settings["Class.Prop"].ShouldEqual("1");
         }
 
         [Test]
         public void parse_a_simple_name_with_whitespace_3()
         {
             theParser.ParseText("          Class.Prop   =      1");
-            theParser.Settings.Get("Class.Prop").ShouldEqual("1");
+            theParser.Settings["Class.Prop"].ShouldEqual("1");
         }
 
         [Test]
