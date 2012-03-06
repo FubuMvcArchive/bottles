@@ -8,8 +8,8 @@
     <ProjectGuid>{1508B697-B748-4D1A-B5F8-ABD967DB4ED5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bottles.Deployers.Topshelf</RootNamespace>
-    <AssemblyName>Bottles.Deployers.Topshelf</AssemblyName>
+    <RootNamespace>Milkman.Deployers.Topshelf</RootNamespace>
+    <AssemblyName>Milkman.Deployers.Topshelf</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

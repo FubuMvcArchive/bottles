@@ -176,9 +176,9 @@
       <Project>{607F7461-947C-42D7-A4CA-379199A74E6B}</Project>
       <Name>Bottles.Deployers.Iis</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Bottles.Deployers.Topshelf\Bottles.Deployers.Topshelf.csproj">
+    <ProjectReference Include="..\Bottles.Deployers.Topshelf\Milkman.Deployers.Topshelf.csproj">
       <Project>{1508B697-B748-4D1A-B5F8-ABD967DB4ED5}</Project>
-      <Name>Bottles.Deployers.Topshelf</Name>
+      <Name>Milkman.Deployers.Topshelf</Name>
     </ProjectReference>
     <ProjectReference Include="..\Milkman\Milkman.csproj">
       <Project>{665AEFFB-7582-484F-8C77-8310B1AE55F2}</Project>
