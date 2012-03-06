@@ -3,11 +3,9 @@
   <Role>binaries</Role>
   <Name>bottles</Name>
   <assembly>BottleRunner</assembly>
-  <assembly>Milkman</assembly>
   <assembly>Bottles</assembly>
   <assembly>FubuCore</assembly>
   <assembly>HtmlTags</assembly>
   <assembly>Ionic.Zip</assembly>
   <assembly>Microsoft.Practices.ServiceLocation</assembly>
-  <assembly>StructureMap</assembly>
 </package>

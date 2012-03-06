@@ -1,21 +1,21 @@
 ﻿using System;
-using Bottles.Exploding;
+using Bottles.Deployment;
 using FubuCore.CommandLine;
 
-namespace Bottles
+namespace milk
 {
-    internal class Program
+    class Program
     {
         private static bool success;
 
-        private static int Main(string[] args)
+        static int Main(string[] args)
         {
             try
             {
                 var factory = new CommandFactory();
-                factory.SetAppName("bottles");
+                factory.SetAppName("milk");
                 factory.RegisterCommands(typeof(IFubuCommand).Assembly);
-                factory.RegisterCommands(typeof(PackageExploder).Assembly);
+                factory.RegisterCommands(typeof(Recipe).Assembly);
 
                 var executor = new CommandExecutor(factory);
                 success = executor.Execute(args);

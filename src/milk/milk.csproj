@@ -5,12 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2B4DB712-DEB9-4EEC-B7AD-0CAE306AB042}</ProjectGuid>
+    <ProjectGuid>{1ECE4CCD-3171-4856-89B7-22698CFC7AAF}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bottles.Console</RootNamespace>
-    <AssemblyName>BottleRunner</AssemblyName>
+    <RootNamespace>milk</RootNamespace>
+    <AssemblyName>milk</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -34,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FubuCore">
-      <HintPath>..\packages\FubuCore.0.9.4.113\lib\FubuCore.dll</HintPath>
+      <HintPath>..\packages\FubuCore.0.9.4.114\lib\FubuCore.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -48,9 +50,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bottles\Bottles.csproj">
-      <Project>{E208A2B1-31B0-4455-BA16-3D79F5887ECE}</Project>
-      <Name>Bottles</Name>
+    <ProjectReference Include="..\Milkman.Deployers.Iis\Milkman.Deployers.Iis.csproj">
+      <Project>{607F7461-947C-42D7-A4CA-379199A74E6B}</Project>
+      <Name>Milkman.Deployers.Iis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Milkman.Deployers.Topshelf\Milkman.Deployers.Topshelf.csproj">
+      <Project>{1508B697-B748-4D1A-B5F8-ABD967DB4ED5}</Project>
+      <Name>Milkman.Deployers.Topshelf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Milkman\Milkman.csproj">
+      <Project>{665AEFFB-7582-484F-8C77-8310B1AE55F2}</Project>
+      <Name>Milkman %28Milkman\Milkman%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
