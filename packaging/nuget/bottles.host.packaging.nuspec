@@ -14,7 +14,7 @@
     <dependencies>
       <dependency id="FubuCore" />
       <dependency id="Bottles" />
-      <dependency id="Bottles.Deployment" />
+      <dependency id="Milkman" />
     </dependencies>
   </metadata>
   <files>

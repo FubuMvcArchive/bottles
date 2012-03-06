@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
-    <id>Bottles.Deployers.IIS</id>
+    <id>Milkman.Deployers.IIS</id>
     <version>0.0.0</version>
     <authors>Jeremy D. Miller, Dru Sellers, et al.</authors>
     <owners>Jeremy D. Miller</owners>
@@ -13,12 +13,12 @@
     <tags>packaging areas slices</tags>
     <dependencies>
       <dependency id="Bottles" />
-      <dependency id="Bottles.Deployment" />
+      <dependency id="Milkman" />
     </dependencies>
   </metadata>
   <files>
       <file src="..\..\build\iis-deployers.zip" target="tools" />
-	  <file src="..\..\src\Bottles.Deployers.Iis\bin\Release\Bottles.Deployers.Iis.*" target="lib" />
-	  <file src="..\..\src\Bottles.Deployers.Iis\**\*.cs" target="src" />
+	  <file src="..\..\src\Milkman.Deployers.Iis\bin\Release\Milkman.Deployers.Iis.*" target="lib" />
+	  <file src="..\..\src\Milkman.Deployers.Iis\**\*.cs" target="src" />
   </files>
 </package>

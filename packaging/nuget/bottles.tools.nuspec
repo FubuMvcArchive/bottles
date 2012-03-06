@@ -20,11 +20,11 @@
 	  <file src="..\..\src\Bottles.Console\bin\release\BottleRunner.exe" target="tools" />
 	  <file src="..\..\src\Bottles.Console\bin\release\BottleRunner.exe.config" target="tools" />
 	  <file src="..\..\src\Bottles\bin\release\Bottles.dll" target="tools" />
-	  <file src="..\..\src\Bottles.Tests\bin\release\Bottles.Deployment.dll" target="tools" />
+	  <file src="..\..\src\Bottles.Tests\bin\release\Milkman.dll" target="tools" />
 
-	  <file src="..\..\src\Bottles.Tests\bin\release\Bottles.Deployers.Iis.dll" target="tools" />
-	  <file src="..\..\src\Bottles.Tests\bin\release\Bottles.Deployers.Topshelf.dll" target="tools" />
-	  <file src="..\..\src\Bottles.Tests\bin\release\Bottles.Deployment.dll" target="tools" />
+	  <file src="..\..\src\Bottles.Tests\bin\release\Milkman.Deployers.Iis.dll" target="tools" />
+	  <file src="..\..\src\Bottles.Tests\bin\release\Milkman.Deployers.Topshelf.dll" target="tools" />
+	  <file src="..\..\src\Bottles.Tests\bin\release\Milkman.dll" target="tools" />
 	  <file src="..\..\src\Bottles.Tests\bin\release\Bottles.Host.Packaging.dll" target="tools" />
 
 	  <file src="..\..\src\Bottles.Tests\bin\release\FubuCore.dll" target="tools" />

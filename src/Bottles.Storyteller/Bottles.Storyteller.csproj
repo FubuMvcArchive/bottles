@@ -67,7 +67,7 @@
     <Compile Include="StoryTellerDebug.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bottles.Deployers.Iis\Milkman.Deployers.Iis.csproj">
+    <ProjectReference Include="..\Milkman.Deployers.Iis\Milkman.Deployers.Iis.csproj">
       <Project>{607F7461-947C-42D7-A4CA-379199A74E6B}</Project>
       <Name>Milkman.Deployers.Iis</Name>
     </ProjectReference>

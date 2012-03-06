@@ -79,8 +79,8 @@ task :compile => [:restore_if_missing, :clean, :version] do
   
   sleep 1
   puts 'Trying to copy files from bin directories to the build directory'
-  #copyOutputFiles "src/Bottles.Deployers.Iis/bin/#{COMPILE_TARGET}", "*.{dll,pdb}", props[:stage]  
-  #copyOutputFiles "src/Bottles.Deployers.Topshelf/bin/#{COMPILE_TARGET}", "*.{dll,pdb}", props[:stage]
+  #copyOutputFiles "src/Milkman.Deployers.Iis/bin/#{COMPILE_TARGET}", "*.{dll,pdb}", props[:stage]  
+  #copyOutputFiles "src/Milkman.Deployers.Topshelf/bin/#{COMPILE_TARGET}", "*.{dll,pdb}", props[:stage]
   #copyOutputFiles "src/Bottles.Host/bin/#{COMPILE_TARGET}", "*.{dll,pdb,exe}", props[:stage]
   #copyOutputFiles "src/Bottles.Console/bin/#{COMPILE_TARGET}", "*.{dll,pdb,exe,config}", props[:stage]
 end
@@ -117,13 +117,13 @@ desc "Creates the deployer bottle files"
 task :create_deployer_bottles => :compile do
   bottles "create-pak src/Bottles.Console build/bottles.zip -target #{COMPILE_TARGET}"
   bottles "create-pak src/Bottles.Host build/topshelf-deployers.zip -target #{COMPILE_TARGET}"
-  bottles "create-pak src/Bottles.Deployers.Iis build/iis-deployers.zip -target #{COMPILE_TARGET}"
+  bottles "create-pak src/Milkman.Deployers.Iis build/iis-deployers.zip -target #{COMPILE_TARGET}"
 end
 
 desc "Merge dotnetzip assembly into Bottles projects"
 task :ilrepack do
   merge_ionic("src/Bottles/bin/#{COMPILE_TARGET}", 'Bottles.dll')
-  merge_ionic("src/Bottles.Deployment/bin/#{COMPILE_TARGET}", 'Bottles.Deployment.dll')
+  merge_ionic("src/Milkman/bin/#{COMPILE_TARGET}", 'Milkman.dll')
 end
 
 def merge_ionic(dir, assembly)

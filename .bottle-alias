@@ -4,6 +4,6 @@
     <alias name="bottleshost" folder="src/Bottles.Host" />
     <alias name="src\Bottles.Console" folder="console" />
     <alias name="bottles" folder="src\Bottles.Console" />
-    <alias name="iis-deployers" folder="src\Bottles.Deployers.Iis" />
+    <alias name="iis-deployers" folder="src\Milkman.Deployers.Iis" />
   </Aliases>
 </aliases>

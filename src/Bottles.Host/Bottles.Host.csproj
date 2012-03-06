@@ -56,10 +56,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bottles.Deployers.Topshelf\Milkman.Deployers.Topshelf.csproj">
-      <Project>{1508B697-B748-4D1A-B5F8-ABD967DB4ED5}</Project>
-      <Name>Milkman.Deployers.Topshelf</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Bottles.Host.Packaging\Bottles.Host.Packaging.csproj">
       <Project>{3EB7B41A-CE35-495B-9845-036B0013A6F6}</Project>
       <Name>Bottles.Host.Packaging</Name>
