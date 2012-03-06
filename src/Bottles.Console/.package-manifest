@@ -3,7 +3,7 @@
   <Role>binaries</Role>
   <Name>bottles</Name>
   <assembly>BottleRunner</assembly>
-  <assembly>Bottles.Deployment</assembly>
+  <assembly>Milkman</assembly>
   <assembly>Bottles</assembly>
   <assembly>FubuCore</assembly>
   <assembly>HtmlTags</assembly>

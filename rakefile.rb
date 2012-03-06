@@ -28,7 +28,7 @@ desc "Creates and publishes the nuget files for the current code"
 task :local_nuget_push => [:compile, :ilrepack, :create_deployer_bottles, "nuget:build", "nuget:push"]
 
 desc "Target used for the CI server"
-task :ci => [:update_all_dependencies, :default,:package,:create_deployer_bottles,:history, :publish]
+task :ci => [:update_all_dependencies, :default,:package,:create_deployer_bottles,:history]
 
 desc "Update the version information for the build"
 assemblyinfo :version do |asm|

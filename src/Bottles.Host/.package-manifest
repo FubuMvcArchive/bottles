@@ -7,7 +7,6 @@
   <assembly>Topshelf</assembly>
   <assembly>FubuCore</assembly>
   <assembly>Bottles</assembly>
-  <assembly>Bottles.Deployment</assembly>
+  <assembly>Milkman</assembly>
   <assembly>Microsoft.Practices.ServiceLocation</assembly>
-  <assembly>Bottles.Deployers.Topshelf</assembly>
 </package>
