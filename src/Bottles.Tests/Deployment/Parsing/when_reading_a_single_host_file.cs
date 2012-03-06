@@ -61,14 +61,14 @@ namespace Bottles.Tests.Deployment.Parsing
         {
             var settingsData = theHost.AllSettingsData().Single();
 
-            settingsData.AllKeys.ShouldHaveTheSameElementsAs(
-                "SimpleSettings.One",
-                "SimpleSettings.Two",
+            settingsData.AllKeys.OrderBy(x => x).ShouldHaveTheSameElementsAs(
+                "OneSettings.Age",
                 "OneSettings.Name",
-                "OneSettings.Age"
+                "SimpleSettings.One",
+                "SimpleSettings.Two"
                 );
 
-            settingsData.Get("SimpleSettings.One").ShouldEqual("one");
+            settingsData["SimpleSettings.One"].ShouldEqual("one");
         }
 
         [Test]

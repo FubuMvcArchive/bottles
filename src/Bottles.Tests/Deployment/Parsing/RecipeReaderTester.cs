@@ -97,8 +97,7 @@ namespace Bottles.Tests.Deployment.Parsing
         [Test]
         public void spot_check_that_the_host_has_the_settings_data()
         {
-            theRecipe.HostFor("h1").As<HostManifest>().AllSettingsData().Single()
-                .Get("OneSettings.Name").ShouldEqual("Jeremy");
+            theRecipe.HostFor("h1").As<HostManifest>().AllSettingsData().Single()["OneSettings.Name"].ShouldEqual("Jeremy");
         }
     }
 }

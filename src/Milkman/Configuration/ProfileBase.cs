@@ -20,7 +20,10 @@ namespace Bottles.Deployment.Configuration
 
         public SettingsData DataForHost(string hostName)
         {
-            return _data.SubsetPrefixedBy(hostName + ".");
+            var settings = _data.Child(hostName);
+            settings.Category = _data.Category;
+
+            return settings;
         }
     }
 }

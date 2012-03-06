@@ -76,8 +76,8 @@ namespace Bottles.Deployment.Parsing
                 yield return _rootData;
             }
 
-            yield return _graph.Environment.Data.SubsetByKey(key => !key.Contains("."));
-            yield return _graph.Profile.Data.SubsetByKey(key => !key.Contains("."));
+            yield return _graph.Environment.Data;
+            yield return _graph.Profile.Data;
         }
 
 
