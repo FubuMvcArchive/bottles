@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="AliasRegistry.cs" />
     <Compile Include="Commands\AliasCommand.cs" />
+    <Compile Include="Commands\CreateBottleCommand.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyFileFinder.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyFiles.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyLoader.cs" />
@@ -71,7 +72,7 @@
     <Compile Include="Diagnostics\PackageLogExtensions.cs" />
     <Compile Include="Diagnostics\PackageLogger.cs" />
     <Compile Include="ISimpleLogger.cs" />
-    <Compile Include="Creation\CreatePackageInput.cs" />
+    <Compile Include="Creation\CreateBottleInput.cs" />
     <Compile Include="Creation\PackageManifestWriter.cs" />
     <Compile Include="Environment\EnvironmentGateway.cs" />
     <Compile Include="Environment\EnvironmentListExtensions.cs" />

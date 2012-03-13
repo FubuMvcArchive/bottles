@@ -24,7 +24,7 @@ namespace Bottles.Creation
             _assemblyFinder = assemblyFinder;
         }
 
-        public void CreatePackage(CreatePackageInput input, PackageManifest manifest)
+        public void CreatePackage(CreateBottleInput input, PackageManifest manifest)
         {
             var binFolder = _fileSystem.FindBinaryDirectory(input.PackageFolder, input.TargetFlag);
 
@@ -32,14 +32,13 @@ namespace Bottles.Creation
             if (assemblies.Success)
             {
                 writeZipFile(input, manifest, assemblies);
+                return;
             }
-            else
-            {
-                _logger.WriteAssembliesNotFound(assemblies, manifest, input, binFolder);
-            }
+
+            _logger.WriteAssembliesNotFound(assemblies, manifest, input, binFolder);
         }
 
-        private void writeZipFile(CreatePackageInput input, PackageManifest manifest, AssemblyFiles assemblies)
+        private void writeZipFile(CreateBottleInput input, PackageManifest manifest, AssemblyFiles assemblies)
         {
             var zipFileName = input.GetZipFileName(manifest);
             
@@ -85,7 +84,7 @@ namespace Bottles.Creation
             return guid;
         }
 
-        public void AddContentFiles(CreatePackageInput input, IZipFile zipFile, PackageManifest manifest)
+        public void AddContentFiles(CreateBottleInput input, IZipFile zipFile, PackageManifest manifest)
         {
             if (manifest.ContentFileSet == null)
             {
@@ -104,7 +103,7 @@ namespace Bottles.Creation
                              });
         }
 
-        public void AddDataFiles(CreatePackageInput input, IZipFile zipFile, PackageManifest manifest)
+        public void AddDataFiles(CreateBottleInput input, IZipFile zipFile, PackageManifest manifest)
         {
             if (manifest.DataFileSet == null)
             {
@@ -121,7 +120,7 @@ namespace Bottles.Creation
                              });
         }
 
-        public void AddConfigFiles(CreatePackageInput input, IZipFile zipFile, PackageManifest manifest)
+        public void AddConfigFiles(CreateBottleInput input, IZipFile zipFile, PackageManifest manifest)
         {
             if (manifest.ConfigFileSet == null)
             {

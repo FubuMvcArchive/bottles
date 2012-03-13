@@ -10,18 +10,18 @@ using Rhino.Mocks;
 namespace Bottles.Tests.Commands
 {
     [TestFixture]
-    public class CreatePackageCommandTester : InteractionContext<CreatePackageCommand>
+    public class CreatePackageCommandTester : InteractionContext<CreateBottleCommand>
     {
-        private CreatePackageInput theInput;
+        private CreateBottleInput theInput;
         private PackageManifest theManifest;
 
         protected override void beforeEach()
         {
             var root = Path.GetPathRoot(AppDomain.CurrentDomain.BaseDirectory);
-            theInput = new CreatePackageInput()
+            theInput = new CreateBottleInput()
             {
                 PackageFolder = "some folder",
-                ZipFile = root.AppendPath("package1.zip")
+                ZipFileFlag = root.AppendPath("package1.zip")
             };
 
             theManifest = new PackageManifest();
@@ -43,12 +43,12 @@ namespace Bottles.Tests.Commands
 
         private void theZipFileAlreadyExists()
         {
-            MockFor<IFileSystem>().Stub(x => x.FileExists(theInput.ZipFile)).Return(true);
+            MockFor<IFileSystem>().Stub(x => x.FileExists(theInput.ZipFileFlag)).Return(true);
         }
 
         private void theZipFileDoesNotExist()
         {
-            MockFor<IFileSystem>().Stub(x => x.FileExists(theInput.ZipFile)).Return(false);
+            MockFor<IFileSystem>().Stub(x => x.FileExists(theInput.ZipFileFlag)).Return(false);
         }
 
         private void execute()
@@ -65,13 +65,13 @@ namespace Bottles.Tests.Commands
 
             // Just forcing this method to be self-mocked
             ClassUnderTest.Expect(x => x.CreatePackage(theInput, MockFor<IFileSystem>()));
-            ClassUnderTest.Expect(x => x.WriteZipFileAlreadyExists(theInput.ZipFile));
+            ClassUnderTest.Expect(x => x.WriteZipFileAlreadyExists(theInput.ZipFileFlag));
 
             execute();
 
 
-            ClassUnderTest.AssertWasNotCalled(x => x.WriteZipFileAlreadyExists(theInput.ZipFile));
-            MockFor<IFileSystem>().AssertWasCalled(x => x.DeleteFile(theInput.ZipFile));
+            ClassUnderTest.AssertWasNotCalled(x => x.WriteZipFileAlreadyExists(theInput.ZipFileFlag));
+            MockFor<IFileSystem>().AssertWasCalled(x => x.DeleteFile(theInput.ZipFileFlag));
 
         }
 
@@ -84,14 +84,14 @@ namespace Bottles.Tests.Commands
 
             // Just forcing this method to be self-mocked
             ClassUnderTest.Expect(x => x.CreatePackage(theInput, MockFor<IFileSystem>()));
-            ClassUnderTest.Expect(x => x.WriteZipFileAlreadyExists(theInput.ZipFile));
+            ClassUnderTest.Expect(x => x.WriteZipFileAlreadyExists(theInput.ZipFileFlag));
 
             execute();
 
-            MockFor<IFileSystem>().AssertWasNotCalled(x => x.DeleteFile(theInput.ZipFile));
+            MockFor<IFileSystem>().AssertWasNotCalled(x => x.DeleteFile(theInput.ZipFileFlag));
         
             ClassUnderTest.AssertWasNotCalled(x => x.CreatePackage(theInput, MockFor<IFileSystem>()));
-            ClassUnderTest.AssertWasCalled(x => x.WriteZipFileAlreadyExists(theInput.ZipFile));
+            ClassUnderTest.AssertWasCalled(x => x.WriteZipFileAlreadyExists(theInput.ZipFileFlag));
         }
 
         [Test]

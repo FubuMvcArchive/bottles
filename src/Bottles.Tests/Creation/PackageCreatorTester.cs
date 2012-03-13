@@ -19,7 +19,7 @@ namespace Bottles.Tests.Creation
     {
         private PackageManifest theManifest;
         private AssemblyFiles theAssemblyFiles;
-        private CreatePackageInput theInput;
+        private CreateBottleInput theInput;
         private StubZipFileService _theZipFileService;
         private string thePackageManifestFileName;
 		private string theBaseFolder;
@@ -40,10 +40,10 @@ namespace Bottles.Tests.Creation
             theManifest.AddAssembly("B");
             theManifest.AddAssembly("C");
 
-            theInput = new CreatePackageInput()
+            theInput = new CreateBottleInput()
             {
                 PackageFolder = theBaseFolder,
-                ZipFile = Path.Combine(theBaseFolder, "package1.zip"),
+                ZipFileFlag = Path.Combine(theBaseFolder, "package1.zip"),
                 PdbFlag = true
             };
 
@@ -84,7 +84,7 @@ namespace Bottles.Tests.Creation
         [Test]
         public void should_have_written_a_zip_file_to_the_value_from_the_input()
         {
-            _theZipFileService.FileName.ShouldEqual(theInput.ZipFile);
+            _theZipFileService.FileName.ShouldEqual(theInput.ZipFileFlag);
         }
 
         [Test]
@@ -136,7 +136,7 @@ namespace Bottles.Tests.Creation
     {
         private PackageManifest theManifest;
         private AssemblyFiles theAssemblyFiles;
-        private CreatePackageInput theInput;
+        private CreateBottleInput theInput;
         private StubZipFileService _theZipFileService;
 		
 		private string theBaseFolder;
@@ -157,10 +157,10 @@ namespace Bottles.Tests.Creation
             theManifest.AddAssembly("B");
             theManifest.AddAssembly("C");
 
-            theInput = new CreatePackageInput()
+            theInput = new CreateBottleInput()
             {
                 PackageFolder = theBaseFolder,
-                ZipFile = Path.Combine(theBaseFolder, "package1.zip"),
+                ZipFileFlag = Path.Combine(theBaseFolder, "package1.zip"),
                 PdbFlag = false
             };
 
@@ -260,7 +260,7 @@ namespace Bottles.Tests.Creation
     {
         private PackageManifest theManifest;
         private AssemblyFiles theAssemblyFiles;
-        private CreatePackageInput theInput;
+        private CreateBottleInput theInput;
 		private string theBaseFolder;
 		private string theBinFolder;
 		
@@ -278,7 +278,7 @@ namespace Bottles.Tests.Creation
             theManifest.AddAssembly("B");
             theManifest.AddAssembly("C");
 
-            theInput = new CreatePackageInput(){
+            theInput = new CreateBottleInput(){
                 PackageFolder = theBaseFolder
             };
 

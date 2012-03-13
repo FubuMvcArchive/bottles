@@ -79,7 +79,7 @@ namespace Bottles.Deployment.Commands
         {
             if (packageFolder.IsEmpty()) return;
 
-            var createInput = new CreatePackageInput(){
+            var createInput = new CreateBottleInput(){
                 PackageFolder = packageFolder,
                 PdbFlag = input.PdbFlag,
                 TargetFlag = input.TargetFlag,

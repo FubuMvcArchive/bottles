@@ -10,7 +10,7 @@ namespace Bottles
     [XmlType("package")]
     public class PackageManifest
     {
-        public static readonly string FILE = ".package-manifest";
+        public const string FILE = ".package-manifest";
 
         public static FileSet FileSetForSearching()
         {

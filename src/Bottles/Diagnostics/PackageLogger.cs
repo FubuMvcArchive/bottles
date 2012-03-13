@@ -9,7 +9,7 @@ namespace Bottles.Diagnostics
 {
     public class PackageLogger : IPackageLogger
     {
-        public void WriteAssembliesNotFound(AssemblyFiles theAssemblyFiles, PackageManifest manifest, CreatePackageInput input, string binFolder)
+        public void WriteAssembliesNotFound(AssemblyFiles theAssemblyFiles, PackageManifest manifest, CreateBottleInput input, string binFolder)
         {
             ConsoleWriter.Write("Did not locate all designated assemblies at '{0}'", binFolder);
             ConsoleWriter.Write("Looking for these assemblies in the package manifest file:");

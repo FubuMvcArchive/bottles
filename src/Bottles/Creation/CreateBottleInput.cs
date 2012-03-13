@@ -10,9 +10,9 @@ namespace Bottles.Creation
         Release
     }
 
-    public class CreatePackageInput
+    public class CreateBottleInput
     {
-        public CreatePackageInput()
+        public CreateBottleInput()
         {
             TargetFlag = CompileTargetEnum.Debug;
         }
@@ -20,8 +20,9 @@ namespace Bottles.Creation
         [Description("The root physical folder (or valid alias) of the package")]
         public string PackageFolder { get; set; }
 
-        [Description("The filepath where the zip file for the package will be written ie. ./blue/my-pak.zip")]
-        public string ZipFile { get; set; }
+        [Description("The filepath where the zip file for the package will be written ie. ./deployment/bottles/my-btl.zip")]
+        [FlagAlias("o")]
+        public string ZipFileFlag { get; set; }
 
         [IgnoreOnCommandLine]
         public string BottlesDirectory { get; set;}
@@ -36,13 +37,13 @@ namespace Bottles.Creation
         [Description("Choose the compilation target for any assemblies")]
         public CompileTargetEnum TargetFlag { get; set; }
 
-        [Description("Overrides the name of the manifest file")]
-        [FlagAlias("file")]
+        [Description("Overrides the name of the manifest file (defaults to '" + PackageManifest.FILE + "'")]
+        [FlagAlias("manifest")]
         public string ManifestFileNameFlag { get; set; }
 
         public string GetZipFileName(PackageManifest manifest)
         {
-            return ZipFile ?? FileSystem.Combine(BottlesDirectory, manifest.Name + ".zip");
+            return ZipFileFlag ?? FileSystem.Combine(BottlesDirectory, manifest.Name + ".zip");
         }
     }
 }
