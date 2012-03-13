@@ -52,6 +52,7 @@
     <Compile Include="AliasRegistry.cs" />
     <Compile Include="Commands\AliasCommand.cs" />
     <Compile Include="Commands\CreateBottleCommand.cs" />
+    <Compile Include="Commands\InitCommand.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyFileFinder.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyFiles.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyLoader.cs" />

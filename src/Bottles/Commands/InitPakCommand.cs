@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using FubuCore;
 using FubuCore.CommandLine;
@@ -36,48 +37,20 @@ namespace Bottles.Commands
     {
         public override bool Execute(InitPakInput input)
         {
-            //this will create an alias entry
-            new AliasCommand().Execute(new AliasInput{
-                Folder = input.Path,
-                Name = input.AliasFlag ?? input.Name.ToLower()
-            });
+            ConsoleWriter.Write(ConsoleColor.Red, "This command is obsolete, use 'init' instead");
 
-            Execute(input, new FileSystem());
+            var input2 = new InitInput()
+                         {
+                             AliasFlag = input.AliasFlag,
+                             ForceFlag = input.ForceFlag,
+                             Name = input.Name,
+                             NoWebContentFlag = input.NoWebContentFlag,
+                             OpenFlag = input.OpenFlag,
+                             Path = input.Path,
+                             RoleFlag = input.RoleFlag,
+                         };
 
-            return true;
-        }
-
-        public void Execute(InitPakInput input, IFileSystem fileSystem)
-        {
-            var assemblyName = fileSystem.GetFileName(input.Path);
-
-            var manifest = new PackageManifest{
-                Name = input.Name
-            };
-
-            manifest.AddAssembly(assemblyName);
-
-            manifest.SetRole(input.RoleFlag ?? BottleRoles.Module);
-
-            if (input.NoWebContentFlag)
-            {
-                manifest.ContentFileSet = new FileSet {DeepSearch = false, Include="*.config"};
-            }
-
-            
-
-            
-
-			if(input.ForceFlag || !fileSystem.FileExists(FileSystem.Combine(input.Path, PackageManifest.FILE)))
-			{
-				fileSystem.PersistToFile(manifest, input.Path, PackageManifest.FILE);
-			}
-            
-
-            if (input.OpenFlag)
-            {
-                fileSystem.LaunchEditor(input.Path, PackageManifest.FILE);
-            }
+            return new InitCommand().Execute(input2);
         }
     }
 }
