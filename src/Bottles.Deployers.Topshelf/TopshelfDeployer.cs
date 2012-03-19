@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
 using Bottles.Deployment;
@@ -30,7 +29,10 @@ namespace Bottles.Deployers.Topshelf
 
         public void Execute(TopshelfService directive, HostManifest host, IPackageLog log)
         {
-            
+            var fileSystem = new FileSystem();
+
+            fileSystem.CleanDirectory(directive.InstallLocation);
+
             var destination = new TopshelfBottleDestination(directive.InstallLocation);
             var bottleReferences = new List<BottleReference>(host.BottleReferences){
                 new BottleReference(BOTTLE_NAME)
@@ -40,7 +42,7 @@ namespace Bottles.Deployers.Topshelf
 
             var cfgFile  = directive.InstallLocation.AppendPath(ServiceInfo.FILE);
 
-            new FileSystem().WriteToFlatFile(cfgFile, writer =>
+            fileSystem.WriteToFlatFile(cfgFile, writer =>
             {
                 writer.WriteProperty("Name",host.Name);
                 writer.WriteProperty("Bootstrapper",directive.Bootstrapper);
