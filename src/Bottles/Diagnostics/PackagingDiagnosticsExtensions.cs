@@ -5,11 +5,12 @@ namespace Bottles.Diagnostics
 {
     public static class PackagingDiagnosticsExtensions
     {
-        public static void LogExecutionOnEach<T>(this IPackagingDiagnostics diagnostics, IEnumerable<T> targets, Action<T> continuation)
+        public static void LogExecutionOnEach<TItem>(this IPackagingDiagnostics diagnostics, IEnumerable<TItem> targets, Action<TItem, IPackageLog> continuation)
         {
-            targets.Each(t =>
+            targets.Each(currentTarget =>
             {
-                diagnostics.LogExecution(t, () => continuation(t));
+                var log = diagnostics.LogFor(currentTarget);
+                diagnostics.LogExecution(currentTarget, () => continuation(currentTarget, log));
             });
         }
 

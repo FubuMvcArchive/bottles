@@ -12,55 +12,27 @@ using Rhino.Mocks;
 namespace Bottles.Tests
 {
     [TestFixture]
-    public class PackagingDependencyProcessorTester
+    public class PackagingDependencyProcessorTester : 
+        InteractionContext<PackageDependencyProcessor>
     {
-        #region Setup/Teardown
+        IList<StubPackage> thePackages;
+        StubPackageDiagnostics theDiagnostics;
 
-        [SetUp]
-        public void SetUp()
+        protected override void beforeEach()
         {
-            thePackages = new Cache<string, StubPackage>(key => new StubPackage(key));
-            theDiagnostics = new StubPackageDiagnostics();
-            
-        }
+            thePackages = new List<StubPackage>();
 
-        #endregion
-
-        private Cache<string, StubPackage> thePackages;
-        private StubPackageDiagnostics theDiagnostics;
-
-        private void hasPackage(string name)
-        {
-            thePackages.FillDefault(name);
-        }
-
-        private void theOrderedPackageNamesShouldBe(params string[] names)
-        {
-            var theActualOrder = theDependencyProcessor.OrderedPackages().Select(x => x.Name);
-            try
-            {
-                theActualOrder
-                    .ShouldHaveTheSameElementsAs(names);
-            }
-            catch (Exception)
-            {
-                theActualOrder.Each(x => Debug.WriteLine(x));
-                throw;
-            }
-        }
-
-        public PackageDependencyProcessor theDependencyProcessor
-        {
-            get { return new PackageDependencyProcessor(thePackages); }
-        }
-
-        [Test]
-        public void order_by_name_in_the_absence_of_no_other_information()
-        {
             hasPackage("C");
             hasPackage("B");
             hasPackage("A");
 
+            theDiagnostics = new StubPackageDiagnostics();
+        }
+       
+
+        [Test]
+        public void order_by_name_in_the_absence_of_no_other_information()
+        {
             theOrderedPackageNamesShouldBe("A", "B", "C");
         }
 
@@ -76,49 +48,41 @@ namespace Bottles.Tests
         [Test]
         public void log_nothing_without_any_missing_dependencies()
         {
-            hasPackage("C");
-            hasPackage("B");
-            hasPackage("A");
-            
-            theDependencyProcessor.LogMissingPackageDependencies(theDiagnostics);
+            ClassUnderTest.LogMissingPackageDependencies(theDiagnostics);
             theDiagnostics.HasMessages().ShouldBeFalse();
         }
 
         [Test]
         public void log_nothing_if_an_optional_dependency_is_missing()
         {
-            hasPackage("C");
-            hasPackage("B");
-            hasPackage("A");
+            hasPackage("A").OptionalDependency("D");
 
-            thePackages["A"].OptionalDependency("D");
-
-            theDependencyProcessor.LogMissingPackageDependencies(theDiagnostics);
+            ClassUnderTest.LogMissingPackageDependencies(theDiagnostics);
             theDiagnostics.HasMessages().ShouldBeFalse();
         }
 
         [Test]
         public void log_all_missing_mandatory_dependencies()
         {
-            thePackages["A"].MandatoryDependency("A1");
-            thePackages["A"].MandatoryDependency("A2");
-            thePackages["B"].MandatoryDependency("B1");
-            thePackages["C"].MandatoryDependency("B1");
+            hasPackage("A").MandatoryDependency("A1");
+            hasPackage("A").MandatoryDependency("A2");
+            hasPackage("B").MandatoryDependency("B1");
+            hasPackage("C").MandatoryDependency("B1");
 
-            theDependencyProcessor.LogMissingPackageDependencies(theDiagnostics);
+            ClassUnderTest.LogMissingPackageDependencies(theDiagnostics);
 
-            theDiagnostics.LogFor(thePackages["A"]).AssertWasCalled(x => x.LogMissingDependency("A1"));
-            theDiagnostics.LogFor(thePackages["A"]).AssertWasCalled(x => x.LogMissingDependency("A2"));
-            theDiagnostics.LogFor(thePackages["B"]).AssertWasCalled(x => x.LogMissingDependency("B1"));
-            theDiagnostics.LogFor(thePackages["C"]).AssertWasCalled(x => x.LogMissingDependency("B1"));
+            theDiagnostics.LogFor(hasPackage("A")).AssertWasCalled(x => x.LogMissingDependency("A1"));
+            theDiagnostics.LogFor(hasPackage("A")).AssertWasCalled(x => x.LogMissingDependency("A2"));
+            theDiagnostics.LogFor(hasPackage("B")).AssertWasCalled(x => x.LogMissingDependency("B1"));
+            theDiagnostics.LogFor(hasPackage("C")).AssertWasCalled(x => x.LogMissingDependency("B1"));
         }
 
 
         [Test]
         public void dependency_ordering_impacts_sorting()
         {
-            thePackages["A"].OptionalDependency("B");
-            thePackages["B"].MandatoryDependency("C");
+            hasPackage("A").OptionalDependency("B");
+            hasPackage("B").MandatoryDependency("C");
             hasPackage("C");
 
             theOrderedPackageNamesShouldBe("C", "B", "A");
@@ -127,8 +91,8 @@ namespace Bottles.Tests
         [Test]
         public void orders_alphabetically_in_the_absence_of_other_dependency_rules_but_dependency_rules_win()
         {
-            thePackages["A"].OptionalDependency("B");
-            thePackages["B"].MandatoryDependency("C");
+            hasPackage("A").OptionalDependency("B");
+            hasPackage("B").MandatoryDependency("C");
             hasPackage("D");
             hasPackage("E");
             hasPackage("C");
@@ -139,15 +103,45 @@ namespace Bottles.Tests
         [Test]
         public void can_sort_with_an_optional_dependency_that_does_not_exist()
         {
-            thePackages["A"].OptionalDependency("B");
-            thePackages["B"].OptionalDependency("C");
+            hasPackage("A").OptionalDependency("B");
+            hasPackage("B").OptionalDependency("Z");
             hasPackage("D");
             hasPackage("E");
-            // C does not exist
-            //hasPackage("C"); 
+            // Z does not exist
+            //hasPackage("Z"); 
 
-            theOrderedPackageNamesShouldBe("D", "E", "B", "A");
+            theOrderedPackageNamesShouldBe("C", "D", "E", "B", "A");
         }
+
+        //helpers
+        private StubPackage hasPackage(string name)
+        {
+            var x = new StubPackage(name);
+            if(thePackages.Any(p=>p.Name.Equals(x.Name)))
+            {
+                return thePackages.First(p => p.Name.Equals(name));
+            }
+
+            thePackages.Add(x);
+            Services.Inject<IPackageInfo>(x);
+            return x;
+        }
+
+        private void theOrderedPackageNamesShouldBe(params string[] names)
+        {
+            var theActualOrder = ClassUnderTest.OrderedPackages().Select(x => x.Name);
+            try
+            {
+                theActualOrder
+                    .ShouldHaveTheSameElementsAs(names);
+            }
+            catch (Exception)
+            {
+                theActualOrder.Each(x => Debug.WriteLine(x));
+                throw;
+            }
+        }
+
     }
 
     public class StubPackageDiagnostics : IPackagingDiagnostics

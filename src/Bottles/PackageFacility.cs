@@ -10,6 +10,9 @@ using FubuCore.Reflection;
 
 namespace Bottles
 {
+    /// <summary>
+    /// Configuration DSL layer
+    /// </summary>
     public class PackageFacility : IPackageFacility, IPackagingRuntimeGraphConfigurer
     {
         private readonly IList<Action<PackagingRuntimeGraph>> _configurableActions = new List<Action<PackagingRuntimeGraph>>();

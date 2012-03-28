@@ -1,19 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Bottles.Assemblies;
 using Bottles.Diagnostics;
+using Bottles.PackageLoaders.Assemblies;
 using FubuCore;
 
 namespace Bottles
 {
-    public class PackagingRuntimeGraph
+    /// <summary>
+    /// A collection of data about a given runtime
+    /// </summary>
+    public class PackagingRuntimeGraph : IDisposable
     {
         private readonly IList<IActivator> _activators = new List<IActivator>();
         private readonly IAssemblyLoader _assemblies;
         private readonly IList<IBootstrapper> _bootstrappers = new List<IBootstrapper>();
         private readonly IPackagingDiagnostics _diagnostics;
-        private readonly IList<IPackageLoader> _loaders = new List<IPackageLoader>();
+        private readonly IList<IPackageLoader> _packageLoaders = new List<IPackageLoader>();
         private readonly Stack<string> _provenanceStack = new Stack<string>();
         private readonly IList<IPackageInfo> _packages;
 
@@ -25,24 +28,38 @@ namespace Bottles
         }
 
 
+        public IDisposable InProvenance(string provenance, Action<PackagingRuntimeGraph> action)
+        {
+            PushProvenance(provenance);
+            action(this);
+            return this;
+        }
+
+        public void Dispose()
+        {
+            PopProvenance();
+        }
+
         public void PushProvenance(string provenance)
         {
             _provenanceStack.Push(provenance);
         }
+
 
         public void PopProvenance()
         {
             _provenanceStack.Pop();
         }
 
+        //I kinda want this method elsewhere
         public void DiscoverAndLoadPackages(Action onAssembliesScanned, bool runActivators = true)
         {
-            var packages = findAllPackages();
+            var allPackages = findAllPackages();
 
-            analyzePackageDependenciesAndOrder(packages);
+            analyzePackageDependenciesAndOrder(allPackages);
 
             loadAssemblies(_packages, onAssembliesScanned);
-            var discoveredActivators = runAllBootstrappers();
+            var discoveredActivators = collectAllActivatorsFromBootstrappers();
 
             if(runActivators)
             {
@@ -60,8 +77,7 @@ namespace Bottles
         private void activatePackages(IList<IPackageInfo> packages, IList<IActivator> discoveredActivators)
         {
             var discoveredPlusRegisteredActivators = discoveredActivators.Union(_activators);
-            _diagnostics.LogExecutionOnEach(discoveredPlusRegisteredActivators,
-                                            activator => activator.Activate(packages, _diagnostics.LogFor(activator)));
+            _diagnostics.LogExecutionOnEach(discoveredPlusRegisteredActivators, (activator, log) => activator.Activate(packages, log));
         }
 
         public void AddBootstrapper(IBootstrapper bootstrapper)
@@ -72,7 +88,7 @@ namespace Bottles
 
         public void AddLoader(IPackageLoader loader)
         {
-            _loaders.Add(loader);
+            _packageLoaders.Add(loader);
             _diagnostics.LogObject(loader, currentProvenance);
         }
 
@@ -97,16 +113,18 @@ namespace Bottles
             get { return _provenanceStack.Peek(); }
         }
 
-        private List<IActivator> runAllBootstrappers()
+        private List<IActivator> collectAllActivatorsFromBootstrappers()
         {
-            var discoveredActivators = new List<IActivator>();
-            _diagnostics.LogExecutionOnEach(_bootstrappers, b =>
+            var result = new List<IActivator>();
+            
+            _diagnostics.LogExecutionOnEach(_bootstrappers, (currentBootstrapper, log) =>
             {
-                var bootstrapperActivators = b.Bootstrap(_diagnostics.LogFor(b));
-                discoveredActivators.AddRange(bootstrapperActivators);
-                _diagnostics.LogBootstrapperRun(b, bootstrapperActivators);
+                var bootstrapperActivators = currentBootstrapper.Bootstrap(log);
+                result.AddRange(bootstrapperActivators);
+                _diagnostics.LogBootstrapperRun(currentBootstrapper, bootstrapperActivators);
             });
-            return discoveredActivators;
+
+            return result;
         }
 
         private void loadAssemblies(IEnumerable<IPackageInfo> packages, Action onAssembliesScanned)
@@ -118,18 +136,17 @@ namespace Bottles
 
         private IEnumerable<IPackageInfo> findAllPackages()
         {
-            var list = new List<IPackageInfo>();
+            var result = new List<IPackageInfo>();
 
-            _diagnostics.LogExecutionOnEach(_loaders, loader =>
+            _diagnostics.LogExecutionOnEach(_packageLoaders, (currentLoader, log) =>
             {
-                var log = _diagnostics.LogFor(loader);
-                var packageInfos = loader.Load(log).ToArray();
-                _diagnostics.LogPackages(loader, packageInfos);
+                var packageInfos = currentLoader.Load(log).ToArray();
+                _diagnostics.LogPackages(currentLoader, packageInfos);
 
-                list.AddRange(packageInfos);
+                result.AddRange(packageInfos);
             });
 
-            return list;
+            return result;
         }
     }
 }

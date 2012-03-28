@@ -5,6 +5,7 @@ using Bottles.Assemblies;
 using Bottles.Creation;
 using Bottles.Diagnostics;
 using Bottles.Exploding;
+using Bottles.PackageLoaders.Assemblies;
 using Bottles.Tests.Zipping;
 using Bottles.Zipping;
 using FubuCore;
@@ -60,7 +61,6 @@ namespace Bottles.Tests.Creation
 					FileSystem.Combine(theBinFolder, "b.pdb"), 
 					FileSystem.Combine(theBinFolder, "c.pdb")
 				},
-                Success = true
             };
 
             MockFor<IAssemblyFileFinder>()
@@ -177,7 +177,6 @@ namespace Bottles.Tests.Creation
 					FileSystem.Combine(theBinFolder, "b.pdb"), 
 					FileSystem.Combine(theBinFolder, "c.pdb") 
 				},
-                Success = true
             };
 
             MockFor<IAssemblyFileFinder>()
@@ -284,10 +283,9 @@ namespace Bottles.Tests.Creation
 
             theAssemblyFiles = new AssemblyFiles()
             {
-                Files = new string[] { "a.dll", "b.dll"},
-                MissingAssemblies = new string[]{"c"},
-                PdbFiles = new string[] { "a.dll", "b.dll", "c.dll"},
-                Success = false
+                Files = new[] { "a.dll", "b.dll"},
+                MissingAssemblies = new[]{"c"},
+                PdbFiles = new[] { "a.dll", "b.dll", "c.dll"},
             };
 
             MockFor<IAssemblyFileFinder>()

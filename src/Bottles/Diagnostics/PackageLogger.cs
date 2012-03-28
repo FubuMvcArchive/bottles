@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Bottles.Assemblies;
 using Bottles.Creation;
+using Bottles.PackageLoaders.Assemblies;
 using FubuCore.CommandLine;
 
 namespace Bottles.Diagnostics

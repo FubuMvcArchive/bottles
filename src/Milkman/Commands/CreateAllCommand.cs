@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using Bottles.Commands;
 using Bottles.Creation;
 using Bottles.Diagnostics;
@@ -66,18 +67,18 @@ namespace Bottles.Deployment.Commands
             });
 
 
-            PackageManifest.FindManifestFilesInDirectory(input.DirectoryFlag).Each(file =>
+            var results = PackageManifest.FindManifestFilesInDirectory(input.DirectoryFlag).Select(file =>
             {
                 var folder = Path.GetDirectoryName(file);
-                createPackage(folder, settings.BottlesDirectory, input);
+                return createPackage(folder, settings.BottlesDirectory, input);
             });
 
-            return true;
+            return results.Any(r => !r);
         }
 
-        private static void createPackage(string packageFolder, string bottlesDirectory, CreateAllInput input)
+        private static bool createPackage(string packageFolder, string bottlesDirectory, CreateAllInput input)
         {
-            if (packageFolder.IsEmpty()) return;
+            if (packageFolder.IsEmpty()) return true;
 
             var createInput = new CreateBottleInput(){
                 PackageFolder = packageFolder,
@@ -86,7 +87,7 @@ namespace Bottles.Deployment.Commands
                 BottlesDirectory = bottlesDirectory
             };
 
-            new CreatePackageCommand().Execute(createInput);
+            return new CreateBottleCommand().Execute(createInput);
         }
     }
 }

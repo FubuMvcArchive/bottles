@@ -1,5 +1,6 @@
 using Bottles.Assemblies;
 using Bottles.Creation;
+using Bottles.PackageLoaders.Assemblies;
 
 namespace Bottles.Diagnostics
 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Bottles.Assemblies;
 using Bottles.Diagnostics;
+using Bottles.PackageLoaders.Assemblies;
 using Bottles.Zipping;
 using FubuCore;
 using FubuCore.CommandLine;

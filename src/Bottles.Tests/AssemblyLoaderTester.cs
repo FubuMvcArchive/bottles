@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
-using Bottles.Assemblies;
 using Bottles.Diagnostics;
+using Bottles.PackageLoaders.Assemblies;
 using FubuTestingSupport;
 using NUnit.Framework;
 using Rhino.Mocks;

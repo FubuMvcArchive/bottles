@@ -108,6 +108,7 @@
     <Compile Include="PackageFacility.cs" />
     <Compile Include="PackageFiles.cs" />
     <Compile Include="PackageInfo.cs" />
+    <Compile Include="PackageLoadingRecord.cs" />
     <Compile Include="PackageManifest.cs" />
     <Compile Include="PackageManifestReader.cs" />
     <Compile Include="PackageRegistry.cs" />

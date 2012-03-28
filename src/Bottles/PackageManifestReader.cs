@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using FubuCore;
 
-
 namespace Bottles
 {
     public class PackageManifestReader : IPackageManifestReader
@@ -28,13 +27,10 @@ namespace Bottles
                 Dependencies = manifest.Dependencies
             };
 
-            
-
             // Right here, this needs to be different
             registerFolders(packageDirectory, package);
 
             var binPath = determineBinPath(packageDirectory);
-
 
             package.Role = manifest.Role;
 

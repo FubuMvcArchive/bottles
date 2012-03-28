@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -35,7 +36,13 @@ namespace Bottles.Commands
                 .LoadFromFile<AliasRegistry>(AliasRegistry.ALIAS_FILE)
                 .AliasFor(folder);
 
-            return alias == null ? folder : alias.Folder;
+            
+            var x =alias == null ? folder : alias.Folder;
+
+            ConsoleWriter.Write(ConsoleColor.Yellow, "Alias is returning '{0}'".ToFormat(x));
+            //TODO: Harden more
+
+            return x;
         }
 
 

@@ -16,7 +16,10 @@ namespace Bottles
         {
             _packages = packages;
 
+            guardAgainstMalformedPackages();
+
             _graph = new DependencyGraph<IPackageInfo>(pak => pak.Name, pak => pak.GetDependencies().Select(x => x.Name));
+
             _packages.OrderBy(p => p.Name).Each(p => _graph.RegisterItem(p));
         }
 
@@ -33,6 +36,16 @@ namespace Bottles
         public IEnumerable<IPackageInfo> OrderedPackages()
         {
             return _graph.Ordered();
+        }
+
+        private void guardAgainstMalformedPackages()
+        {
+            var missing = _packages.Where(p => p.Name.IsEmpty());
+            if (missing.Any())
+            {
+                var moduleTypes = missing.Select(x => x.Role).Join(", ");
+                throw new ArgumentException("Packages must have a name ({0}, {1})".ToFormat(missing.Count(), moduleTypes));
+            }
         }
     }
 

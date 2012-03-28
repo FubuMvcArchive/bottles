@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using Bottles.Deployment;
 using Bottles.Deployment.Deployers.CommandLine;
+using Bottles.Diagnostics;
 using FubuTestingSupport;
 using NUnit.Framework;
 using FubuCore;
@@ -35,6 +37,37 @@ namespace Bottles.Tests.Deployment.Deployers.CommandLine
             ClassUnderTest.GetProcessStartInfo(theDirective)
                 .FileName.ShouldEqual(theDirective.WorkingDirectory.AppendPath(theDirective.FileName));
         }
+
+    }
+
+    [TestFixture]
+    public class CommandPSLineDeployerTester : InteractionContext<CommandLineDeployer>
+    {
+        private CommandLineExecution theDirective;
+        private HostManifest theHost;
+
+        protected override void beforeEach()
+        {
+            theHost = new HostManifest("hi");
+            
+            base.Services.Inject<IProcessRunner>(new ProcessRunner());
+            
+            theDirective = new CommandLineExecution()
+            {
+                Arguments = "-?",
+                WorkingDirectory = "",
+                FileName = "powershell"
+            };
+        }
+
+        [Test]
+        public void should_work_for_powershell()
+        {
+            var packageLog = new PackageLog();
+            ClassUnderTest.Execute(theDirective, theHost, packageLog);
+            packageLog.Success.ShouldBeTrue();
+        }
+
 
     }
 }

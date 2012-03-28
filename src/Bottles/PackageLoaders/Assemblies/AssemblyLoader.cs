@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Bottles.Assemblies;
 using Bottles.Diagnostics;
 using FubuCore;
 
-namespace Bottles.Assemblies
+namespace Bottles.PackageLoaders.Assemblies
 {
     public class AssemblyLoader : IAssemblyLoader, IAssemblyRegistration
     {
@@ -22,36 +23,22 @@ namespace Bottles.Assemblies
             _diagnostics = diagnostics;
         }
 
+
+        //why is this a public function?
+        //so it can be overridden in tests is one reason
+        // ? is it used in fubumvc?
+        // can't I just pass it in the ctor?
         public Func<string, Assembly> AssemblyFileLoader { get; set; }
 
-        private static Assembly loadPackageAssemblyFromAppBinPath(string file)
+
+        //why is this virtual?
+        public virtual void LoadAssembliesFromPackage(IPackageInfo packageInfo)
         {
-            var assemblyName = Path.GetFileNameWithoutExtension(file);
-            var appBinPath = AppDomain.CurrentDomain.SetupInformation.PrivateBinPath ?? AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-            if (!Path.GetDirectoryName(file).EqualsIgnoreCase(appBinPath))
-            {
-                var destFileName = FileSystem.Combine(appBinPath, Path.GetFileName(file));
-                if (shouldUpdateFile(file, destFileName))
-                {
-                    File.Copy(file, destFileName, true);
-                }
-            }
-            return Assembly.Load(assemblyName);
+            _currentPackage = packageInfo;
+            packageInfo.LoadAssemblies(this);
         }
 
-        private static bool shouldUpdateFile(string source, string destination)
-        {
-            return !File.Exists(destination) || File.GetLastWriteTimeUtc(source) > File.GetLastWriteTimeUtc(destination);
-        }
-
-        private bool hasAssemblyByName(string assemblyName)
-        {
-            // I know, packaging *ONLY* supporting one version of a dll.  Use older stuff to 
-            // make redirects go
-            return (_assemblies.Any(x => x.GetName().Name == assemblyName));
-        }
-
-        public void ReadPackage(IPackageInfo package)
+        public void ReadPackage(IPackageInfo package, IPackageLog log)
         {
             _currentPackage = package;
             package.LoadAssemblies(this);
@@ -60,6 +47,33 @@ namespace Bottles.Assemblies
         public IList<Assembly> Assemblies
         {
             get { return _assemblies; }
+        }
+
+        static Assembly loadPackageAssemblyFromAppBinPath(string file)
+        {
+            var assemblyName = Path.GetFileNameWithoutExtension(file);
+            var appBinPath = AppDomain.CurrentDomain.SetupInformation.PrivateBinPath ?? AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            if (!Path.GetDirectoryName(file).EqualsIgnoreCase(appBinPath))
+            {
+                var destFileName = appBinPath.AppendPath(Path.GetFileName(file));
+                if (shouldUpdateFile(file, destFileName))
+                {
+                    File.Copy(file, destFileName, true);
+                }
+            }
+            return Assembly.Load(assemblyName);
+        }
+
+        static bool shouldUpdateFile(string source, string destination)
+        {
+            return !File.Exists(destination) || File.GetLastWriteTimeUtc(source) > File.GetLastWriteTimeUtc(destination);
+        }
+
+        bool hasAssemblyByName(string assemblyName)
+        {
+            // I know, packaging *ONLY* supporting one version of a dll.  Use older stuff to 
+            // make redirects go
+            return (_assemblies.Any(x => x.GetName().Name == assemblyName));
         }
 
         // need to try to load the assembly by name first!!!
@@ -92,21 +106,13 @@ namespace Bottles.Assemblies
             if (hasAssemblyByName(assembly.GetName().Name))
             {
                 _diagnostics.LogDuplicateAssembly(_currentPackage, assembly.GetName().FullName);
+                return;
             }
-            else
-            {
-                _diagnostics.LogAssembly(_currentPackage, assembly, DIRECTLY_REGISTERED_MESSAGE);
-                _assemblies.Add(assembly);
-            }
-
             
+            _diagnostics.LogAssembly(_currentPackage, assembly, DIRECTLY_REGISTERED_MESSAGE);
+            _assemblies.Add(assembly);
         }
 
-        public virtual void LoadAssembliesFromPackage(IPackageInfo packageInfo)
-        {
-            _currentPackage = packageInfo;
-            packageInfo.LoadAssemblies(this);
-        }
     }
     
 }

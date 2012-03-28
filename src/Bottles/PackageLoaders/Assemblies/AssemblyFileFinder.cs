@@ -3,8 +3,9 @@ using System.IO;
 using System.Linq;
 using FubuCore;
 
-namespace Bottles.Assemblies
+namespace Bottles.PackageLoaders.Assemblies
 {
+
     public class AssemblyFileFinder : IAssemblyFileFinder
     {
         private readonly IFileSystem _fileSystem;
@@ -14,11 +15,12 @@ namespace Bottles.Assemblies
             _fileSystem = fileSystem;
         }
 
-        public AssemblyFiles FindAssemblies(string binDirectory, IEnumerable<string> assemblyNames)
+        public AssemblyFiles FindAssemblies(string binDirectory, IEnumerable<string> assembliesToFind)
         {
-            if (!assemblyNames.Any()) return AssemblyFiles.Empty;
-            var assemblySet = FileSet.ForAssemblyNames(assemblyNames);
-            var debugSet = FileSet.ForAssemblyDebugFiles(assemblyNames);
+            if (!assembliesToFind.Any()) return AssemblyFiles.Empty;
+
+            var assemblySet = FileSet.ForAssemblyNames(assembliesToFind);
+            var debugSet = FileSet.ForAssemblyDebugFiles(assembliesToFind);
 
             var files = new AssemblyFiles(){
                 Files = _fileSystem.FindFiles(binDirectory, assemblySet),
@@ -26,8 +28,10 @@ namespace Bottles.Assemblies
             };
 
             var assembliesFound = files.Files.Select(Path.GetFileNameWithoutExtension).Select(x => x.ToLowerInvariant());
-            files.MissingAssemblies = assemblyNames.Select(x => x.ToLowerInvariant()).Where(name => !assembliesFound.Contains(name));
-            files.Success = !files.MissingAssemblies.Any();
+            
+            files.MissingAssemblies = assembliesToFind
+                .Select(x => x.ToLowerInvariant())
+                .Where(name => !assembliesFound.Contains(name));
 
             return files;
         }

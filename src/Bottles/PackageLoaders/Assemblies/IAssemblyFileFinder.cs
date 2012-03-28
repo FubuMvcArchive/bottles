@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace Bottles.Assemblies
+namespace Bottles.PackageLoaders.Assemblies
 {
     public interface IAssemblyFileFinder
     {
-        AssemblyFiles FindAssemblies(string binDirectory, IEnumerable<string> assemblyNames);
+
+        AssemblyFiles FindAssemblies(string binDirectory, IEnumerable<string> assembliesToFind);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 
-namespace Bottles.Assemblies
+namespace Bottles.PackageLoaders.Assemblies
 {
     public class AssemblyFiles
     {
@@ -9,7 +10,7 @@ namespace Bottles.Assemblies
 
         public IEnumerable<string> MissingAssemblies { get; set; }
 
-        public bool Success { get; set; }
+        public bool Success { get { return !MissingAssemblies.Any(); } }
 
         public static AssemblyFiles Empty
         {
@@ -17,7 +18,6 @@ namespace Bottles.Assemblies
             {
                 return new AssemblyFiles
                 {
-                    Success = true, 
                     Files = new string[0],
                     PdbFiles = new string[0],
                     MissingAssemblies = new string[0]

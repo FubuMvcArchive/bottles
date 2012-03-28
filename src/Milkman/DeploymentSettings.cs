@@ -188,6 +188,11 @@ namespace Bottles.Deployment
                 .Select(dir => dir.AppendPath(directory))
                 .FirstOrDefault(fileSystem.DirectoryExists);
         }
+
+        public static string EscapeFormatting(this string value)
+        {
+            return value.Replace("{", "{{").Replace("}", "}}");
+        }
     }
 
     
