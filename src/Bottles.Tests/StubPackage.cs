@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Bottles.Assemblies;
+using Bottles.PackageLoaders.Assemblies;
 using FubuCore.Util;
 
 namespace Bottles.Tests

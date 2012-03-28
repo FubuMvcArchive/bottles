@@ -56,6 +56,7 @@ namespace Bottles
         {
             var allPackages = findAllPackages();
 
+            //orders _packages
             analyzePackageDependenciesAndOrder(allPackages);
 
             loadAssemblies(_packages, onAssembliesScanned);

@@ -2,8 +2,11 @@ using System.Collections.Generic;
 using System.Reflection;
 using Bottles.Diagnostics;
 
-namespace Bottles.Assemblies
+namespace Bottles.PackageLoaders.Assemblies
 {
+    /// <summary>
+    /// Loads a package from an assembly (.dll / .exe)
+    /// </summary>
     public class AssemblyPackageLoader : IPackageLoader
     {
         private readonly Assembly _assembly;

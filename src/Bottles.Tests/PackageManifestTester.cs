@@ -1,7 +1,3 @@
-using Bottles.Assemblies;
-using Bottles.Commands;
-using Bottles.Creation;
-using Bottles.Zipping;
 using FubuCore;
 using NUnit.Framework;
 using FubuTestingSupport;

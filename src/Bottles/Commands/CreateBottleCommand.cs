@@ -1,4 +1,3 @@
-using Bottles.Assemblies;
 using Bottles.Creation;
 using Bottles.Diagnostics;
 using Bottles.PackageLoaders.Assemblies;

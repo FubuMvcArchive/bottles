@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Bottles.Assemblies;
 using Bottles.Diagnostics;
 using FubuCore;
 
 namespace Bottles.PackageLoaders.Assemblies
 {
-    public class AssemblyLoader : IAssemblyLoader, IAssemblyRegistration
+    /// <summary>
+    /// Default assembly loader
+    /// </summary>
+    public class AssemblyLoader : 
+        IAssemblyLoader, 
+        IAssemblyRegistration //why is this playing TWO roles?
     {
         public static readonly string DIRECTLY_REGISTERED_MESSAGE = "Directly loaded by the Package";
 
@@ -41,6 +45,8 @@ namespace Bottles.PackageLoaders.Assemblies
         public void ReadPackage(IPackageInfo package, IPackageLog log)
         {
             _currentPackage = package;
+
+            //double dispatch - hard to follow - at the moment
             package.LoadAssemblies(this);
         }
 

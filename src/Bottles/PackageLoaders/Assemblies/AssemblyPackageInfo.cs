@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using Bottles.Exploding;
 using FubuCore;
 
-namespace Bottles.Assemblies
+namespace Bottles.PackageLoaders.Assemblies
 {
-
+    /// <summary>
+    /// Reperesents a bottle that is contained in a .dll
+    /// </summary>
+    [DebuggerDisplay("{Name}")]
     public class AssemblyPackageInfo : IPackageInfo
     {
         private readonly Assembly _assembly;

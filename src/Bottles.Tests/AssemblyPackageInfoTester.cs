@@ -2,7 +2,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using AssemblyPackage;
-using Bottles.Assemblies;
+using Bottles.PackageLoaders.Assemblies;
 using FubuTestingSupport;
 using NUnit.Framework;
 using Rhino.Mocks;

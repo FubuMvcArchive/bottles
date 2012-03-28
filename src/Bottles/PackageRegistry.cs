@@ -101,8 +101,12 @@ namespace Bottles
 
                 graph.DiscoverAndLoadPackages(() =>
                 {
+                    //clearing assemblies why? - my guess is testing.
+                    // this should only really be called once.
                     _assemblies.Clear();
+
                     _assemblies.AddRange(assemblyLoader.Assemblies);
+                    //the above assemblies are used when we need to resolve bottle assemblies
                 }, runActivators);
             });
 
@@ -159,8 +163,7 @@ namespace Bottles
                     {
                         writer.WriteLine(o.ToString());
                         writer.WriteLine(log.FullTraceText());
-                        writer.WriteLine(
-                            "------------------------------------------------------------------------------------------------");
+                        writer.WriteLine("------------------------------------------------------------------------------------------------");
                     }
                 });
 

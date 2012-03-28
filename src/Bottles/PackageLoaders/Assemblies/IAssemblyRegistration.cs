@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace Bottles.Assemblies
+namespace Bottles.PackageLoaders.Assemblies
 {
     public interface IAssemblyRegistration
     {

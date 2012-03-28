@@ -4,8 +4,11 @@ using System.Linq;
 using Bottles.Diagnostics;
 using FubuCore;
 
-namespace Bottles
+namespace Bottles.PackageLoaders
 {
+    /// <summary>
+    /// Wondering is this should be a Fubu specific thing. I think not, seems damn useful
+    /// </summary>
     public class LinkedFolderPackageLoader : IPackageLoader
     {
         private readonly string _applicationDirectory;

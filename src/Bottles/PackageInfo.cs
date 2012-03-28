@@ -2,11 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using Bottles.Assemblies;
 using System.Linq;
+using Bottles.PackageLoaders.Assemblies;
 
 namespace Bottles
 {
+    /// <summary>
+    /// This is a normal/traditional bottle that is represented as a folder/zipfile
+    /// </summary>
     [DebuggerDisplay("{Name}:{Role}")]
     public class PackageInfo : IPackageInfo
     {
@@ -70,6 +73,7 @@ namespace Bottles
 
         void IPackageInfo.LoadAssemblies(IAssemblyRegistration loader)
         {
+            //double double dispatch - getting deep
             _assemblies.Each(a => a.Load(loader));
         }
 
