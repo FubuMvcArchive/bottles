@@ -5,7 +5,9 @@ using FubuCore;
 
 namespace Bottles.PackageLoaders.Assemblies
 {
-
+    /// <summary>
+    /// The default finder of assemblies given a bin directory
+    /// </summary>
     public class AssemblyFileFinder : IAssemblyFileFinder
     {
         private readonly IFileSystem _fileSystem;

@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using Bottles.Assemblies;
 using Bottles.PackageLoaders.Assemblies;
 using FubuCore;
 using FubuTestingSupport;
