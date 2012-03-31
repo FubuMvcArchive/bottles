@@ -7,7 +7,5 @@
   <assembly>Topshelf</assembly>
   <assembly>FubuCore</assembly>
   <assembly>Bottles</assembly>
-  <assembly>Bottles.Deployment</assembly>
-  <assembly>Bottles.Deployers.Topshelf</assembly>
-
+  <assembly>Milkman</assembly>
 </package>
