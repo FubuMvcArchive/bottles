@@ -20,7 +20,7 @@
     </dependencies>
   </metadata>
   <files>
-	  <file src="..\..\src\Milkman\bin\Release\Milkman.*" target="lib" />
+	  <file src="..\..\src\Milkman\bin\release\Milkman.*" target="lib" />
 	  <file src="..\..\src\Milkman\**\*.cs" target="src" />
   </files>
 </package>
