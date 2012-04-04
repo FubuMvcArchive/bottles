@@ -12,13 +12,13 @@
     <description>Support for creating services via Bottles</description>
     <tags>packaging service</tags>
     <dependencies>
-      <dependency id="FubuCore" />
+      <dependency id="FubuCore" version="0.9.8.126" />
       <dependency id="Bottles" />
       <dependency id="Milkman" />
     </dependencies>
   </metadata>
   <files>
-	  <file src="..\..\src\Bottles.Host.Packaging\bin\release\Bottles.Host.Packaging.*" target="lib" />
-	  <file src="..\..\src\Bottles.Host.Packaging\**\*.cs" target="src" />
+    <file src="..\..\src\Bottles.Host.Packaging\bin\release\Bottles.Host.Packaging.*" target="lib" />
+    <file src="..\..\src\Bottles.Host.Packaging\**\*.cs" target="src" />
   </files>
 </package>

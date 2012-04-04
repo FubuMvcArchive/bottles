@@ -13,14 +13,14 @@
     <tags>packaging areas slices</tags>
     <dependencies>
       <dependency id="Bottles" />
-      <dependency id="FubuCore" />
+      <dependency id="FubuCore" version="0.9.8.126" />
       <dependency id="HtmlTags" />
       <dependency id="DotNetZip" />
       <dependency id="StructureMap" />
     </dependencies>
   </metadata>
   <files>
-	  <file src="..\..\src\Milkman\bin\release\Milkman.*" target="lib" />
-	  <file src="..\..\src\Milkman\**\*.cs" target="src" />
+    <file src="..\..\src\Milkman\bin\release\Milkman.*" target="lib" />
+    <file src="..\..\src\Milkman\**\*.cs" target="src" />
   </files>
 </package>
