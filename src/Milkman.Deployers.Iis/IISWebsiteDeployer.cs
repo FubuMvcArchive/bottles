@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Bottles.Deployment;
 using Bottles.Deployment.Runtime;
 using Bottles.Deployment.Runtime.Content;
@@ -22,10 +21,21 @@ namespace Bottles.Deployers.Iis
         {
             directive.VDirPhysicalPath = directive.VDirPhysicalPath.ToFullPath();
 
+            cleanUpTargetFolderIfRequested(directive, log);
+
             _websiteCreator.Create(directive);
 
             var destination = new WebsiteBottleDestination(directive.VDirPhysicalPath);
             _bottleMover.Move(log, destination, host.BottleReferences);
+        }
+
+        private static void cleanUpTargetFolderIfRequested(Website directive, IPackageLog log)
+        {
+            if (!directive.Clean) return;
+
+
+            log.Trace("Cleaning up target directory '{0}'", directive.VDirPhysicalPath);
+            new FileSystem().CleanDirectory(directive.VDirPhysicalPath);
         }
 
         public string GetDescription(Website directive)
@@ -33,67 +43,4 @@ namespace Bottles.Deployers.Iis
             return "Creating a new IIS website " + directive;
         }
     }
-
-    public class WebsiteBottleDestination : IBottleDestination
-    {
-        private readonly string _physicalPath;
-
-        public WebsiteBottleDestination(string physicalPath)
-        {
-            _physicalPath = physicalPath;            
-        }
-
-        public virtual IEnumerable<BottleExplosionRequest> DetermineExplosionRequests(PackageManifest manifest)
-        {
-            switch (manifest.Role)
-            {
-                case BottleRoles.Binaries:
-                    yield return new BottleExplosionRequest
-                    {
-                        BottleDirectory = BottleFiles.BinaryFolder,
-                        BottleName = manifest.Name,
-                        DestinationDirectory = FileSystem.Combine(_physicalPath, BottleFiles.BinaryFolder)
-                    };
-                    break;
-
-                case BottleRoles.Config:
-                    yield return new BottleExplosionRequest()
-                    {
-                        BottleDirectory = BottleFiles.ConfigFolder,
-                        BottleName = manifest.Name,
-                        DestinationDirectory = FileSystem.Combine(_physicalPath, BottleFiles.ConfigFolder)
-                    };
-                    break;
-
-                case BottleRoles.Module:                    
-                    yield return new BottleExplosionRequest
-                    {
-                        BottleDirectory = BottleFiles.BinaryFolder,
-                        BottleName = manifest.Name,
-                        DestinationDirectory = _physicalPath.AppendPath(BottleFiles.BinaryFolder)
-                    };
-                    break;
-
-                case BottleRoles.Application:
-                    yield return new BottleExplosionRequest
-                    {
-                        BottleName = manifest.Name,
-                        BottleDirectory = BottleFiles.BinaryFolder,
-                        DestinationDirectory = FileSystem.Combine(_physicalPath, BottleFiles.BinaryFolder)
-                    };
-
-                    yield return new BottleExplosionRequest
-                    {
-                        BottleName = manifest.Name,
-                        BottleDirectory = BottleFiles.WebContentFolder,
-                        DestinationDirectory = _physicalPath
-                    };
-
-                    break;
-
-                default:
-                    yield break;
-            }
-        }
-    }    
 }

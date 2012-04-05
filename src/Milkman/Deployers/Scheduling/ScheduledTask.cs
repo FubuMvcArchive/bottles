@@ -17,6 +17,8 @@ namespace Bottles.Deployment.Deployers.Scheduling
         public string UserAccount { get; set; } //username/password/domain account???
         public string TaskToRun { get; set; }
 
+        public bool Clean { get; set; }
+
         public string InstallLocation { get; set; } //where we should install the bits
 
         public override string ToString()

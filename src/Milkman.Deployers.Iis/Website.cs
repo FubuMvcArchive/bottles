@@ -89,6 +89,10 @@ namespace Bottles.Deployers.Iis
         public bool ForceWebsite { get; set; }
         public bool ForceApp { get; set; }
 
+        //what could be common options?
+        // clean deletes the target directory before deploying.
+        public bool Clean { get; set; }
+
         public override string ToString()
         {
             return string.Format("Website: {0} VDir: {1}, VDirPhysicalPath: {2}", WebsiteName, VDir, VDirPhysicalPath);

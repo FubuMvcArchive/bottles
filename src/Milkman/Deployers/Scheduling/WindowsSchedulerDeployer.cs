@@ -20,11 +20,23 @@ namespace Bottles.Deployment.Deployers.Scheduling
 
         public void Execute(ScheduledTask directive, HostManifest host, IPackageLog log)
         {
+            cleanDirectoryIfRequested(directive, log);
+            
+
             var dest = new WinSchedBottleDestination(directive.InstallLocation);
             _mover.Move(log, dest, host.BottleReferences);
 
             installService(directive, log);
             new WindowsScedulerDisabler(_runner).Execute(directive, host, log);
+        }
+
+        private static void cleanDirectoryIfRequested(ScheduledTask directive, IPackageLog log)
+        {
+            if (directive.Clean)
+            {
+                log.Trace("Cleaning the directory before installing");
+                new FileSystem().CleanDirectory(directive.InstallLocation);
+            }
         }
 
         private void installService(ScheduledTask directive, IPackageLog log)
