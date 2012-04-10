@@ -122,7 +122,6 @@
     <Compile Include="BottleRoles.cs" />
     <Compile Include="PackagingRuntimeGraph.cs" />
     <Compile Include="ProfileFiles.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ServiceInfo.cs" />
     <Compile Include="SkipOverForProvenanceAttribute.cs" />
     <Compile Include="PackageLoaders\SolutionDirectoryPackageLoader.cs" />
