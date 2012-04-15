@@ -26,7 +26,7 @@ namespace Bottles.Commands
         public string Directory { get; set; }
 
         [Description("Overrides the name of the manifest file if it's not the default .package-manifest or .fubu-manifest")]
-        [FlagAlias("file")]
+        [FlagAlias("file", 'f')]
         public string FileNameFlag { get; set; }
 
 

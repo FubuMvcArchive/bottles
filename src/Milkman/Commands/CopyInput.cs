@@ -8,7 +8,7 @@ namespace Bottles.Deployment.Commands
         [Description("The directory name where the deployment artifacts are going to be written")]
         public string Destination { get; set; }
 
-        [FlagAlias("create-bottles")]
+        [FlagAlias("create-bottles", 'c')]
         public bool CreateBottlesFlag { get; set; }
 
         [Description("Path to where the deployment folder is ~/deployment")]

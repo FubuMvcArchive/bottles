@@ -27,17 +27,17 @@ namespace Bottles.Deployment.Commands
         public bool OpenFlag { get; set; }
 
         [Description("The IEnvironment class to run during an install")]
-        [FlagAlias("class")]
+        [FlagAlias("class", 'c')]
         public string EnvironmentClassNameFlag { get; set; }
 
         /// <summary>
         /// The assembly where the environment class is located
         /// </summary>
         [Description("The assembly containing the IEnvironment class to run during an install")]
-        [FlagAlias("assembly")]
+        [FlagAlias("assembly", 'a')]
         public string EnvironmentAssemblyFlag { get; set; }
 
-        [FlagAlias("config-file")]
+        [FlagAlias("config-file", 'f')]
         [Description("The name of the .Net AppDomain config file to use while running the installers")]
         public string ConfigFileFlag { get; set; }
 

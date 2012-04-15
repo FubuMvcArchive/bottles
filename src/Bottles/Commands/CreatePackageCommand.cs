@@ -26,14 +26,14 @@ namespace Bottles.Commands
         public bool PdbFlag { get; set; }
 
         [Description("Forces the command to delete any existing zip file first")]
-        [FlagAlias("f")]
+        [FlagAlias("force", 'f')]
         public bool ForceFlag { get; set; }
 
         [Description("Choose the compilation target for any assemblies")]
         public CompileTargetEnum TargetFlag { get; set; }
 
         [Description("Overrides the name of the manifest file")]
-        [FlagAlias("file")]
+        [FlagAlias("file", 'm')]
         public string ManifestFileNameFlag { get; set; }
 
         public string GetZipFileName(PackageManifest manifest)

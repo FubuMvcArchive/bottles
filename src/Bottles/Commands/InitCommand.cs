@@ -22,11 +22,11 @@ namespace Bottles.Commands
         public bool OpenFlag { get; set; }
 
         [Description("There is no web content to include")]
-        [FlagAlias("noweb")]
+        [FlagAlias("noweb", 'n')]
         public bool NoWebContentFlag { get; set; }
 
         [Description("Force the command to overwrite any existing manifest file if using the -create flag")]
-        [FlagAlias("f")]
+        [FlagAlias("force", 'f')]
         public bool ForceFlag { get; set; }
     }
 

@@ -21,7 +21,7 @@ namespace Bottles.Creation
         public string PackageFolder { get; set; }
 
         [Description("The filepath where the zip file for the package will be written ie. ./deployment/bottles/my-btl.zip")]
-        [FlagAlias("o")]
+        [FlagAlias("output", 'o')]
         public string ZipFileFlag { get; set; }
 
         [IgnoreOnCommandLine]
@@ -31,14 +31,14 @@ namespace Bottles.Creation
         public bool PdbFlag { get; set; }
 
         [Description("Forces the command to delete any existing zip file first")]
-        [FlagAlias("f")]
+        [FlagAlias("force", 'f')]
         public bool ForceFlag { get; set; }
 
         [Description("Choose the compilation target for any assemblies")]
         public CompileTargetEnum TargetFlag { get; set; }
 
         [Description("Overrides the name of the manifest file (defaults to '" + PackageManifest.FILE + "'")]
-        [FlagAlias("manifest")]
+        [FlagAlias("manifest", 'm')]
         public string ManifestFileNameFlag { get; set; }
 
         public string GetZipFileName(PackageManifest manifest)

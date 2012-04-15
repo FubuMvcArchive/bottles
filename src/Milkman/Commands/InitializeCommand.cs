@@ -24,7 +24,7 @@ namespace Bottles.Deployment.Commands
         [Description("Physical folder (or valid alias) of the application")]
         public string DeploymentFlag { get; set; }
 
-        [FlagAlias("f")]
+        [FlagAlias("force", 'f')]
         public bool ForceFlag { get; set; }
 
         public DeploymentSettings Settings

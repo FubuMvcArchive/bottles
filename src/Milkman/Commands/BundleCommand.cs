@@ -13,7 +13,7 @@ namespace Bottles.Deployment.Commands
         [RequiredUsage("imports", "default")]
         public string Destination { get; set; }
 
-        [FlagAlias("create-bottles")]
+        [FlagAlias("create-bottles", 'c')]
         public bool CreateBottlesFlag { get; set; }
     }
 
