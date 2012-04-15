@@ -115,9 +115,9 @@ end
 
 desc "Creates the deployer bottle files"
 task :create_deployer_bottles => :compile do
-  bottles "create src/Bottles.Console -o build/bottles.zip -target #{COMPILE_TARGET}"
-  bottles "create src/Bottles.Host -o build/topshelf-deployers.zip -target #{COMPILE_TARGET}"
-  bottles "create src/Milkman.Deployers.Iis -o build/iis-deployers.zip -target #{COMPILE_TARGET}"
+  bottles "create src/Bottles.Console -o build/bottles.zip --target #{COMPILE_TARGET}"
+  bottles "create src/Bottles.Host -o build/topshelf-deployers.zip --target #{COMPILE_TARGET}"
+  bottles "create src/Milkman.Deployers.Iis -o build/iis-deployers.zip --target #{COMPILE_TARGET}"
 end
 
 desc "Merge dotnetzip assembly into Bottles projects"
