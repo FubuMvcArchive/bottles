@@ -18,6 +18,7 @@ namespace Bottles.Creation
         }
 
         [Description("The root physical folder (or valid alias) of the package")]
+        [FlagAlias("packagefolder", 'p')]
         public string PackageFolder { get; set; }
 
         [Description("The filepath where the zip file for the package will be written ie. ./deployment/bottles/my-btl.zip")]
@@ -28,6 +29,7 @@ namespace Bottles.Creation
         public string BottlesDirectory { get; set;}
 
         [Description("Includes any matching .pdb files for the package assemblies")]
+        [FlagAlias("pdb", 'b')]
         public bool PdbFlag { get; set; }
 
         [Description("Forces the command to delete any existing zip file first")]

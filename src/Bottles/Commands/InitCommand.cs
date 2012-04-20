@@ -10,6 +10,7 @@ namespace Bottles.Commands
         public string Path { get; set; }
 
         [Description("The package name")]
+        [FlagAlias("name", 'n')]
         public string Name { get; set; }
 
         [Description("What role should this bottle play - Options: module (default), binaries, config, application")]
@@ -22,7 +23,7 @@ namespace Bottles.Commands
         public bool OpenFlag { get; set; }
 
         [Description("There is no web content to include")]
-        [FlagAlias("noweb", 'n')]
+        [FlagAlias("noweb", 'w')]
         public bool NoWebContentFlag { get; set; }
 
         [Description("Force the command to overwrite any existing manifest file if using the -create flag")]
