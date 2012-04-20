@@ -21,9 +21,11 @@ namespace Bottles.Deployment.Commands
         public string Host { get; set; }
 
         [Description("The directive to add.")]
+        [FlagAlias("directive", 'd')]
         public string Directive { get; set; }
 
         [Description("The directory where ")]
+        [FlagAlias("deployment", 'y')]
         public string DeploymentFlag { get; set; }
 
         [Description("Open the directive file when done.")]

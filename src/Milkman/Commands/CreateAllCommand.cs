@@ -6,7 +6,6 @@ using Bottles.Creation;
 using Bottles.Diagnostics;
 using FubuCore;
 using FubuCore.CommandLine;
-using System.Collections.Generic;
 
 namespace Bottles.Deployment.Commands
 {
@@ -19,12 +18,15 @@ namespace Bottles.Deployment.Commands
         }
 
         [Description("Overrides the top level directory to begin searching for package manifests")]
+        [FlagAlias("directory", 'd')]
         public string DirectoryFlag { get; set; }
 
         [Description("Overrides the deployment directory ~/deployment")]
+        [FlagAlias("deployment", 'y')]
         public string DeploymentFlag { get; set; }
 
         [Description("Includes any matching .pdb files for the package assemblies")]
+        [FlagAlias("pdb", 'b')]
         public bool PdbFlag { get; set; }
 
         [Description("Overrides the compilation target.  The default is debug")]

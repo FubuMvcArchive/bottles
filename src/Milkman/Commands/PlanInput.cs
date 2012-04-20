@@ -22,9 +22,11 @@ namespace Bottles.Deployment.Commands
         public IList<string> ImportedFolders { get; set; }
 
         [Description("Tacks on ONE additional recipie. Great for including tests.")] //until fubu command gets better at parsing command lines
+        [FlagAlias("recipe", 'r')]
         public string RecipeFlag { get; set; }
 
         [Description("File where the installation report should be written.  Default is installation_report.htm")]
+        [FlagAlias("report", 'o')]
         public string ReportFlag { get; set; }
 
         protected virtual void enhanceDeploymentOptions(DeploymentOptions options)
