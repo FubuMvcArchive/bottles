@@ -22,5 +22,6 @@
   <files>
     <file src="..\..\src\Milkman\bin\release\Milkman.*" target="lib" />
     <file src="..\..\src\Milkman\**\*.cs" target="src" />
+    <file src="..\..\src\milk\bin\release\*.*" target="tools" />
   </files>
 </package>
