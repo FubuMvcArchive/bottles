@@ -15,5 +15,6 @@ namespace Bottles
         void ForData(string searchPattern, Action<string, Stream> dataCallback);
 
         IEnumerable<Dependency> GetDependencies();
+        PackageManifest Manifest { get; }
     }
 }

@@ -7,7 +7,7 @@ namespace Bottles.Tests
 {
     public class StubPackageLoader : IPackageLoader
     {
-        private readonly Cache<string, StubPackage> _packages = new Cache<string, StubPackage>(name => new StubPackage(name));
+        private readonly Cache<string, StubPackage> _packages = new Cache<string, StubPackage>(name => new StubPackage(new PackageManifest(){Name = name}));
 
         public StubPackageLoader(params string[] names)
         {

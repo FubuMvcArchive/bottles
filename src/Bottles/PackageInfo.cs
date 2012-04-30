@@ -93,6 +93,11 @@ namespace Bottles
             return _dependencies;
         }
 
+        public PackageManifest Manifest
+        {
+            get { return _manifest; }
+        }
+
         public override string ToString()
         {
             return Description;

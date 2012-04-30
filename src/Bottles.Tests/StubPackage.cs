@@ -8,22 +8,26 @@ namespace Bottles.Tests
 {
     public class StubPackage : IPackageInfo
     {
-        private readonly string _name;
         private readonly Cache<string, string> _folderNames = new Cache<string,string>();
+        private readonly PackageManifest _manifest;
 
-        public StubPackage(string name)
+        public StubPackage(string name) : this(new PackageManifest(){Name=name})
         {
-            _name = name;
+            
+        }
+        public StubPackage(PackageManifest manifest)
+        {
+            _manifest = manifest;
 
             LoadingAssemblies = r => { };
         }
 
         public string Name
         {
-            get { return _name; }
+            get { return _manifest.Name; }
         }
 
-        public string Role { get; set; }
+        public string Role { get { return _manifest.Role; } }
 
         public void LoadAssemblies(IAssemblyRegistration loader)
         {
@@ -70,5 +74,10 @@ namespace Bottles.Tests
         }
 
         public Action<IAssemblyRegistration> LoadingAssemblies { get; set; }
+
+        public PackageManifest Manifest
+        {
+            get { return _manifest; }
+        }
     }
 }

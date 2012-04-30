@@ -16,10 +16,26 @@ namespace Bottles.PackageLoaders.Assemblies
     {
         private readonly Assembly _assembly;
         private readonly PackageFiles _files = new PackageFiles();
+        private readonly PackageManifest _manifest;
 
         private AssemblyPackageInfo(Assembly assembly)
         {
             _assembly = assembly;
+
+            _manifest = buildPackageManifest();
+        }
+
+        private PackageManifest buildPackageManifest()
+        {
+
+
+
+            //return assembly package defaults
+            return new PackageManifest
+                       {
+                           Name = "Assembly:  " + _assembly.FullName,
+                           Role = BottleRoles.Binaries
+                       };
         }
 
         public static AssemblyPackageInfo CreateFor(Assembly assembly)
@@ -64,12 +80,8 @@ namespace Bottles.PackageLoaders.Assemblies
             get { return _files; }
         }
 
-        public string Role { get; set; }
-
-        public string Name
-        {
-            get { return "Assembly:  " + _assembly.FullName; }
-        }
+        public string Role { get { return _manifest.Role; } }
+        public string Name { get { return _manifest.Name; } }
 
         public void LoadAssemblies(IAssemblyRegistration loader)
         {
@@ -89,6 +101,11 @@ namespace Bottles.PackageLoaders.Assemblies
         public IEnumerable<Dependency> GetDependencies()
         {
             yield break;
+        }
+
+        public PackageManifest Manifest
+        {
+            get { return _manifest; }
         }
     }
 }
