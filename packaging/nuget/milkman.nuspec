@@ -13,7 +13,7 @@
     <tags>packaging areas slices</tags>
     <dependencies>
       <dependency id="Bottles" />
-      <dependency id="FubuCore" version="0.9.9.136" />
+      <dependency id="FubuCore" version="0.9.9.149" />
       <dependency id="HtmlTags" />
       <dependency id="DotNetZip" />
       <dependency id="StructureMap" />
