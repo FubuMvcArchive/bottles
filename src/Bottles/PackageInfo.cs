@@ -17,10 +17,11 @@ namespace Bottles
         private readonly PackageFiles _files = new PackageFiles();
         private readonly IList<AssemblyTarget> _assemblies = new List<AssemblyTarget>();
         private readonly IList<Dependency> _dependencies = new List<Dependency>();
+        private readonly PackageManifest _manifest;
 
-        public PackageInfo(string name)
+        public PackageInfo(PackageManifest manifest)
         {
-            Name = name;
+            _manifest = manifest;
         }
 
         public void RegisterFolder(string folderName, string directory)
@@ -57,9 +58,9 @@ namespace Bottles
             }
         }
 
-        public string Name { get; private set; }
+        public string Name { get { return _manifest.Name; }}
 
-        public string Role { get; set; }
+        public string Role { get { return _manifest.Role; } }
 
         public Dependency[] Dependencies
         {

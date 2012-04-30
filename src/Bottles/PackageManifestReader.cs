@@ -22,7 +22,7 @@ namespace Bottles
             packageDirectory = packageDirectory.ToFullPath();
 
             var manifest = _fileSystem.LoadFromFile<PackageManifest>(packageDirectory, PackageManifest.FILE);
-            var package = new PackageInfo(manifest.Name){
+            var package = new PackageInfo(manifest){
                 Description = "{0} ({1})".ToFormat(manifest.Name, packageDirectory),
                 Dependencies = manifest.Dependencies
             };
@@ -31,8 +31,6 @@ namespace Bottles
             registerFolders(packageDirectory, package);
 
             var binPath = determineBinPath(packageDirectory);
-
-            package.Role = manifest.Role;
 
             readAssemblyPaths(manifest, package, binPath);
 

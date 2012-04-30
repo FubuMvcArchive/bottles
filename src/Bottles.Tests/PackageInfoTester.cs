@@ -22,7 +22,7 @@ namespace Bottles.Tests
                 Directory.Delete(theDataFolder, true);
             }
 
-            thePackage = new PackageInfo("something");
+            thePackage = new PackageInfo(new PackageManifest(){Name="a"});
             thePackage.RegisterFolder(BottleFiles.DataFolder, Path.GetFullPath(theDataFolder));
         }
 
