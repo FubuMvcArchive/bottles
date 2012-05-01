@@ -1,12 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
-using System.Threading;
 using Bottles.Diagnostics;
 using Bottles.PackageLoaders.Assemblies;
-using FubuCore;
-using FubuCore.Reflection;
 
 namespace Bottles
 {
@@ -49,29 +45,11 @@ namespace Bottles
         public void Bootstrap(Func<IPackageLog, IEnumerable<IActivator>> lambda)
         {
             var lambdaBootstrapper = new LambdaBootstrapper(lambda);
-            lambdaBootstrapper.Provenance = findCallToBootstrapper();
+            lambdaBootstrapper.Provenance = ProvenanceHelper.GetProvenanceFromStack();
 
             Bootstrapper(lambdaBootstrapper);
         }
-
-        private static string findCallToBootstrapper()
-        {
-            var packageAssembly = typeof(IPackageInfo).Assembly;
-            var trace = new StackTrace(Thread.CurrentThread, false);
-            for (var i = 0; i < trace.FrameCount; i++)
-            {
-                var frame = trace.GetFrame(i);
-                var assembly = frame.GetMethod().DeclaringType.Assembly;
-                if (assembly != packageAssembly && !frame.GetMethod().HasAttribute<SkipOverForProvenanceAttribute>())
-                {
-                    return frame.ToDescription();
-                }
-            }
-
-
-            return "Unknown";
-        }
-
+        
         public void Configure(PackagingRuntimeGraph graph)
         {
             _configurableActions.Each(cfgAction => cfgAction(graph));

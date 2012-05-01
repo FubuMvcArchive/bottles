@@ -124,7 +124,7 @@
     <Compile Include="Diagnostics\PackagingDiagnosticsExtensions.cs" />
     <Compile Include="Manifest\BottleRoles.cs" />
     <Compile Include="PackagingRuntimeGraph.cs" />
-    <Compile Include="SkipOverForProvenanceAttribute.cs" />
+    <Compile Include="ProvenanceHelper.cs" />
     <Compile Include="PackageLoaders\Directory\DirectoryPackageLoader.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Zipping\IZipFile.cs" />

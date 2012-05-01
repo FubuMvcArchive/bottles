@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using Bottles.Diagnostics;
 using Bottles.PackageLoaders.Assemblies;
-using FubuCore;
-using FubuCore.Reflection;
 
 namespace Bottles
 {
@@ -88,7 +84,7 @@ namespace Bottles
                 var assemblyLoader = new AssemblyLoader(Diagnostics);
                 var graph = new PackagingRuntimeGraph(Diagnostics, assemblyLoader, _packages);
 
-                var codeLocation = findCallToLoadPackages();
+                var codeLocation = ProvenanceHelper.GetProvenanceFromStack();
                 graph.InProvenance(codeLocation, g =>
                 {
                     //collect user configuration
@@ -111,27 +107,6 @@ namespace Bottles
             });
 
             record.Finished = DateTime.Now;
-        }
-
-        private static string findCallToLoadPackages()
-        {
-            var theBottleAssembly = typeof (IPackageInfo).Assembly; //bottle assembly
-            var trace = new StackTrace(Thread.CurrentThread, false);
-
-            //walk the stack looking for the first 'valid' frame to use
-            for (var i = 0; i < trace.FrameCount; i++)
-            {
-                var frame = trace.GetFrame(i);
-                var assembly = frame.GetMethod().DeclaringType.Assembly;
-
-                if (assembly == theBottleAssembly) continue;
-                if (!frame.GetMethod().HasAttribute<SkipOverForProvenanceAttribute>()) continue;
-
-
-                return frame.ToDescription();
-            }
-
-            return "Unknown";
         }
 
         /// <summary>
