@@ -4,8 +4,16 @@ using System.Linq;
 using Bottles.Diagnostics;
 using FubuCore;
 
-namespace Bottles
+namespace Bottles.PackageLoaders
 {
+    /// <summary>
+    /// Used to find packages to be loaded by looking in a directory.
+    /// Its not really tied to a solution at all.
+    /// 
+    /// Renaming this will break BLUE - small break
+    /// 
+    /// Again these seem to be finders.
+    /// </summary>
     public class SolutionDirectoryPackageLoader : IPackageLoader
     {
         private readonly string _sourceRoot;
@@ -19,9 +27,6 @@ namespace Bottles
         {
             var manifestReader = new PackageManifestReader(new FileSystem(), folder => folder);
             
-            //how can i 'where' the manifests
-               
-
             var pis = PackageManifest.FindManifestFilesInDirectory(_sourceRoot)
                 .Select(Path.GetDirectoryName)
                 .Select(manifestReader.LoadFromFolder);

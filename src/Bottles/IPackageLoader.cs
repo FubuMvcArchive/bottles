@@ -3,8 +3,16 @@ using Bottles.Diagnostics;
 
 namespace Bottles
 {
+    /// <summary>
+    /// Finds packages
+    /// </summary>
     public interface IPackageLoader
     {
+        /// <summary>
+        /// The load method should find all packages and return them in the enum
+        /// </summary>
+        /// <param name="log">log for logging</param>
+        /// <returns>found package infos</returns>
         IEnumerable<IPackageInfo> Load(IPackageLog log);
     }
 }

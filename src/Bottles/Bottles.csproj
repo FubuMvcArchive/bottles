@@ -111,12 +111,11 @@
     <Compile Include="Exploding\PackageExploder.cs" />
     <Compile Include="Exploding\PackageExploderLogger.cs" />
     <Compile Include="Creation\PackageCreator.cs" />
-    <Compile Include="PackageLoaders\LinkedFolderPackageLoader.cs" />
+    <Compile Include="PackageLoaders\LinkedFolders\LinkedFolderPackageLoader.cs" />
     <Compile Include="LinkManifest.cs" />
     <Compile Include="PackageDependencyProcessor.cs" />
     <Compile Include="PackageFacility.cs" />
     <Compile Include="PackageFiles.cs" />
-    <Compile Include="PackageInfo.cs" />
     <Compile Include="PackageLoadingRecord.cs" />
     <Compile Include="PackageManifest.cs" />
     <Compile Include="PackageManifestReader.cs" />

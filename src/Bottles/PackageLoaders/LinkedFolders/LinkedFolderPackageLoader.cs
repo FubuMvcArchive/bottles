@@ -4,10 +4,13 @@ using System.Linq;
 using Bottles.Diagnostics;
 using FubuCore;
 
-namespace Bottles.PackageLoaders
+namespace Bottles.PackageLoaders.LinkedFolders
 {
     /// <summary>
-    /// Wondering is this should be a Fubu specific thing. I think not, seems damn useful
+    /// To be used in other projects (ie FubuMVC) to allow additional packages to be loaded
+    /// via the .links file.
+    /// 
+    /// CHANGING the NAME of this will break FubuMVC in a small way
     /// </summary>
     public class LinkedFolderPackageLoader : IPackageLoader
     {
