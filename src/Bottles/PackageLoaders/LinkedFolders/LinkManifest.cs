@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace Bottles
+namespace Bottles.PackageLoaders.LinkedFolders
 {
     [XmlType("links")]
     public class LinkManifest

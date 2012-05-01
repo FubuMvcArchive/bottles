@@ -13,7 +13,7 @@ namespace Bottles.Deployment.Parsing
             var recipe = new Recipe(recipeName);
             var fileSystem = new FileSystem();
 
-            fileSystem.ReadTextFile(recipeDirectory.AppendPath(ProfileFiles.RecipesControlFile), s =>
+            fileSystem.ReadTextFile(recipeDirectory.AppendPath(Milkman.ProfileFiles.RecipesControlFile), s =>
                 {
                     //TODO: Harden this for bad syntax
                     var parts = s.Split(':');

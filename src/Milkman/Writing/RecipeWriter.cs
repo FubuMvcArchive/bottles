@@ -21,7 +21,7 @@ namespace Bottles.Deployment.Writing
             _fileSystem.CreateDirectory(recipeDirectory);
 
             // TODO -- get this into DeploymentSettings
-            var controlFilePath = FileSystem.Combine(recipeDirectory, ProfileFiles.RecipesControlFile);
+            var controlFilePath = FileSystem.Combine(recipeDirectory, Milkman.ProfileFiles.RecipesControlFile);
 
             new FileSystem().WriteToFlatFile(controlFilePath, writer =>
             {

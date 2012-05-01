@@ -20,11 +20,11 @@ namespace Bottles.Deployment
 
             _allFolders.Add(path);
             DeploymentDirectory = path;
-            BottlesDirectory = path.AppendPath(ProfileFiles.BottlesDirectory);
-            RecipesDirectory = path.AppendPath(ProfileFiles.RecipesDirectory);
-            TargetDirectory = path.AppendPath(ProfileFiles.TargetDirectory);
-            ProfilesDirectory = path.AppendPath(ProfileFiles.ProfilesDirectory);
-            DeployersDirectory = path.AppendPath(ProfileFiles.DeployersDirectory);
+            BottlesDirectory = path.AppendPath(Milkman.ProfileFiles.BottlesDirectory);
+            RecipesDirectory = path.AppendPath(Milkman.ProfileFiles.RecipesDirectory);
+            TargetDirectory = path.AppendPath(Milkman.ProfileFiles.TargetDirectory);
+            ProfilesDirectory = path.AppendPath(Milkman.ProfileFiles.ProfilesDirectory);
+            DeployersDirectory = path.AppendPath(Milkman.ProfileFiles.DeployersDirectory);
             StagingDirectory = buildStagingDirectory();
 
             updateEnvironmentFile(fs);
@@ -80,7 +80,7 @@ namespace Bottles.Deployment
                 return new DeploymentSettings(directory);
             }
 
-            var path = FileSystem.Combine(".".ToFullPath(), ProfileFiles.DeploymentFolder);
+            var path = FileSystem.Combine(".".ToFullPath(), Milkman.ProfileFiles.DeploymentFolder);
             return new DeploymentSettings(path);
         }
 
@@ -92,10 +92,10 @@ namespace Bottles.Deployment
 
         public string GetRecipeDirectory(string recipe)
         {
-            var directories = _allFolders.Select(x => x.AppendPath(ProfileFiles.RecipesDirectory)).ToList();
+            var directories = _allFolders.Select(x => x.AppendPath(Milkman.ProfileFiles.RecipesDirectory)).ToList();
 
             return new FileSystem().FindDirectoryInDirectories(directories, recipe)
-                   ?? DeploymentDirectory.AppendPath(ProfileFiles.RecipesDirectory, recipe);
+                   ?? DeploymentDirectory.AppendPath(Milkman.ProfileFiles.RecipesDirectory, recipe);
         }
 
         public string GetHost(string recipe, string host)
@@ -110,11 +110,11 @@ namespace Bottles.Deployment
 
         public string ProfileFileNameFor(string profileName)
         {
-            var directories = _allFolders.Select(x => x.AppendPath(ProfileFiles.ProfilesDirectory)).ToList();
-            var filename = profileName + "." + ProfileFiles.ProfileExtension;
+            var directories = _allFolders.Select(x => x.AppendPath(Milkman.ProfileFiles.ProfilesDirectory)).ToList();
+            var filename = profileName + "." + Milkman.ProfileFiles.ProfileExtension;
 
             return new FileSystem().FindFileInDirectories(directories, filename) 
-                ?? DeploymentDirectory.AppendPath(ProfileFiles.ProfilesDirectory, filename);
+                ?? DeploymentDirectory.AppendPath(Milkman.ProfileFiles.ProfilesDirectory, filename);
         }
 
         public string BottleFileFor(string bottleName)
@@ -126,16 +126,16 @@ namespace Bottles.Deployment
             }
 
             return
-                _allFolders.Select(x => x.AppendPath(ProfileFiles.BottlesDirectory)).FindFileInDirectories(filename) ??
-                _allFolders.Select(x => x.AppendPath(ProfileFiles.DeployersDirectory)).FindFileInDirectories(filename) ??
-                _allFolders.First().AppendPath(ProfileFiles.BottlesDirectory, filename);
+                _allFolders.Select(x => x.AppendPath(Milkman.ProfileFiles.BottlesDirectory)).FindFileInDirectories(filename) ??
+                _allFolders.Select(x => x.AppendPath(Milkman.ProfileFiles.DeployersDirectory)).FindFileInDirectories(filename) ??
+                _allFolders.First().AppendPath(Milkman.ProfileFiles.BottlesDirectory, filename);
         }
 
         public IEnumerable<string> DeployerBottleFiles()
         {
             return _allFolders.SelectMany(x =>
             {
-                var deployerFolder = x.AppendPath(ProfileFiles.DeployersDirectory);
+                var deployerFolder = x.AppendPath(Milkman.ProfileFiles.DeployersDirectory);
                 return new FileSystem().FindFiles(deployerFolder, new FileSet(){
                     Include = "*.zip"
                 });
@@ -154,7 +154,7 @@ namespace Bottles.Deployment
 
         public IEnumerable<Recipe>  AllRecipies()
         {
-            return Directories.Select(x => x.AppendPath(ProfileFiles.RecipesDirectory)).SelectMany(RecipeReader.ReadRecipes);
+            return Directories.Select(x => x.AppendPath(Milkman.ProfileFiles.RecipesDirectory)).SelectMany(RecipeReader.ReadRecipes);
         }
 
         private void updateEnvironmentFile(FileSystem fs)

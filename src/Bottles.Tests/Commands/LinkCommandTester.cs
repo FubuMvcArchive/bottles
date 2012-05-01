@@ -1,6 +1,7 @@
 using System.IO;
 using Bottles.Commands;
 using Bottles.Deployment.Commands;
+using Bottles.PackageLoaders.LinkedFolders;
 using FubuCore;
 using FubuTestingSupport;
 using NUnit.Framework;

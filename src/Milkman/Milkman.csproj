@@ -111,6 +111,7 @@
     <Compile Include="EntryLogWriter.cs" />
     <Compile Include="Diagnostics\IDeploymentDiagnostics.cs" />
     <Compile Include="Parsing\DeploymentGraphReader.cs" />
+    <Compile Include="ProfileFiles.cs" />
     <Compile Include="Runtime\Bundling\Bundler.cs" />
     <Compile Include="Runtime\DeploymentFileCopier.cs" />
     <Compile Include="Runtime\Content\IBottleMover.cs" />

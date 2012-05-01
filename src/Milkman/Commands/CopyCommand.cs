@@ -20,9 +20,9 @@ namespace Bottles.Deployment.Commands
             system.CreateDirectory(input.Destination);
 
 
-            var destinationDeploymentDirectory = input.Destination.AppendPath(ProfileFiles.DeploymentFolder);
+            var destinationDeploymentDirectory = input.Destination.AppendPath(Milkman.ProfileFiles.DeploymentFolder);
             system.CopyToDirectory(settings.DeploymentDirectory, destinationDeploymentDirectory);
-            system.DeleteDirectory(destinationDeploymentDirectory.AppendPath(ProfileFiles.TargetDirectory));
+            system.DeleteDirectory(destinationDeploymentDirectory.AppendPath(Milkman.ProfileFiles.TargetDirectory));
 
             DeploymentBootstrapper
                 .UsingService<IBundler>(settings, x => x.ExplodeDeployerBottles(input.Destination));

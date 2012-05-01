@@ -9,6 +9,7 @@ using Bottles.Exploding;
 using Bottles.Zipping;
 using FubuCore;
 using FubuTestingSupport;
+using Milkman;
 using NUnit.Framework;
 using Rhino.Mocks;
 

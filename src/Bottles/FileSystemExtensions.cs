@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using Bottles.Creation;
 using Bottles.Diagnostics;
+using Bottles.PackageLoaders.LinkedFolders;
 using FubuCore;
 
 namespace Bottles

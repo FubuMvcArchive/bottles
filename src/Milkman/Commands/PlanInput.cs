@@ -64,7 +64,7 @@ namespace Bottles.Deployment.Commands
             var profile = "default";
             if(ProfileFlag.IsEmpty())
             {
-                var dir = ".".ToFullPath().AppendPath(GetDeployment(), ProfileFiles.ProfilesDirectory);
+                var dir = ".".ToFullPath().AppendPath(GetDeployment(), Milkman.ProfileFiles.ProfilesDirectory);
 
                 if(!Directory.Exists(dir))
                 {
@@ -84,7 +84,7 @@ namespace Bottles.Deployment.Commands
 
         public string GetDeployment()
         {
-            return DeploymentFlag ?? ".".ToFullPath().AppendPath(ProfileFiles.DeploymentFolder);
+            return DeploymentFlag ?? ".".ToFullPath().AppendPath(Milkman.ProfileFiles.DeploymentFolder);
         }
     }
 }

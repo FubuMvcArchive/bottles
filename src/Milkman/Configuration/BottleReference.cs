@@ -7,7 +7,7 @@ namespace Bottles.Deployment
     {
         public static BottleReference ParseFrom(string text)
         {
-            var name = text.Substring(ProfileFiles.BottlePrefix.Length).Trim();
+            var name = text.Substring(Milkman.ProfileFiles.BottlePrefix.Length).Trim();
             return new BottleReference(name);
         }
 
@@ -44,7 +44,7 @@ namespace Bottles.Deployment
 
         public override string ToString()
         {
-            return string.Format("{0}{1}", ProfileFiles.BottlePrefix, Name);
+            return string.Format("{0}{1}", Milkman.ProfileFiles.BottlePrefix, Name);
         }
     }
 }

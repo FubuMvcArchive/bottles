@@ -4,6 +4,7 @@ using Bottles.Deployment.Commands;
 using Bottles.Deployment.Configuration;
 using Bottles.Deployment.Writing;
 using FubuCore;
+using Milkman;
 using NUnit.Framework;
 using FubuTestingSupport;
 using System.Linq;

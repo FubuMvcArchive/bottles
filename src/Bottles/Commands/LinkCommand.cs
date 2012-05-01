@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using Bottles.PackageLoaders.LinkedFolders;
 using FubuCore;
 using FubuCore.CommandLine;
 

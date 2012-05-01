@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="IBottleAwareService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceInfo.cs" />
     <Compile Include="TopshelfBottleDestination.cs" />
     <Compile Include="TopshelfPackageLoader.cs" />
   </ItemGroup>

@@ -20,6 +20,8 @@ namespace Bottles
         public static readonly string ConfigFolder = "Config";
         public static readonly string BinaryFolder = "bin";
 
+        public static readonly string BottlesFolder = "bottles";
+
         public static string ContentFolder { get; set; }
         public static string PackagesFolder { get; set; }
 

@@ -41,7 +41,7 @@ namespace Bottles.Commands
 
         public string DeploymentRoot()
         {
-            string deploymentDirectory = DeploymentFlag ?? ProfileFiles.DeploymentFolder;
+            string deploymentDirectory = DeploymentFlag ?? BottleFiles.BottlesFolder;
             return deploymentDirectory;
         }
     }

@@ -36,7 +36,7 @@ namespace Bottles.Deployment.Parsing
 
             try
             {
-                if (text.StartsWith(ProfileFiles.BottlePrefix))
+                if (text.StartsWith(Milkman.ProfileFiles.BottlePrefix))
                 {
                     parseBottle(text);
                 }

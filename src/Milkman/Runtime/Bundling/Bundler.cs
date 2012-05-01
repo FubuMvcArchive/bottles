@@ -67,7 +67,7 @@ namespace Bottles.Deployment.Runtime
             {
                 LogWriter.Current.Header2("Creating directory " + destination);
 
-                var destinationSettings = new DeploymentSettings(destination.AppendPath(ProfileFiles.DeploymentFolder));
+                var destinationSettings = new DeploymentSettings(destination.AppendPath(Milkman.ProfileFiles.DeploymentFolder));
                 _system.DeleteDirectory(destination);
                 _system.CreateDirectory(destination);
                 return destinationSettings;

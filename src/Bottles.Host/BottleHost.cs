@@ -2,7 +2,6 @@
 using System.Threading;
 using Bottles.Exploding;
 using Bottles.Host.Packaging;
-using Bottles.Services;
 using FubuCore;
 
 namespace Bottles.Host

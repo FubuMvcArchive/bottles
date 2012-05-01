@@ -14,20 +14,20 @@ namespace Bottles.PackageLoaders
     /// 
     /// Again these seem to be finders.
     /// </summary>
-    public class SolutionDirectoryPackageLoader : IPackageLoader
+    public class DirectoryPackageLoader : IPackageLoader
     {
-        private readonly string _sourceRoot;
+        private readonly string _searchPoint;
 
-        public SolutionDirectoryPackageLoader(string sourceRoot)
+        public DirectoryPackageLoader(string searchPoint)
         {
-            _sourceRoot = sourceRoot;
+            _searchPoint = searchPoint;
         }
 
         public IEnumerable<IPackageInfo> Load(IPackageLog log)
         {
             var manifestReader = new PackageManifestReader(new FileSystem(), folder => folder);
             
-            var pis = PackageManifest.FindManifestFilesInDirectory(_sourceRoot)
+            var pis = PackageManifest.FindManifestFilesInDirectory(_searchPoint)
                 .Select(Path.GetDirectoryName)
                 .Select(manifestReader.LoadFromFolder);
 

@@ -7,7 +7,6 @@ using Bottles.Deployment.Runtime;
 using Bottles.Deployment.Runtime.Content;
 using Bottles.Diagnostics;
 using Bottles.Host.Packaging;
-using Bottles.Services;
 using FubuCore;
 
 namespace Bottles.Deployers.Topshelf

@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Threading;
 using Bottles.Commands;
+using Bottles.Diagnostics;
 using FubuCore;
 using FubuCore.CommandLine;
 
@@ -45,45 +46,45 @@ namespace Bottles.Deployment.Commands
         {
             if (input.DeploymentFlag != null) input.DeploymentFlag = AliasCommand.AliasFolder(input.DeploymentFlag);
 
-            return Initialize(input, new FileSystem(), new SimpleLogger());
+            return Initialize(input, new FileSystem());
         }
 
-        public bool Initialize(InitializeInput input, IFileSystem fileSystem, ISimpleLogger logger)
+        public bool Initialize(InitializeInput input, IFileSystem fileSystem)
         {
             var deploymentDirectory = input.Settings.DeploymentDirectory;
-            logger.Log("Trying to initialize Bottles deployment folders at {0}", deploymentDirectory);
+            LogWriter.Current.Trace("Trying to initialize Bottles deployment folders at {0}", deploymentDirectory);
 
             if (fileSystem.DirectoryExists(deploymentDirectory))
             {
                 if (input.ForceFlag)
                 {
-                    logger.Log(DELETING_EXISTING_DIRECTORY, deploymentDirectory);
+                    LogWriter.Current.Trace(DELETING_EXISTING_DIRECTORY, deploymentDirectory);
                     fileSystem.CleanDirectory(deploymentDirectory);
                     fileSystem.DeleteDirectory(deploymentDirectory);
                     Thread.Sleep(10); //file system is async
                 }
                 else
                 {
-                    logger.Log(DIRECTORY_ALREADY_EXISTS, deploymentDirectory);
+                    LogWriter.Current.Trace(DIRECTORY_ALREADY_EXISTS, deploymentDirectory);
                     return false;
                 }
             }
 
-            createDirectory(fileSystem, logger, deploymentDirectory);
+            createDirectory(fileSystem, deploymentDirectory);
 
-            createDirectory(fileSystem, logger, input.Settings.BottlesDirectory);
-            createDirectory(fileSystem, logger, input.Settings.RecipesDirectory);
-            createDirectory(fileSystem, logger, input.Settings.ProfilesDirectory);
-            createDirectory(fileSystem, logger, input.Settings.DeployersDirectory);
+            createDirectory(fileSystem, input.Settings.BottlesDirectory);
+            createDirectory(fileSystem, input.Settings.RecipesDirectory);
+            createDirectory(fileSystem, input.Settings.ProfilesDirectory);
+            createDirectory(fileSystem, input.Settings.DeployersDirectory);
 
             return true;
         }
 
-        private static void createDirectory(IFileSystem system, ISimpleLogger logger, params string[] pathParts)
+        private static void createDirectory(IFileSystem system, params string[] pathParts)
         {
             var directory = FileSystem.Combine(pathParts);
 
-            logger.Log("Creating directory " + directory);
+            LogWriter.Current.Trace("Creating directory " + directory);
             system.CreateDirectory(directory);
         }
     }

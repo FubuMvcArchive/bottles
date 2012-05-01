@@ -1,7 +1,9 @@
 using Bottles.Commands;
 using Bottles.Deployment.Commands;
+using Bottles.Diagnostics;
 using FubuCore;
 using FubuTestingSupport;
+using Milkman;
 using NUnit.Framework;
 using Rhino.Mocks;
 
@@ -22,12 +24,6 @@ namespace Bottles.Tests.Deployment.Commands
         public void should_have_deleted_the_existing_deployment_directory()
         {
             MockFor<IFileSystem>().AssertWasCalled(x => x.DeleteDirectory(TheDeploymentDirectory));
-        }
-
-        [Test]
-        public void log_that_the_directory_was_deleted()
-        {
-            MockFor<ISimpleLogger>().AssertWasCalled(x => x.Log(InitializeCommand.DELETING_EXISTING_DIRECTORY, TheDeploymentDirectory));
         }
 
         [Test]
@@ -123,12 +119,6 @@ namespace Bottles.Tests.Deployment.Commands
         }
 
         [Test]
-        public void logged_that_the_directory_was_not_re_created()
-        {
-            MockFor<ISimpleLogger>().AssertWasCalled(x => x.Log(InitializeCommand.DIRECTORY_ALREADY_EXISTS, TheDeploymentDirectory));
-        }
-
-        [Test]
         public void should_return_false_denoting_that_the_command_did_not_complete_successfully()
         {
             theReturnBooleanFlag.ShouldBeFalse();
@@ -152,7 +142,7 @@ namespace Bottles.Tests.Deployment.Commands
 
             theContextIs();
 
-            theReturnBooleanFlag = ClassUnderTest.Initialize(theInput, MockFor<IFileSystem>(), MockFor<ISimpleLogger>());
+            theReturnBooleanFlag = ClassUnderTest.Initialize(theInput, MockFor<IFileSystem>());
         }
 
         protected abstract void theContextIs();

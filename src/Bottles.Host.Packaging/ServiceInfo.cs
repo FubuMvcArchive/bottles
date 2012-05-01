@@ -1,4 +1,4 @@
-﻿namespace Bottles.Services
+﻿namespace Bottles.Host.Packaging
 {
     /// <summary>
     /// file look like
