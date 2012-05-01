@@ -14,13 +14,13 @@ namespace Bottles.Tests
     public class AssemblyPackageInfoTester
     {
         private Assembly assembly;
-        private AssemblyPackageInfo package;
+        private IPackageInfo package;
 
         [SetUp]
         public void SetUp()
         {
             assembly = Assembly.GetExecutingAssembly();
-            package = AssemblyPackageInfo.CreateFor(assembly);
+            package = AssemblyPackageInfoFactory.CreateFor(assembly);
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace Bottles.Tests
             var loader = MockRepository.GenerateMock<IAssemblyRegistration>();
             package.LoadAssemblies(loader);
 
-            loader.AssertWasCalled(x => x.Use(assembly));
+            loader.AssertWasCalled(x => x.LoadFromFile(assembly.Location, assembly.GetName().FullName));
         }
 
         [Test]
@@ -48,13 +48,13 @@ namespace Bottles.Tests
     [TestFixture]
     public class AssemblyPackageInfoIntegratedTester
     {
-        private AssemblyPackageInfo thePackage;
+        private IPackageInfo thePackage;
 
         [SetUp]
         public void SetUp()
         {
             new FileSystem().DeleteDirectory("content");
-            thePackage = AssemblyPackageInfo.CreateFor(typeof (AssemblyPackageMarker).Assembly);
+            thePackage = AssemblyPackageInfoFactory.CreateFor(typeof (AssemblyPackageMarker).Assembly);
         }
 
 

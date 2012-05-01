@@ -17,6 +17,12 @@ namespace Bottles
             _getContentFolderFromPackageFolder = getContentFolderFromPackageFolder;
         }
 
+        public PackageManifest LoadFromStream(Stream stream)
+        {
+            var manifest = _fileSystem.LoadFromStream<PackageManifest>(stream);
+            return manifest;
+        }
+
         public IPackageInfo LoadFromFolder(string packageDirectory)
         {
             packageDirectory = packageDirectory.ToFullPath();

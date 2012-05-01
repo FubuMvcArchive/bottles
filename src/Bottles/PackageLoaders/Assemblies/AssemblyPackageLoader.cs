@@ -18,7 +18,7 @@ namespace Bottles.PackageLoaders.Assemblies
 
         public IEnumerable<IPackageInfo> Load(IPackageLog log)
         {
-            yield return AssemblyPackageInfo.CreateFor(_assembly);
+            yield return AssemblyPackageInfoFactory.CreateFor(_assembly);
         }
 
         public override string ToString()

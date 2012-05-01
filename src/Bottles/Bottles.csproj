@@ -58,6 +58,7 @@
     <Compile Include="PackageLoaders\Assemblies\AssemblyFiles.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyLoader.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyPackageInfo.cs" />
+    <Compile Include="PackageLoaders\Assemblies\AssemblyPackageInfoFactory.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyPackageLoader.cs" />
     <Compile Include="Commands\AssembliesCommand.cs" />
     <Compile Include="Commands\AssemblyPackageCommand.cs" />
@@ -88,6 +89,8 @@
     <Compile Include="BottleFiles.cs" />
     <Compile Include="FileSystemExtensions.cs" />
     <Compile Include="IActivator.cs" />
+    <Compile Include="PackageLoaders\Assemblies\AssemblyPackageManifestFactory.cs" />
+    <Compile Include="PackageLoaders\Assemblies\BottleAttribute.cs" />
     <Compile Include="PackageLoaders\Assemblies\IAssemblyFileFinder.cs" />
     <Compile Include="PackageLoaders\Assemblies\IAssemblyLoader.cs" />
     <Compile Include="PackageLoaders\Assemblies\IAssemblyRegistration.cs" />

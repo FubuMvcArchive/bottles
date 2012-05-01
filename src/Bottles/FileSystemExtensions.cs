@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml.Serialization;
 using Bottles.Creation;
 using Bottles.Diagnostics;
 using FubuCore;
@@ -51,7 +52,19 @@ namespace Bottles
         }
 
 
-
+        public static T LoadFromStream<T>(this IFileSystem system, Stream fileStream) where T : new()
+        {
+            var xmlSerializer = new XmlSerializer(typeof (T));
+            try
+            {
+                return (T) xmlSerializer.Deserialize(fileStream);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(
+                    "Unable to deserialize the contents of stream into an instance of type {0}".ToFormat(typeof (T)));
+            }
+        }
 
 
         public static string FindBinaryDirectory(this IFileSystem fileSystem, string directory, CompileTargetEnum target)
