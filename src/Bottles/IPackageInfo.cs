@@ -22,14 +22,14 @@ namespace Bottles
     }
 
     [DebuggerDisplay("{Name}:{Role}")]
-    public abstract class BasePackageInfo : IPackageInfo
+    public class PackageInfo : IPackageInfo
     {
         private readonly PackageManifest _manifest;
         private readonly PackageFiles _files = new PackageFiles();
         private readonly IList<Dependency> _dependencies = new List<Dependency>();
-        private readonly IList<PackageInfo.AssemblyTarget> _assemblies = new List<PackageInfo.AssemblyTarget>();
+        private readonly IList<AssemblyTarget> _assemblies = new List<AssemblyTarget>();
 
-        protected BasePackageInfo(PackageManifest manifest)
+        public PackageInfo(PackageManifest manifest)
         {
             _manifest = manifest;
         }
@@ -95,7 +95,21 @@ namespace Bottles
             get { return _files; }
         }
 
-        public bool Equals(BasePackageInfo other)
+        public void RegisterFolder(string folderName, string directory)
+        {
+            Files.RegisterFolder(folderName, directory);
+        }
+
+        public void RegisterAssemblyLocation(string assemblyName, string filePath)
+        {
+            AddAssembly(new AssemblyTarget()
+            {
+                AssemblyName = assemblyName,
+                FilePath = filePath
+            });
+        }  
+
+        public bool Equals(PackageInfo other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -106,8 +120,8 @@ namespace Bottles
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(BasePackageInfo)) return false;
-            return Equals((BasePackageInfo)obj);
+            if (obj.GetType() != typeof(PackageInfo)) return false;
+            return Equals((PackageInfo)obj);
         }
 
         public override int GetHashCode()

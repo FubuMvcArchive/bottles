@@ -7,7 +7,7 @@ namespace Bottles.PackageLoaders.Assemblies
     /// Reperesents a bottle that is contained in a .dll
     /// </summary>
     [DebuggerDisplay("{Name}:{Role}")]
-    public class AssemblyPackageInfo : BasePackageInfo
+    public class AssemblyPackageInfo : PackageInfo
     {
         private readonly Assembly _assembly;
 

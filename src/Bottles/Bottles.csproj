@@ -55,6 +55,7 @@
     <Compile Include="Commands\CreateBottleCommand.cs" />
     <Compile Include="Commands\InitCommand.cs" />
     <Compile Include="Dependency.cs" />
+    <Compile Include="PackageInfo.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyFileFinder.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyFiles.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyLoader.cs" />
