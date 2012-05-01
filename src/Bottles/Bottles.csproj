@@ -51,6 +51,7 @@
     </Compile>
     <Compile Include="AliasRegistry.cs" />
     <Compile Include="Commands\AliasCommand.cs" />
+    <Compile Include="Commands\CreateAllCommand.cs" />
     <Compile Include="Commands\CreateBottleCommand.cs" />
     <Compile Include="Commands\InitCommand.cs" />
     <Compile Include="Dependency.cs" />
