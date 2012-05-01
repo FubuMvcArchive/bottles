@@ -13,7 +13,7 @@ namespace Bottles.Deployment.Commands
     {
         public override bool Execute(InstallInput input)
         {
-            input.AppFolder = AliasCommand.AliasFolder(input.AppFolder);
+            input.AppFolder = new AliasService().GetFolderForAlias(input.AppFolder);
             Execute(input, new FileSystem());
             return true;
         }

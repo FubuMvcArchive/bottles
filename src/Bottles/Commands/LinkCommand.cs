@@ -46,8 +46,8 @@ namespace Bottles.Commands
     {
         public override bool Execute(LinkInput input)
         {
-            input.AppFolder = AliasCommand.AliasFolder(input.AppFolder);
-            input.PackageFolder = AliasCommand.AliasFolder(input.PackageFolder);
+            input.AppFolder = new AliasService().GetFolderForAlias(input.AppFolder);
+            input.PackageFolder = new AliasService().GetFolderForAlias(input.PackageFolder);
 
 
             Execute(input, new FileSystem());

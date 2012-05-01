@@ -14,7 +14,7 @@ namespace Bottles.Commands
         {
             ConsoleWriter.Write("  Creating bottle at " + input.PackageFolder);
 
-            input.PackageFolder = AliasCommand.AliasFolder(input.PackageFolder);
+            input.PackageFolder = new AliasService().GetFolderForAlias(input.PackageFolder);
 
             Execute(input, new FileSystem());
             return true;

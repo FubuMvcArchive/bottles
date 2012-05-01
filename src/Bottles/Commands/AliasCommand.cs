@@ -29,23 +29,6 @@ namespace Bottles.Commands
     [CommandDescription("Manage folder aliases")]
     public class AliasCommand : FubuCommand<AliasInput>
     {
-        public static string AliasFolder(string folder)
-        {
-            //TODO: harden
-            var alias = new FileSystem()
-                .LoadFromFile<AliasRegistry>(AliasRegistry.ALIAS_FILE)
-                .AliasFor(folder);
-
-            
-            var x =alias == null ? folder : alias.Folder;
-
-            ConsoleWriter.Write(ConsoleColor.Yellow, "Alias is returning '{0}'".ToFormat(x));
-            //TODO: Harden more
-
-            return x;
-        }
-
-
         public override bool Execute(AliasInput input)
         {
             Execute(input, new FileSystem());

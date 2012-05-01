@@ -44,7 +44,7 @@ namespace Bottles.Deployment.Commands
 
         public override bool Execute(InitializeInput input)
         {
-            if (input.DeploymentFlag != null) input.DeploymentFlag = AliasCommand.AliasFolder(input.DeploymentFlag);
+            if (input.DeploymentFlag != null) input.DeploymentFlag = new AliasService().GetFolderForAlias(input.DeploymentFlag);
 
             return Initialize(input, new FileSystem());
         }

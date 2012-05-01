@@ -25,7 +25,7 @@ namespace Bottles.Commands
 
         public override bool Execute(AssemblyPackageInput input)
         {
-            input.RootFolder = AliasCommand.AliasFolder(input.RootFolder);
+            input.RootFolder = new AliasService().GetFolderForAlias(input.RootFolder);
 
             var zipService = new ZipFileService(fileSystem);
 

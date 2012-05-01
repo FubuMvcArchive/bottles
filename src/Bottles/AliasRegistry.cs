@@ -1,9 +1,45 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using FubuCore;
+using FubuCore.CommandLine;
 
 namespace Bottles
 {
+    public class AliasService
+    {
+        private readonly IFileSystem _fileSystem;
+
+        public AliasService() : this(new FileSystem())
+        {
+            
+        }
+        public AliasService(IFileSystem fileSystem)
+        {
+            _fileSystem = fileSystem;
+        }
+
+        public string GetFolderForAlias(string alias)
+        {
+            var token = _fileSystem
+              .LoadFromFile<AliasRegistry>(AliasRegistry.ALIAS_FILE)
+              .AliasFor(alias);
+
+            string path = alias;
+            if(token != null)
+            {
+                path = token.Folder;
+            }
+
+            ConsoleWriter.Write(ConsoleColor.Yellow, "Alias is returning '{0}'".ToFormat(path));
+
+            return path;
+        }
+
+
+    }
+
 
     [XmlType("aliases")]
     public class AliasRegistry

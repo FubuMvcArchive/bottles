@@ -96,7 +96,7 @@ namespace Bottles.Commands
     {
         public override bool Execute(AssembliesInput input)
         {
-            input.Directory = AliasCommand.AliasFolder(input.Directory);
+            input.Directory = new AliasService().GetFolderForAlias(input.Directory);
 
             var fileSystem = new FileSystem();
             input.FindManifestAndBinaryFolders(fileSystem);
