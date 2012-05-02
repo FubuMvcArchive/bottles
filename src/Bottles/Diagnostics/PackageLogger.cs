@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Bottles.Creation;
-using Bottles.Exceptions;
 using Bottles.PackageLoaders.Assemblies;
+using FubuCore;
 
 namespace Bottles.Diagnostics
 {
@@ -21,7 +21,7 @@ namespace Bottles.Diagnostics
             var log = _log.LogFor(manifest);
 
             var sb = new StringBuilder();
-            sb.AppendFormat("Did not locate all designated assemblies at '{0}'", binFolder);
+            sb.AppendFormat("Did not locate all designated assemblies at '{0}'", binFolder.ToFullPath());
             sb.AppendLine();
 
 
@@ -37,7 +37,6 @@ namespace Bottles.Diagnostics
             theAssemblyFiles.MissingAssemblies.Each(file => sb.AppendLine("  " + file));
 
             log.MarkFailure(sb.ToString());
-            throw new BottleException("Invalid package manifest or missing files");
         }
     }
 }

@@ -64,7 +64,7 @@ namespace Bottles.Tests.Commands
             theInput.ForceFlag = true;
 
             // Just forcing this method to be self-mocked
-            ClassUnderTest.Expect(x => x.CreatePackage(theInput, MockFor<IFileSystem>()));
+            ClassUnderTest.Expect(x => x.CreatePackage(theInput, MockFor<IFileSystem>())).Return(true);
             ClassUnderTest.Expect(x => x.WriteZipFileAlreadyExists(theInput.ZipFileFlag));
 
             execute();
@@ -101,7 +101,7 @@ namespace Bottles.Tests.Commands
             theZipFileDoesNotExist();
 
             // Just forcing this method to be self-mocked
-            ClassUnderTest.Expect(x => x.CreatePackage(theInput, MockFor<IFileSystem>()));
+            ClassUnderTest.Expect(x => x.CreatePackage(theInput, MockFor<IFileSystem>())).Return(true);
             ClassUnderTest.Expect(x => x.WritePackageManifestDoesNotExist(theInput.PackageFolder)).Repeat.Never();
 
             execute();

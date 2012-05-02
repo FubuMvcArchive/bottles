@@ -24,7 +24,7 @@ namespace Bottles.Creation
             _assemblyFinder = assemblyFinder;
         }
 
-        public void CreatePackage(CreateBottleInput input, PackageManifest manifest)
+        public bool CreatePackage(CreateBottleInput input, PackageManifest manifest)
         {
             var binFolder = _fileSystem.FindBinaryDirectory(input.PackageFolder, input.TargetFlag);
 
@@ -32,10 +32,11 @@ namespace Bottles.Creation
             if (assemblies.Success)
             {
                 writeZipFile(input, manifest, assemblies);
-                return;
+                return true;
             }
 
             _logger.WriteAssembliesNotFound(assemblies, manifest, input, binFolder);
+            return false;
         }
 
         private void writeZipFile(CreateBottleInput input, PackageManifest manifest, AssemblyFiles assemblies)

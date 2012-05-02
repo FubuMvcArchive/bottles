@@ -16,29 +16,27 @@ namespace Bottles.Commands
 
             input.PackageFolder = new AliasService().GetFolderForAlias(input.PackageFolder);
 
-            Execute(input, new FileSystem());
-            return true;
+            return Execute(input, new FileSystem());
         }
 
-        public void Execute(CreateBottleInput input, IFileSystem fileSystem)
+        public bool Execute(CreateBottleInput input, IFileSystem fileSystem)
         {
             //TODO: harden
             if (fileSystem.FileExists(input.ZipFileFlag) && !input.ForceFlag)
             {
                 WriteZipFileAlreadyExists(input.ZipFileFlag);
-                return;
+                return true;
             }
 
             // Delete the file if it exists?
             if (fileSystem.PackageManifestExists(input.PackageFolder))
             {
                 fileSystem.DeleteFile(input.ZipFileFlag);
-                CreatePackage(input, fileSystem);
+                return CreatePackage(input, fileSystem);
             }
-            else
-            {
-                WritePackageManifestDoesNotExist(input.PackageFolder);
-            }
+
+            WritePackageManifestDoesNotExist(input.PackageFolder);
+            return false;
         }
 
         public virtual void WriteZipFileAlreadyExists(string zipFileName)
@@ -53,13 +51,13 @@ namespace Bottles.Commands
                 packageFolder);
         }
 
-        public virtual void CreatePackage(CreateBottleInput input, IFileSystem fileSystem)
+        public virtual bool CreatePackage(CreateBottleInput input, IFileSystem fileSystem)
         {
             var fileName = FileSystem.Combine(input.PackageFolder, input.ManifestFileNameFlag ?? PackageManifest.FILE);
             var manifest = fileSystem.LoadFromFile<PackageManifest>(fileName);
             
             var creator = new PackageCreator(fileSystem, new ZipFileService(fileSystem), new PackageLogger(new LoggingSession()), new AssemblyFileFinder(fileSystem));
-            creator.CreatePackage(input, manifest);
+            return creator.CreatePackage(input, manifest);
         }
     }
 }
