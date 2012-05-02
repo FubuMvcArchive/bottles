@@ -11,9 +11,10 @@ namespace Bottles
 
         void LoadAssemblies(IAssemblyRegistration loader);
         void ForFolder(string folderName, Action<string> onFound);
-        void ForData(string searchPattern, Action<string, Stream> dataCallback);
+        void ForFiles(string directory, string searchPattern, Action<string, Stream> fileCallback);
 
         Dependency[] Dependencies { get; }
         PackageManifest Manifest { get; }
+        IPackageFiles Files { get; }
     }
 }

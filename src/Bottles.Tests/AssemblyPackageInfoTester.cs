@@ -62,7 +62,7 @@ namespace Bottles.Tests
         public void can_retrieve_data_from_package()
         {
             var text = "not the right thing";
-            thePackage.ForData("1.txt", (name, data) =>
+            thePackage.ForFiles(BottleFiles.DataFolder, "1.txt", (name, data) =>
             {
                 name.ShouldEqual("1.txt");
                 text = new StreamReader(data).ReadToEnd();
@@ -81,7 +81,7 @@ namespace Bottles.Tests
                 expected = folder;
             });
 
-            expected.ShouldEqual(FileSystem.Combine("content", "AssemblyPackage", "WebContent").ToFullPath());
+            expected.ShouldEqual("content".AppendPath("AssemblyPackage", "WebContent").ToFullPath());
         }
     }
 }

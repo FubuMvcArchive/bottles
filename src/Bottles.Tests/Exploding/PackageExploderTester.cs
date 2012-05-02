@@ -35,7 +35,7 @@ namespace Bottles.Tests.Exploding
         public void can_retrieve_data_from_package()
         {
             var text = "not the right thing";
-            theFiles.ForData("1.txt", (name, data) =>
+            theFiles.GetFiles(BottleFiles.DataFolder, "1.txt", (name, data) =>
             {
                 name.ShouldEqual("1.txt");
                 text = new StreamReader(data).ReadToEnd();

@@ -165,17 +165,14 @@ namespace Bottles.Exploding
             return Guid.Empty.ToString();
         }
 
-        public void ExplodeAssembly(string applicationDirectory, Assembly assembly, IPackageFiles files)
+        public void ExplodeAssembly(string applicationDirectory, Assembly assembly, IPackageInfo packageInfo)
         {
             var directory = BottleFiles.GetDirectoryForExplodedPackage(applicationDirectory, assembly.GetName().Name);
 
             var request = new ExplodeRequest{
                 Directory = directory,
                 GetVersion = () => assembly.GetName().Version.ToString(),
-                LogSameVersion =
-                    () =>
-                    ConsoleWriter.Write(
-                        "Assembly {0} has already been 'exploded' onto disk".ToFormat(assembly.GetName().FullName)),
+                LogSameVersion = () => ConsoleWriter.Write("Assembly {0} has already been 'exploded' onto disk".ToFormat(assembly.GetName().FullName)),
                 ExplodeAction = () => explodeAssembly(assembly, directory)
             };
 
@@ -185,9 +182,10 @@ namespace Bottles.Exploding
             {
                 var name = Path.GetFileName(child);
 
-                files.RegisterFolder(name, child.ToFullPath());
+                packageInfo.Files.RegisterFolder(name, child.ToFullPath());
             });
         }
+
 
         private void explodeAssembly(Assembly assembly, string directory)
         {

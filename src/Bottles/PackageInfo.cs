@@ -46,6 +46,11 @@ namespace Bottles
             _files.ForFolder(folderName, onFound);
         }
 
+        public void ForFiles(string directory, string searchPattern, Action<string, Stream> fileCallback)
+        {
+            _files.GetFiles(directory, searchPattern, fileCallback);
+        }
+
         protected void AddAssembly(AssemblyTarget assemblyTarget)
         {
             _assemblies.Add(assemblyTarget);
@@ -55,12 +60,6 @@ namespace Bottles
         {
             _assemblies.Add(AssemblyTarget.FromAssembly(assembly));
         }
-
-        public void ForData(string searchPattern, Action<string, Stream> dataCallback)
-        {
-            _files.ForData(searchPattern, dataCallback);
-        }
-
 
         public void AddDependency(Dependency dependency)
         {

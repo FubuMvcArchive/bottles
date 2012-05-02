@@ -27,7 +27,7 @@ namespace Bottles.Tests
         {
             get { return _manifest.Name; }
         }
-
+        
         public string Role { get { return _manifest.Role; } }
 
         public void LoadAssemblies(IAssemblyRegistration loader)
@@ -48,6 +48,16 @@ namespace Bottles.Tests
         public void ForData(string searchPattern, Action<string, Stream> dataCallback)
         {
             throw new NotImplementedException();
+        }
+
+        public void ForFiles(string directory, string searchPattern, Action<string, Stream> fileCallback)
+        {
+            throw new NotImplementedException();
+        }
+
+        public StubPackage(Action<IAssemblyRegistration> loadingAssemblies)
+        {
+            LoadingAssemblies = loadingAssemblies;
         }
 
         public void OptionalDependency(string name)
