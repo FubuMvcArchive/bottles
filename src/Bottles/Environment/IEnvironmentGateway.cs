@@ -5,8 +5,8 @@ namespace Bottles.Environment
 {
     public interface IEnvironmentGateway
     {
-        IEnumerable<LogEntry> Install();
-        IEnumerable<LogEntry> CheckEnvironment();
-        IEnumerable<LogEntry> InstallAndCheckEnvironment();
+        IEnumerable<EnvironmentLogEntry> Install();
+        IEnumerable<EnvironmentLogEntry> CheckEnvironment();
+        IEnumerable<EnvironmentLogEntry> InstallAndCheckEnvironment();
     }
 }

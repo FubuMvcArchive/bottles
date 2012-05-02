@@ -5,6 +5,8 @@ namespace Bottles.Diagnostics
 {
     public static class PackageLogExtensions
     {
+        private static int _indent = 0;
+
         public static void Indent(this IPackageLog log)
         {
             _indent++;
@@ -41,7 +43,7 @@ namespace Bottles.Diagnostics
             }
         }
 
-        private static int _indent = 0;
+        
 
         public static void Header1(this IPackageLog log, string format, params object[] parameters)
         {

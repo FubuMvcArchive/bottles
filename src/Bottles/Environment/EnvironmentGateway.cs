@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Bottles.Diagnostics;
 
 namespace Bottles.Environment
 {
@@ -13,22 +12,22 @@ namespace Bottles.Environment
             _run = run;
         }
 
-        public IEnumerable<LogEntry> Install()
+        public IEnumerable<EnvironmentLogEntry> Install()
         {
             return RunEnvironment(p => p.Install(_run));
         }
 
-        public IEnumerable<LogEntry> CheckEnvironment()
+        public IEnumerable<EnvironmentLogEntry> CheckEnvironment()
         {
             return RunEnvironment(p => p.CheckEnvironment(_run));
         }
 
-        public IEnumerable<LogEntry> InstallAndCheckEnvironment()
+        public IEnumerable<EnvironmentLogEntry> InstallAndCheckEnvironment()
         {
             return RunEnvironment(p => p.InstallAndCheckEnvironment(_run));
         }
 
-        public IEnumerable<LogEntry> RunEnvironment(Func<EnvironmentProxy, IEnumerable<LogEntry>> func)
+        public IEnumerable<EnvironmentLogEntry> RunEnvironment(Func<EnvironmentProxy, IEnumerable<EnvironmentLogEntry>> func)
         {
             AppDomain domain = null;
 

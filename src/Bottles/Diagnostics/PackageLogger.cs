@@ -1,27 +1,43 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Bottles.Creation;
+using Bottles.Exceptions;
 using Bottles.PackageLoaders.Assemblies;
-using FubuCore.CommandLine;
 
 namespace Bottles.Diagnostics
 {
     public class PackageLogger : IPackageLogger
     {
+        private readonly LoggingSession _log;
+
+        public PackageLogger(LoggingSession log)
+        {
+            _log = log;
+        }
+
         public void WriteAssembliesNotFound(AssemblyFiles theAssemblyFiles, PackageManifest manifest, CreateBottleInput input, string binFolder)
         {
-            ConsoleWriter.Write("Did not locate all designated assemblies at '{0}'", binFolder);
-            ConsoleWriter.Write("Looking for these assemblies in the package manifest file:");
-            manifest.Assemblies.Each(name => ConsoleWriter.Write("  " + name));
-            ConsoleWriter.Write("But only found:");
-            if(!theAssemblyFiles.Files.Any()) ConsoleWriter.Write("  Found no files");
-            theAssemblyFiles.Files.Each(file => ConsoleWriter.Write("  " + file));
+            var log = _log.LogFor(manifest);
 
-            ConsoleWriter.Write("Missing");
-            theAssemblyFiles.MissingAssemblies.Each(file => ConsoleWriter.Write("  " + file));
-        
-            throw new ApplicationException("Invalid package manifest or missing files");
+            var sb = new StringBuilder();
+            sb.AppendFormat("Did not locate all designated assemblies at '{0}'", binFolder);
+            sb.AppendLine();
+
+
+            sb.AppendLine("Looking for these assemblies in the package manifest file:");
+            manifest.Assemblies.Each(name => sb.AppendLine("  " + name));
+
+
+            sb.AppendLine("But only found:");
+            if(!theAssemblyFiles.Files.Any()) sb.AppendLine("  Found no files");
+            theAssemblyFiles.Files.Each(file => sb.AppendLine("  " + file));
+
+            sb.AppendLine("Missing");
+            theAssemblyFiles.MissingAssemblies.Each(file => sb.AppendLine("  " + file));
+
+            log.MarkFailure(sb.ToString());
+            throw new BottleException("Invalid package manifest or missing files");
         }
     }
 }

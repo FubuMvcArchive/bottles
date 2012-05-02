@@ -183,6 +183,16 @@ namespace Bottles.Tests
             throw new NotImplementedException();
         }
 
+        public void EachLog(Action<object, PackageLog> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool HasErrors()
+        {
+            throw new NotImplementedException();
+        }
+
         public IPackageLog LogFor(object target)
         {
             return _logs[target];

@@ -14,11 +14,11 @@ namespace Bottles.Environment
             _run = run;
         }
 
-        public IEnumerable<LogEntry> ExecuteEnvironment(params Action<IInstaller, IPackageLog>[] actions)
+        public IEnumerable<EnvironmentLogEntry> ExecuteEnvironment(params Action<IInstaller, IPackageLog>[] actions)
         {
             var log = new PackageLog();
 
-            var list = new List<LogEntry>();
+            var list = new List<EnvironmentLogEntry>();
 
             var environment = findEnvironment(list, log);
             
@@ -30,7 +30,7 @@ namespace Bottles.Environment
             return list;
         }
 
-        private static void startTheEnvironment(IList<LogEntry> list, IEnvironment environment, IPackageLog log, params Action<IInstaller, IPackageLog>[] actions)
+        private static void startTheEnvironment(IList<EnvironmentLogEntry> list, IEnvironment environment, IPackageLog log, params Action<IInstaller, IPackageLog>[] actions)
         {          
             try
             {
@@ -49,12 +49,12 @@ namespace Bottles.Environment
             }
             finally
             {
-                list.Add(LogEntry.FromPackageLog(environment, log));
+                list.Add(EnvironmentLogEntry.FromPackageLog(environment, log));
                 environment.SafeDispose();
             }
         }
 
-        private static void executeInstallers(IList<LogEntry> list, IEnumerable<IInstaller> installers, IEnumerable<Action<IInstaller, IPackageLog>> actions)
+        private static void executeInstallers(IList<EnvironmentLogEntry> list, IEnumerable<IInstaller> installers, IEnumerable<Action<IInstaller, IPackageLog>> actions)
         {
             foreach (var action in actions)
             {
@@ -75,7 +75,7 @@ namespace Bottles.Environment
             }
         }
 
-        private IEnvironment findEnvironment(List<LogEntry> list, IPackageLog log)
+        private IEnvironment findEnvironment(List<EnvironmentLogEntry> list, IPackageLog log)
         {
             var environmentType = _run.FindEnvironmentType(log);
             if (environmentType == null)
@@ -91,7 +91,7 @@ namespace Bottles.Environment
             }
             catch (Exception e)
             {
-                list.Add(new LogEntry
+                list.Add(new EnvironmentLogEntry
                          {
                              Description = environmentType.FullName,
                              Success = false,
@@ -102,7 +102,7 @@ namespace Bottles.Environment
             return environment;
         }
 
-        private static void addPackagingLogEntries(IList<LogEntry> list)
+        private static void addPackagingLogEntries(IList<EnvironmentLogEntry> list)
         {
             if (PackageRegistry.Diagnostics != null)
             {

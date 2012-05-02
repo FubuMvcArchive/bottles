@@ -2,6 +2,9 @@ using System;
 
 namespace Bottles.Diagnostics
 {
+    /// <summary>
+    /// Provides static access to the 'current' IPackageLog
+    /// </summary>
     public static class LogWriter
     {
         private static readonly LogWriterStatus _status = new LogWriterStatus();

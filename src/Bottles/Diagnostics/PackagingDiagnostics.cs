@@ -6,22 +6,29 @@ using FubuCore;
 
 namespace Bottles.Diagnostics
 {
-    public class PackagingDiagnostics : LoggingSession, IPackagingDiagnostics
+    public class PackagingDiagnostics : IPackagingDiagnostics
     {
+        private readonly LoggingSession _log;
+
+        public PackagingDiagnostics(LoggingSession log)
+        {
+            _log = log;
+        }
+
         public void LogPackage(IPackageInfo package, IPackageLoader loader)
         {
-            LogObject(package, "Loaded by " + loader);
-            LogFor(loader).AddChild(package);
+            _log.LogObject(package, "Loaded by " + loader);
+            _log.LogFor(loader).AddChild(package);
         }
 
         public void LogBootstrapperRun(IBootstrapper bootstrapper, IEnumerable<IActivator> activators)
         {
             var provenance = "Loaded by Bootstrapper:  " + bootstrapper;
-            var bootstrapperLog = LogFor(bootstrapper);
+            var bootstrapperLog = _log.LogFor(bootstrapper);
 
             activators.Each(a =>
             {
-                LogObject(a, provenance);
+                _log.LogObject(a, provenance);
                 bootstrapperLog.AddChild(a);
             });
         }
@@ -31,10 +38,10 @@ namespace Bottles.Diagnostics
             try
             {
                 var versionInfo = getVersion(assembly);
-                
-                
-                LogObject(assembly, provenance);
-                var packageLog = LogFor(package);
+
+
+                _log.LogObject(assembly, provenance);
+                var packageLog = _log.LogFor(package);
                 packageLog.Trace("Loaded assembly '{0}' v{1}".ToFormat(assembly.GetName().FullName,versionInfo.FileVersion));
                 packageLog.AddChild(assembly);
             }
@@ -61,17 +68,41 @@ namespace Bottles.Diagnostics
         // just in log to package
         public void LogDuplicateAssembly(IPackageInfo package, string assemblyName)
         {
-            LogFor(package).Trace("Assembly '{0}' was ignored because it is already loaded".ToFormat(assemblyName));
+            _log.LogFor(package).Trace("Assembly '{0}' was ignored because it is already loaded".ToFormat(assemblyName));
         }
 
         public void LogAssemblyFailure(IPackageInfo package, string fileName, Exception exception)
         {
-            var log = LogFor(package);
+            var log = _log.LogFor(package);
             log.MarkFailure(exception);
             log.Trace("Failed to load assembly at '{0}'".ToFormat(fileName));
         }
 
 
+        public void LogObject(object target, string provenance)
+        {
+            _log.LogObject(target, provenance);
+        }
+
+        public void LogExecution(object target, Action continuation)
+        {
+            _log.LogExecution(target, continuation);
+        }
+
+        public IPackageLog LogFor(object target)
+        {
+            return _log.LogFor(target);
+        }
+
+        public void EachLog(Action<object, PackageLog> action)
+        {
+            _log.EachLog(action);
+        }
+
+        public bool HasErrors()
+        {
+            return _log.HasErrors();
+        }
 
         // TODO -- think about this little puppy
         public static string GetTypeName(object target)

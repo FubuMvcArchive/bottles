@@ -54,6 +54,7 @@
     <Compile Include="Commands\CreateAllCommand.cs" />
     <Compile Include="Commands\CreateBottleCommand.cs" />
     <Compile Include="Commands\InitCommand.cs" />
+    <Compile Include="Exceptions\BottleException.cs" />
     <Compile Include="Manifest\Dependency.cs" />
     <Compile Include="PackageInfo.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyFileFinder.cs" />
@@ -69,9 +70,8 @@
     <Compile Include="Commands\LinkCommand.cs" />
     <Compile Include="Diagnostics\IPackageLogExtensions.cs" />
     <Compile Include="Diagnostics\IPackageLogger.cs" />
-    <Compile Include="Diagnostics\LogEntry.cs" />
+    <Compile Include="Environment\EnvironmentLogEntry.cs" />
     <Compile Include="Diagnostics\LoggingSession.cs" />
-    <Compile Include="Diagnostics\LoggingSessionWriter.cs" />
     <Compile Include="Diagnostics\LogWriter.cs" />
     <Compile Include="Diagnostics\LogWriterStatus.cs" />
     <Compile Include="Diagnostics\PackageLogExtensions.cs" />

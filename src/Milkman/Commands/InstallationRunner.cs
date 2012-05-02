@@ -26,7 +26,7 @@ namespace Bottles.Deployment.Commands
             logEntries(input, entries);
         }
 
-        private void logEntries(InstallInput input, IEnumerable<LogEntry> entries)
+        private void logEntries(InstallInput input, IEnumerable<EnvironmentLogEntry> entries)
         {
             _logger.WriteLogsToConsole(entries);
             _logger.WriteLogsToFile(input, entries);
@@ -41,7 +41,7 @@ namespace Bottles.Deployment.Commands
             }
         }
 
-        private IEnumerable<LogEntry> execute(InstallInput input)
+        private IEnumerable<EnvironmentLogEntry> execute(InstallInput input)
         {
             ConsoleWriter.Write(input.Title());
 
@@ -57,7 +57,7 @@ namespace Bottles.Deployment.Commands
                     return _gateway.InstallAndCheckEnvironment();
             }
 
-            return new LogEntry[0];
+            return new EnvironmentLogEntry[0];
         }
     }
 }

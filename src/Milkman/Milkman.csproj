@@ -75,6 +75,7 @@
     <Compile Include="Commands\CreateAllCommand.cs" />
     <Compile Include="Configuration\EnvironmentSettings.cs" />
     <Compile Include="Diagnostics\bootstrap\BootstrapDocument.cs" />
+    <Compile Include="Diagnostics\LoggingSessionWriter.cs" />
     <Compile Include="Exceptions\EnvironmentSettingsException.cs" />
     <Compile Include="Configuration\ProfileBase.cs" />
     <Compile Include="Deployers\CommandLine\CommandLineDeployer.cs" />

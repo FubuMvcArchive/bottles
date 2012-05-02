@@ -17,7 +17,7 @@ namespace Bottles.Tests
         [SetUp]
         public void SetUp()
         {
-            diagnostics = new PackagingDiagnostics();
+            diagnostics = new PackagingDiagnostics(new LoggingSession());
         }
 
         [Test]
@@ -105,7 +105,7 @@ namespace Bottles.Tests
         [SetUp]
         public void SetUp()
         {
-            diagnostics = new PackagingDiagnostics();
+            diagnostics = new PackagingDiagnostics(new LoggingSession());
 
             loader = new StubPackageLoader("a", "b");
             package = new StubPackage("a");
@@ -140,7 +140,7 @@ namespace Bottles.Tests
         [SetUp]
         public void SetUp()
         {
-            diagnostics = new PackagingDiagnostics();
+            diagnostics = new PackagingDiagnostics(new LoggingSession());
 
             activator1 = new StubActivator();
             activator2 = new StubActivator();
@@ -180,7 +180,7 @@ namespace Bottles.Tests
         [SetUp]
         public void SetUp()
         {
-            diagnostics = new PackagingDiagnostics();
+            diagnostics = new PackagingDiagnostics(new LoggingSession());
             package = new StubPackage("a");
             assembly = Assembly.GetExecutingAssembly();
 

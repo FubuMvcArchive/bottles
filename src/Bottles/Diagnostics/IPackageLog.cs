@@ -9,7 +9,8 @@ namespace Bottles.Diagnostics
         void Trace(string text, params object[] parameters);
 
         void MarkFailure(Exception exception);
-        void MarkFailure(string text);
+        void MarkFailure(string text, params object[] parameters);
+
         string FullTraceText();
         string Description { get; }
         bool Success { get; }

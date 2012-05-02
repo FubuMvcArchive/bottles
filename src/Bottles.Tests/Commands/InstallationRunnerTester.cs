@@ -15,15 +15,15 @@ namespace Bottles.Tests.Commands
     [TestFixture]
     public class InstallationRunnerTester : InteractionContext<InstallationRunner>
     {
-        private LogEntry[] theEntries;
+        private EnvironmentLogEntry[] theEntries;
         private InstallInput theInput;
 
         protected override void beforeEach()
         {
-            theEntries = new LogEntry[]{
-                new LogEntry(), 
-                new LogEntry(), 
-                new LogEntry(), 
+            theEntries = new EnvironmentLogEntry[]{
+                new EnvironmentLogEntry(), 
+                new EnvironmentLogEntry(), 
+                new EnvironmentLogEntry(), 
             };
 
             var root = Path.GetPathRoot(AppDomain.CurrentDomain.BaseDirectory);

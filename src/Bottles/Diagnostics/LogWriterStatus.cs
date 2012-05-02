@@ -2,6 +2,9 @@ using System.Collections.Generic;
 
 namespace Bottles.Diagnostics
 {
+    /// <summary>
+    /// Manages the log stack
+    /// </summary>
     public class LogWriterStatus
     {
         private readonly Stack<IPackageLog> _logs = new Stack<IPackageLog>();

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Bottles.Diagnostics;
+using Bottles.Environment;
 using FubuCore;
 using HtmlTags;
 
@@ -10,7 +10,7 @@ namespace Bottles.Deployment
 {
     public static class EntryLogWriter
     {
-        public static HtmlDocument Write(IEnumerable<LogEntry> entries, string title)
+        public static HtmlDocument Write(IEnumerable<EnvironmentLogEntry> entries, string title)
         {
             var tags = createTags(entries);
 
@@ -18,9 +18,9 @@ namespace Bottles.Deployment
             return DiagnosticHtml.BuildDocument(title, tags.ToArray());
         }
         
-        private static IEnumerable<HtmlTag> createTags(IEnumerable<LogEntry> entries)
+        private static IEnumerable<HtmlTag> createTags(IEnumerable<EnvironmentLogEntry> entries)
         {
-            foreach (LogEntry log in entries)
+            foreach (EnvironmentLogEntry log in entries)
             {
                 var text = "{0} in {1} milliseconds".ToFormat(log.Description, log.TimeInMilliseconds);
                 if (!log.Success)

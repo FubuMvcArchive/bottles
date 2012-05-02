@@ -61,11 +61,12 @@ namespace Bottles.Diagnostics
             MarkFailure(exception.ToString());
         }
 
-        public void MarkFailure(string text)
+        public void MarkFailure(string text, params object[] args)
         {
-            ConsoleWriter.Write(ConsoleColor.Red, text);
+            var output = text.ToFormat(args);
+            ConsoleWriter.Write(ConsoleColor.Red, output);
 
-            _text.WriteLine(text);
+            _text.WriteLine(output);
             
             Success = false;
         }

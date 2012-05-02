@@ -15,7 +15,7 @@ namespace Bottles.Tests.Environment
             packageLog.Trace("some stuff");
             packageLog.Success.ShouldBeTrue();
 
-            var log = LogEntry.FromPackageLog(this, packageLog);
+            var log = EnvironmentLogEntry.FromPackageLog(this, packageLog);
             log.Success.ShouldBeTrue();
             log.TraceText.ShouldEqual(packageLog.FullTraceText().Trim());
             log.Description.ShouldEqual(this.ToString());
@@ -29,7 +29,7 @@ namespace Bottles.Tests.Environment
             packageLog.MarkFailure("it broke");
             packageLog.Success.ShouldBeFalse();
 
-            var log = LogEntry.FromPackageLog(this, packageLog);
+            var log = EnvironmentLogEntry.FromPackageLog(this, packageLog);
             log.Success.ShouldBeFalse();
             log.TraceText.ShouldEqual(packageLog.FullTraceText().Trim());
             log.Description.ShouldEqual(this.ToString());
