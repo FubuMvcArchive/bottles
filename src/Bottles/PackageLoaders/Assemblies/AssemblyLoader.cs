@@ -19,11 +19,11 @@ namespace Bottles.PackageLoaders.Assemblies
 
         private readonly IPackagingDiagnostics _diagnostics;
         private IPackageInfo _currentPackage;
-        private readonly IList<Assembly> _assemblies = new List<Assembly>();
 
         public AssemblyLoader(IPackagingDiagnostics diagnostics)
         {
-            AssemblyFileLoader = loadPackageAssemblyFromAppBinPath;
+            Assemblies = new List<Assembly>();
+            AssemblyFileLoader = LoadPackageAssemblyFromAppBinPath;
             _diagnostics = diagnostics;
         }
 
@@ -35,7 +35,7 @@ namespace Bottles.PackageLoaders.Assemblies
         public Func<string, Assembly> AssemblyFileLoader { get; set; }
 
 
-        //why is this virtual?
+        //why is this virtual? - for testing
         public virtual void LoadAssembliesFromPackage(IPackageInfo packageInfo)
         {
             _currentPackage = packageInfo;
@@ -50,12 +50,9 @@ namespace Bottles.PackageLoaders.Assemblies
             package.LoadAssemblies(this);
         }
 
-        public IList<Assembly> Assemblies
-        {
-            get { return _assemblies; }
-        }
+        public IList<Assembly> Assemblies { get; private set; }
 
-        static Assembly loadPackageAssemblyFromAppBinPath(string file)
+        public static Assembly LoadPackageAssemblyFromAppBinPath(string file)
         {
             var assemblyName = Path.GetFileNameWithoutExtension(file);
             var appBinPath = AppDomain.CurrentDomain.SetupInformation.PrivateBinPath ?? AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
@@ -79,7 +76,7 @@ namespace Bottles.PackageLoaders.Assemblies
         {
             // I know, packaging *ONLY* supporting one version of a dll.  Use older stuff to 
             // make redirects go
-            return (_assemblies.Any(x => x.GetName().Name == assemblyName));
+            return (Assemblies.Any(x => x.GetName().Name == assemblyName));
         }
 
         // need to try to load the assembly by name first!!!
@@ -96,7 +93,7 @@ namespace Bottles.PackageLoaders.Assemblies
                     var assembly = AssemblyFileLoader(fileName);
                     _diagnostics.LogAssembly(_currentPackage, assembly, "Loaded from " + fileName);  
 
-                    _assemblies.Add(assembly);
+                    Assemblies.Add(assembly);
                 }
                 catch (Exception e)
                 {
@@ -116,7 +113,7 @@ namespace Bottles.PackageLoaders.Assemblies
             }
             
             _diagnostics.LogAssembly(_currentPackage, assembly, DIRECTLY_REGISTERED_MESSAGE);
-            _assemblies.Add(assembly);
+            Assemblies.Add(assembly);
         }
 
     }
