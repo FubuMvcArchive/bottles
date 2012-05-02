@@ -11,18 +11,18 @@ namespace Bottles
     [DebuggerDisplay("{Name}:{Role}")]
     public class PackageInfo : IPackageInfo
     {
-        private readonly PackageManifest _manifest;
         private readonly PackageFiles _files = new PackageFiles();
         private readonly IList<Dependency> _dependencies = new List<Dependency>();
         private readonly IList<AssemblyTarget> _assemblies = new List<AssemblyTarget>();
 
         public PackageInfo(PackageManifest manifest)
         {
-            _manifest = manifest;
+            Manifest = manifest;
         }
 
-        public string Name { get { return _manifest.Name; } }
-        public string Role { get { return _manifest.Role; } }
+        public PackageManifest Manifest { get; private set; }
+        public string Name { get { return Manifest.Name; } }
+        public string Role { get { return Manifest.Role; } }
         public string Description{ get; set; }
 
         public void LoadAssemblies(IAssemblyRegistration loader)
@@ -31,14 +31,14 @@ namespace Bottles
             _assemblies.Each(a => a.Load(loader));
         }
 
-        public PackageManifest Manifest
+        public Dependency[] Dependencies
         {
-            get { return _manifest; }
-        }
-
-        public  IEnumerable<Dependency> GetDependencies()
-        {
-            return _dependencies;
+            get { return _dependencies.ToArray(); }
+            set
+            {
+                _dependencies.Clear();
+                _dependencies.AddRange(value);
+            }
         }
 
         public void ForFolder(string folderName, Action<string> onFound)
@@ -67,15 +67,7 @@ namespace Bottles
             _dependencies.Fill(dependency);
         }
 
-        public Dependency[] Dependencies
-        {
-            get { return _dependencies.ToArray(); }
-            set
-            {
-                _dependencies.Clear();
-                _dependencies.AddRange(value);
-            }
-        }
+       
 
         public PackageFiles Files
         {

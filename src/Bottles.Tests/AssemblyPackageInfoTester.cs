@@ -41,7 +41,7 @@ namespace Bottles.Tests
         [Test]
         public void get_dependencies_is_empty_FOR_NOW()
         {
-            package.GetDependencies().Any().ShouldBeFalse();
+            package.Dependencies.Any().ShouldBeFalse();
         }
     }
 

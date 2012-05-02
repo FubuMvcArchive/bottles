@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using Bottles.PackageLoaders.Assemblies;
 
@@ -14,7 +13,7 @@ namespace Bottles
         void ForFolder(string folderName, Action<string> onFound);
         void ForData(string searchPattern, Action<string, Stream> dataCallback);
 
-        IEnumerable<Dependency> GetDependencies();
+        Dependency[] Dependencies { get; }
         PackageManifest Manifest { get; }
     }
 }

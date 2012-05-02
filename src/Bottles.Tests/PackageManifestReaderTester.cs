@@ -38,7 +38,7 @@ namespace Bottles.Tests
         [Test]
         public void has_all_the_dependencies()
         {
-            thePackage.GetDependencies()
+            thePackage.Dependencies
                 .ShouldHaveTheSameElementsAs(Dependency.Mandatory("bottle1"), Dependency.Mandatory("bottle2"), Dependency.Optional("bottle3"));
         }
 

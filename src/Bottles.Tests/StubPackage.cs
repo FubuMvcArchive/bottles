@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Bottles.PackageLoaders.Assemblies;
 using FubuCore.Util;
 
@@ -60,18 +61,14 @@ namespace Bottles.Tests
         }
 
         private readonly IList<Dependency> _dependencies = new List<Dependency>();
-        public IList<Dependency> Dependencies
+        public Dependency[] Dependencies
         {
             get
             {
-                return _dependencies;
+                return _dependencies.ToArray();
             }
         }
 
-        public IEnumerable<Dependency> GetDependencies()
-        {
-            return _dependencies;
-        }
 
         public Action<IAssemblyRegistration> LoadingAssemblies { get; set; }
 

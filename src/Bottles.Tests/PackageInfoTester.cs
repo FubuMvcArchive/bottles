@@ -37,7 +37,7 @@ namespace Bottles.Tests
             thePackage.AddDependency(dep2);
             thePackage.AddDependency(dep3);
 
-            thePackage.As<IPackageInfo>().GetDependencies()
+            thePackage.As<IPackageInfo>().Dependencies
                 .ShouldHaveTheSameElementsAs(dep1, dep2, dep3);
         }
 

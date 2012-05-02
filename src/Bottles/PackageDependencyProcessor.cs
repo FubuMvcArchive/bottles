@@ -18,7 +18,7 @@ namespace Bottles
 
             guardAgainstMalformedPackages();
 
-            _graph = new DependencyGraph<IPackageInfo>(pak => pak.Name, pak => pak.GetDependencies().Select(x => x.Name));
+            _graph = new DependencyGraph<IPackageInfo>(pak => pak.Name, pak => pak.Dependencies.Select(x => x.Name));
 
             _packages.OrderBy(p => p.Name).Each(p => _graph.RegisterItem(p));
         }
@@ -28,7 +28,7 @@ namespace Bottles
             var missingDependencies = _graph.MissingDependencies();
             missingDependencies.Each(name =>
             {
-                var dependentPackages = _packages.Where(pak => pak.GetDependencies().Any(dep => dep.IsMandatory && dep.Name == name));
+                var dependentPackages = _packages.Where(pak => pak.Dependencies.Any(dep => dep.IsMandatory && dep.Name == name));
                 dependentPackages.Each(pak => diagnostics.LogFor(pak).LogMissingDependency(name));
             });
         }
