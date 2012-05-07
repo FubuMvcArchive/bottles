@@ -4,17 +4,11 @@ using FubuCore.CommandLine;
 
 namespace Bottles.Creation
 {
-    public enum CompileTargetEnum
-    {
-        Debug,
-        Release
-    }
-
     public class CreateBottleInput
     {
         public CreateBottleInput()
         {
-            TargetFlag = CompileTargetEnum.Debug;
+            Target = "Debug";
         }
 
         [Description("The root physical folder (or valid alias) of the package")]
@@ -37,7 +31,7 @@ namespace Bottles.Creation
         public bool ForceFlag { get; set; }
 
         [Description("Choose the compilation target for any assemblies")]
-        public CompileTargetEnum TargetFlag { get; set; }
+        public string Target { get; set; }
 
         [Description("Overrides the name of the manifest file (defaults to '" + PackageManifest.FILE + "'")]
         [FlagAlias("manifest", 'm')]
