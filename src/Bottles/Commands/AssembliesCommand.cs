@@ -16,7 +16,12 @@ namespace Bottles.Commands
 
     public class AssembliesInput
     {
-        [Description("Add, remove, or list the assemblies for this manifest")]
+    	public AssembliesInput()
+    	{
+    		Target = "Debug";
+    	}
+
+    	[Description("Add, remove, or list the assemblies for this manifest")]
         [RequiredUsage("all", "single")]
         public AssembliesCommandMode Mode { get; set; }
 
@@ -36,8 +41,8 @@ namespace Bottles.Commands
         [Description("Opens the manifest file in your editor")]
         public bool OpenFlag { get; set; }
 
-        [Description("Choose the compilation target for any assemblies.  Default is debug")]
-        public CompileTargetEnum TargetFlag { get; set; }
+        [Description("Choose the compilation target for any assemblies.  Default is Debug")]
+        public string Target { get; set; }
 
         [IgnoreOnCommandLine]
         public PackageManifest Manifest { get; set;}
@@ -49,7 +54,7 @@ namespace Bottles.Commands
 
         public void FindManifestAndBinaryFolders(IFileSystem fileSystem)
         {
-            BinariesFolder = fileSystem.FindBinaryDirectory(Directory, TargetFlag);
+            BinariesFolder = fileSystem.FindBinaryDirectory(Directory, Target);
 
             Manifest = fileSystem.TryFindManifest(Directory, FileNameFlag) ??
                        fileSystem.LoadPackageManifestFrom(Directory);
