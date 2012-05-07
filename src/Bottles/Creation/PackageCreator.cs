@@ -26,7 +26,7 @@ namespace Bottles.Creation
 
         public void CreatePackage(CreateBottleInput input, PackageManifest manifest)
         {
-            var binFolder = _fileSystem.FindBinaryDirectory(input.PackageFolder, input.TargetFlag);
+            var binFolder = _fileSystem.FindBinaryDirectory(input.PackageFolder, input.Target);
 
             var assemblies = _assemblyFinder.FindAssemblies(binFolder, manifest.Assemblies);
             if (assemblies.Success)

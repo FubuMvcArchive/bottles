@@ -54,10 +54,10 @@ namespace Bottles
 
 
 
-        public static string FindBinaryDirectory(this IFileSystem fileSystem, string directory, CompileTargetEnum target)
+        public static string FindBinaryDirectory(this IFileSystem fileSystem, string directory, string target)
         {
             var binFolder = directory.AppendPath("bin");
-            var compileTargetFolder = binFolder.AppendPath(target.ToString());
+            var compileTargetFolder = binFolder.AppendPath(target);
             if (fileSystem.DirectoryExists(compileTargetFolder))
             {
                 binFolder = compileTargetFolder;
