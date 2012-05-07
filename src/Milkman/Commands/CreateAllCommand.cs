@@ -11,7 +11,7 @@ namespace Bottles.Deployment.Commands
     {
         public CreateAllInput()
         {
-            Target = "Debug";
+            TargetFlag = "Debug";
             DirectoryFlag = ".".ToFullPath();
         }
 
@@ -28,7 +28,7 @@ namespace Bottles.Deployment.Commands
         public bool PdbFlag { get; set; }
 
         [Description("Overrides the compilation target.  The default is Debug")]
-        public string Target { get; set; }
+        public string TargetFlag { get; set; }
 
         [Description("Directs the command to remove all bottle files before creating new files.  Can be destructive")]
         public bool CleanFlag { get; set; }
@@ -51,7 +51,7 @@ namespace Bottles.Deployment.Commands
                 DirectoryFlag = input.DirectoryFlag,
                 DeploymentFlag = input.DeploymentFlag,
                 PdbFlag = input.PdbFlag,
-                Target = input.Target,
+                TargetFlag = input.TargetFlag,
                 CleanFlag = input.CleanFlag,
                 OutputFlag = settings.BottlesDirectory
             };

@@ -10,7 +10,7 @@ namespace Bottles.Commands
     {
         public CreatePackageInput()
         {
-            Target = "Debug";
+            TargetFlag = CompileTarget.Debug.ToString();
         }
 
         [Description("The root physical folder (or valid alias) of the package")]
@@ -32,7 +32,7 @@ namespace Bottles.Commands
         public bool ForceFlag { get; set; }
 
         [Description("Choose the compilation target for any assemblies")]
-        public string Target { get; set; }
+        public string TargetFlag { get; set; }
 
         [Description("Overrides the name of the manifest file")]
         [FlagAlias("file", 'm')]
@@ -57,7 +57,7 @@ namespace Bottles.Commands
                              BottlesDirectory = input.BottlesDirectory,
                              PdbFlag = input.PdbFlag,
                              ForceFlag = input.ForceFlag,
-                             Target = input.Target,
+                             TargetFlag = input.TargetFlag,
                              ManifestFileNameFlag = input.ManifestFileNameFlag
                          };
             return new CreateBottleCommand().Execute(input2);

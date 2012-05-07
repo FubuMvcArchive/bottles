@@ -4,7 +4,6 @@ using FubuCore;
 using NUnit.Framework;
 using Rhino.Mocks;
 using FubuTestingSupport;
-using System.Collections.Generic;
 
 namespace Bottles.Tests
 {
@@ -24,10 +23,10 @@ namespace Bottles.Tests
         public void find_binary_directory_if_the_target_directory_does_not_exist()
         {
             theFileSystem
-                .Stub(x => x.DirectoryExists(theFolder, "bin", "Degbug"))
+                .Stub(x => x.DirectoryExists(theFolder, "bin", CompileTarget.Debug.ToString()))
                 .Return(false);
 
-            theFileSystem.FindBinaryDirectory(theFolder, "Debug")
+            theFileSystem.FindBinaryDirectory(theFolder, CompileTarget.Debug.ToString())
                 .ShouldEqual(FileSystem.Combine(theFolder, "bin"));
 
 
@@ -37,11 +36,11 @@ namespace Bottles.Tests
         public void find_binary_directory_when_the_target_directory_exists()
         {
             theFileSystem
-                .Stub(x => x.DirectoryExists(theFolder, "bin", "Release"))
+                .Stub(x => x.DirectoryExists(theFolder, "bin", CompileTarget.Release.ToString()))
                 .Return(true);
 
             theFileSystem.FindBinaryDirectory(theFolder, "Release")
-                .ShouldEqual(FileSystem.Combine(theFolder, "bin", "Release")); 
+                .ShouldEqual(FileSystem.Combine(theFolder, "bin", CompileTarget.Release.ToString())); 
         }
 
         [Test]

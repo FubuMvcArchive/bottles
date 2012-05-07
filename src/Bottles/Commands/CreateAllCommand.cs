@@ -12,7 +12,8 @@ namespace Bottles.Commands
     {
         public CreateAllInput()
         {
-            TargetFlag = CompileTargetEnum.Debug;
+            //TODO: make this work with binding
+            TargetFlag = CompileTarget.Debug.ToString();
             DirectoryFlag = ".".ToFullPath();
         }
 
@@ -32,7 +33,7 @@ namespace Bottles.Commands
         public bool PdbFlag { get; set; }
 
         [Description("Overrides the compilation target.  The default is debug")]
-        public CompileTargetEnum TargetFlag { get; set; }
+        public string TargetFlag { get; set; }
 
         [Description("Directs the command to remove all bottle files before creating new files.  Can be destructive")]
         public bool CleanFlag { get; set; }

@@ -18,7 +18,7 @@ namespace Bottles.Commands
     {
     	public AssembliesInput()
     	{
-    		Target = "Debug";
+    	    Target = CompileTarget.Debug.ToString();
     	}
 
     	[Description("Add, remove, or list the assemblies for this manifest")]
