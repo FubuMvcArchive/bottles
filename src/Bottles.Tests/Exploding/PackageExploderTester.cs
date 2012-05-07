@@ -27,8 +27,10 @@ namespace Bottles.Tests.Exploding
             var exploder = new PackageExploder(new ZipFileService(fileSystem),
                                                new PackageExploderLogger(s => ConsoleWriter.Write(s)), fileSystem);
 
-            theFiles = new PackageFiles();
-            exploder.ExplodeAssembly("app1", typeof(AssemblyPackageMarker).Assembly, theFiles);
+            var thePackage = new PackageInfo(new PackageManifest());
+
+            theFiles = (PackageFiles)thePackage.Files;
+            exploder.ExplodeAssembly("app1", typeof(AssemblyPackageMarker).Assembly, thePackage);
         }
 
         [Test]

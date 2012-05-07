@@ -55,6 +55,11 @@ namespace Bottles.Tests
             throw new NotImplementedException();
         }
 
+        public IPackageFiles Files
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public StubPackage(Action<IAssemblyRegistration> loadingAssemblies)
         {
             LoadingAssemblies = loadingAssemblies;

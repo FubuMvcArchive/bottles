@@ -68,7 +68,7 @@ namespace Bottles
 
        
 
-        public PackageFiles Files
+        public IPackageFiles Files
         {
             get { return _files; }
         }
