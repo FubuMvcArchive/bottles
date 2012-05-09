@@ -16,7 +16,7 @@ Usages
         Removes the specified alias.
         
     ``bottles alias <name> <folder>``
-        Creates a new alias for a the specified folder.
+        Creates a new alias for the specified folder.
 
 Arguments
 =========
@@ -32,3 +32,15 @@ Flags
 
     ``--remove, -r``
         Removes the Alias
+
+Notes
+=====
+
+All of the defined alias' are stored in a file titled ``.bottle-alias``.  This
+file is stored current solution folder.
+
+The alias **name** is unique in the alias list. If you define an alias more than
+once, the Folder value of the last definition will take precedence over all
+others.
+
+
