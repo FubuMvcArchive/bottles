@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Bottles.Exceptions;
 using FubuCore;
 using FubuCore.CommandLine;
 
@@ -45,7 +46,24 @@ namespace Bottles.Diagnostics
 
         public void Trace(ConsoleColor color, string format, params object[] parameters)
         {
-            var text = format.ToFormat(parameters);
+            var text = format;
+
+            if(parameters.Length > 0)
+            {
+                try
+                {
+                    text = format.ToFormat(parameters);
+                }
+                catch (FormatException ex)
+                {
+                    //this could be moved into 'ToFormat'
+                    var f = format.Replace("{", "{{").Replace("}", "}}");
+                    var a = parameters.Aggregate((l, r) => l + "," + r);
+                    throw new BottleException("Attempted to format the string --{0}-- with --{1}--".ToFormat(f, a), ex);
+                }
+                
+            }
+            
             _text.WriteLine(text);
         }
 
@@ -92,6 +110,18 @@ namespace Bottles.Diagnostics
             get; private set;
         }
 
+
+        public void TrapErrors(Action action)
+        {
+            try
+            {
+                action();
+            }
+            catch (Exception e)
+            {
+                MarkFailure(e);
+            }
+        }
 
     }
 }

@@ -19,5 +19,7 @@ namespace Bottles.Diagnostics
         void AddChild(params object[] child);
         IEnumerable<T> FindChildren<T>();
         void Execute(Action continuation);
+        void TrapErrors(Action action);
+
     }
 }

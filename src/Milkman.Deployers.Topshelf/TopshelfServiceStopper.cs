@@ -34,9 +34,24 @@ namespace Bottles.Deployers.Topshelf
 
             log.Trace("Found service '{0}' and trying to stop it", directive.ServiceName);
 
+
+            stopService(service, log);
+        }
+
+        private bool serviceDoesntNeedStopping(ServiceController service)
+        {
+            if (service == null)
+            {
+                return true;
+            }
+            return (service.Status == ServiceControllerStatus.Stopped || service.Status == ServiceControllerStatus.StopPending);
+        }
+
+        private void stopService(ServiceController service, IPackageLog log)
+        {
             if (!service.CanStop)
             {
-                log.MarkFailure("Not allowed to stop the service '{0}'".ToFormat(directive.ServiceName));
+                log.MarkFailure("Not allowed to stop the service '{0}'".ToFormat(service.ServiceName));
                 return;
             }
 
@@ -50,30 +65,21 @@ namespace Bottles.Deployers.Topshelf
             {
                 log.MarkFailure(
                     "Unable to stop service '{0}' using conventional stop after 30 seconds".ToFormat(
-                        directive.ServiceName));
+                        service.ServiceName));
             }
             catch (InvalidOperationException ioex)
             {
-                if(!ioex.Message.Contains("does not exist"))
+                //Why is this check here - removing throw - dru 5/23/2012
+                if (!ioex.Message.Contains("does not exist"))
                 {
-                    throw;
+                    //throw;
                 }
                 log.Trace("Service is not there anymore. Carry on.");
             }
             catch (Exception e)
             {
-                log.Trace("Encountered an exception while stopping the service '{0}': {1}", directive.ServiceName, e);
+                log.Trace("Encountered an exception while stopping the service '{0}': {1}", service.ServiceName, e);
             }
-
-        }
-
-        private bool serviceDoesntNeedStopping(ServiceController service)
-        {
-            if (service == null)
-            {
-                return true;
-            }
-            return (service.Status == ServiceControllerStatus.Stopped || service.Status == ServiceControllerStatus.StopPending);
         }
     }
 }
