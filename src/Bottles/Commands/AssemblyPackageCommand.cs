@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Xml;
 using Bottles.Zipping;
 using FubuCore;
@@ -28,44 +29,69 @@ namespace Bottles.Commands
 
             var zipService = new ZipFileService(fileSystem);
 
-
-            createZipFile(input, "WebContent", zipService);
-            createZipFile(input, "Data", zipService);
+            // TODO -- this is where it would be valuable to start generalizing the file set
+            // storage within Package Manifest
+            createZipFile(input, "WebContent", zipService, m => m.ContentFileSet);
+            createZipFile(input, "Data", zipService, m => m.DataFileSet);
+            createZipFile(input, "Config", zipService, m => m.ConfigFileSet);
 
 
             return true;
         }
 
-        private void createZipFile(AssemblyPackageInput input, string childFolderName, ZipFileService zipService)
+        
+        private void createZipFile(AssemblyPackageInput input, string childFolderName, ZipFileService zipService, Func<PackageManifest, FileSet> fileSource)
         {
-            var contentDirectory = FileSystem.Combine(input.RootFolder, childFolderName);
-            if (!fileSystem.DirectoryExists(contentDirectory)) return;
+            var zipRequest = BuildZipRequest(input, childFolderName, fileSource);
+            if (zipRequest == null)
+            {
+                ConsoleWriter.Write("No content for " + childFolderName);
 
+                return;
+            }
 
             var zipFileName = "pak-{0}.zip".ToFormat(childFolderName);
-
-
-
             var contentFile = FileSystem.Combine(input.RootFolder, zipFileName);
             ConsoleWriter.Write("Creating zip file " + contentFile);
-
             fileSystem.DeleteFile(contentFile);
 
 
-            zipService.CreateZipFile(contentFile, file =>
+            zipService.CreateZipFile(contentFile, file => file.AddFiles(zipRequest));
+
+            if (input.ProjFileFlag.IsEmpty()) return;
+
+            attachZipFileToProjectFile(input, zipFileName);
+        }
+
+        public ZipFolderRequest BuildZipRequest(AssemblyPackageInput input, string childFolderName, Func<PackageManifest, FileSet> fileSource)
+        {
+            var contentDirectory = FileSystem.Combine(input.RootFolder, childFolderName);
+
+            var manifest = fileSystem.LoadPackageManifestFrom(input.RootFolder);
+            if (manifest != null)
             {
+                var files = fileSource(manifest);
+                if (files == null) return null;
 
-                file.AddFiles(new ZipFolderRequest()
-                              {
-                                  FileSet = new FileSet(){DeepSearch = true, Include="*.*"}, 
-                                  RootDirectory = contentDirectory,
-                                  ZipDirectory = string.Empty
-                              });
-            });
+                return new ZipFolderRequest{
+                    FileSet = files,
+                    RootDirectory = input.RootFolder,
+                    ZipDirectory = string.Empty
+                };
+            }
 
-            if (!input.ProjFileFlag.IsNotEmpty())
-                return;
+            if (!fileSystem.DirectoryExists(contentDirectory)) return null;
 
+            return new ZipFolderRequest()
+                   {
+                       FileSet = new FileSet() { DeepSearch = true, Include = "*.*" },
+                       RootDirectory = contentDirectory,
+                       ZipDirectory = string.Empty
+                   };
+        }
+
+        private void attachZipFileToProjectFile(AssemblyPackageInput input, string zipFileName)
+        {
             var document = new XmlDocument();
             var projectFileName = FileSystem.Combine(input.RootFolder, input.ProjFileFlag);
             document.Load(projectFileName);
@@ -89,7 +115,6 @@ namespace Bottles.Commands
             document.DocumentElement.AppendChild(node);
 
             document.Save(projectFileName);
-
         }
     }
 }
