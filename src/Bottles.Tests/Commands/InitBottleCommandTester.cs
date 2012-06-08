@@ -6,7 +6,7 @@ using FubuTestingSupport;
 namespace Bottles.Tests.Commands
 {
     [TestFixture]
-    public class InitPakCommandTester 
+    public class InitBottleCommandTester 
     {
         IFileSystem fs = new FileSystem();
         private string thePath = "initpath";

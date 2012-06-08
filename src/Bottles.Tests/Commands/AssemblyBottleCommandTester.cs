@@ -5,7 +5,7 @@ namespace Bottles.Tests.Commands
 {
     //REVIEW: come back when I understand the use case of this class
 //    [TestFixture]
-//    public class AssemblyPackageCommandTester
+//    public class AssemblyBottleCommandTester
 //    {
 //        private AssemblyPackageInput theInput;
 //        private AssemblyPackageCommand theCommand;

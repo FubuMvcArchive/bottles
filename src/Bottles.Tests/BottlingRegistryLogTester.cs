@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace Bottles.Tests
 {
     [TestFixture]
-    public class PackagingRegistryLogTester
+    public class BottlingRegistryLogTester
     {
         [Test]
         public void write_trace()
@@ -27,13 +27,13 @@ namespace Bottles.Tests
         {
             var log = new PackageLog();
 
-            var loader1 = new StubPackageLoader();
-            var loader2 = new StubPackageLoader();
-            var loader3 = new StubPackageLoader();
+            var loader1 = new StubBottleLoader();
+            var loader2 = new StubBottleLoader();
+            var loader3 = new StubBottleLoader();
 
-            var package1 = new StubPackage("1");
-            var package2 = new StubPackage("2");
-            var package3 = new StubPackage("3");
+            var package1 = new StubBottle("1");
+            var package2 = new StubBottle("2");
+            var package3 = new StubBottle("3");
         
             log.AddChild(loader1, loader2, loader3, package1, package2, package3);
 

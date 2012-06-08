@@ -12,15 +12,15 @@ using Rhino.Mocks;
 namespace Bottles.Tests
 {
     [TestFixture]
-    public class PackagingDependencyProcessorTester : 
+    public class BottlingDependencyProcessorTester : 
         InteractionContext<PackageDependencyProcessor>
     {
-        IList<StubPackage> thePackages;
+        IList<StubBottle> thePackages;
         StubPackageDiagnostics theDiagnostics;
 
         protected override void beforeEach()
         {
-            thePackages = new List<StubPackage>();
+            thePackages = new List<StubBottle>();
 
             hasPackage("C");
             hasPackage("B");
@@ -114,9 +114,9 @@ namespace Bottles.Tests
         }
 
         //helpers
-        private StubPackage hasPackage(string name)
+        private StubBottle hasPackage(string name)
         {
-            var x = new StubPackage(name);
+            var x = new StubBottle(name);
             if(thePackages.Any(p=>p.Name.Equals(x.Name)))
             {
                 return thePackages.First(p => p.Name.Equals(name));

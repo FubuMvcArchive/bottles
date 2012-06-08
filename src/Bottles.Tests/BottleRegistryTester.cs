@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace Bottles.Tests
 {
     [TestFixture]
-    public class PackageRegistryTester
+    public class BottleRegistryTester
     {
         [Test]
         public void assert_failures_with_no_failures()

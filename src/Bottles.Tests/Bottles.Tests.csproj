@@ -72,15 +72,15 @@
   <ItemGroup>
     <Compile Include="AssemblyFileFinderTester.cs" />
     <Compile Include="AssemblyLoaderTester.cs" />
-    <Compile Include="AssemblyPackageInfoTester.cs" />
-    <Compile Include="Commands\AssemblyPackageCommandTester.cs" />
+    <Compile Include="AssemblyBottleInfoTester.cs" />
+    <Compile Include="Commands\AssemblyBottleCommandTester.cs" />
     <Compile Include="Commands\LinkCommandTester.cs" />
     <Compile Include="Configuration\ConnectionStringResolverTester.cs" />
     <Compile Include="Configuration\ResolveDbConnectionDeployerTester.cs" />
     <Compile Include="Commands\AliasLibraryTester.cs" />
     <Compile Include="Commands\AssembliesInputTester.cs" />
-    <Compile Include="Commands\CreatePackageCommandTester.cs" />
-    <Compile Include="Commands\InitPakCommandTester.cs" />
+    <Compile Include="Commands\CreateBottleCommandTester.cs" />
+    <Compile Include="Commands\InitBottleCommandTester.cs" />
     <Compile Include="Commands\InstallationRunnerTester.cs" />
     <Compile Include="Commands\InstallCommandTester.cs" />
     <Compile Include="Commands\ListCommandTester.cs" />
@@ -90,8 +90,8 @@
       <DependentUpon>environment.settings</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Creation\PackageCreatorTester.cs" />
-    <Compile Include="Creation\PackageManifestWriterTester.cs" />
+    <Compile Include="Creation\BottleCreatorTester.cs" />
+    <Compile Include="Creation\BottleManifestWriterTester.cs" />
     <Compile Include="Deployment\Bootstrapping\DeploymentBootstrapperIntegratedTester.cs" />
     <Compile Include="Deployment\Commands\DeployInputTester.cs" />
     <Compile Include="Deployment\Deployers\CommandLine\CommandLineDeployerTester.cs" />
@@ -111,7 +111,6 @@
     <Compile Include="Deployment\DeploymentSettingsTester.cs" />
     <Compile Include="Deployment\ProfileTester.cs" />
     <Compile Include="Deployment\Runtime\DirectiveRunnerTester.cs" />
-    <Compile Include="Diagnostics\PackageLogTester.cs" />
     <Compile Include="EnvironmentSettingsTester.cs" />
     <Compile Include="Deployment\FakeDeployer.cs" />
     <Compile Include="Deployment\HostManifestTester.cs" />
@@ -131,27 +130,27 @@
     <Compile Include="Environment\EnvironmentRunTester.cs" />
     <Compile Include="Environment\FakeEnvironment.cs" />
     <Compile Include="Environment\LogEntryTester.cs" />
-    <Compile Include="Exploding\PackageExploderTester.cs" />
+    <Compile Include="Exploding\BottleExploderTester.cs" />
     <Compile Include="FileSystemExtensionsTester.cs" />
     <Compile Include="FileSystemTester.cs" />
     <Compile Include="Host.Packaging\TopshelfBottleDestinationTester.cs" />
     <Compile Include="LambdaActivatorTester.cs" />
-    <Compile Include="PackageInfoTester.cs" />
-    <Compile Include="PackageManifestReaderTester.cs" />
-    <Compile Include="PackageManifestTester.cs" />
-    <Compile Include="PackageOrderingIntegratedTester.cs" />
-    <Compile Include="PackageRegistryTester.cs" />
-    <Compile Include="PackagingDependencyProcessorTester.cs" />
-    <Compile Include="PackagingDiagnosticsTester.cs" />
-    <Compile Include="PackagingRegistryLogTester.cs" />
-    <Compile Include="PackagingRuntimeGraphTester.cs" />
+    <Compile Include="BottleInfoTester.cs" />
+    <Compile Include="BottleManifestReaderTester.cs" />
+    <Compile Include="BottleManifestTester.cs" />
+    <Compile Include="BottleOrderingIntegratedTester.cs" />
+    <Compile Include="BottleRegistryTester.cs" />
+    <Compile Include="BottlingDependencyProcessorTester.cs" />
+    <Compile Include="BottlingDiagnosticsTester.cs" />
+    <Compile Include="BottlingRegistryLogTester.cs" />
+    <Compile Include="BottlingRuntimeGraphTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecipeTester.cs" />
     <Compile Include="Runtime\BootstrappingIntegratedTester.cs" />
     <Compile Include="Deployment\Runtime\DirectiveBuilderTester.cs" />
-    <Compile Include="SolutionDirectoryPackageLoaderTester.cs" />
-    <Compile Include="StubPackage.cs" />
-    <Compile Include="StubPackageLoader.cs" />
+    <Compile Include="SolutionDirectoryBottleLoaderTester.cs" />
+    <Compile Include="StubBottle.cs" />
+    <Compile Include="StubBottleLoader.cs" />
     <Compile Include="ZipFileServiceTester.cs" />
     <Compile Include="Zipping\ZipFileServiceTester.cs" />
     <Compile Include="Zipping\ZipFolderRequestTester.cs" />

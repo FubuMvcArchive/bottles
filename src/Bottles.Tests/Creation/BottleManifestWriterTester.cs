@@ -4,12 +4,11 @@ using FubuCore;
 using FubuTestingSupport;
 using NUnit.Framework;
 using Rhino.Mocks;
-using Is = Rhino.Mocks.Constraints.Is;
 
 namespace Bottles.Tests.Creation
 {
     [TestFixture]
-    public class PackageManifestWriterTester : InteractionContext<PackageManifestWriter>
+    public class BottleManifestWriterTester : InteractionContext<PackageManifestWriter>
     {
         private const string theFileName = ".manifest";
 

@@ -11,7 +11,7 @@ using FubuCore;
 namespace Bottles.Tests
 {
     [TestFixture]
-    public class AssemblyPackageInfoTester
+    public class AssemblyBottleInfoTester
     {
         private Assembly assembly;
         private IPackageInfo package;

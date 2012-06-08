@@ -6,13 +6,13 @@ using FubuTestingSupport;
 namespace Bottles.Tests
 {
     [TestFixture]
-    public class PackageOrderingIntegratedTester
+    public class BottleOrderingIntegratedTester
     {
-        private void loadPackages(Action<StubPackageLoader> configuration)
+        private void loadPackages(Action<StubBottleLoader> configuration)
         {
             PackageRegistry.LoadPackages(facility =>
             {
-                var loader = new StubPackageLoader();
+                var loader = new StubBottleLoader();
                 configuration(loader);
 
                 facility.Loader(loader);

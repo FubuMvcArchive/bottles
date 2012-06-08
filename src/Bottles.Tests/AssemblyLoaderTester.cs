@@ -28,7 +28,7 @@ namespace Bottles.Tests
         {
             var assembly = Assembly.GetExecutingAssembly();
 
-            var package = new StubPackage("something"){
+            var package = new StubBottle("something"){
                 LoadingAssemblies = x => x.Use(assembly)
             };
 
@@ -45,12 +45,12 @@ namespace Bottles.Tests
         {
             var assembly = Assembly.GetExecutingAssembly();
 
-            var package1 = new StubPackage("something")
+            var package1 = new StubBottle("something")
             {
                 LoadingAssemblies = x => x.Use(assembly)
             };
 
-            var package2 = new StubPackage("something")
+            var package2 = new StubBottle("something")
             {
                 LoadingAssemblies = x => x.Use(assembly)
             };
@@ -70,7 +70,7 @@ namespace Bottles.Tests
 
             ClassUnderTest.AssemblyFileLoader = assemblyFileLoader;
 
-            var package = new StubPackage("something")
+            var package = new StubBottle("something")
             {
                 LoadingAssemblies = x => x.LoadFromFile("filename.dll", "AssemblyName")
             };
@@ -94,7 +94,7 @@ namespace Bottles.Tests
 
             ClassUnderTest.AssemblyFileLoader = assemblyFileLoader;
 
-            var package = new StubPackage("something")
+            var package = new StubBottle("something")
             {
                 LoadingAssemblies = x => x.LoadFromFile("filename.dll", "AssemblyName")
             };
@@ -113,7 +113,7 @@ namespace Bottles.Tests
         public void load_duplicate_assembly_attempt_from_file_for_a_new_assembly()
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var package1 = new StubPackage("something")
+            var package1 = new StubBottle("something")
             {
                 LoadingAssemblies = x => x.Use(assembly)
             };
@@ -124,7 +124,7 @@ namespace Bottles.Tests
             ClassUnderTest.AssemblyFileLoader = assemblyFileLoader;
 
             var theAssemblyName = assembly.GetName().Name;
-            var package = new StubPackage("something")
+            var package = new StubBottle("something")
             {
                 LoadingAssemblies = x => x.LoadFromFile("filename.dll", theAssemblyName)
             };

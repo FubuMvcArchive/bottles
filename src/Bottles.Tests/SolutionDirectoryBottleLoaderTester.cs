@@ -8,7 +8,7 @@ using FubuTestingSupport;
 namespace Bottles.Tests
 {
     [TestFixture]
-    public class SolutionDirectoryPackageLoaderTester
+    public class SolutionDirectoryBottleLoaderTester
     {
         private string thePathToScan = "solDirPackLoad";
         private DirectoryPackageLoader theLoader;

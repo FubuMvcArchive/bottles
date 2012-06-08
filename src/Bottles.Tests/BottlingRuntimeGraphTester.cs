@@ -98,15 +98,15 @@ namespace Bottles.Tests
     [TestFixture]
     public class when_adding_a_package_loader : InteractionContext<PackagingRuntimeGraph>
     {
-        private StubPackageLoader loader1;
-        private StubPackageLoader loader2;
-        private StubPackageLoader loader3;
+        private StubBottleLoader loader1;
+        private StubBottleLoader loader2;
+        private StubBottleLoader loader3;
 
         protected override void beforeEach()
         {
-            loader1 = new StubPackageLoader("1a", "1b", "1c");
-            loader2 = new StubPackageLoader("2a", "2b");
-            loader3 = new StubPackageLoader("3a", "3b", "3c");
+            loader1 = new StubBottleLoader("1a", "1b", "1c");
+            loader2 = new StubBottleLoader("2a", "2b");
+            loader3 = new StubBottleLoader("3a", "3b", "3c");
         
             ClassUnderTest.PushProvenance("A");
             ClassUnderTest.AddLoader(loader1);

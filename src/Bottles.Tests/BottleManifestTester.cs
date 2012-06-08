@@ -6,7 +6,7 @@ using System.Linq;
 namespace Bottles.Tests
 {
     [TestFixture]
-    public class PackageManifestTester
+    public class BottleManifestTester
     {
         [Test]
         public void fileset_for_searching()

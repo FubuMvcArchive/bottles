@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace Bottles.Tests
 {
     [TestFixture]
-    public class PackageInfoTester
+    public class BottleInfoTester
     {
         private PackageInfo thePackage;
 		private string theDataFolder;

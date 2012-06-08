@@ -5,11 +5,11 @@ using FubuCore.Util;
 
 namespace Bottles.Tests
 {
-    public class StubPackageLoader : IPackageLoader
+    public class StubBottleLoader : IPackageLoader
     {
-        private readonly Cache<string, StubPackage> _packages = new Cache<string, StubPackage>(name => new StubPackage(new PackageManifest(){Name = name}));
+        private readonly Cache<string, StubBottle> _packages = new Cache<string, StubBottle>(name => new StubBottle(new PackageManifest(){Name = name}));
 
-        public StubPackageLoader(params string[] names)
+        public StubBottleLoader(params string[] names)
         {
             names.Each(x => _packages.FillDefault(x));
         }
@@ -20,7 +20,7 @@ namespace Bottles.Tests
             return _packages;
         }
 
-        public StubPackage PackageFor(string name)
+        public StubBottle PackageFor(string name)
         {
             return _packages[name];
         }

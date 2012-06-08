@@ -7,16 +7,16 @@ using FubuCore.Util;
 
 namespace Bottles.Tests
 {
-    public class StubPackage : IPackageInfo
+    public class StubBottle : IPackageInfo
     {
         private readonly Cache<string, string> _folderNames = new Cache<string,string>();
         private readonly PackageManifest _manifest;
 
-        public StubPackage(string name) : this(new PackageManifest(){Name=name})
+        public StubBottle(string name) : this(new PackageManifest(){Name=name})
         {
             
         }
-        public StubPackage(PackageManifest manifest)
+        public StubBottle(PackageManifest manifest)
         {
             _manifest = manifest;
 
@@ -60,7 +60,7 @@ namespace Bottles.Tests
             get { throw new NotImplementedException(); }
         }
 
-        public StubPackage(Action<IAssemblyRegistration> loadingAssemblies)
+        public StubBottle(Action<IAssemblyRegistration> loadingAssemblies)
         {
             LoadingAssemblies = loadingAssemblies;
         }

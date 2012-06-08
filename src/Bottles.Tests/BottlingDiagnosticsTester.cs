@@ -10,7 +10,7 @@ using FubuCore;
 namespace Bottles.Tests
 {
     [TestFixture]
-    public class PackagingDiagnosticsTester
+    public class BottlingDiagnosticsTester
     {
         private PackagingDiagnostics diagnostics;
 
@@ -23,7 +23,7 @@ namespace Bottles.Tests
         [Test]
         public void log_an_object_creates_a_log_file()
         {
-            var loader = new StubPackageLoader("a", "b");
+            var loader = new StubBottleLoader("a", "b");
             diagnostics.LogObject(loader, "registered at XYZ");
 
             diagnostics.LogFor(loader).Provenance.ShouldEqual("registered at XYZ");
@@ -32,7 +32,7 @@ namespace Bottles.Tests
         [Test]
         public void log_an_object_sticks_the_ToString_value_of_the_object_on_to_the_description()
         {
-            var loader = new StubPackageLoader("a", "b");
+            var loader = new StubBottleLoader("a", "b");
             diagnostics.LogObject(loader, "registered at XYZ");
 
             diagnostics.LogFor(loader).Description.ShouldEqual(loader.ToString());
@@ -41,7 +41,7 @@ namespace Bottles.Tests
         [Test]
         public void log_execution_happy_path()
         {
-            var loader = new StubPackageLoader("a", "b");
+            var loader = new StubBottleLoader("a", "b");
             diagnostics.LogObject(loader, "registered at XYZ");
 
             diagnostics.LogExecution(loader, () => Thread.Sleep(5));
@@ -54,7 +54,7 @@ namespace Bottles.Tests
         [Test]
         public void log_execution_that_throws_exception()
         {
-            var loader = new StubPackageLoader("a", "b");
+            var loader = new StubBottleLoader("a", "b");
             diagnostics.LogObject(loader, "registered at XYZ");
 
             diagnostics.LogExecution(loader, () =>
@@ -72,7 +72,7 @@ namespace Bottles.Tests
         [Test]
         public void log_an_assembly_failure()
         {
-            var package = new StubPackage("a");
+            var package = new StubBottle("a");
             var exception = new ApplicationException("didn't work");
             var theFileNameOfTheAssembly = "assembly.dll";
             diagnostics.LogAssemblyFailure(package, theFileNameOfTheAssembly, exception);
@@ -88,7 +88,7 @@ namespace Bottles.Tests
         [Test]
         public void log_a_duplicate_assembly()
         {
-            var package = new StubPackage("a");
+            var package = new StubBottle("a");
             diagnostics.LogDuplicateAssembly(package, "Duplicate.Assembly");
 
             diagnostics.LogFor(package).FullTraceText().ShouldContain("Assembly 'Duplicate.Assembly' was ignored because it is already loaded");
@@ -99,30 +99,30 @@ namespace Bottles.Tests
     public class when_logging_a_package
     {
         private PackagingDiagnostics diagnostics;
-        private StubPackageLoader loader;
-        private StubPackage package;
+        private StubBottleLoader loader;
+        private StubBottle _bottle;
 
         [SetUp]
         public void SetUp()
         {
             diagnostics = new PackagingDiagnostics(new LoggingSession());
 
-            loader = new StubPackageLoader("a", "b");
-            package = new StubPackage("a");
+            loader = new StubBottleLoader("a", "b");
+            _bottle = new StubBottle("a");
 
-            diagnostics.LogPackage(package, loader);
+            diagnostics.LogPackage(_bottle, loader);
         }
 
         [Test]
         public void the_log_for_the_package_should_show_the_provenance_from_the_loader()
         {
-            diagnostics.LogFor(package).Provenance.ShouldEqual("Loaded by " + loader.ToString());
+            diagnostics.LogFor(_bottle).Provenance.ShouldEqual("Loaded by " + loader.ToString());
         }
 
         [Test]
         public void the_package_should_be_a_child_of_the_loader()
         {
-            diagnostics.LogFor(loader).FindChildren<IPackageInfo>().Single().ShouldBeTheSameAs(package);
+            diagnostics.LogFor(loader).FindChildren<IPackageInfo>().Single().ShouldBeTheSameAs(_bottle);
         }
 
 
@@ -173,7 +173,7 @@ namespace Bottles.Tests
     public class when_logging_an_assembly
     {
         private PackagingDiagnostics diagnostics;
-        private StubPackage package;
+        private StubBottle _bottle;
         private Assembly assembly;
         private string theProvenance;
 
@@ -181,11 +181,11 @@ namespace Bottles.Tests
         public void SetUp()
         {
             diagnostics = new PackagingDiagnostics(new LoggingSession());
-            package = new StubPackage("a");
+            _bottle = new StubBottle("a");
             assembly = Assembly.GetExecutingAssembly();
 
             theProvenance = "from here";
-            diagnostics.LogAssembly(package, assembly, theProvenance);
+            diagnostics.LogAssembly(_bottle, assembly, theProvenance);
         }
 
         [Test]
@@ -197,14 +197,14 @@ namespace Bottles.Tests
         [Test]
         public void the_assembly_should_be_registered_as_coming_from_the_package()
         {
-            diagnostics.LogFor(package)
+            diagnostics.LogFor(_bottle)
                 .FindChildren<Assembly>().Single().ShouldBeTheSameAs(assembly);
         }
 
         [Test]
         public void trace_for_the_package_should_say_the_assembly()
         {
-            diagnostics.LogFor(package).FullTraceText().ShouldContain("Loaded assembly '" + assembly.GetName().FullName + "' v1.0.0.0");
+            diagnostics.LogFor(_bottle).FullTraceText().ShouldContain("Loaded assembly '" + assembly.GetName().FullName + "' v1.0.0.0");
         }
     }
 }
