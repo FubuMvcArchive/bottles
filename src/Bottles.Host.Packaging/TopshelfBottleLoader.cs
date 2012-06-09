@@ -7,8 +7,8 @@ using FubuCore;
 
 namespace Bottles.Host.Packaging
 {
-    public class TopshelfPackageLoader : 
-        IPackageLoader
+    public class TopshelfBottleLoader : 
+        IBottleLoader
     {
         public static readonly string TopshelfPackagesFolder = "topshelf-packages";
         public static readonly string TopshelfContentFolder = "topshelf-content";
@@ -16,7 +16,7 @@ namespace Bottles.Host.Packaging
         private readonly IPackageExploder _exploder;
         private readonly PackageManifestReader _reader;
 
-        public TopshelfPackageLoader(IPackageExploder exploder)
+        public TopshelfBottleLoader(IPackageExploder exploder)
         {
             _exploder = exploder;
 
