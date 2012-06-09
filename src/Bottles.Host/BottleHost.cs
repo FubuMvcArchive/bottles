@@ -33,7 +33,7 @@ namespace Bottles.Host
             {
                 PackageRegistry.LoadPackages(pkg =>
                 {
-                    pkg.Loader(new TopshelfPackageLoader(_exploder));
+                    pkg.Loader(new TopshelfBottleLoader(_exploder));
 
                     pkg.Bootstrapper(_svc);
                 });

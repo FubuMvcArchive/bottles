@@ -92,7 +92,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Creation\BottleCreatorTester.cs" />
-    <Compile Include="Creation\BottleManifestWriterTester.cs" />
     <Compile Include="Deployment\Bootstrapping\DeploymentBootstrapperIntegratedTester.cs" />
     <Compile Include="Deployment\Commands\DeployInputTester.cs" />
     <Compile Include="Deployment\Deployers\CommandLine\CommandLineDeployerTester.cs" />
