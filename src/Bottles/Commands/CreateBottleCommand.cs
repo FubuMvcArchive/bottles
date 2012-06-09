@@ -56,7 +56,7 @@ namespace Bottles.Commands
             var fileName = FileSystem.Combine(input.PackageFolder, input.ManifestFileNameFlag ?? PackageManifest.FILE);
             var manifest = fileSystem.LoadFromFile<PackageManifest>(fileName);
             
-            var creator = new PackageCreator(fileSystem, new ZipFileService(fileSystem), new PackageLogger(new LoggingSession()), new AssemblyFileFinder(fileSystem));
+            var creator = new BottleCreator(fileSystem, new ZipFileService(fileSystem), new PackageLogger(new LoggingSession()), new AssemblyFileFinder(fileSystem));
             return creator.CreatePackage(input, manifest);
         }
     }

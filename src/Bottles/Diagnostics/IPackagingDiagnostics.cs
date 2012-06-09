@@ -6,7 +6,7 @@ namespace Bottles.Diagnostics
 {
     public interface IPackagingDiagnostics
     {
-        void LogPackage(IPackageInfo package, IPackageLoader loader);
+        void LogPackage(IPackageInfo package, IBottleLoader loader);
         void LogBootstrapperRun(IBootstrapper bootstrapper, IEnumerable<IActivator> activators);
         void LogAssembly(IPackageInfo package, Assembly assembly, string provenance);
         void LogDuplicateAssembly(IPackageInfo package, string assemblyName);

@@ -37,7 +37,7 @@ namespace Bottles.Tests
         
             log.AddChild(loader1, loader2, loader3, package1, package2, package3);
 
-            log.FindChildren<IPackageLoader>().ShouldHaveTheSameElementsAs(loader1, loader2, loader3);
+            log.FindChildren<IBottleLoader>().ShouldHaveTheSameElementsAs(loader1, loader2, loader3);
 
             log.FindChildren<IPackageInfo>().ShouldHaveTheSameElementsAs(package1, package2, package3);
         }

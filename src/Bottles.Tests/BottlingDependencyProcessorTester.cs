@@ -153,7 +153,7 @@ namespace Bottles.Tests
             throw new NotImplementedException();
         }
 
-        public void LogPackage(IPackageInfo package, IPackageLoader loader)
+        public void LogPackage(IPackageInfo package, IBottleLoader loader)
         {
             throw new NotImplementedException();
         }

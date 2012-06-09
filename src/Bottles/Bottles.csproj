@@ -78,7 +78,6 @@
     <Compile Include="Diagnostics\PackageLogExtensions.cs" />
     <Compile Include="Diagnostics\PackageLogger.cs" />
     <Compile Include="Creation\CreateBottleInput.cs" />
-    <Compile Include="Creation\PackageManifestWriter.cs" />
     <Compile Include="Environment\EnvironmentGateway.cs" />
     <Compile Include="Environment\EnvironmentListExtensions.cs" />
     <Compile Include="Environment\EnvironmentProxy.cs" />
@@ -101,7 +100,7 @@
     <Compile Include="Exploding\IPackageExploderLogger.cs" />
     <Compile Include="IPackageFacility.cs" />
     <Compile Include="IPackageInfo.cs" />
-    <Compile Include="IPackageLoader.cs" />
+    <Compile Include="IBottleLoader.cs" />
     <Compile Include="Diagnostics\IPackageLog.cs" />
     <Compile Include="Diagnostics\IPackagingDiagnostics.cs" />
     <Compile Include="Manifest\IPackageManifestReader.cs" />
@@ -110,7 +109,7 @@
     <Compile Include="LambdaBootstrapper.cs" />
     <Compile Include="Exploding\PackageExploder.cs" />
     <Compile Include="Exploding\PackageExploderLogger.cs" />
-    <Compile Include="Creation\PackageCreator.cs" />
+    <Compile Include="Creation\BottleCreator.cs" />
     <Compile Include="PackageLoaders\LinkedFolders\LinkedFolderPackageLoader.cs" />
     <Compile Include="PackageLoaders\LinkedFolders\LinkManifest.cs" />
     <Compile Include="PackageDependencyProcessor.cs" />

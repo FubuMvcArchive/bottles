@@ -15,7 +15,7 @@ using Rhino.Mocks;
 namespace Bottles.Tests.Creation
 {
     [TestFixture]
-    public class when_creating_a_package_for_all_assemblies_found_and_including_pdbs : InteractionContext<PackageCreator>
+    public class when_creating_a_package_for_all_assemblies_found_and_including_pdbs : InteractionContext<BottleCreator>
     {
         private PackageManifest theManifest;
         private AssemblyFiles theAssemblyFiles;
@@ -131,7 +131,7 @@ namespace Bottles.Tests.Creation
     }
 
     [TestFixture]
-    public class when_creating_a_package_for_all_assemblies_found_and_not_including_pdbs : InteractionContext<PackageCreator>
+    public class when_creating_a_package_for_all_assemblies_found_and_not_including_pdbs : InteractionContext<BottleCreator>
     {
         private PackageManifest theManifest;
         private AssemblyFiles theAssemblyFiles;
@@ -254,7 +254,7 @@ namespace Bottles.Tests.Creation
     }
 
     [TestFixture]
-    public class when_trying_to_create_a_package_and_not_all_assemblies_are_found : InteractionContext<PackageCreator>
+    public class when_trying_to_create_a_package_and_not_all_assemblies_are_found : InteractionContext<BottleCreator>
     {
         private PackageManifest theManifest;
         private AssemblyFiles theAssemblyFiles;

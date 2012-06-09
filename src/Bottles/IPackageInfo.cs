@@ -4,7 +4,13 @@ using Bottles.PackageLoaders.Assemblies;
 
 namespace Bottles
 {
-    public interface IPackageInfo
+    [Obsolete]
+    public interface IPackageInfo : IBottleInfo
+    {
+        
+    }
+
+    public interface IBottleInfo
     {
         string Name { get; }
         string Role { get; }

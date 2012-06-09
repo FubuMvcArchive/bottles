@@ -15,7 +15,7 @@ namespace Bottles.Diagnostics
             _log = log;
         }
 
-        public void LogPackage(IPackageInfo package, IPackageLoader loader)
+        public void LogPackage(IPackageInfo package, IBottleLoader loader)
         {
             _log.LogObject(package, "Loaded by " + loader);
             _log.LogFor(loader).AddChild(package);
@@ -109,7 +109,7 @@ namespace Bottles.Diagnostics
         {
             if (target is IBootstrapper) return typeof (IBootstrapper).Name;
             if (target is IActivator) return typeof (IActivator).Name;
-            if (target is IPackageLoader) return typeof (IPackageLoader).Name;
+            if (target is IBottleLoader) return typeof (IBottleLoader).Name;
             if (target is IPackageFacility) return typeof (IPackageFacility).Name;
             if (target is IPackageInfo) return typeof (IPackageInfo).Name;
             if (target is Assembly) return typeof (Assembly).Name;

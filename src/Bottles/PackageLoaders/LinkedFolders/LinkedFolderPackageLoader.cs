@@ -12,7 +12,7 @@ namespace Bottles.PackageLoaders.LinkedFolders
     /// 
     /// CHANGING the NAME of this will break FubuMVC in a small way
     /// </summary>
-    public class LinkedFolderPackageLoader : IPackageLoader
+    public class LinkedFolderPackageLoader : IBottleLoader
     {
         private readonly string _applicationDirectory;
         private readonly IFileSystem _fileSystem = new FileSystem();

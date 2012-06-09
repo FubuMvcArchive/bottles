@@ -24,7 +24,7 @@ namespace Bottles
            addConfigurableAction(g => g.AddBootstrapper(bootstrapper));
         }
 
-        public void Loader(IPackageLoader loader)
+        public void Loader(IBottleLoader loader)
         {
            addConfigurableAction(g => g.AddLoader(loader));
         }

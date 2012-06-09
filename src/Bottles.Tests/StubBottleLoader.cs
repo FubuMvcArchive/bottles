@@ -5,7 +5,7 @@ using FubuCore.Util;
 
 namespace Bottles.Tests
 {
-    public class StubBottleLoader : IPackageLoader
+    public class StubBottleLoader : IBottleLoader
     {
         private readonly Cache<string, StubBottle> _packages = new Cache<string, StubBottle>(name => new StubBottle(new PackageManifest(){Name = name}));
 

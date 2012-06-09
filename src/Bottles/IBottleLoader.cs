@@ -1,12 +1,18 @@
+using System;
 using System.Collections.Generic;
 using Bottles.Diagnostics;
 
 namespace Bottles
 {
+    [Obsolete]
+    public interface IPackageLoader : IBottleLoader
+    {
+    }
+
     /// <summary>
-    /// Finds packages
+    /// Finds bottles
     /// </summary>
-    public interface IPackageLoader
+    public interface IBottleLoader
     {
         /// <summary>
         /// The load method should find all packages and return them in the enum

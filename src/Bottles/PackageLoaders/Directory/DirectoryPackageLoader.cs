@@ -14,7 +14,7 @@ namespace Bottles.PackageLoaders
     /// 
     /// Again these seem to be finders.
     /// </summary>
-    public class DirectoryPackageLoader : IPackageLoader
+    public class DirectoryPackageLoader : IBottleLoader
     {
         private readonly string _searchPoint;
 

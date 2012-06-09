@@ -7,7 +7,7 @@ namespace Bottles.PackageLoaders.Assemblies
     /// <summary>
     /// Loads a package from an assembly (.dll / .exe)
     /// </summary>
-    public class AssemblyPackageLoader : IPackageLoader
+    public class AssemblyPackageLoader : IBottleLoader
     {
         private readonly Assembly _assembly;
 

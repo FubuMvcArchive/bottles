@@ -9,14 +9,14 @@ using FubuCore.CommandLine;
 
 namespace Bottles.Creation
 {
-    public class PackageCreator
+    public class BottleCreator
     {
         private readonly IFileSystem _fileSystem;
         private readonly IZipFileService _zipFileService;
         private readonly IPackageLogger _logger;
         private readonly IAssemblyFileFinder _assemblyFinder;
 
-        public PackageCreator(IFileSystem fileSystem, IZipFileService zipFileService, IPackageLogger logger, IAssemblyFileFinder assemblyFinder)
+        public BottleCreator(IFileSystem fileSystem, IZipFileService zipFileService, IPackageLogger logger, IAssemblyFileFinder assemblyFinder)
         {
             _fileSystem = fileSystem;
             _zipFileService = zipFileService;
@@ -96,12 +96,12 @@ namespace Bottles.Creation
             ConsoleWriter.Write("      Adding WebContent folder for " + manifest.ContentFileSet);
             manifest.ContentFileSet.AppendExclude(FileSystem.Combine("bin","*.*"));
 
-            zipFile.AddFiles(new ZipFolderRequest()
-                             {
-                                 FileSet = manifest.ContentFileSet,
-                                 ZipDirectory = BottleFiles.WebContentFolder,
-                                 RootDirectory = input.PackageFolder
-                             });
+            zipFile.AddFiles(new ZipFolderRequest
+                                 {
+                                     FileSet = manifest.ContentFileSet,
+                                     ZipDirectory = BottleFiles.WebContentFolder,
+                                     RootDirectory = input.PackageFolder
+                                 });
         }
 
         public void AddDataFiles(CreateBottleInput input, IZipFile zipFile, PackageManifest manifest)

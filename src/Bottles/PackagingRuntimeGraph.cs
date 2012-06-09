@@ -16,7 +16,7 @@ namespace Bottles
         private readonly IAssemblyLoader _assemblies;
         private readonly IList<IBootstrapper> _bootstrappers = new List<IBootstrapper>();
         private readonly IPackagingDiagnostics _diagnostics;
-        private readonly IList<IPackageLoader> _packageLoaders = new List<IPackageLoader>();
+        private readonly IList<IBottleLoader> _packageLoaders = new List<IBottleLoader>();
         private readonly Stack<string> _provenanceStack = new Stack<string>();
         private readonly IList<IPackageInfo> _packages;
 
@@ -87,7 +87,7 @@ namespace Bottles
             _diagnostics.LogObject(bootstrapper, currentProvenance);
         }
 
-        public void AddLoader(IPackageLoader loader)
+        public void AddLoader(IBottleLoader loader)
         {
             _packageLoaders.Add(loader);
             _diagnostics.LogObject(loader, currentProvenance);
