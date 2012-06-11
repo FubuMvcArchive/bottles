@@ -35,7 +35,7 @@ namespace Bottles.Tests
             var loader = MockRepository.GenerateMock<IAssemblyRegistration>();
             package.LoadAssemblies(loader);
 
-            loader.AssertWasCalled(x => x.LoadFromFile(assembly.Location, assembly.GetName().FullName));
+            loader.AssertWasCalled(x => x.Use(assembly));
         }
 
         [Test]

@@ -114,25 +114,5 @@ namespace Bottles
         {
             return Description;
         }
-        
-        public class AssemblyTarget
-        {
-            public string AssemblyName { get; set; }
-            public string FilePath { get; set; }
-
-            public void Load(IAssemblyRegistration loader)
-            {
-                loader.LoadFromFile(FilePath, AssemblyName);
-            }
-
-            public static AssemblyTarget FromAssembly(Assembly assembly)
-            {
-                return new AssemblyTarget()
-                           {
-                               AssemblyName = assembly.FullName,
-                               FilePath = assembly.Location
-                           };
-            }
-        }
     }
 }
