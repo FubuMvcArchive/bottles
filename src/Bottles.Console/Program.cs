@@ -15,7 +15,7 @@ namespace Bottles
                 var factory = new CommandFactory();
                 factory.SetAppName("bottles");
                 factory.RegisterCommands(typeof(IFubuCommand).Assembly);
-                factory.RegisterCommands(typeof(PackageExploder).Assembly);
+                factory.RegisterCommands(typeof(BottleExploder).Assembly);
 
                 var executor = new CommandExecutor(factory);
                 success = executor.Execute(args);

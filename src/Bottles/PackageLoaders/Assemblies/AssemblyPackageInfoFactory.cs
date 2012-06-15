@@ -10,7 +10,7 @@ namespace Bottles.PackageLoaders.Assemblies
         {
             var package = new AssemblyPackageInfo(assembly);
 
-            var exploder = PackageExploder.GetPackageExploder(new FileSystem());
+            var exploder = BottleExploder.GetPackageExploder(new FileSystem());
             exploder.ExplodeAssembly(PackageRegistry.GetApplicationDirectory(), assembly, package);
 
             return package;

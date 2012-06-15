@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Bottles.Commands;
 using Bottles.Diagnostics;
 using Bottles.PackageLoaders.Assemblies;
 using Bottles.Zipping;

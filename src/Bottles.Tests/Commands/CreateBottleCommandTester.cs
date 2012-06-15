@@ -10,7 +10,7 @@ using Rhino.Mocks;
 namespace Bottles.Tests.Commands
 {
     [TestFixture]
-    public class CreateBottleCommandTester : InteractionContext<CreateBottleCommand>
+    public class CreateBottleCommandTester : InteractionContext<Bottles.Commands.CreateBottleCommand>
     {
         private CreateBottleInput theInput;
         private PackageManifest theManifest;

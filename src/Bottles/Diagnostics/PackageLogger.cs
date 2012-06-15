@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Bottles.Commands;
 using Bottles.Creation;
 using Bottles.PackageLoaders.Assemblies;
 using FubuCore;

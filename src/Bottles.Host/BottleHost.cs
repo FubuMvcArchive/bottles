@@ -9,10 +9,10 @@ namespace Bottles.Host
     class BottleHost
     {
         private IBottleAwareService _svc;
-        private readonly IPackageExploder _exploder;
+        private readonly IBottleExploder _exploder;
         private readonly IFileSystem _fileSystem;
 
-        public BottleHost(IPackageExploder exploder, IFileSystem fileSystem)
+        public BottleHost(IBottleExploder exploder, IFileSystem fileSystem)
         {
             _exploder = exploder;
             _fileSystem = fileSystem;

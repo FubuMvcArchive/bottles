@@ -3,7 +3,7 @@ using FubuCore;
 
 namespace Bottles.Diagnostics
 {
-    public static class PackageLogExtensions
+    public static class BottleLogExtensions
     {
         private static int _indent = 0;
 

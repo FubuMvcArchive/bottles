@@ -3,7 +3,7 @@ using Bottles.Diagnostics;
 
 namespace Bottles.Exploding
 {
-    public interface IPackageExploder
+    public interface IBottleExploder
     {
         IEnumerable<string> ExplodeAllZipsAndReturnPackageDirectories(string applicationDirectory, IPackageLog log);
         void Explode(string sourceZipFile, string destinationDirectory, ExplodeOptions options);

@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-using Bottles.Creation;
 using Bottles.Diagnostics;
-using Bottles.PackageLoaders.LinkedFolders;
 using FubuCore;
 
 namespace Bottles
@@ -55,7 +53,6 @@ namespace Bottles
             }
         }
 
-
         public static string FindBinaryDirectory(this IFileSystem fileSystem, string directory, string target)
         {
             var binFolder = directory.AppendPath("bin");
@@ -83,7 +80,5 @@ namespace Bottles
 
             return fileSystem.FindFiles(directory, fileSet).Select(Path.GetFileNameWithoutExtension);
         }
-
-
     }
 }

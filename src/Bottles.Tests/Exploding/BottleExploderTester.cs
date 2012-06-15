@@ -24,7 +24,7 @@ namespace Bottles.Tests.Exploding
         {
             var fileSystem = new FileSystem();
             fileSystem.DeleteDirectory("app1");
-            var exploder = new PackageExploder(new ZipFileService(fileSystem),
+            var exploder = new BottleExploder(new ZipFileService(fileSystem),
                                                new PackageExploderLogger(s => ConsoleWriter.Write(s)), fileSystem);
 
             var thePackage = new PackageInfo(new PackageManifest());
@@ -233,7 +233,7 @@ namespace Bottles.Tests.Exploding
     }
 
 
-    public abstract class PackageExploderContext : InteractionContext<PackageExploder>
+    public abstract class PackageExploderContext : InteractionContext<BottleExploder>
     {
         protected readonly string theApplicationDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "app");
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Bottles.Commands;
 using Bottles.Creation;
 using Bottles.Diagnostics;
 using Bottles.Exploding;

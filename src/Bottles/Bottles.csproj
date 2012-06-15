@@ -57,6 +57,8 @@
     <Compile Include="Commands\InitCommand.cs" />
     <Compile Include="CompileTarget.cs" />
     <Compile Include="Exceptions\BottleException.cs" />
+    <Compile Include="Exploding\ExplodeDirectory.cs" />
+    <Compile Include="Exploding\ExplodeOptions.cs" />
     <Compile Include="Manifest\Dependency.cs" />
     <Compile Include="PackageInfo.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyFileFinder.cs" />
@@ -75,9 +77,8 @@
     <Compile Include="Diagnostics\LoggingSession.cs" />
     <Compile Include="Diagnostics\LogWriter.cs" />
     <Compile Include="Diagnostics\LogWriterStatus.cs" />
-    <Compile Include="Diagnostics\PackageLogExtensions.cs" />
+    <Compile Include="Diagnostics\BottleLogExtensions.cs" />
     <Compile Include="Diagnostics\PackageLogger.cs" />
-    <Compile Include="Creation\CreateBottleInput.cs" />
     <Compile Include="Environment\EnvironmentGateway.cs" />
     <Compile Include="Environment\EnvironmentListExtensions.cs" />
     <Compile Include="Environment\EnvironmentProxy.cs" />
@@ -96,7 +97,7 @@
     <Compile Include="PackageLoaders\Assemblies\IAssemblyLoader.cs" />
     <Compile Include="PackageLoaders\Assemblies\IAssemblyRegistration.cs" />
     <Compile Include="IBootstrapper.cs" />
-    <Compile Include="Exploding\IPackageExploder.cs" />
+    <Compile Include="Exploding\IBottleExploder.cs" />
     <Compile Include="Exploding\IPackageExploderLogger.cs" />
     <Compile Include="IPackageFacility.cs" />
     <Compile Include="IPackageInfo.cs" />
@@ -107,7 +108,7 @@
     <Compile Include="IPackagingRuntimeGraphConfigurer.cs" />
     <Compile Include="LambdaActivator.cs" />
     <Compile Include="LambdaBootstrapper.cs" />
-    <Compile Include="Exploding\PackageExploder.cs" />
+    <Compile Include="Exploding\BottleExploder.cs" />
     <Compile Include="Exploding\PackageExploderLogger.cs" />
     <Compile Include="Creation\BottleCreator.cs" />
     <Compile Include="PackageLoaders\LinkedFolders\LinkedFolderPackageLoader.cs" />

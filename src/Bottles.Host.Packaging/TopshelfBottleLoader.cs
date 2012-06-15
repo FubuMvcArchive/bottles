@@ -13,10 +13,10 @@ namespace Bottles.Host.Packaging
         public static readonly string TopshelfPackagesFolder = "topshelf-packages";
         public static readonly string TopshelfContentFolder = "topshelf-content";
 
-        private readonly IPackageExploder _exploder;
+        private readonly IBottleExploder _exploder;
         private readonly PackageManifestReader _reader;
 
-        public TopshelfBottleLoader(IPackageExploder exploder)
+        public TopshelfBottleLoader(IBottleExploder exploder)
         {
             _exploder = exploder;
 
@@ -29,7 +29,7 @@ namespace Bottles.Host.Packaging
             {
                 return _exploder.ExplodeDirectory(new ExplodeDirectory{
                     DestinationDirectory = getExplodedPackagesDirectory(),
-                    PackageDirectory = dir,
+                    BottleDirectory = dir,
                     Log = log
                 });
             }).Select(dir=>_reader.LoadFromFolder(dir));

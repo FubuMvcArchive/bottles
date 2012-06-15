@@ -10,72 +10,18 @@ using FubuCore.CommandLine;
 
 namespace Bottles.Exploding
 {
-    public enum ExplodeOptions
+    public class BottleExploder : IBottleExploder
     {
-        DeleteDestination,
-        PreserveDestination
-    }
-
-    public class ExplodeDirectory
-    {
-        public string PackageDirectory { get; set;}
-        public string DestinationDirectory { get; set; }
-        public IPackageLog Log { get; set; }
-
-        public bool Equals(ExplodeDirectory other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Equals(other.PackageDirectory, PackageDirectory) && Equals(other.DestinationDirectory, DestinationDirectory);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof (ExplodeDirectory)) return false;
-            return Equals((ExplodeDirectory) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return ((PackageDirectory != null ? PackageDirectory.GetHashCode() : 0)*397) ^ (DestinationDirectory != null ? DestinationDirectory.GetHashCode() : 0);
-            }
-        }
-
-        public override string ToString()
-        {
-            return string.Format("PackageDirectory: {0}, DestinationDirectory: {1}", PackageDirectory, DestinationDirectory);
-        }
-    }
-
-    public class PackageExploder : IPackageExploder
-    {
-        public static PackageExploder GetPackageExploder(IFileSystem fileSystem)
-        {
-            return new PackageExploder(new ZipFileService(fileSystem), new PackageExploderLogger(text => LogWriter.Current.Trace(text)), fileSystem);
-        }
-
-        public static PackageExploder GetPackageExploder(IPackageLog log)
-        {
-            var fileSystem = new FileSystem();
-            return new PackageExploder(new ZipFileService(fileSystem), new PackageExploderLogger(text => log.Trace(text)), fileSystem);
-        }
-
         private readonly IFileSystem _fileSystem;
         private readonly IPackageExploderLogger _logger;
         private readonly IZipFileService _service;
 
-        public PackageExploder(IZipFileService service, IPackageExploderLogger logger, IFileSystem fileSystem)
+        public BottleExploder(IZipFileService service, IPackageExploderLogger logger, IFileSystem fileSystem)
         {
             _service = service;
             _logger = logger;
             _fileSystem = fileSystem;
         }
-
-
 
         public IEnumerable<string> ExplodeAllZipsAndReturnPackageDirectories(string applicationDirectory, IPackageLog log)
         {
@@ -83,15 +29,14 @@ namespace Bottles.Exploding
 
             return ExplodeDirectory(new ExplodeDirectory(){
                 DestinationDirectory = BottleFiles.GetExplodedPackagesDirectory(applicationDirectory),
-                PackageDirectory = BottleFiles.GetApplicationPackagesDirectory(applicationDirectory),
+                BottleDirectory = BottleFiles.GetApplicationPackagesDirectory(applicationDirectory),
                 Log = log
             });
         }
 
-
         public IEnumerable<string> ExplodeDirectory(ExplodeDirectory directory)
         {
-            string packageFolder = directory.PackageDirectory;
+            string packageFolder = directory.BottleDirectory;
             var fileSet = new FileSet
                           {
                               Include = "*.zip"
@@ -121,8 +66,6 @@ namespace Bottles.Exploding
             }).ToList();  // Needs to be evaluated right now.
         }
 
-        
-
         //destinationDirectory = var directoryName = BottleFiles.DirectoryForPackageZipFile(applicationDirectory, sourceZipFile);
         public void Explode(string sourceZipFile, string destinationDirectory, ExplodeOptions options)
         {
@@ -138,15 +81,6 @@ namespace Bottles.Exploding
 
             // This is here for legacy installations that may have old exploded packages in bin/fubu-packages
             clearExplodedDirectories(BottleFiles.GetApplicationPackagesDirectory(applicationDirectory));
-        }
-
-        private void clearExplodedDirectories(string directory)
-        {
-            _fileSystem.ChildDirectoriesFor(directory).Each(x =>
-            {
-                _logger.WritePackageDirectoryDeleted(x);
-                _fileSystem.DeleteDirectory(x);
-            });
         }
 
         public string ReadVersion(string directoryName)
@@ -186,6 +120,15 @@ namespace Bottles.Exploding
             });
         }
 
+        private void clearExplodedDirectories(string directory)
+        {
+            _fileSystem.ChildDirectoriesFor(directory).Each(x =>
+            {
+                _logger.WritePackageDirectoryDeleted(x);
+                _fileSystem.DeleteDirectory(x);
+            });
+        }
+
 
         private void explodeAssembly(Assembly assembly, string directory)
         {
@@ -207,9 +150,6 @@ namespace Bottles.Exploding
             });
         }
 
-
-
-
         private void explode(ExplodeRequest request)
         {
             if (_fileSystem.DirectoryExists(request.Directory))
@@ -225,6 +165,18 @@ namespace Bottles.Exploding
             }
 
             request.ExplodeAction();
+        }
+
+
+        public static BottleExploder GetPackageExploder(IFileSystem fileSystem)
+        {
+            return new BottleExploder(new ZipFileService(fileSystem), new PackageExploderLogger(text => LogWriter.Current.Trace(text)), fileSystem);
+        }
+
+        public static BottleExploder GetPackageExploder(IPackageLog log)
+        {
+            var fileSystem = new FileSystem();
+            return new BottleExploder(new ZipFileService(fileSystem), new PackageExploderLogger(text => log.Trace(text)), fileSystem);
         }
 
 
