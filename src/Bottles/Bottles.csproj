@@ -115,6 +115,7 @@
     <Compile Include="PackageDependencyProcessor.cs" />
     <Compile Include="PackageFacility.cs" />
     <Compile Include="PackageFiles.cs" />
+    <Compile Include="PackageLoaders\LinkedFolders\LinksService.cs" />
     <Compile Include="PackageLoadingRecord.cs" />
     <Compile Include="Manifest\PackageManifest.cs" />
     <Compile Include="Manifest\PackageManifestReader.cs" />

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -15,9 +14,9 @@ namespace Bottles.Commands
         [RequiredUsage("list", "create", "remove", "clean")]
         public string AppFolder { get; set; }
 
-        [Description("The physical folder (or valid alias) of a package")]
+        [Description("The physical folder (or valid alias) of a bottle")]
         [RequiredUsage("create", "remove")]
-        public string PackageFolder { get; set; }
+        public string BottleFolder { get; set; }
 
         [Description("Remove the package folder link from the application")]
         [RequiredUsage("remove")]
@@ -30,7 +29,7 @@ namespace Bottles.Commands
 
         public string RelativePathOfPackage()
         {
-            var pkg = Path.GetFullPath(PackageFolder);
+            var pkg = Path.GetFullPath(BottleFolder);
             var app = Path.GetFullPath(AppFolder);
 
             return pkg.PathRelativeTo(app);
@@ -44,54 +43,49 @@ namespace Bottles.Commands
     [CommandDescription("Links a package folder to an application folder in development mode")]
     public class LinkCommand : FubuCommand<LinkInput>
     {
+        readonly ILinksService _links = new LinksService(new FileSystem());
+
         public override bool Execute(LinkInput input)
         {
             input.AppFolder = new AliasService().GetFolderForAlias(input.AppFolder);
-            input.PackageFolder = new AliasService().GetFolderForAlias(input.PackageFolder);
+            input.BottleFolder = new AliasService().GetFolderForAlias(input.BottleFolder);
 
 
-            Execute(input, new FileSystem());
+            Execute(input, _links);
             return true;
         }
 
-        public void Execute(LinkInput input, IFileSystem fileSystem)
+        public void Execute(LinkInput input, ILinksService links)
         {
-            var manifest = fileSystem.LoadLinkManifestFrom(input.AppFolder);
+            var manifest = links.GetLinkManifest(input.AppFolder);
 
-            if (input.CleanAllFlag && fileSystem.FileExists(input.AppFolder, LinkManifest.FILE))
+            if (input.CleanAllFlag && links.LinkManifestExists(input.AppFolder))
             {
                 manifest.RemoveAllLinkedFolders();
 
-                persist(input, manifest, fileSystem);
+                links.Save(manifest, input.AppFolder);
 
                 ConsoleWriter.Write("Removed all package links from the manifest file for " + input.AppFolder);
 
-                listCurrentLinks(input, manifest);
+                listCurrentLinks(input.AppFolder, manifest);
 
                 return;
             }
 
 
 
-            if (input.PackageFolder.IsNotEmpty())
+            if (input.BottleFolder.IsNotEmpty())
             {
-                updateManifest(input, fileSystem, manifest);
+                updateManifest(links, input, manifest);
             }
             else
             {
-                listCurrentLinks(input, manifest);
+                listCurrentLinks(input.AppFolder, manifest);
             }
 
         }
 
-        private void listCurrentLinks(LinkInput input, LinkManifest manifest)
-        {
-            var appFolder = input.AppFolder;
-
-            ListCurrentLinks(appFolder, manifest);
-        }
-
-        public static void ListCurrentLinks(string appFolder, LinkManifest manifest)
+        private static void listCurrentLinks(string appFolder, LinkManifest manifest)
         {
             if (manifest.LinkedFolders.Any())
             {
@@ -104,29 +98,20 @@ namespace Bottles.Commands
             }
         }
 
-        private void updateManifest(LinkInput input, IFileSystem fileSystem, LinkManifest manifest)
+        private void updateManifest(ILinksService links, LinkInput input, LinkManifest manifest)
         {
             if (input.RemoveFlag)
             {
-                remove(input, manifest);
+                manifest.RemoveLink(input.RelativePathOfPackage());
+                ConsoleWriter.Write("Folder {0} was removed from the application at {1}", input.BottleFolder,
+                                    input.AppFolder);
             }
             else
             {
                 add(input, manifest);
             }
 
-            persist(input, manifest, fileSystem);
-        }
-
-        private void persist(LinkInput input, LinkManifest manifest, IFileSystem fileSystem)
-        {
-            fileSystem.PersistToFile(manifest, input.AppFolder, LinkManifest.FILE);
-        }
-
-        private void remove(LinkInput input, LinkManifest manifest)
-        {
-            manifest.RemoveLink(input.RelativePathOfPackage());
-            ConsoleWriter.Write("Folder {0} was removed from the application at {1}", input.PackageFolder, input.AppFolder);
+            links.Save(manifest, input.AppFolder);
         }
 
         private static void add(LinkInput input, LinkManifest manifest)
@@ -136,7 +121,7 @@ namespace Bottles.Commands
                           ? "Folder {0} was added to the application at {1}"
                           : "Folder {0} is already included in the application at {1}";
 
-            ConsoleWriter.Write(msg, input.PackageFolder, input.AppFolder);
+            ConsoleWriter.Write(msg, input.BottleFolder, input.AppFolder);
         }
     }
 }

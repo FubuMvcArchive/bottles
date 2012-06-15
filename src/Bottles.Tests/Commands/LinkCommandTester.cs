@@ -14,46 +14,39 @@ namespace Bottles.Tests.Commands
     {
         private LinkInput theInput;
         private LinkManifest appManifest;
-        private LinkManifest pakManifest;
+        private LinkManifest btlManifest;
 
         protected override void beforeEach()
         {
             theInput = new LinkInput
             {
-                PackageFolder = "package",
+                BottleFolder = "package",
                 AppFolder = "app",
             };
 
             appManifest = new LinkManifest();
-            pakManifest = new LinkManifest();
-            Services.PartialMockTheClassUnderTest();
+            btlManifest = new LinkManifest();
         }
 
         private void theManifestFileExists()
         {
-            var LinkManifestFileName = FileSystem.Combine(theInput.PackageFolder, LinkManifest.FILE);
-            MockFor<IFileSystem>().Stub(x => x.FileExists(LinkManifestFileName)).Return(true);
+            MockFor<ILinksService>().Stub(x => x.LinkManifestExists(theInput.BottleFolder)).Return(true);
+            MockFor<ILinksService>().Stub(x => x.LinkManifestExists(theInput.AppFolder)).Return(true);
 
-            MockFor<IFileSystem>().Stub(x => x.LinkManifestExists(theInput.PackageFolder)).Return(true);
-            MockFor<IFileSystem>().Stub(x => x.LoadFromFile<LinkManifest>(LinkManifestFileName)).Return(pakManifest);
-            MockFor<IFileSystem>().Stub(x => x.FileExists(theInput.AppFolder, LinkManifest.FILE)).Return(true);
-            MockFor<IFileSystem>().Stub(x => x.LoadFromFile<LinkManifest>(theInput.AppFolder, LinkManifest.FILE)).Return(appManifest);
+            MockFor<ILinksService>().Stub(x => x.GetLinkManifest(theInput.BottleFolder)).Return(btlManifest);
+            MockFor<ILinksService>().Stub(x => x.GetLinkManifest(theInput.AppFolder)).Return(appManifest);
         }
 
-        private string oneFolderUp(string path)
-        {
-            return "..{0}{1}".ToFormat(Path.DirectorySeparatorChar, path);
-        }
 
         private void execute()
         {
-            ClassUnderTest.Execute(theInput, MockFor<IFileSystem>());
+            ClassUnderTest.Execute(theInput, MockFor<ILinksService>());
         }
 
         [Test]
         public void should_link_app_to_package()
         {
-            var expectedFolder = oneFolderUp(theInput.PackageFolder);
+            var expectedFolder = "..".AppendPath(theInput.BottleFolder);
             theManifestFileExists();
 
             execute();
@@ -64,7 +57,7 @@ namespace Bottles.Tests.Commands
         [Test]
         public void should_link_app_to_package_with_trailing_slash_for_app()
         {
-            var expectedFolder = oneFolderUp(theInput.PackageFolder);
+            var expectedFolder = "..".AppendPath(theInput.BottleFolder);
             theInput.AppFolder += Path.DirectorySeparatorChar;
             theManifestFileExists();
 

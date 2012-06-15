@@ -1,9 +1,12 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Xml.Serialization;
+using FubuCore;
 
 namespace Bottles.PackageLoaders.LinkedFolders
 {
+    [DebuggerDisplay("{debuggerDisplay()}")]
     [XmlType("links")]
     public class LinkManifest
     {
@@ -44,6 +47,11 @@ namespace Bottles.PackageLoaders.LinkedFolders
         public void RemoveAllLinkedFolders()
         {
             _folders.Clear();
+        }
+
+        private string debuggerDisplay()
+        {
+            return "{0} linked folders".ToFormat(LinkedFolders.Count());
         }
     }
 }

@@ -41,18 +41,6 @@ namespace Bottles
         }
 
 
-        public static LinkManifest LoadLinkManifestFrom(this IFileSystem fileSystem, string folder)
-        {
-            return fileSystem.LoadFromFile<LinkManifest>(folder, LinkManifest.FILE);
-        }
-
-
-        public static bool LinkManifestExists(this IFileSystem fileSystem, string directory)
-        {
-            return fileSystem.FileExists(directory, LinkManifest.FILE);
-        }
-
-
         public static T LoadFromStream<T>(this IFileSystem system, Stream fileStream) where T : new()
         {
             var xmlSerializer = new XmlSerializer(typeof (T));
