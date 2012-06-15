@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace Bottles.Diagnostics
 {
-    [Obsolete]
     public interface IPackageLog : IBottleLog { }
 
     public interface IBottleLog
