@@ -2,9 +2,9 @@ using System;
 
 namespace Bottles
 {
-    public class PackageLoadingRecord
+    public class BottleLoadingRecord
     {
-        public PackageLoadingRecord()
+        public BottleLoadingRecord()
         {
             Started = DateTime.Now;
         }
@@ -14,7 +14,7 @@ namespace Bottles
 
         public override string ToString()
         {
-            return string.Format("Bottles Packaging Process finished on {0} at {1}", Finished.ToShortDateString(), Finished.ToLongTimeString());
+            return string.Format("Bottling Process finished on {0} at {1}", Finished.ToShortDateString(), Finished.ToLongTimeString());
         }
     }
 }

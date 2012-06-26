@@ -25,7 +25,7 @@ namespace Bottles.Tests.Exploding
             var fileSystem = new FileSystem();
             fileSystem.DeleteDirectory("app1");
             var exploder = new BottleExploder(new ZipFileService(fileSystem),
-                                               new PackageExploderLogger(s => ConsoleWriter.Write(s)), fileSystem);
+                                               new BottleExploderLogger(s => ConsoleWriter.Write(s)), fileSystem);
 
             var thePackage = new PackageInfo(new PackageManifest());
 

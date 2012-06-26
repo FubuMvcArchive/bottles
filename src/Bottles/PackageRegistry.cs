@@ -76,7 +76,7 @@ namespace Bottles
             _packages.Clear();
 
             Diagnostics = new PackagingDiagnostics(new LoggingSession());
-            var record = new PackageLoadingRecord();
+            var record = new BottleLoadingRecord();
 
             Diagnostics.LogExecution(record, () =>
             {

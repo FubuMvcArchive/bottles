@@ -6,11 +6,11 @@ using FubuCore.CommandLine;
 
 namespace Bottles.Exploding
 {
-    public class PackageExploderLogger : IPackageExploderLogger
+    public class BottleExploderLogger : IBottleExploderLogger
     {
         private readonly Action<string> _writer;
 
-        public PackageExploderLogger(Action<string> writer)
+        public BottleExploderLogger(Action<string> writer)
         {
             _writer = writer;
         }

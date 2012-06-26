@@ -13,10 +13,10 @@ namespace Bottles.Exploding
     public class BottleExploder : IBottleExploder
     {
         private readonly IFileSystem _fileSystem;
-        private readonly IPackageExploderLogger _logger;
+        private readonly IBottleExploderLogger _logger;
         private readonly IZipFileService _service;
 
-        public BottleExploder(IZipFileService service, IPackageExploderLogger logger, IFileSystem fileSystem)
+        public BottleExploder(IZipFileService service, IBottleExploderLogger logger, IFileSystem fileSystem)
         {
             _service = service;
             _logger = logger;
@@ -170,13 +170,13 @@ namespace Bottles.Exploding
 
         public static BottleExploder GetPackageExploder(IFileSystem fileSystem)
         {
-            return new BottleExploder(new ZipFileService(fileSystem), new PackageExploderLogger(text => LogWriter.Current.Trace(text)), fileSystem);
+            return new BottleExploder(new ZipFileService(fileSystem), new BottleExploderLogger(text => LogWriter.Current.Trace(text)), fileSystem);
         }
 
         public static BottleExploder GetPackageExploder(IPackageLog log)
         {
             var fileSystem = new FileSystem();
-            return new BottleExploder(new ZipFileService(fileSystem), new PackageExploderLogger(text => log.Trace(text)), fileSystem);
+            return new BottleExploder(new ZipFileService(fileSystem), new BottleExploderLogger(text => log.Trace(text)), fileSystem);
         }
 
 

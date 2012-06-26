@@ -98,7 +98,7 @@
     <Compile Include="PackageLoaders\Assemblies\IAssemblyRegistration.cs" />
     <Compile Include="IBootstrapper.cs" />
     <Compile Include="Exploding\IBottleExploder.cs" />
-    <Compile Include="Exploding\IPackageExploderLogger.cs" />
+    <Compile Include="Exploding\IBottleExploderLogger.cs" />
     <Compile Include="IPackageFacility.cs" />
     <Compile Include="IPackageInfo.cs" />
     <Compile Include="IBottleLoader.cs" />
@@ -109,7 +109,7 @@
     <Compile Include="LambdaActivator.cs" />
     <Compile Include="LambdaBootstrapper.cs" />
     <Compile Include="Exploding\BottleExploder.cs" />
-    <Compile Include="Exploding\PackageExploderLogger.cs" />
+    <Compile Include="Exploding\BottleExploderLogger.cs" />
     <Compile Include="Creation\BottleCreator.cs" />
     <Compile Include="PackageLoaders\LinkedFolders\LinkedFolderPackageLoader.cs" />
     <Compile Include="PackageLoaders\LinkedFolders\LinkManifest.cs" />
@@ -117,7 +117,7 @@
     <Compile Include="PackageFacility.cs" />
     <Compile Include="PackageFiles.cs" />
     <Compile Include="PackageLoaders\LinkedFolders\LinksService.cs" />
-    <Compile Include="PackageLoadingRecord.cs" />
+    <Compile Include="BottleLoadingRecord.cs" />
     <Compile Include="Manifest\PackageManifest.cs" />
     <Compile Include="Manifest\PackageManifestReader.cs" />
     <Compile Include="PackageRegistry.cs" />

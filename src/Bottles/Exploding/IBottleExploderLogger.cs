@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Bottles.Exploding
 {
-    public interface IPackageExploderLogger
+    public interface IBottleExploderLogger
     {
         void WritePackageDirectoryDeleted(string directoryName);
         void WritePackageZipFileExploded(string zipFile, string directoryName);
