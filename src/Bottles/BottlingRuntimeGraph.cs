@@ -15,12 +15,12 @@ namespace Bottles
         private readonly IList<IActivator> _activators = new List<IActivator>();
         private readonly IAssemblyLoader _assemblies;
         private readonly IList<IBootstrapper> _bootstrappers = new List<IBootstrapper>();
-        private readonly IPackagingDiagnostics _diagnostics;
+        private readonly IBottlingDiagnostics _diagnostics;
         private readonly IList<IBottleLoader> _packageLoaders = new List<IBottleLoader>();
         private readonly Stack<string> _provenanceStack = new Stack<string>();
         private readonly IList<IPackageInfo> _packages;
 
-        public BottlingRuntimeGraph(IPackagingDiagnostics diagnostics, IAssemblyLoader assemblies, IList<IPackageInfo> packages)
+        public BottlingRuntimeGraph(IBottlingDiagnostics diagnostics, IAssemblyLoader assemblies, IList<IPackageInfo> packages)
         {
             _diagnostics = diagnostics;
             _assemblies = assemblies;

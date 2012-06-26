@@ -16,7 +16,7 @@ namespace Bottles.Tests
         InteractionContext<BottleDependencyProcessor>
     {
         IList<StubBottle> thePackages;
-        StubPackageDiagnostics theDiagnostics;
+        StubBottleDiagnostics theDiagnostics;
 
         protected override void beforeEach()
         {
@@ -26,7 +26,7 @@ namespace Bottles.Tests
             hasPackage("B");
             hasPackage("A");
 
-            theDiagnostics = new StubPackageDiagnostics();
+            theDiagnostics = new StubBottleDiagnostics();
         }
        
 
@@ -144,7 +144,7 @@ namespace Bottles.Tests
 
     }
 
-    public class StubPackageDiagnostics : IPackagingDiagnostics
+    public class StubBottleDiagnostics : IBottlingDiagnostics
     {
         private readonly Cache<object, IPackageLog> _logs = new Cache<object, IPackageLog>(o => MockRepository.GenerateMock<IPackageLog>());
 

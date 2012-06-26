@@ -5,7 +5,7 @@ namespace Bottles.Diagnostics
 {
     public static class PackagingDiagnosticsExtensions
     {
-        public static void LogExecutionOnEach<TItem>(this IPackagingDiagnostics diagnostics, IEnumerable<TItem> targets, Action<TItem, IPackageLog> continuation)
+        public static void LogExecutionOnEach<TItem>(this IBottlingDiagnostics diagnostics, IEnumerable<TItem> targets, Action<TItem, IPackageLog> continuation)
         {
             targets.Each(currentTarget =>
             {
@@ -14,7 +14,7 @@ namespace Bottles.Diagnostics
             });
         }
 
-        public static void LogPackages(this IPackagingDiagnostics diagnostics, IBottleLoader loader, IEnumerable<IPackageInfo> packages)
+        public static void LogPackages(this IBottlingDiagnostics diagnostics, IBottleLoader loader, IEnumerable<IPackageInfo> packages)
         {
             packages.Each(p =>
             {

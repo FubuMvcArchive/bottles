@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Bottles.Diagnostics;
 using Bottles.Exploding;
+using Bottles.Manifest;
 using FubuCore;
 
 namespace Bottles.Host.Packaging
@@ -14,13 +15,13 @@ namespace Bottles.Host.Packaging
         public static readonly string TopshelfContentFolder = "topshelf-content";
 
         private readonly IBottleExploder _exploder;
-        private readonly PackageManifestReader _reader;
+        private readonly BottleManifestReader _reader;
 
         public TopshelfBottleLoader(IBottleExploder exploder)
         {
             _exploder = exploder;
 
-            _reader = new PackageManifestReader(new FileSystem(), getContentFolderForPackage);
+            _reader = new BottleManifestReader(new FileSystem(), getContentFolderForPackage);
         }
 
         public IEnumerable<IPackageInfo> Load(IPackageLog log)

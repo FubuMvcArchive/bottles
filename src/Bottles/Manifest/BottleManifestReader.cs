@@ -4,17 +4,17 @@ using System.IO;
 using System.Linq;
 using FubuCore;
 
-namespace Bottles
+namespace Bottles.Manifest
 {
-    public class PackageManifestReader : IPackageManifestReader
+    public class BottleManifestReader : IBottleManifestReader
     {
         private readonly IFileSystem _fileSystem;
-        private readonly Func<string, string> _getContentFolderFromPackageFolder;
+        private readonly Func<string, string> _getContentFolderFromBottleFolder;
 
-        public PackageManifestReader(IFileSystem fileSystem, Func<string, string> getContentFolderFromPackageFolder)
+        public BottleManifestReader(IFileSystem fileSystem, Func<string, string> getContentFolderFromBottleFolder)
         {
             _fileSystem = fileSystem;
-            _getContentFolderFromPackageFolder = getContentFolderFromPackageFolder;
+            _getContentFolderFromBottleFolder = getContentFolderFromBottleFolder;
         }
 
         public PackageManifest LoadFromStream(Stream stream)
@@ -28,6 +28,7 @@ namespace Bottles
             packageDirectory = packageDirectory.ToFullPath();
 
             var manifest = _fileSystem.LoadFromFile<PackageManifest>(packageDirectory, PackageManifest.FILE);
+
             var package = new PackageInfo(manifest){
                 Description = "{0} ({1})".ToFormat(manifest.Name, packageDirectory),
                 Dependencies = manifest.Dependencies
@@ -54,11 +55,11 @@ namespace Bottles
             return binPath;
         }
 
-        private void registerFolders(string packageDirectory, PackageInfo package)
+        private void registerFolders(string bottleDirectory, PackageInfo package)
         {
-            package.RegisterFolder(BottleFiles.WebContentFolder, _getContentFolderFromPackageFolder(packageDirectory));
-            package.RegisterFolder(BottleFiles.DataFolder, FileSystem.Combine(packageDirectory, BottleFiles.DataFolder));
-            package.RegisterFolder(BottleFiles.ConfigFolder, FileSystem.Combine(packageDirectory, BottleFiles.ConfigFolder));
+            package.RegisterFolder(BottleFiles.WebContentFolder, _getContentFolderFromBottleFolder(bottleDirectory));
+            package.RegisterFolder(BottleFiles.DataFolder, FileSystem.Combine(bottleDirectory, BottleFiles.DataFolder));
+            package.RegisterFolder(BottleFiles.ConfigFolder, FileSystem.Combine(bottleDirectory, BottleFiles.ConfigFolder));
         }
 
         private void readAssemblyPaths(PackageManifest manifest, PackageInfo package, string binPath)
@@ -93,7 +94,7 @@ namespace Bottles
 
         public override string ToString()
         {
-            return "Package Manifest Reader (Development Mode)";
+            return "Bottle Manifest Reader (Development Mode)";
         }
     }
 }

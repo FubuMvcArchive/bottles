@@ -8,7 +8,7 @@ namespace Bottles
     /// 
     /// This is the default reader (also an assembly one would make sense)
     /// </summary>
-    public interface IPackageManifestReader
+    public interface IBottleManifestReader
     {
         IPackageInfo LoadFromFolder(string packageDirectory);
     }

@@ -23,7 +23,7 @@ namespace Bottles
         public PackageManifest Manifest { get; private set; }
         public string Name { get { return Manifest.Name; } }
         public string Role { get { return Manifest.Role; } }
-        public string Description{ get; set; }
+        public string Description { get; set; }
 
         public void LoadAssemblies(IAssemblyRegistration loader)
         {

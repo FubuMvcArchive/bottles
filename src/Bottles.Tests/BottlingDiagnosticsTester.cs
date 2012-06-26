@@ -12,12 +12,12 @@ namespace Bottles.Tests
     [TestFixture]
     public class BottlingDiagnosticsTester
     {
-        private PackagingDiagnostics diagnostics;
+        private BottlingDiagnostics diagnostics;
 
         [SetUp]
         public void SetUp()
         {
-            diagnostics = new PackagingDiagnostics(new LoggingSession());
+            diagnostics = new BottlingDiagnostics(new LoggingSession());
         }
 
         [Test]
@@ -98,14 +98,14 @@ namespace Bottles.Tests
     [TestFixture]
     public class when_logging_a_package
     {
-        private PackagingDiagnostics diagnostics;
+        private BottlingDiagnostics diagnostics;
         private StubBottleLoader loader;
         private StubBottle _bottle;
 
         [SetUp]
         public void SetUp()
         {
-            diagnostics = new PackagingDiagnostics(new LoggingSession());
+            diagnostics = new BottlingDiagnostics(new LoggingSession());
 
             loader = new StubBottleLoader("a", "b");
             _bottle = new StubBottle("a");
@@ -131,7 +131,7 @@ namespace Bottles.Tests
     [TestFixture]
     public class when_logging_a_bootstrapper_run
     {
-        private PackagingDiagnostics diagnostics;
+        private BottlingDiagnostics diagnostics;
         private StubActivator activator1;
         private StubActivator activator2;
         private StubActivator activator3;
@@ -140,7 +140,7 @@ namespace Bottles.Tests
         [SetUp]
         public void SetUp()
         {
-            diagnostics = new PackagingDiagnostics(new LoggingSession());
+            diagnostics = new BottlingDiagnostics(new LoggingSession());
 
             activator1 = new StubActivator();
             activator2 = new StubActivator();
@@ -172,7 +172,7 @@ namespace Bottles.Tests
     [TestFixture]
     public class when_logging_an_assembly
     {
-        private PackagingDiagnostics diagnostics;
+        private BottlingDiagnostics diagnostics;
         private StubBottle _bottle;
         private Assembly assembly;
         private string theProvenance;
@@ -180,7 +180,7 @@ namespace Bottles.Tests
         [SetUp]
         public void SetUp()
         {
-            diagnostics = new PackagingDiagnostics(new LoggingSession());
+            diagnostics = new BottlingDiagnostics(new LoggingSession());
             _bottle = new StubBottle("a");
             assembly = Assembly.GetExecutingAssembly();
 

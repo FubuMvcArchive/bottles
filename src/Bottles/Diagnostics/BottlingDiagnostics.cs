@@ -6,11 +6,11 @@ using FubuCore;
 
 namespace Bottles.Diagnostics
 {
-    public class PackagingDiagnostics : IPackagingDiagnostics
+    public class BottlingDiagnostics : IBottlingDiagnostics
     {
         private readonly LoggingSession _log;
 
-        public PackagingDiagnostics(LoggingSession log)
+        public BottlingDiagnostics(LoggingSession log)
         {
             _log = log;
         }

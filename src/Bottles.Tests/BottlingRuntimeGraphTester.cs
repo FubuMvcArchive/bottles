@@ -34,19 +34,19 @@ namespace Bottles.Tests
         [Test]
         public void should_register_the_first_bootstrapper()
         {
-            MockFor<IPackagingDiagnostics>().AssertWasCalled(x => x.LogObject(bootstrapper1, "A"));
+            MockFor<IBottlingDiagnostics>().AssertWasCalled(x => x.LogObject(bootstrapper1, "A"));
         }
 
         [Test]
         public void should_register_the_second_bootstrapper_with_nested_provenance()
         {
-            MockFor<IPackagingDiagnostics>().AssertWasCalled(x => x.LogObject(bootstrapper2, "B"));
+            MockFor<IBottlingDiagnostics>().AssertWasCalled(x => x.LogObject(bootstrapper2, "B"));
         }
 
         [Test]
         public void should_register_the_third_bootstrapper_after_popping_the_provenance()
         {
-            MockFor<IPackagingDiagnostics>().AssertWasCalled(x => x.LogObject(bootstrapper3, "A"));
+            MockFor<IBottlingDiagnostics>().AssertWasCalled(x => x.LogObject(bootstrapper3, "A"));
         }
     }
 
@@ -78,19 +78,19 @@ namespace Bottles.Tests
         [Test]
         public void should_register_the_first_activator()
         {
-            MockFor<IPackagingDiagnostics>().AssertWasCalled(x => x.LogObject(activator1, "A"));
+            MockFor<IBottlingDiagnostics>().AssertWasCalled(x => x.LogObject(activator1, "A"));
         }
 
         [Test]
         public void should_register_the_second_activator_with_nested_provenance()
         {
-            MockFor<IPackagingDiagnostics>().AssertWasCalled(x => x.LogObject(activator2, "B"));
+            MockFor<IBottlingDiagnostics>().AssertWasCalled(x => x.LogObject(activator2, "B"));
         }
 
         [Test]
         public void should_register_the_third_activator_after_popping_the_provenance()
         {
-            MockFor<IPackagingDiagnostics>().AssertWasCalled(x => x.LogObject(activator3, "A"));
+            MockFor<IBottlingDiagnostics>().AssertWasCalled(x => x.LogObject(activator3, "A"));
         }
     }
 
@@ -121,19 +121,19 @@ namespace Bottles.Tests
         [Test]
         public void should_register_the_first_loader()
         {
-            MockFor<IPackagingDiagnostics>().AssertWasCalled(x => x.LogObject(loader1, "A"));
+            MockFor<IBottlingDiagnostics>().AssertWasCalled(x => x.LogObject(loader1, "A"));
         }
 
         [Test]
         public void should_register_the_second_loader_with_nested_provenance()
         {
-            MockFor<IPackagingDiagnostics>().AssertWasCalled(x => x.LogObject(loader2, "B"));
+            MockFor<IBottlingDiagnostics>().AssertWasCalled(x => x.LogObject(loader2, "B"));
         }
 
         [Test] 
         public void should_register_the_third_loader_after_popping_the_provenance()
         {
-            MockFor<IPackagingDiagnostics>().AssertWasCalled(x => x.LogObject(loader3, "A"));
+            MockFor<IBottlingDiagnostics>().AssertWasCalled(x => x.LogObject(loader3, "A"));
         }
     }
 

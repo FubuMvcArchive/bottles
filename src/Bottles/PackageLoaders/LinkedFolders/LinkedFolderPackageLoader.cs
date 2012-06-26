@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bottles.Diagnostics;
+using Bottles.Manifest;
 using FubuCore;
 
 namespace Bottles.PackageLoaders.LinkedFolders
@@ -16,12 +17,12 @@ namespace Bottles.PackageLoaders.LinkedFolders
     {
         private readonly string _applicationDirectory;
         private readonly IFileSystem _fileSystem = new FileSystem();
-        private readonly PackageManifestReader _reader;
+        private readonly BottleManifestReader _reader;
 
         public LinkedFolderPackageLoader(string applicationDirectory, Func<string, string> getContentFolderFromPackageFolder)
         {
             _applicationDirectory = applicationDirectory;
-            _reader = new PackageManifestReader(_fileSystem, getContentFolderFromPackageFolder);
+            _reader = new BottleManifestReader(_fileSystem, getContentFolderFromPackageFolder);
         }
 
 

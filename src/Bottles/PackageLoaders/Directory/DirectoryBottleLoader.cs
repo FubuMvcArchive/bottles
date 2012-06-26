@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Bottles.Diagnostics;
+using Bottles.Manifest;
 using FubuCore;
 
 namespace Bottles.PackageLoaders.Directory
@@ -25,7 +26,7 @@ namespace Bottles.PackageLoaders.Directory
 
         public IEnumerable<IPackageInfo> Load(IPackageLog log)
         {
-            var manifestReader = new PackageManifestReader(new FileSystem(), folder => folder);
+            var manifestReader = new BottleManifestReader(new FileSystem(), folder => folder);
             
             var pis = PackageManifest.FindManifestFilesInDirectory(_searchPoint)
                 .Select(Path.GetDirectoryName)

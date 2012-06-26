@@ -21,7 +21,7 @@ namespace Bottles.Diagnostics
                 {
                     row.Add("td", td =>
                     {
-                        td.Append(new HtmlTag("h3").Text("Directive: "+PackagingDiagnostics.GetTypeName(target)));
+                        td.Append(new HtmlTag("h3").Text("Directive: "+BottlingDiagnostics.GetTypeName(target)));
                         td.Append(new HtmlTag("h5").Text("Desc: " + target.ToString()));
                         var time = new HtmlTag("h6").Text(log.TimeInMilliseconds.ToString()+"ms");
                         td.Append(time);

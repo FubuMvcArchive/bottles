@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Reflection;
+using Bottles.Manifest;
 using FubuCore;
 
 namespace Bottles.PackageLoaders.Assemblies
@@ -29,7 +30,7 @@ namespace Bottles.PackageLoaders.Assemblies
             {
                 if (resource != null)
                 {
-                    return new PackageManifestReader(new FileSystem(), s => s).LoadFromStream(resource);
+                    return new BottleManifestReader(new FileSystem(), s => s).LoadFromStream(resource);
                 }
             }
 

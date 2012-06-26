@@ -17,10 +17,10 @@ namespace Bottles.PackageLoaders.Assemblies
     {
         public static readonly string DIRECTLY_REGISTERED_MESSAGE = "Directly loaded by the Package";
 
-        private readonly IPackagingDiagnostics _diagnostics;
+        private readonly IBottlingDiagnostics _diagnostics;
         private IPackageInfo _currentPackage;
 
-        public AssemblyLoader(IPackagingDiagnostics diagnostics)
+        public AssemblyLoader(IBottlingDiagnostics diagnostics)
         {
             Assemblies = new List<Assembly>();
             AssemblyFileLoader = LoadPackageAssemblyFromAppBinPath;

@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Bottles.Diagnostics
 {
-    public interface IPackagingDiagnostics
+    public interface IBottlingDiagnostics
     {
         void LogPackage(IPackageInfo package, IBottleLoader loader);
         void LogBootstrapperRun(IBootstrapper bootstrapper, IEnumerable<IActivator> activators);

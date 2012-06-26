@@ -34,7 +34,7 @@ namespace Bottles.Tests
 
             ClassUnderTest.LoadAssembliesFromPackage(package);
 
-            MockFor<IPackagingDiagnostics>().AssertWasCalled(x => x.LogAssembly(package, assembly, AssemblyLoader.DIRECTLY_REGISTERED_MESSAGE));
+            MockFor<IBottlingDiagnostics>().AssertWasCalled(x => x.LogAssembly(package, assembly, AssemblyLoader.DIRECTLY_REGISTERED_MESSAGE));
 
         
             ClassUnderTest.Assemblies.Contains(assembly).ShouldBeTrue();
@@ -58,7 +58,7 @@ namespace Bottles.Tests
             ClassUnderTest.LoadAssembliesFromPackage(package1);
             ClassUnderTest.LoadAssembliesFromPackage(package2);
 
-            MockFor<IPackagingDiagnostics>().AssertWasCalled(x => x.LogDuplicateAssembly(package2, assembly.FullName));
+            MockFor<IBottlingDiagnostics>().AssertWasCalled(x => x.LogDuplicateAssembly(package2, assembly.FullName));
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace Bottles.Tests
 
             ClassUnderTest.LoadAssembliesFromPackage(package);
 
-            MockFor<IPackagingDiagnostics>().AssertWasCalled(x => x.LogAssembly(package, assembly, "Loaded from filename.dll"));
+            MockFor<IBottlingDiagnostics>().AssertWasCalled(x => x.LogAssembly(package, assembly, "Loaded from filename.dll"));
             assemblyFileLoader.VerifyAllExpectations();
 
             ClassUnderTest.Assemblies.Contains(assembly).ShouldBeTrue();
@@ -104,7 +104,7 @@ namespace Bottles.Tests
 
             ClassUnderTest.LoadAssembliesFromPackage(package);
 
-            MockFor<IPackagingDiagnostics>().AssertWasCalled(x => x.LogAssemblyFailure(package, "filename.dll", theExceptionFromAssemblyLoading));
+            MockFor<IBottlingDiagnostics>().AssertWasCalled(x => x.LogAssemblyFailure(package, "filename.dll", theExceptionFromAssemblyLoading));
 
         }
 
@@ -133,7 +133,7 @@ namespace Bottles.Tests
 
             ClassUnderTest.LoadAssembliesFromPackage(package);
 
-            MockFor<IPackagingDiagnostics>().AssertWasCalled(x => x.LogDuplicateAssembly(package, theAssemblyName));
+            MockFor<IBottlingDiagnostics>().AssertWasCalled(x => x.LogDuplicateAssembly(package, theAssemblyName));
 
 
             ClassUnderTest.Assemblies.Count.ShouldEqual(1);

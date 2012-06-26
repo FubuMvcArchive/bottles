@@ -27,7 +27,12 @@ namespace Bottles.Tests
         {
             get { return _manifest.Name; }
         }
-        
+
+        public string Description
+        {
+            get { return "STUB"; }
+        }
+
         public string Role { get { return _manifest.Role; } }
 
         public void LoadAssemblies(IAssemblyRegistration loader)

@@ -62,7 +62,7 @@ namespace Bottles
         /// <summary>
         /// The Diagnostics of the package environment
         /// </summary>
-        public static IPackagingDiagnostics Diagnostics { get; private set; }
+        public static IBottlingDiagnostics Diagnostics { get; private set; }
 
         /// <summary>
         /// The entry method into the bottles environment
@@ -75,7 +75,7 @@ namespace Bottles
         {
             _packages.Clear();
 
-            Diagnostics = new PackagingDiagnostics(new LoggingSession());
+            Diagnostics = new BottlingDiagnostics(new LoggingSession());
             var record = new BottleLoadingRecord();
 
             Diagnostics.LogExecution(record, () =>

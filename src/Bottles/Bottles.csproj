@@ -103,8 +103,8 @@
     <Compile Include="IPackageInfo.cs" />
     <Compile Include="IBottleLoader.cs" />
     <Compile Include="Diagnostics\IPackageLog.cs" />
-    <Compile Include="Diagnostics\IPackagingDiagnostics.cs" />
-    <Compile Include="Manifest\IPackageManifestReader.cs" />
+    <Compile Include="Diagnostics\IBottlingDiagnostics.cs" />
+    <Compile Include="Manifest\IBottleManifestReader.cs" />
     <Compile Include="IPackagingRuntimeGraphConfigurer.cs" />
     <Compile Include="LambdaActivator.cs" />
     <Compile Include="LambdaBootstrapper.cs" />
@@ -119,10 +119,10 @@
     <Compile Include="PackageLoaders\LinkedFolders\LinksService.cs" />
     <Compile Include="BottleLoadingRecord.cs" />
     <Compile Include="Manifest\PackageManifest.cs" />
-    <Compile Include="Manifest\PackageManifestReader.cs" />
+    <Compile Include="Manifest\BottleManifestReader.cs" />
     <Compile Include="PackageRegistry.cs" />
     <Compile Include="Diagnostics\PackageLog.cs" />
-    <Compile Include="Diagnostics\PackagingDiagnostics.cs" />
+    <Compile Include="Diagnostics\BottlingDiagnostics.cs" />
     <Compile Include="Diagnostics\PackagingDiagnosticsExtensions.cs" />
     <Compile Include="Manifest\BottleRoles.cs" />
     <Compile Include="BottlingRuntimeGraph.cs" />

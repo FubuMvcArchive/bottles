@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using Bottles.Diagnostics;
 using FubuCore.DependencyAnalysis;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace Bottles
             _packages.OrderBy(p => p.Name).Each(p => _graph.RegisterItem(p));
         }
 
-        public void LogMissingPackageDependencies(IPackagingDiagnostics diagnostics)
+        public void LogMissingPackageDependencies(IBottlingDiagnostics diagnostics)
         {
             var missingDependencies = _graph.MissingDependencies();
             missingDependencies.Each(name =>
@@ -43,13 +44,19 @@ namespace Bottles
             var missing = _packages.Where(p => p.Name.IsEmpty());
             if (missing.Any())
             {
-                var moduleTypes = missing.Select(x => x.Role).Join(", ");
-                throw new ArgumentException("Packages must have a name ({0}, {1})".ToFormat(missing.Count(), moduleTypes));
+                var sb = new StringBuilder();
+                sb.AppendLine("{0} bottles are missing a name".ToFormat(missing.Count()));
+                missing.Each(pi =>
+                                 {
+                                     sb.AppendLine(pi.Description);
+                                 });
+                
+                throw new ArgumentException(sb.ToString());
             }
         }
     }
 
-    public static class PackageLogDependencyExtensions
+    public static class BottleLogDependencyExtensions
     {
         public static void LogMissingDependency(this IPackageLog log, string dependencyName)
         {

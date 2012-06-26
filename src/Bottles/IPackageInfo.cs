@@ -13,6 +13,7 @@ namespace Bottles
     {
         string Name { get; }
         string Role { get; }
+        string Description { get; }
 
         void LoadAssemblies(IAssemblyRegistration loader);
         void ForFolder(string folderName, Action<string> onFound);
