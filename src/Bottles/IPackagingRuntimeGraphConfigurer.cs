@@ -2,6 +2,6 @@
 {
     public interface IPackagingRuntimeGraphConfigurer
     {
-        void Configure(PackagingRuntimeGraph graph);
+        void Configure(BottlingRuntimeGraph graph);
     }
 }

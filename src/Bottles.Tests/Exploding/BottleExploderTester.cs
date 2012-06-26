@@ -62,7 +62,7 @@ namespace Bottles.Tests.Exploding
 
 
     [TestFixture]
-    public class when_extracting_package_zip_files : PackageExploderContext
+    public class when_extracting_package_zip_files : BottleExploderContext
     {
         [Test]
         public void is_package_zip_positive()
@@ -91,7 +91,7 @@ namespace Bottles.Tests.Exploding
     }
 
     [TestFixture]
-    public class when_cleaning_all_the_packages : PackageExploderContext
+    public class when_cleaning_all_the_packages : BottleExploderContext
     {
         protected override void beforeEach()
         {
@@ -109,7 +109,7 @@ namespace Bottles.Tests.Exploding
     }
 
     [TestFixture]
-    public class when_reading_the_version_from_a_package_folder : PackageExploderContext
+    public class when_reading_the_version_from_a_package_folder : BottleExploderContext
     {
         [Test]
         public void the_version_file_exists()
@@ -134,7 +134,7 @@ namespace Bottles.Tests.Exploding
     }
 
     [TestFixture]
-    public class explode_all_with_zip_files_and_no_unzipped_directories : PackageExploderContext
+    public class explode_all_with_zip_files_and_no_unzipped_directories : BottleExploderContext
     {
         protected override void beforeEach()
         {
@@ -156,7 +156,7 @@ namespace Bottles.Tests.Exploding
     }
 
     [TestFixture]
-    public class explode_a_zip_file_if_the_version_is_different_than_the_existing_package_folder : PackageExploderContext
+    public class explode_a_zip_file_if_the_version_is_different_than_the_existing_package_folder : BottleExploderContext
     {
         private Guid zipGuid;
         private Guid folderGuid;
@@ -184,7 +184,7 @@ namespace Bottles.Tests.Exploding
 
 
     [TestFixture]
-    public class explode_a_zip_file_if_the_version_is_missing_from_the_existing_package_folder : PackageExploderContext
+    public class explode_a_zip_file_if_the_version_is_missing_from_the_existing_package_folder : BottleExploderContext
     {
         private Guid zipGuid;
 
@@ -209,7 +209,7 @@ namespace Bottles.Tests.Exploding
     }
 
     [TestFixture]
-    public class do_not_explode_a_zip_file_if_the_version_is_the_same_as_the_existing_folder : PackageExploderContext
+    public class do_not_explode_a_zip_file_if_the_version_is_the_same_as_the_existing_folder : BottleExploderContext
     {
         private Guid theSameGuid;
 
@@ -233,7 +233,7 @@ namespace Bottles.Tests.Exploding
     }
 
 
-    public abstract class PackageExploderContext : InteractionContext<BottleExploder>
+    public abstract class BottleExploderContext : InteractionContext<BottleExploder>
     {
         protected readonly string theApplicationDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "app");
 

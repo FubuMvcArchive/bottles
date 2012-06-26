@@ -14,10 +14,10 @@ namespace Bottles.Creation
     {
         private readonly IFileSystem _fileSystem;
         private readonly IZipFileService _zipFileService;
-        private readonly IPackageLogger _logger;
+        private readonly IBottleLogger _logger;
         private readonly IAssemblyFileFinder _assemblyFinder;
 
-        public BottleCreator(IFileSystem fileSystem, IZipFileService zipFileService, IPackageLogger logger, IAssemblyFileFinder assemblyFinder)
+        public BottleCreator(IFileSystem fileSystem, IZipFileService zipFileService, IBottleLogger logger, IAssemblyFileFinder assemblyFinder)
         {
             _fileSystem = fileSystem;
             _zipFileService = zipFileService;

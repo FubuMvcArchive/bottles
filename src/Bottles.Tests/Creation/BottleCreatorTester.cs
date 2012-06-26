@@ -16,7 +16,7 @@ using Rhino.Mocks;
 namespace Bottles.Tests.Creation
 {
     [TestFixture]
-    public class when_creating_a_package_for_all_assemblies_found_and_including_pdbs : InteractionContext<BottleCreator>
+    public class when_creating_a_bottle_for_all_assemblies_found_and_including_pdbs : InteractionContext<BottleCreator>
     {
         private PackageManifest theManifest;
         private AssemblyFiles theAssemblyFiles;
@@ -78,7 +78,7 @@ namespace Bottles.Tests.Creation
         [Test]
         public void should_not_log_assemblies_missing()
         {
-            MockFor<IPackageLogger>().AssertWasNotCalled(x => x.WriteAssembliesNotFound(theAssemblyFiles, theManifest, theInput, theBinFolder));
+            MockFor<IBottleLogger>().AssertWasNotCalled(x => x.WriteAssembliesNotFound(theAssemblyFiles, theManifest, theInput, theBinFolder));
         }
 
         [Test]
@@ -298,7 +298,7 @@ namespace Bottles.Tests.Creation
         [Test]
         public void log_the_missing_assemblies()
         {
-            MockFor<IPackageLogger>().AssertWasCalled(x => x.WriteAssembliesNotFound(theAssemblyFiles, theManifest, theInput, theBinFolder));
+            MockFor<IBottleLogger>().AssertWasCalled(x => x.WriteAssembliesNotFound(theAssemblyFiles, theManifest, theInput, theBinFolder));
         }
 
         [Test]

@@ -7,12 +7,12 @@ using FubuCore;
 
 namespace Bottles
 {
-    public class PackageDependencyProcessor
+    public class BottleDependencyProcessor
     {
         private readonly IEnumerable<IPackageInfo> _packages;
         private readonly DependencyGraph<IPackageInfo> _graph;
 
-        public PackageDependencyProcessor(IEnumerable<IPackageInfo> packages)
+        public BottleDependencyProcessor(IEnumerable<IPackageInfo> packages)
         {
             _packages = packages;
 

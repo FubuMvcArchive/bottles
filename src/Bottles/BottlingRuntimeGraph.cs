@@ -10,7 +10,7 @@ namespace Bottles
     /// <summary>
     /// A collection of data about a given runtime
     /// </summary>
-    public class PackagingRuntimeGraph : IDisposable
+    public class BottlingRuntimeGraph : IDisposable
     {
         private readonly IList<IActivator> _activators = new List<IActivator>();
         private readonly IAssemblyLoader _assemblies;
@@ -20,7 +20,7 @@ namespace Bottles
         private readonly Stack<string> _provenanceStack = new Stack<string>();
         private readonly IList<IPackageInfo> _packages;
 
-        public PackagingRuntimeGraph(IPackagingDiagnostics diagnostics, IAssemblyLoader assemblies, IList<IPackageInfo> packages)
+        public BottlingRuntimeGraph(IPackagingDiagnostics diagnostics, IAssemblyLoader assemblies, IList<IPackageInfo> packages)
         {
             _diagnostics = diagnostics;
             _assemblies = assemblies;
@@ -28,7 +28,7 @@ namespace Bottles
         }
 
 
-        public IDisposable InProvenance(string provenance, Action<PackagingRuntimeGraph> action)
+        public IDisposable InProvenance(string provenance, Action<BottlingRuntimeGraph> action)
         {
             PushProvenance(provenance);
             action(this);
@@ -70,7 +70,7 @@ namespace Bottles
 
         private void analyzePackageDependenciesAndOrder(IEnumerable<IPackageInfo> packages)
         {
-            var dependencyProcessor = new PackageDependencyProcessor(packages);
+            var dependencyProcessor = new BottleDependencyProcessor(packages);
             dependencyProcessor.LogMissingPackageDependencies(_diagnostics);
             _packages.AddRange(dependencyProcessor.OrderedPackages());
         }

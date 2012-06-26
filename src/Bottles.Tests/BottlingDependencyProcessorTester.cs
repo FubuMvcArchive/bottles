@@ -13,7 +13,7 @@ namespace Bottles.Tests
 {
     [TestFixture]
     public class BottlingDependencyProcessorTester : 
-        InteractionContext<PackageDependencyProcessor>
+        InteractionContext<BottleDependencyProcessor>
     {
         IList<StubBottle> thePackages;
         StubPackageDiagnostics theDiagnostics;

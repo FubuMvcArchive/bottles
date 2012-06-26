@@ -4,7 +4,7 @@ using System.Linq;
 using Bottles.Diagnostics;
 using FubuCore;
 
-namespace Bottles.PackageLoaders
+namespace Bottles.PackageLoaders.Directory
 {
     /// <summary>
     /// Used to find packages to be loaded by looking in a directory.
@@ -14,11 +14,11 @@ namespace Bottles.PackageLoaders
     /// 
     /// Again these seem to be finders.
     /// </summary>
-    public class DirectoryPackageLoader : IBottleLoader
+    public class DirectoryBottleLoader : IBottleLoader
     {
         private readonly string _searchPoint;
 
-        public DirectoryPackageLoader(string searchPoint)
+        public DirectoryBottleLoader(string searchPoint)
         {
             _searchPoint = searchPoint;
         }

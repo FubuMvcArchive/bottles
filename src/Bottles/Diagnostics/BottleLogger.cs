@@ -8,11 +8,11 @@ using FubuCore;
 
 namespace Bottles.Diagnostics
 {
-    public class PackageLogger : IPackageLogger
+    public class BottleLogger : IBottleLogger
     {
         private readonly LoggingSession _log;
 
-        public PackageLogger(LoggingSession log)
+        public BottleLogger(LoggingSession log)
         {
             _log = log;
         }

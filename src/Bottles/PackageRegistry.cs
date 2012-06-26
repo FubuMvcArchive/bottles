@@ -82,7 +82,7 @@ namespace Bottles
             {
                 var facility = new PackageFacility();
                 var assemblyLoader = new AssemblyLoader(Diagnostics);
-                var graph = new PackagingRuntimeGraph(Diagnostics, assemblyLoader, _packages);
+                var graph = new BottlingRuntimeGraph(Diagnostics, assemblyLoader, _packages);
 
                 var codeLocation = ProvenanceHelper.GetProvenanceFromStack();
                 graph.InProvenance(codeLocation, g =>

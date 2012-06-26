@@ -1,6 +1,6 @@
 using System.Linq;
 using Bottles.Diagnostics;
-using Bottles.PackageLoaders;
+using Bottles.PackageLoaders.Directory;
 using FubuCore;
 using NUnit.Framework;
 using FubuTestingSupport;
@@ -11,7 +11,7 @@ namespace Bottles.Tests
     public class SolutionDirectoryBottleLoaderTester
     {
         private string thePathToScan = "solDirPackLoad";
-        private DirectoryPackageLoader theLoader;
+        private DirectoryBottleLoader theLoader;
 
         [SetUp]
         public void BeforeEach()
@@ -21,7 +21,7 @@ namespace Bottles.Tests
             fs.CreateDirectory(thePathToScan);
             fs.CreateDirectory(thePathToScan, "bin");
 
-            theLoader = new DirectoryPackageLoader(thePathToScan.ToFullPath());
+            theLoader = new DirectoryBottleLoader(thePathToScan.ToFullPath());
             var manifest = new PackageManifest{
                 Name = "test-mani"
             };
