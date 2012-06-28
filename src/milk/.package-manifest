@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Role>binaries</Role>
+  <Name>milk</Name>
+  <assembly>milk</assembly>
+  <assembly>Milkman</assembly>
+  <assembly>StructureMap</assembly>
+  <assembly>Bottles</assembly>
+  <assembly>Bottles.Host.Packaging</assembly>
+  <assembly>FubuCore</assembly>
+  <assembly>HtmlTags</assembly>
+  <assembly>Ionic.Zip</assembly>
+</package>

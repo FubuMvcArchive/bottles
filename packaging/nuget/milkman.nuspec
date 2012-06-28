@@ -22,6 +22,9 @@
   <files>
     <file src="..\..\src\Milkman\bin\release\Milkman.*" target="lib" />
     <file src="..\..\src\Milkman\**\*.cs" target="src" />
+    <file src="..\..\build\milkman.zip" target="tools" />
+    <file src="..\..\build\iis-deployers.zip" target="tools" />
+    <file src="..\..\build\topshelf-deployers.zip" target="tools" />
     <file src="..\..\src\milk\bin\release\*.*" target="tools" />
   </files>
 </package>

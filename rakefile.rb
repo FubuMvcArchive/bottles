@@ -118,13 +118,13 @@ end
 desc "ZIPs up the build results"
 zip :package do |zip|
 	zip.directories_to_zip = [props[:stage]]
-	zip.output_file = 'bottles.zip'
+	zip.output_file = 'milkman.zip'
 	zip.output_path = [props[:artifacts]]
 end
 
 desc "Creates the deployer bottle files"
 task :create_deployer_bottles => :compile do
-  bottles "create src/Bottles.Console -o build/bottles.zip --target #{COMPILE_TARGET}"
+  bottles "create src/milk -o build/milkman.zip --target #{COMPILE_TARGET}"
   bottles "create src/Bottles.Host -o build/topshelf-deployers.zip --target #{COMPILE_TARGET}"
   bottles "create src/Milkman.Deployers.Iis -o build/iis-deployers.zip --target #{COMPILE_TARGET}"
 end
