@@ -33,8 +33,7 @@ namespace Bottles.Deployment.Commands
                 createAllBottles(settings);
             }
 
-            DeploymentBootstrapper
-                .UsingService<IBundler>(settings, x => x.CreateBundle(input.Destination, options));
+            DeploymentBootstrapper.UsingService<IBundler>(settings, x => x.CreateBundle(input.Destination, options));
 
             return true;
         }
@@ -49,6 +48,4 @@ namespace Bottles.Deployment.Commands
             inputs.Each(x => createAllCommand.Execute(x));
         }
     }
-
-    // TODO -- put integration test on this mess
 }

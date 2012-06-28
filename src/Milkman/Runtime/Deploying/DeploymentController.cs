@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
 using Bottles.Deployment.Diagnostics;
 using Bottles.Deployment.Parsing;
 using Bottles.Deployment.Runtime.Content;
@@ -39,9 +41,12 @@ namespace Bottles.Deployment.Runtime
             var plan = BuildPlan(options);
 
             plan.AssertAllRequiredValuesAreFilled();
-            
+
+            var watch = new Stopwatch();
             try
             {
+                watch.Start();
+
                 var runners = _factory.BuildRunners(plan);
 
                 int totalCount = runners.Sum(x => x.InitializerCount + x.DeployerCount + x.FinalizerCount);
@@ -58,6 +63,9 @@ namespace Bottles.Deployment.Runtime
             }
             finally
             {
+                watch.Stop();
+                ConsoleWriter.Write("Elapsed Time: {0} seconds", watch.Elapsed.TotalSeconds);
+
                 _reporter.WriteReport(options, plan);
                 _system.DeleteDirectory(plan.Settings.StagingDirectory);
             }
