@@ -28,6 +28,9 @@ namespace Bottles.Zipping
             using (var zipFile = new ZipFile(fileName))
             {
                 configure(new ZipFileWrapper(zipFile));
+
+                //ran into a lock issue - http://dotnetzip.codeplex.com/workitem/14252
+                zipFile.ParallelDeflateThreshold = -1;
                 zipFile.Save();
             }
         }
