@@ -8,4 +8,5 @@
   <assembly>FubuCore</assembly>
   <assembly>Bottles</assembly>
   <assembly>Milkman</assembly>
+  <assembly>Milkman.Deployers.Topshelf</assembly>
 </package>

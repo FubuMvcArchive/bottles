@@ -61,8 +61,13 @@
       <Project>{E208A2B1-31B0-4455-BA16-3D79F5887ECE}</Project>
       <Name>Bottles</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Milkman.Deployers.Topshelf\Milkman.Deployers.Topshelf.csproj">
+      <Project>{1508B697-B748-4D1A-B5F8-ABD967DB4ED5}</Project>
+      <Name>Milkman.Deployers.Topshelf</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include=".package-manifest" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
