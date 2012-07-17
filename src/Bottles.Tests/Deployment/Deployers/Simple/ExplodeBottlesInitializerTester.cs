@@ -28,7 +28,7 @@ namespace Bottles.Tests.Deployment.Deployers.Simple
             hostManifest.RegisterBottle(new BottleReference("bottle1"));
             hostManifest.RegisterBottle(new BottleReference("bottle2"));
 
-            ClassUnderTest.Execute(theBottle, hostManifest, new PackageLog());
+            ClassUnderTest.Execute(theBottle, hostManifest, new BottleLog());
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace Bottles.Tests.Deployment.Deployers.Simple
             MockFor<IBottleRepository>().AssertWasCalled(x =>
             {
                 x.ExplodeFiles(new BottleExplosionRequest(){
-                    BottleDirectory = BottleFiles.BinaryFolder,
+                    BottleDirectory = WellKnownFiles.BinaryFolder,
                     BottleName = "bottle1",
                     DestinationDirectory = theBottle.RootDirectory.AppendPath(theBottle.BinDirectory)
                 });
@@ -54,7 +54,7 @@ namespace Bottles.Tests.Deployment.Deployers.Simple
             {
                 x.ExplodeFiles(new BottleExplosionRequest()
                 {
-                    BottleDirectory = BottleFiles.BinaryFolder,
+                    BottleDirectory = WellKnownFiles.BinaryFolder,
                     BottleName = "bottle2",
                     DestinationDirectory = theBottle.RootDirectory.AppendPath(theBottle.BinDirectory)
                 });
@@ -68,7 +68,7 @@ namespace Bottles.Tests.Deployment.Deployers.Simple
             {
                 x.ExplodeFiles(new BottleExplosionRequest()
                 {
-                    BottleDirectory = BottleFiles.WebContentFolder,
+                    BottleDirectory = WellKnownFiles.WebContentFolder,
                     BottleName = "bottle1",
                     DestinationDirectory = theBottle.RootDirectory.AppendPath(theBottle.WebContentDirectory)
                 });
@@ -78,7 +78,7 @@ namespace Bottles.Tests.Deployment.Deployers.Simple
             {
                 x.ExplodeFiles(new BottleExplosionRequest()
                 {
-                    BottleDirectory = BottleFiles.WebContentFolder,
+                    BottleDirectory = WellKnownFiles.WebContentFolder,
                     BottleName = "bottle2",
                     DestinationDirectory = theBottle.RootDirectory.AppendPath(theBottle.WebContentDirectory)
                 });
@@ -92,7 +92,7 @@ namespace Bottles.Tests.Deployment.Deployers.Simple
             {
                 x.ExplodeFiles(new BottleExplosionRequest()
                 {
-                    BottleDirectory = BottleFiles.DataFolder,
+                    BottleDirectory = WellKnownFiles.DataFolder,
                     BottleName = "bottle1",
                     DestinationDirectory = theBottle.RootDirectory.AppendPath(theBottle.DataDirectory)
                 });
@@ -102,7 +102,7 @@ namespace Bottles.Tests.Deployment.Deployers.Simple
             {
                 x.ExplodeFiles(new BottleExplosionRequest()
                 {
-                    BottleDirectory = BottleFiles.DataFolder,
+                    BottleDirectory = WellKnownFiles.DataFolder,
                     BottleName = "bottle2",
                     DestinationDirectory = theBottle.RootDirectory.AppendPath(theBottle.DataDirectory)
                 });

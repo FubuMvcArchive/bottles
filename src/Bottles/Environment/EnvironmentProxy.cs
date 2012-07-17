@@ -27,7 +27,7 @@ namespace Bottles.Environment
                                 (installer, log) => installer.CheckEnvironment(log));
         }
 
-        private IEnumerable<EnvironmentLogEntry> execute(EnvironmentRun run, params Action<IInstaller, IPackageLog>[] actions)
+        private IEnumerable<EnvironmentLogEntry> execute(EnvironmentRun run, params Action<IInstaller, IBottleLog>[] actions)
         {
             var runner = new EnvironmentRunner(run);
             return runner.ExecuteEnvironment(actions);

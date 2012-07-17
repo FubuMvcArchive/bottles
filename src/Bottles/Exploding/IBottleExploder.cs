@@ -5,7 +5,7 @@ namespace Bottles.Exploding
 {
     public interface IBottleExploder
     {
-        IEnumerable<string> ExplodeAllZipsAndReturnPackageDirectories(string applicationDirectory, IPackageLog log);
+        IEnumerable<string> ExplodeAllZipsAndReturnPackageDirectories(string applicationDirectory, IBottleLog log);
         void Explode(string sourceZipFile, string destinationDirectory, ExplodeOptions options);
         void CleanAll(string applicationDirectory);
         string ReadVersion(string directoryName);

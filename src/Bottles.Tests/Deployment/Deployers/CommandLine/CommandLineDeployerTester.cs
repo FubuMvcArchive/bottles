@@ -64,7 +64,7 @@ namespace Bottles.Tests.Deployment.Deployers.CommandLine
         [Test][Explicit("powershell is not setup on the build server apparently.")]
         public void should_work_for_powershell()
         {
-            var packageLog = new PackageLog();
+            var packageLog = new BottleLog();
             ClassUnderTest.Execute(theDirective, theHost, packageLog);
             packageLog.Success.ShouldBeTrue();
         }

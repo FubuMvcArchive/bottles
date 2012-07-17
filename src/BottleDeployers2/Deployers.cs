@@ -40,7 +40,7 @@ namespace BottleDeployers2
 
     public class SevenFinalizer : IFinalizer<SevenDirective>
     {
-        public void Execute(SevenDirective directive, HostManifest host, IPackageLog log)
+        public void Execute(SevenDirective directive, HostManifest host, IBottleLog log)
         {
             throw new NotImplementedException();
         }

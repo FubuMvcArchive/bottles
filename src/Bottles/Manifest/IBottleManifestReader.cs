@@ -10,6 +10,6 @@ namespace Bottles
     /// </summary>
     public interface IBottleManifestReader
     {
-        IPackageInfo LoadFromFolder(string packageDirectory);
+        IBottleInfo LoadFromFolder(string packageDirectory);
     }
 }

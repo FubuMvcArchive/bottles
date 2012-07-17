@@ -35,10 +35,10 @@ namespace Bottles.Tests.Configuration
         {
             theHost.Stub(x => x.Directives).Return(new IDirective[0]);
 
-            ClassUnderTest.Execute(theDirective, theHost, MockFor<IPackageLog>());
+            ClassUnderTest.Execute(theDirective, theHost, MockFor<IBottleLog>());
 
             MockFor<IConnectionStringResolver>().AssertWasNotCalled(x => x.Resolve(null), x => x.IgnoreArguments());
-            MockFor<IPackageLog>().AssertWasCalled(x => x.MarkFailure(ResolveDbConnectionDeployer.COULD_NOT_FIND_DIRECTIVE_PATH));
+            MockFor<IBottleLog>().AssertWasCalled(x => x.MarkFailure(ResolveDbConnectionDeployer.COULD_NOT_FIND_DIRECTIVE_PATH));
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace Bottles.Tests.Configuration
         {
             theHost.Stub(x => x.Directives).Return(new IDirective[]{thePathedDirective});
 
-            ClassUnderTest.Execute(theDirective, theHost, MockFor<IPackageLog>());
+            ClassUnderTest.Execute(theDirective, theHost, MockFor<IBottleLog>());
 
             MockFor<IConnectionStringResolver>().AssertWasCalled(x => x.Resolve("folder1".AppendPath(theDirective.File).ToFullPath()));
         }

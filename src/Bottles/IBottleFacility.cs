@@ -8,7 +8,7 @@ namespace Bottles
     /// <summary>
     /// The bottle environment configuration.
     /// </summary>
-    public interface IPackageFacility
+    public interface IBottleFacility
     {
         /// <summary>
         /// Adds an assembly directly to the list of assemblies loaded into the environment.
@@ -27,7 +27,7 @@ namespace Bottles
         /// Lambda bootstrapper for convience
         /// </summary>
         /// <param name="lambda"></param>
-        void Bootstrap(Func<IPackageLog, IEnumerable<IActivator>> lambda);
+        void Bootstrap(Func<IBottleLog, IEnumerable<IActivator>> lambda);
 
         /// <summary>
         /// Register an additional loader type.
@@ -41,7 +41,7 @@ namespace Bottles
         /// Adds another standard package facility configuration
         /// </summary>
         /// <param name="facility"></param>
-        void Facility(IPackageFacility facility);
+        void Facility(IBottleFacility facility);
 
         /// <summary>
         /// Adds a one off activator. Great for if your framework needs to do a few

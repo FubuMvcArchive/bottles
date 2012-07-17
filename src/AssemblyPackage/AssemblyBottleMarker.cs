@@ -1,6 +1,6 @@
 ﻿namespace AssemblyPackage
 {
-    public class AssemblyPackageMarker
+    public class AssemblyBottleMarker
     {
     }
 }

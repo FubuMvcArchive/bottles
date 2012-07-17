@@ -5,7 +5,7 @@ using FubuCore;
 
 namespace Bottles.PackageLoaders.Assemblies
 {
-    public class AssemblyPackageManifestFactory
+    public class AssemblyBottleManifestFactory
     {
         public PackageManifest Extract(Assembly assembly)
         {

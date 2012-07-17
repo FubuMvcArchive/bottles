@@ -10,12 +10,12 @@ using FubuCore.CommandLine;
 namespace Bottles.Diagnostics
 {
     [Serializable]
-    public class PackageLog : IPackageLog
+    public class BottleLog : IBottleLog
     {
         private readonly StringWriter _text = new StringWriter();
         private readonly IList<object> _children = new List<object>();
 
-        public PackageLog()
+        public BottleLog()
         {
             Success = true;
             Id = Guid.NewGuid();

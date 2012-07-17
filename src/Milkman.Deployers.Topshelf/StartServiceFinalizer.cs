@@ -9,7 +9,7 @@ namespace Bottles.Deployers.Topshelf
 {
     public class StartServiceFinalizer : IFinalizer<TopshelfService>
     {
-        public void Execute(TopshelfService directive, HostManifest host, IPackageLog log)
+        public void Execute(TopshelfService directive, HostManifest host, IBottleLog log)
         {
             ServiceController svc = getServiceController(directive);
 

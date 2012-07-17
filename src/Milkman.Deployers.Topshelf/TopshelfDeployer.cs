@@ -26,7 +26,7 @@ namespace Bottles.Deployers.Topshelf
             _runner = runner;
         }
 
-        public void Execute(TopshelfService directive, HostManifest host, IPackageLog log)
+        public void Execute(TopshelfService directive, HostManifest host, IBottleLog log)
         {
             var fileSystem = new FileSystem();
 

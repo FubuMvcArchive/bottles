@@ -15,10 +15,10 @@ namespace Bottles.Diagnostics
             _log = log;
         }
 
-        public void LogPackage(IPackageInfo package, IBottleLoader loader)
+        public void LogPackage(IBottleInfo bottle, IBottleLoader loader)
         {
-            _log.LogObject(package, "Loaded by " + loader);
-            _log.LogFor(loader).AddChild(package);
+            _log.LogObject(bottle, "Loaded by " + loader);
+            _log.LogFor(loader).AddChild(bottle);
         }
 
         public void LogBootstrapperRun(IBootstrapper bootstrapper, IEnumerable<IActivator> activators)
@@ -33,7 +33,7 @@ namespace Bottles.Diagnostics
             });
         }
 
-        public void LogAssembly(IPackageInfo package, Assembly assembly, string provenance)
+        public void LogAssembly(IBottleInfo bottle, Assembly assembly, string provenance)
         {
             try
             {
@@ -41,13 +41,13 @@ namespace Bottles.Diagnostics
 
 
                 _log.LogObject(assembly, provenance);
-                var packageLog = _log.LogFor(package);
+                var packageLog = _log.LogFor(bottle);
                 packageLog.Trace("Loaded assembly '{0}' v{1}".ToFormat(assembly.GetName().FullName,versionInfo.FileVersion));
                 packageLog.AddChild(assembly);
             }
             catch (Exception ex)
             {
-                throw new Exception("Trying to log assembly '{0}' in package '{1}' at {2}".ToFormat(assembly.FullName, package.Name, assembly.Location), ex);
+                throw new Exception("Trying to log assembly '{0}' in package '{1}' at {2}".ToFormat(assembly.FullName, bottle.Name, assembly.Location), ex);
             }
         }
 
@@ -66,14 +66,14 @@ namespace Bottles.Diagnostics
         }
 
         // just in log to package
-        public void LogDuplicateAssembly(IPackageInfo package, string assemblyName)
+        public void LogDuplicateAssembly(IBottleInfo bottle, string assemblyName)
         {
-            _log.LogFor(package).Trace("Assembly '{0}' was ignored because it is already loaded".ToFormat(assemblyName));
+            _log.LogFor(bottle).Trace("Assembly '{0}' was ignored because it is already loaded".ToFormat(assemblyName));
         }
 
-        public void LogAssemblyFailure(IPackageInfo package, string fileName, Exception exception)
+        public void LogAssemblyFailure(IBottleInfo bottle, string fileName, Exception exception)
         {
-            var log = _log.LogFor(package);
+            var log = _log.LogFor(bottle);
             log.MarkFailure(exception);
             log.Trace("Failed to load assembly at '{0}'".ToFormat(fileName));
         }
@@ -89,12 +89,12 @@ namespace Bottles.Diagnostics
             _log.LogExecution(target, continuation);
         }
 
-        public IPackageLog LogFor(object target)
+        public IBottleLog LogFor(object target)
         {
             return _log.LogFor(target);
         }
 
-        public void EachLog(Action<object, PackageLog> action)
+        public void EachLog(Action<object, BottleLog> action)
         {
             _log.EachLog(action);
         }
@@ -110,8 +110,8 @@ namespace Bottles.Diagnostics
             if (target is IBootstrapper) return typeof (IBootstrapper).Name;
             if (target is IActivator) return typeof (IActivator).Name;
             if (target is IBottleLoader) return typeof (IBottleLoader).Name;
-            if (target is IPackageFacility) return typeof (IPackageFacility).Name;
-            if (target is IPackageInfo) return typeof (IPackageInfo).Name;
+            if (target is IBottleFacility) return typeof (IBottleFacility).Name;
+            if (target is IBottleInfo) return typeof (IBottleInfo).Name;
             if (target is Assembly) return typeof (Assembly).Name;
 
             return target.GetType().Name;

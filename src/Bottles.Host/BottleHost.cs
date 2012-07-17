@@ -31,7 +31,7 @@ namespace Bottles.Host
             //this is done so that start can return, as 'LoadPackages' may take some time.
             ThreadPool.QueueUserWorkItem(cb =>
             {
-                PackageRegistry.LoadPackages(pkg =>
+                BottleRegistry.LoadPackages(pkg =>
                 {
                     pkg.Loader(new TopshelfBottleLoader(_exploder));
 

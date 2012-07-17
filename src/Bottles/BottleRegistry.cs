@@ -9,12 +9,12 @@ using Bottles.PackageLoaders.Assemblies;
 namespace Bottles
 {
     //rename to bottles registry
-    public static class PackageRegistry
+    public static class BottleRegistry
     {
         private static readonly IList<Assembly> _assemblies = new List<Assembly>();
-        private static readonly IList<IPackageInfo> _packages = new List<IPackageInfo>();
+        private static readonly IList<IBottleInfo> _bottles = new List<IBottleInfo>();
 
-        static PackageRegistry()
+        static BottleRegistry()
         {
             /* 
              * This is a critical - KEY - concept
@@ -52,11 +52,11 @@ namespace Bottles
         }
 
         /// <summary>
-        /// Packages that have been loaded
+        /// Bottles that have been loaded
         /// </summary>
-        public static IEnumerable<IPackageInfo> Packages
+        public static IEnumerable<IBottleInfo> Bottles
         {
-            get { return _packages; }
+            get { return _bottles; }
         }
 
         /// <summary>
@@ -69,20 +69,20 @@ namespace Bottles
         /// </summary>
         /// <param name="configuration"></param>
         /// <param name="runActivators"></param>
-        public static void LoadPackages(Action<IPackageFacility> configuration, bool runActivators = true)
+        public static void LoadPackages(Action<IBottleFacility> configuration, bool runActivators = true)
             //consider renaming to InitializeEnvironment
             //have it return an environment object.
         {
-            _packages.Clear();
+            _bottles.Clear();
 
             Diagnostics = new BottlingDiagnostics(new LoggingSession());
             var record = new BottleLoadingRecord();
 
             Diagnostics.LogExecution(record, () =>
             {
-                var facility = new PackageFacility();
+                var facility = new BottleFacility();
                 var assemblyLoader = new AssemblyLoader(Diagnostics);
-                var graph = new BottlingRuntimeGraph(Diagnostics, assemblyLoader, _packages);
+                var graph = new BottlingRuntimeGraph(Diagnostics, assemblyLoader, _bottles);
 
                 var codeLocation = ProvenanceHelper.GetProvenanceFromStack();
                 graph.InProvenance(codeLocation, g =>

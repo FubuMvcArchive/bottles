@@ -18,7 +18,7 @@ namespace Bottles.Tests.Deployment
                 OutputText = "something"
             };
 
-            var log = new PackageLog();
+            var log = new BottleLog();
             LogWriter.WithLog(log, () =>
             {
                 procReturn.AssertOptionalSuccess();
@@ -36,7 +36,7 @@ namespace Bottles.Tests.Deployment
                 OutputText = "something"
             };
 
-            var log = new PackageLog();
+            var log = new BottleLog();
             LogWriter.WithLog(log, () =>
             {
                 procReturn.AssertOptionalSuccess();
@@ -54,7 +54,7 @@ namespace Bottles.Tests.Deployment
                 OutputText = "something"
             };
 
-            var log = new PackageLog();
+            var log = new BottleLog();
             LogWriter.WithLog(log, () =>
             {
                 procReturn.AssertMandatorySuccess();
@@ -73,7 +73,7 @@ namespace Bottles.Tests.Deployment
                 OutputText = "something"
             };
 
-            var log = new PackageLog();
+            var log = new BottleLog();
             LogWriter.WithLog(log, procReturn.AssertMandatorySuccess);
 
             log.FullTraceText().ShouldEqual(procReturn.OutputText + System.Environment.NewLine);
@@ -89,7 +89,7 @@ namespace Bottles.Tests.Deployment
                 OutputText = "something"
             };
 
-            var log = new PackageLog();
+            var log = new BottleLog();
             LogWriter.WithLog(log, procReturn.AssertMandatorySuccess);
 
             log.FullTraceText().ShouldEqual(procReturn.OutputText + System.Environment.NewLine);

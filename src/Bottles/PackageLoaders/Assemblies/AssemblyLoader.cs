@@ -18,7 +18,7 @@ namespace Bottles.PackageLoaders.Assemblies
         public static readonly string DIRECTLY_REGISTERED_MESSAGE = "Directly loaded by the Package";
 
         private readonly IBottlingDiagnostics _diagnostics;
-        private IPackageInfo _currentPackage;
+        private IBottleInfo _currentBottle;
 
         public AssemblyLoader(IBottlingDiagnostics diagnostics)
         {
@@ -36,18 +36,18 @@ namespace Bottles.PackageLoaders.Assemblies
 
 
         //why is this virtual? - for testing
-        public virtual void LoadAssembliesFromPackage(IPackageInfo packageInfo)
+        public virtual void LoadAssembliesFromPackage(IBottleInfo bottleInfo)
         {
-            _currentPackage = packageInfo;
-            packageInfo.LoadAssemblies(this);
+            _currentBottle = bottleInfo;
+            bottleInfo.LoadAssemblies(this);
         }
 
-        public void ReadPackage(IPackageInfo package, IPackageLog log)
+        public void ReadPackage(IBottleInfo bottle, IBottleLog log)
         {
-            _currentPackage = package;
+            _currentBottle = bottle;
 
             //double dispatch - hard to follow - at the moment
-            package.LoadAssemblies(this);
+            bottle.LoadAssemblies(this);
         }
 
         public IList<Assembly> Assemblies { get; private set; }
@@ -84,20 +84,20 @@ namespace Bottles.PackageLoaders.Assemblies
         {
             if (hasAssemblyByName(assemblyName))
             {
-                _diagnostics.LogDuplicateAssembly(_currentPackage, assemblyName);
+                _diagnostics.LogDuplicateAssembly(_currentBottle, assemblyName);
             }
             else
             {
                 try
                 {
                     var assembly = AssemblyFileLoader(fileName);
-                    _diagnostics.LogAssembly(_currentPackage, assembly, "Loaded from " + fileName);  
+                    _diagnostics.LogAssembly(_currentBottle, assembly, "Loaded from " + fileName);  
 
                     Assemblies.Add(assembly);
                 }
                 catch (Exception e)
                 {
-                    _diagnostics.LogAssemblyFailure(_currentPackage, fileName, e);
+                    _diagnostics.LogAssemblyFailure(_currentBottle, fileName, e);
                 }
             }
 
@@ -108,11 +108,11 @@ namespace Bottles.PackageLoaders.Assemblies
         {
             if (hasAssemblyByName(assembly.GetName().Name))
             {
-                _diagnostics.LogDuplicateAssembly(_currentPackage, assembly.GetName().FullName);
+                _diagnostics.LogDuplicateAssembly(_currentBottle, assembly.GetName().FullName);
                 return;
             }
             
-            _diagnostics.LogAssembly(_currentPackage, assembly, DIRECTLY_REGISTERED_MESSAGE);
+            _diagnostics.LogAssembly(_currentBottle, assembly, DIRECTLY_REGISTERED_MESSAGE);
             Assemblies.Add(assembly);
         }
 

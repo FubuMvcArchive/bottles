@@ -7,7 +7,7 @@ using FubuCore.Util;
 
 namespace Bottles.Tests
 {
-    public class StubBottle : IPackageInfo
+    public class StubBottle : IBottleInfo
     {
         private readonly Cache<string, string> _folderNames = new Cache<string,string>();
         private readonly PackageManifest _manifest;
@@ -60,7 +60,7 @@ namespace Bottles.Tests
             throw new NotImplementedException();
         }
 
-        public IPackageFiles Files
+        public IBottleFiles Files
         {
             get { throw new NotImplementedException(); }
         }

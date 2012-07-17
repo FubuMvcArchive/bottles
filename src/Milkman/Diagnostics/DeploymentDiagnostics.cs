@@ -29,7 +29,7 @@ namespace Bottles.Deployment.Diagnostics
             LogFor(host).AddChild(directive);
         }
 
-        public IPackageLog LogAction(HostManifest host, IDirective directive, object action, string description)
+        public IBottleLog LogAction(HostManifest host, IDirective directive, object action, string description)
         {
             var provenance = "Host {0} / Directive {1}".ToFormat(host.Name, directive.GetType().Name);
             LogObject(action, provenance);

@@ -8,7 +8,7 @@ namespace Bottles.Deployment.Runtime.Content
 {
     public interface IBottleMover
     {
-        void Move(IPackageLog log, IBottleDestination destination, IEnumerable<BottleReference> references);
+        void Move(IBottleLog log, IBottleDestination destination, IEnumerable<BottleReference> references);
     }
 
 
@@ -21,7 +21,7 @@ namespace Bottles.Deployment.Runtime.Content
             _repository = repository;
         }
 
-        public void Move(IPackageLog log, IBottleDestination destination, IEnumerable<BottleReference> references)
+        public void Move(IBottleLog log, IBottleDestination destination, IEnumerable<BottleReference> references)
         {
             var manifests = references.Select(r => 
             { 
@@ -38,7 +38,7 @@ namespace Bottles.Deployment.Runtime.Content
             }
         }
 
-        private IList<BottleExplosionRequest> getExplosionRequests(IPackageLog log, IEnumerable<PackageManifest> manifests, IBottleDestination destination)
+        private IList<BottleExplosionRequest> getExplosionRequests(IBottleLog log, IEnumerable<PackageManifest> manifests, IBottleDestination destination)
         {
             List<BottleExplosionRequest> explosionRequests;
             string currentManifest="<empty>";
@@ -70,7 +70,7 @@ namespace Bottles.Deployment.Runtime.Content
 
     public class BottleExplosionRequest
     {
-        public BottleExplosionRequest(IPackageLog log)
+        public BottleExplosionRequest(IBottleLog log)
         {
             Log = log; 
             CopyBehavior = CopyBehavior.overwrite;
@@ -78,7 +78,7 @@ namespace Bottles.Deployment.Runtime.Content
 
         public BottleExplosionRequest()
         {
-            Log = new PackageLog();
+            Log = new BottleLog();
             CopyBehavior = CopyBehavior.overwrite;
         }
 
@@ -93,7 +93,7 @@ namespace Bottles.Deployment.Runtime.Content
 
         public string DestinationDirectory { get; set; }
 
-        public IPackageLog Log { get; private set; }
+        public IBottleLog Log { get; private set; }
 
         public bool DetailedLogging { get; set; }
 

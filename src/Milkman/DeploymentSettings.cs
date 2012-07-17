@@ -120,9 +120,9 @@ namespace Bottles.Deployment
         public string BottleFileFor(string bottleName)
         {
             var filename = bottleName;
-            if (!bottleName.EndsWith(BottleFiles.Extension))
+            if (!bottleName.EndsWith(WellKnownFiles.Extension))
             {
-                filename = bottleName + "." + BottleFiles.Extension;
+                filename = bottleName + "." + WellKnownFiles.Extension;
             }
 
             return

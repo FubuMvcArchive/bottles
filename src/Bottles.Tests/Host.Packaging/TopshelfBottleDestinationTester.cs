@@ -23,7 +23,7 @@ namespace Bottles.Tests.Host.Packaging
 
             var req = requests.Single();
 
-            req.BottleDirectory.ShouldEqual(BottleFiles.BinaryFolder);
+            req.BottleDirectory.ShouldEqual(WellKnownFiles.BinaryFolder);
             req.BottleName = mani.Name;
             req.DestinationDirectory = "bob".AppendPath(TopshelfBottleLoader.TopshelfPackagesFolder);
         }
@@ -44,7 +44,7 @@ namespace Bottles.Tests.Host.Packaging
 
             req.BottleDirectory.ShouldEqual("bin");
             req.BottleName = mani.Name;
-            req.DestinationDirectory = "bob".AppendPath(BottleFiles.PackagesFolder);
+            req.DestinationDirectory = "bob".AppendPath(WellKnownFiles.PackagesFolder);
         }
 
         [Test]
@@ -61,9 +61,9 @@ namespace Bottles.Tests.Host.Packaging
 
             var req = requests.Single();
 
-            req.BottleDirectory.ShouldEqual(BottleFiles.ConfigFolder);
+            req.BottleDirectory.ShouldEqual(WellKnownFiles.ConfigFolder);
             req.BottleName = mani.Name;
-            req.DestinationDirectory = "bob".AppendPath(BottleFiles.ConfigFolder);
+            req.DestinationDirectory = "bob".AppendPath(WellKnownFiles.ConfigFolder);
         }
 
         [Test]
@@ -80,9 +80,9 @@ namespace Bottles.Tests.Host.Packaging
 
             var req = requests.Single();
 
-            req.BottleDirectory.ShouldEqual(BottleFiles.BinaryFolder);
+            req.BottleDirectory.ShouldEqual(WellKnownFiles.BinaryFolder);
             req.BottleName = mani.Name;
-            req.DestinationDirectory = "bob".AppendPath(BottleFiles.PackagesFolder);
+            req.DestinationDirectory = "bob".AppendPath(WellKnownFiles.PackagesFolder);
         }
     }
 }

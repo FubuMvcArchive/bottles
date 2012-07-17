@@ -13,7 +13,7 @@ namespace Bottles.Tests.Deployment.Runtime.Content
         public void copy_behavior_is_overwrite_by_default()
         {
             new BottleExplosionRequest().CopyBehavior.ShouldEqual(CopyBehavior.overwrite);
-            new BottleExplosionRequest(new PackageLog()).CopyBehavior.ShouldEqual(CopyBehavior.overwrite);
+            new BottleExplosionRequest(new BottleLog()).CopyBehavior.ShouldEqual(CopyBehavior.overwrite);
         }
     }
 }

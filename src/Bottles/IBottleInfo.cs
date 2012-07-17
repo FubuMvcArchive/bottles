@@ -4,11 +4,6 @@ using Bottles.PackageLoaders.Assemblies;
 
 namespace Bottles
 {
-    public interface IPackageInfo : IBottleInfo
-    {
-        
-    }
-
     public interface IBottleInfo
     {
         string Name { get; }
@@ -21,6 +16,6 @@ namespace Bottles
 
         Dependency[] Dependencies { get; }
         PackageManifest Manifest { get; }
-        IPackageFiles Files { get; }
+        IBottleFiles Files { get; }
     }
 }

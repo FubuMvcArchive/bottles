@@ -17,7 +17,7 @@ namespace Bottles.Tests.Exploding
     [TestFixture]
     public class integration_test_of_exploding_an_assembly_package
     {
-        private PackageFiles theFiles;
+        private BottleFiles theFiles;
 
         [SetUp]
         public void SetUp()
@@ -27,17 +27,17 @@ namespace Bottles.Tests.Exploding
             var exploder = new BottleExploder(new ZipFileService(fileSystem),
                                                new BottleExploderLogger(s => ConsoleWriter.Write(s)), fileSystem);
 
-            var thePackage = new PackageInfo(new PackageManifest());
+            var thePackage = new BottleInfo(new PackageManifest());
 
-            theFiles = (PackageFiles)thePackage.Files;
-            exploder.ExplodeAssembly("app1", typeof(AssemblyPackageMarker).Assembly, thePackage);
+            theFiles = (BottleFiles)thePackage.Files;
+            exploder.ExplodeAssembly("app1", typeof(AssemblyBottleMarker).Assembly, thePackage);
         }
 
         [Test]
         public void can_retrieve_data_from_package()
         {
             var text = "not the right thing";
-            theFiles.GetFiles(BottleFiles.DataFolder, "1.txt", (name, data) =>
+            theFiles.GetFiles(WellKnownFiles.DataFolder, "1.txt", (name, data) =>
             {
                 name.ShouldEqual("1.txt");
                 text = new StreamReader(data).ReadToEnd();
@@ -51,7 +51,7 @@ namespace Bottles.Tests.Exploding
         public void can_retrieve_web_content_folder_from_package()
         {
             var expected = "not this";
-            theFiles.ForFolder(BottleFiles.WebContentFolder, folder =>
+            theFiles.ForFolder(WellKnownFiles.WebContentFolder, folder =>
             {
                 expected = folder;
             });
@@ -67,26 +67,26 @@ namespace Bottles.Tests.Exploding
         [Test]
         public void is_package_zip_positive()
         {
-            BottleFiles.IsEmbeddedPackageZipFile("a.b.c.pak-webcontent.zip").ShouldBeTrue();
+            WellKnownFiles.IsEmbeddedPackageZipFile("a.b.c.pak-webcontent.zip").ShouldBeTrue();
         }
 
         [Test]
         public void is_package_zip_negative_1()
         {
-            BottleFiles.IsEmbeddedPackageZipFile("a.b.c.pak-webcontent.txt").ShouldBeFalse();
+            WellKnownFiles.IsEmbeddedPackageZipFile("a.b.c.pak-webcontent.txt").ShouldBeFalse();
         }
 
         [Test]
         public void is_package_zip_negative_2()
         {
-            BottleFiles.IsEmbeddedPackageZipFile("a.b.c.webcontent.zip").ShouldBeFalse();
+            WellKnownFiles.IsEmbeddedPackageZipFile("a.b.c.webcontent.zip").ShouldBeFalse();
         }
 
         [Test]
         public void get_package_folder_name()
         {
-            BottleFiles.EmbeddedPackageFolderName("a.b.c.pak-webcontent.zip").ShouldEndWith("webcontent");
-            BottleFiles.EmbeddedPackageFolderName("a.b.c.pak-data.zip").ShouldEndWith("data");
+            WellKnownFiles.EmbeddedPackageFolderName("a.b.c.pak-webcontent.zip").ShouldEndWith("webcontent");
+            WellKnownFiles.EmbeddedPackageFolderName("a.b.c.pak-data.zip").ShouldEndWith("data");
         }
     }
 
@@ -117,7 +117,7 @@ namespace Bottles.Tests.Exploding
             var guid = Guid.NewGuid();
             theExistingVersionIs("pak1", guid);
 
-            string directory = BottleFiles.GetDirectoryForExplodedPackage(theApplicationDirectory, "pak1");
+            string directory = WellKnownFiles.GetDirectoryForExplodedPackage(theApplicationDirectory, "pak1");
 
             ClassUnderTest.ReadVersion(directory).ShouldEqual(guid);
         }
@@ -126,7 +126,7 @@ namespace Bottles.Tests.Exploding
         public void the_version_file_does_not_exist_so_return_empty()
         {
             theExistingVersionDoesNotExist("pak1");
-            string directory = FileSystem.Combine(theApplicationDirectory, "bin", BottleFiles.PackagesFolder,
+            string directory = FileSystem.Combine(theApplicationDirectory, "bin", WellKnownFiles.PackagesFolder,
                                       "pak1");
 
             ClassUnderTest.ReadVersion(directory).ShouldEqual(Guid.Empty);
@@ -143,7 +143,7 @@ namespace Bottles.Tests.Exploding
             // No packages are already exploded
             thePackagesAlreadyExplodedAre();
 
-            ClassUnderTest.ExplodeAllZipsAndReturnPackageDirectories(theApplicationDirectory, new PackageLog());
+            ClassUnderTest.ExplodeAllZipsAndReturnPackageDirectories(theApplicationDirectory, new BottleLog());
         }
 
         [Test]
@@ -171,7 +171,7 @@ namespace Bottles.Tests.Exploding
             theExistingVersionIs("pak1", folderGuid);
             theZipVersionIs("pak1", zipGuid);
 
-            ClassUnderTest.ExplodeAllZipsAndReturnPackageDirectories(theApplicationDirectory, new PackageLog());
+            ClassUnderTest.ExplodeAllZipsAndReturnPackageDirectories(theApplicationDirectory, new BottleLog());
         }
 
         [Test]
@@ -197,7 +197,7 @@ namespace Bottles.Tests.Exploding
             theExistingVersionDoesNotExist("pak1");
             theZipVersionIs("pak1", zipGuid);
 
-            ClassUnderTest.ExplodeAllZipsAndReturnPackageDirectories(theApplicationDirectory, new PackageLog());
+            ClassUnderTest.ExplodeAllZipsAndReturnPackageDirectories(theApplicationDirectory, new BottleLog());
         }
 
         [Test]
@@ -222,7 +222,7 @@ namespace Bottles.Tests.Exploding
             theExistingVersionIs("pak1", theSameGuid);
             theZipVersionIs("pak1", theSameGuid);
 
-            ClassUnderTest.ExplodeAllZipsAndReturnPackageDirectories(theApplicationDirectory, new PackageLog());
+            ClassUnderTest.ExplodeAllZipsAndReturnPackageDirectories(theApplicationDirectory, new BottleLog());
         }
 
         [Test]
@@ -239,10 +239,10 @@ namespace Bottles.Tests.Exploding
 
         protected void assertZipFileWasExploded(string packageName)
         {
-            var fileName = FileSystem.Combine(theApplicationDirectory, "bin", BottleFiles.PackagesFolder,
+            var fileName = FileSystem.Combine(theApplicationDirectory, "bin", WellKnownFiles.PackagesFolder,
                                               packageName + ".zip");
 
-            var directoryName = BottleFiles.GetDirectoryForExplodedPackage(theApplicationDirectory, packageName);
+            var directoryName = WellKnownFiles.GetDirectoryForExplodedPackage(theApplicationDirectory, packageName);
 
             MockFor<IZipFileService>().AssertWasCalled(x => x.ExtractTo(fileName, directoryName, ExplodeOptions.DeleteDestination));
             
@@ -250,10 +250,10 @@ namespace Bottles.Tests.Exploding
 
         protected void assertZipFileWasNotExploded(string packageName)
         {
-            var fileName = FileSystem.Combine(theApplicationDirectory, "bin", BottleFiles.PackagesFolder,
+            var fileName = FileSystem.Combine(theApplicationDirectory, "bin", WellKnownFiles.PackagesFolder,
                                               packageName + ".zip");
 
-            var directoryName = BottleFiles.GetDirectoryForExplodedPackage(theApplicationDirectory, packageName);
+            var directoryName = WellKnownFiles.GetDirectoryForExplodedPackage(theApplicationDirectory, packageName);
 
             MockFor<IZipFileService>().AssertWasNotCalled(x => x.ExtractTo(fileName, directoryName, ExplodeOptions.DeleteDestination));
 
@@ -264,9 +264,9 @@ namespace Bottles.Tests.Exploding
             var zipFiles =
                 packageNames.Select(
                     x =>
-                    FileSystem.Combine(theApplicationDirectory, "bin", BottleFiles.PackagesFolder, x + ".zip"));
+                    FileSystem.Combine(theApplicationDirectory, "bin", WellKnownFiles.PackagesFolder, x + ".zip"));
 
-            var directory = BottleFiles.GetApplicationPackagesDirectory(theApplicationDirectory);
+            var directory = WellKnownFiles.GetApplicationPackagesDirectory(theApplicationDirectory);
 
             MockFor<IFileSystem>().Stub(x => x.FileNamesFor(new FileSet(){
                 Include = "*.zip"
@@ -275,7 +275,7 @@ namespace Bottles.Tests.Exploding
 
         protected void theZipVersionIs(string packageName, Guid version)
         {
-            var file = FileSystem.Combine(theApplicationDirectory, "bin", BottleFiles.PackagesFolder, packageName + ".zip");
+            var file = FileSystem.Combine(theApplicationDirectory, "bin", WellKnownFiles.PackagesFolder, packageName + ".zip");
             MockFor<IZipFileService>().Stub(x => x.GetVersion(file)).Return(version.ToString());
         }
 
@@ -283,7 +283,7 @@ namespace Bottles.Tests.Exploding
         {
             var directories = packageNames.Select(x =>
             {
-                return BottleFiles.GetDirectoryForExplodedPackage(theApplicationDirectory, x);
+                return WellKnownFiles.GetDirectoryForExplodedPackage(theApplicationDirectory, x);
             });
 
             directories.Each(dir =>
@@ -291,22 +291,22 @@ namespace Bottles.Tests.Exploding
                 MockFor<IFileSystem>().Stub(x => x.DirectoryExists(dir)).Return(true);
             });
 
-            MockFor<IFileSystem>().Stub(x => x.ChildDirectoriesFor(BottleFiles.GetExplodedPackagesDirectory(theApplicationDirectory)))
+            MockFor<IFileSystem>().Stub(x => x.ChildDirectoriesFor(WellKnownFiles.GetExplodedPackagesDirectory(theApplicationDirectory)))
                 .Return(directories);
 
-            MockFor<IFileSystem>().Stub(x => x.ChildDirectoriesFor(BottleFiles.GetApplicationPackagesDirectory(theApplicationDirectory)))
+            MockFor<IFileSystem>().Stub(x => x.ChildDirectoriesFor(WellKnownFiles.GetApplicationPackagesDirectory(theApplicationDirectory)))
                 .Return(new string[0]);
         }
 
         protected void assertPackageFolderWasDeleted(string packageName)
         {
-            var packageDirectory = BottleFiles.GetDirectoryForExplodedPackage(theApplicationDirectory, packageName);
+            var packageDirectory = WellKnownFiles.GetDirectoryForExplodedPackage(theApplicationDirectory, packageName);
             MockFor<IFileSystem>().AssertWasCalled(x => x.DeleteDirectory(packageDirectory));
         }
 
         protected void assertPackageFolderWasNotDeleted(string packageName)
         {
-            var packageDirectory = FileSystem.Combine(theApplicationDirectory, "bin", BottleFiles.PackagesFolder,
+            var packageDirectory = FileSystem.Combine(theApplicationDirectory, "bin", WellKnownFiles.PackagesFolder,
                                                       packageName);
             MockFor<IFileSystem>().AssertWasNotCalled(x => x.DeleteDirectory(packageDirectory));
         }
@@ -314,16 +314,16 @@ namespace Bottles.Tests.Exploding
         protected void theExistingVersionIs(string packageName, Guid guid)
         {
 
-            string directory = BottleFiles.GetDirectoryForExplodedPackage(theApplicationDirectory, packageName);
+            string directory = WellKnownFiles.GetDirectoryForExplodedPackage(theApplicationDirectory, packageName);
 
-            MockFor<IFileSystem>().Stub(x => x.FileExists(directory, BottleFiles.VersionFile)).Return(true);
-            MockFor<IFileSystem>().Stub(x => x.ReadStringFromFile(directory, BottleFiles.VersionFile)).Return(guid.ToString());
+            MockFor<IFileSystem>().Stub(x => x.FileExists(directory, WellKnownFiles.VersionFile)).Return(true);
+            MockFor<IFileSystem>().Stub(x => x.ReadStringFromFile(directory, WellKnownFiles.VersionFile)).Return(guid.ToString());
         }
 
         protected void theExistingVersionDoesNotExist(string packageName)
         {
-            var pathParts = new string[]{theApplicationDirectory, "bin", BottleFiles.PackagesFolder, packageName,
-                             BottleFiles.VersionFile};
+            var pathParts = new string[]{theApplicationDirectory, "bin", WellKnownFiles.PackagesFolder, packageName,
+                             WellKnownFiles.VersionFile};
 
             
             MockFor<IFileSystem>().Stub(x => x.FileExists(pathParts)).Return(false);

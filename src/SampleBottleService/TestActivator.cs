@@ -10,7 +10,7 @@ namespace SampleBottleService
     public class TestActivator :
         IActivator
     {
-        public void Activate(IEnumerable<IPackageInfo> packages, IPackageLog log)
+        public void Activate(IEnumerable<IBottleInfo> packages, IBottleLog log)
         {
             ConsoleWriter.Write("hi, poopy pants");
 

@@ -7,14 +7,14 @@ namespace Bottles.Diagnostics
     /// </summary>
     public class LogWriterStatus
     {
-        private readonly Stack<IPackageLog> _logs = new Stack<IPackageLog>();
+        private readonly Stack<IBottleLog> _logs = new Stack<IBottleLog>();
 
         public LogWriterStatus()
         {
-            _logs.Push(new PackageLog());
+            _logs.Push(new BottleLog());
         }
 
-        public IPackageLog Current
+        public IBottleLog Current
         {
             get
             {
@@ -22,7 +22,7 @@ namespace Bottles.Diagnostics
             }
         }
 
-        public void PushLog(IPackageLog log)
+        public void PushLog(IBottleLog log)
         {
             _logs.Push(log);
         }

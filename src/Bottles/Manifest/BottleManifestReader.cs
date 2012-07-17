@@ -23,13 +23,13 @@ namespace Bottles.Manifest
             return manifest;
         }
 
-        public IPackageInfo LoadFromFolder(string packageDirectory)
+        public IBottleInfo LoadFromFolder(string packageDirectory)
         {
             packageDirectory = packageDirectory.ToFullPath();
 
             var manifest = _fileSystem.LoadFromFile<PackageManifest>(packageDirectory, PackageManifest.FILE);
 
-            var package = new PackageInfo(manifest){
+            var package = new BottleInfo(manifest){
                 Description = "{0} ({1})".ToFormat(manifest.Name, packageDirectory),
                 Dependencies = manifest.Dependencies
             };
@@ -55,14 +55,14 @@ namespace Bottles.Manifest
             return binPath;
         }
 
-        private void registerFolders(string bottleDirectory, PackageInfo package)
+        private void registerFolders(string bottleDirectory, BottleInfo bottle)
         {
-            package.RegisterFolder(BottleFiles.WebContentFolder, _getContentFolderFromBottleFolder(bottleDirectory));
-            package.RegisterFolder(BottleFiles.DataFolder, FileSystem.Combine(bottleDirectory, BottleFiles.DataFolder));
-            package.RegisterFolder(BottleFiles.ConfigFolder, FileSystem.Combine(bottleDirectory, BottleFiles.ConfigFolder));
+            bottle.RegisterFolder(WellKnownFiles.WebContentFolder, _getContentFolderFromBottleFolder(bottleDirectory));
+            bottle.RegisterFolder(WellKnownFiles.DataFolder, FileSystem.Combine(bottleDirectory, WellKnownFiles.DataFolder));
+            bottle.RegisterFolder(WellKnownFiles.ConfigFolder, FileSystem.Combine(bottleDirectory, WellKnownFiles.ConfigFolder));
         }
 
-        private void readAssemblyPaths(PackageManifest manifest, PackageInfo package, string binPath)
+        private void readAssemblyPaths(PackageManifest manifest, BottleInfo bottle, string binPath)
         {
             var assemblyPaths = findCandidateAssemblyFiles(binPath);
             assemblyPaths.Each(path =>
@@ -70,7 +70,7 @@ namespace Bottles.Manifest
                 var assemblyName = Path.GetFileNameWithoutExtension(path);
                 if (manifest.Assemblies.Contains(assemblyName))
                 {
-                    package.RegisterAssemblyLocation(assemblyName, path);
+                    bottle.RegisterAssemblyLocation(assemblyName, path);
                 }
             });
         }

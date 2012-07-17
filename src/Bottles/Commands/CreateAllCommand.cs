@@ -42,7 +42,7 @@ namespace Bottles.Commands
 
         public string DeploymentRoot()
         {
-            string deploymentDirectory = DeploymentFlag ?? BottleFiles.BottlesFolder;
+            string deploymentDirectory = DeploymentFlag ?? WellKnownFiles.BottlesFolder;
             return deploymentDirectory;
         }
     }

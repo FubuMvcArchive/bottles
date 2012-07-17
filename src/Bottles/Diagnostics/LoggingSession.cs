@@ -6,7 +6,7 @@ namespace Bottles.Diagnostics
 {
     public class LoggingSession
     {
-        private readonly Cache<object, PackageLog> _logs = new Cache<object, PackageLog>(o => new PackageLog{
+        private readonly Cache<object, BottleLog> _logs = new Cache<object, BottleLog>(o => new BottleLog{
             Description = o.ToString()
         });
 
@@ -15,7 +15,7 @@ namespace Bottles.Diagnostics
             _logs[target].Provenance = provenance;
         }
 
-        public IPackageLog LogFor(object target)
+        public IBottleLog LogFor(object target)
         {
             return _logs[target];
         }
@@ -25,7 +25,7 @@ namespace Bottles.Diagnostics
             _logs[target].Execute(continuation);
         }
 
-        public void EachLog(Action<object, PackageLog> action)
+        public void EachLog(Action<object, BottleLog> action)
         {
             _logs.Each(action);
         }

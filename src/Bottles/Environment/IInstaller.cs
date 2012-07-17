@@ -4,8 +4,8 @@ namespace Bottles.Environment
 {
     public interface IInstaller
     {
-        void Install(IPackageLog log);
-        void CheckEnvironment(IPackageLog log);
+        void Install(IBottleLog log);
+        void CheckEnvironment(IBottleLog log);
     }
 
 

@@ -24,7 +24,7 @@ namespace Bottles.Host.Packaging
             _reader = new BottleManifestReader(new FileSystem(), getContentFolderForPackage);
         }
 
-        public IEnumerable<IPackageInfo> Load(IPackageLog log)
+        public IEnumerable<IBottleInfo> Load(IBottleLog log)
         {
             return getPackageDirectories().SelectMany(dir=>
             {
@@ -38,7 +38,7 @@ namespace Bottles.Host.Packaging
 
         private static string getContentFolderForPackage(string packageFolder)
         {
-            return packageFolder.AppendPath(BottleFiles.WebContentFolder);
+            return packageFolder.AppendPath(WellKnownFiles.WebContentFolder);
         }
 
         private static string getExplodedPackagesDirectory()

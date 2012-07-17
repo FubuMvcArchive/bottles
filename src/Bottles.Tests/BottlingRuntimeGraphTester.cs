@@ -149,7 +149,7 @@ namespace Bottles.Tests
             _activators = activators;
         }
 
-        public IEnumerable<IActivator> Bootstrap(IPackageLog log)
+        public IEnumerable<IActivator> Bootstrap(IBottleLog log)
         {
             return _activators;
         }
@@ -162,10 +162,10 @@ namespace Bottles.Tests
 
     public class StubActivator : IActivator
     {
-        private IEnumerable<IPackageInfo> _packages;
-        private IPackageLog _log;
+        private IEnumerable<IBottleInfo> _packages;
+        private IBottleLog _log;
 
-        public void Activate(IEnumerable<IPackageInfo> packages, IPackageLog log)
+        public void Activate(IEnumerable<IBottleInfo> packages, IBottleLog log)
         {
             _packages = packages;
             _log = log;
@@ -173,12 +173,12 @@ namespace Bottles.Tests
             
         }
 
-        public IEnumerable<IPackageInfo> Packages
+        public IEnumerable<IBottleInfo> Packages
         {
             get { return _packages; }
         }
 
-        public IPackageLog Log
+        public IBottleLog Log
         {
             get { return _log; }
         }

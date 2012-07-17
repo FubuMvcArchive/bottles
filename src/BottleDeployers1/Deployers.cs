@@ -13,7 +13,7 @@ namespace BottleDeployers1
 
     public abstract class StubDeployer<T> : IDeployer<T> where T : IDirective
     {
-        public void Execute(T directive, HostManifest host, IPackageLog log)
+        public void Execute(T directive, HostManifest host, IBottleLog log)
         {
             DeploymentRecorder.Directives.Add(directive);
         }

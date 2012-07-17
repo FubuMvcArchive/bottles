@@ -3,13 +3,13 @@ using System;
 namespace Bottles.Diagnostics
 {
     /// <summary>
-    /// Provides static access to the 'current' IPackageLog
+    /// Provides static access to the 'current' IBottleLog
     /// </summary>
     public static class LogWriter
     {
         private static readonly LogWriterStatus _status = new LogWriterStatus();
 
-        public static void WithLog(IPackageLog log, Action action)
+        public static void WithLog(IBottleLog log, Action action)
         {
             _status.PushLog(log);
             try
@@ -26,7 +26,7 @@ namespace Bottles.Diagnostics
             }
         }
 
-        public static IPackageLog Current
+        public static IBottleLog Current
         {
             get { return _status.Current; }
         }

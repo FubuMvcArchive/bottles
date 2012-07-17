@@ -8,7 +8,7 @@ namespace Bottles.Tests.Deployment.Runtime
 {
     public class FakeDeploymentDiagnostics : IDeploymentDiagnostics
     {
-        public IPackageLog LogFor(object target)
+        public IBottleLog LogFor(object target)
         {
             return null;
         }
@@ -29,7 +29,7 @@ namespace Bottles.Tests.Deployment.Runtime
             
         }
 
-        public IPackageLog LogAction(HostManifest host, IDirective directive, object action, string description)
+        public IBottleLog LogAction(HostManifest host, IDirective directive, object action, string description)
         {
             throw new NotImplementedException();
         }
@@ -50,7 +50,7 @@ namespace Bottles.Tests.Deployment.Runtime
             continuation();
         }
 
-        public void ForEach(Action<IPackageLog> action)
+        public void ForEach(Action<IBottleLog> action)
         {
             
         }

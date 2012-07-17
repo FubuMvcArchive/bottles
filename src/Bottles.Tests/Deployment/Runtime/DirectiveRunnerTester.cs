@@ -36,7 +36,7 @@ namespace Bottles.Tests.Deployment.Runtime
         private HostManifest theHost;
         private OneDirective theDirective;
         private IInitializer<OneDirective>[] theInitializers;
-        private PackageLog[] theLogs;
+        private BottleLog[] theLogs;
 
         protected override void beforeEach()
         {
@@ -47,10 +47,10 @@ namespace Bottles.Tests.Deployment.Runtime
 
             theInitializers = Services.CreateMockArrayFor<IInitializer<OneDirective>>(5);
 
-            theLogs = new PackageLog[5];
+            theLogs = new BottleLog[5];
             for (int i = 0; i < theLogs.Length; i++)
             {
-                theLogs[i] = new PackageLog();
+                theLogs[i] = new BottleLog();
                 MockFor<IDeploymentDiagnostics>().Expect(x => x.LogAction(theHost, theDirective, theInitializers[i], null))
                     .Return(theLogs[i]);
 
@@ -84,7 +84,7 @@ namespace Bottles.Tests.Deployment.Runtime
         private HostManifest theHost;
         private OneDirective theDirective;
         private IDeployer<OneDirective>[] theDeployers;
-        private PackageLog[] theLogs;
+        private BottleLog[] theLogs;
 
         protected override void beforeEach()
         {
@@ -95,10 +95,10 @@ namespace Bottles.Tests.Deployment.Runtime
 
             theDeployers = Services.CreateMockArrayFor<IDeployer<OneDirective>>(5);
 
-            theLogs = new PackageLog[5];
+            theLogs = new BottleLog[5];
             for (int i = 0; i < theLogs.Length; i++)
             {
-                theLogs[i] = new PackageLog();
+                theLogs[i] = new BottleLog();
                 MockFor<IDeploymentDiagnostics>().Expect(x => x.LogAction(theHost, theDirective, theDeployers[i], null))
                     .Return(theLogs[i]);
 
@@ -131,7 +131,7 @@ namespace Bottles.Tests.Deployment.Runtime
         private HostManifest theHost;
         private OneDirective theDirective;
         private IFinalizer<OneDirective>[] theFinalizers;
-        private PackageLog[] theLogs;
+        private BottleLog[] theLogs;
 
         protected override void beforeEach()
         {
@@ -142,10 +142,10 @@ namespace Bottles.Tests.Deployment.Runtime
 
             theFinalizers = Services.CreateMockArrayFor<IFinalizer<OneDirective>>(5);
 
-            theLogs = new PackageLog[5];
+            theLogs = new BottleLog[5];
             for (int i = 0; i < theLogs.Length; i++)
             {
-                theLogs[i] = new PackageLog();
+                theLogs[i] = new BottleLog();
                 MockFor<IDeploymentDiagnostics>().Expect(x => x.LogAction(theHost, theDirective, theFinalizers[i], null))
                     .Return(theLogs[i]);
 

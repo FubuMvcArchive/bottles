@@ -19,8 +19,8 @@ namespace Bottles.Tests
         [Test]
         public void uses_double_dispatch_to_let_a_package_use_itself_to_load_assemblies()
         {
-            ClassUnderTest.LoadAssembliesFromPackage(MockFor<IPackageInfo>());
-            MockFor<IPackageInfo>().AssertWasCalled(x => x.LoadAssemblies(ClassUnderTest));
+            ClassUnderTest.LoadAssembliesFromPackage(MockFor<IBottleInfo>());
+            MockFor<IBottleInfo>().AssertWasCalled(x => x.LoadAssemblies(ClassUnderTest));
         }
 
         [Test]

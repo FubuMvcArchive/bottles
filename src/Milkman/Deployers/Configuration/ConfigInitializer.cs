@@ -21,7 +21,7 @@ namespace Bottles.Deployment.Deployers.Configuration
             _writer = writer;
         }
 
-        public void Execute(CentralConfig directive, HostManifest host, IPackageLog log)
+        public void Execute(CentralConfig directive, HostManifest host, IBottleLog log)
         {
             log.Trace("Creating folder " + directive.Directory);
             _fileSystem.CreateDirectory(directive.Directory);
@@ -36,7 +36,7 @@ namespace Bottles.Deployment.Deployers.Configuration
             {
                 log.Trace("Exploding bottle {0} to {1}", r.Name, directive.Directory);
                 _repository.ExplodeFiles(new BottleExplosionRequest(log){
-                    BottleDirectory = BottleFiles.ConfigFolder,
+                    BottleDirectory = WellKnownFiles.ConfigFolder,
                     CopyBehavior = directive.CopyBehavior,
                     BottleName = r.Name,
                     DestinationDirectory = directive.Directory

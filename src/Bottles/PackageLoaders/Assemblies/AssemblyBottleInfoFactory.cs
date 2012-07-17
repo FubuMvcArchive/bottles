@@ -4,19 +4,19 @@ using FubuCore;
 
 namespace Bottles.PackageLoaders.Assemblies
 {
-    public static class AssemblyPackageInfoFactory
+    public static class AssemblyBottleInfoFactory
     {
-        public static IPackageInfo CreateFor(Assembly assembly)
+        public static IBottleInfo CreateFor(Assembly assembly)
         {
-            var package = new AssemblyPackageInfo(assembly);
+            var package = new AssemblyBottleInfo(assembly);
 
             var exploder = BottleExploder.GetPackageExploder(new FileSystem());
-            exploder.ExplodeAssembly(PackageRegistry.GetApplicationDirectory(), assembly, package);
+            exploder.ExplodeAssembly(BottleRegistry.GetApplicationDirectory(), assembly, package);
 
             return package;
         }
 
-        public static IPackageInfo CreateFor(string fileName)
+        public static IBottleInfo CreateFor(string fileName)
         {
             var assembly = AssemblyLoader.LoadPackageAssemblyFromAppBinPath(fileName);
             return CreateFor(assembly);

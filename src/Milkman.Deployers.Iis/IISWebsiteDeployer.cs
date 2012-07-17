@@ -17,7 +17,7 @@ namespace Bottles.Deployers.Iis
             _bottleMover = bottleMover;
         }
 
-        public void Execute(Website directive, HostManifest host, IPackageLog log)
+        public void Execute(Website directive, HostManifest host, IBottleLog log)
         {
             directive.VDirPhysicalPath = directive.VDirPhysicalPath.ToFullPath();
 
@@ -29,7 +29,7 @@ namespace Bottles.Deployers.Iis
             _bottleMover.Move(log, destination, host.BottleReferences);
         }
 
-        private static void cleanUpTargetFolderIfRequested(Website directive, IPackageLog log)
+        private static void cleanUpTargetFolderIfRequested(Website directive, IBottleLog log)
         {
             if (!directive.Clean) return;
 

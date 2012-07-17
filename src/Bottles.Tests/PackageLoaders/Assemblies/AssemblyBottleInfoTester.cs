@@ -5,7 +5,7 @@ using Rhino.Mocks;
 namespace Bottles.Tests.PackageLoaders.Assemblies
 {
     [TestFixture]
-    public class AssemblyPackageInfoTester
+    public class AssemblyBottleInfoTester
     {
         [Test]
         public void assembly_package_adds_an_assembly_target_for_the_assembly()
@@ -15,7 +15,7 @@ namespace Bottles.Tests.PackageLoaders.Assemblies
 
             var theAssembly = GetType().Assembly;
 
-            var package = new AssemblyPackageInfo(theAssembly);
+            var package = new AssemblyBottleInfo(theAssembly);
 
             var registration = MockRepository.GenerateMock<IAssemblyRegistration>();
             package.LoadAssemblies(registration);

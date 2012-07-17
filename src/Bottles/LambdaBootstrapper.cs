@@ -6,16 +6,16 @@ namespace Bottles
 {
     public class LambdaBootstrapper : IBootstrapper
     {
-        private readonly Func<IPackageLog, IEnumerable<IActivator>> _bootstrapper;
+        private readonly Func<IBottleLog, IEnumerable<IActivator>> _bootstrapper;
 
-        public LambdaBootstrapper(Func<IPackageLog, IEnumerable<IActivator>> bootstrapper)
+        public LambdaBootstrapper(Func<IBottleLog, IEnumerable<IActivator>> bootstrapper)
         {
             _bootstrapper = bootstrapper;
         }
 
         public string Provenance { get; set; }
 
-        public IEnumerable<IActivator> Bootstrap(IPackageLog log)
+        public IEnumerable<IActivator> Bootstrap(IBottleLog log)
         {
             return _bootstrapper(log);
         }

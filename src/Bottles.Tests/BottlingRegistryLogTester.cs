@@ -10,7 +10,7 @@ namespace Bottles.Tests
         [Test]
         public void write_trace()
         {
-            var log = new PackageLog();
+            var log = new BottleLog();
             log.FullTraceText().ShouldBeEmpty();
 
             log.Trace("stuff");
@@ -25,7 +25,7 @@ namespace Bottles.Tests
         [Test]
         public void find_children()
         {
-            var log = new PackageLog();
+            var log = new BottleLog();
 
             var loader1 = new StubBottleLoader();
             var loader2 = new StubBottleLoader();
@@ -39,7 +39,7 @@ namespace Bottles.Tests
 
             log.FindChildren<IBottleLoader>().ShouldHaveTheSameElementsAs(loader1, loader2, loader3);
 
-            log.FindChildren<IPackageInfo>().ShouldHaveTheSameElementsAs(package1, package2, package3);
+            log.FindChildren<IBottleInfo>().ShouldHaveTheSameElementsAs(package1, package2, package3);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Bottles.Deployment.Deployers.Scheduling
             _mover = mover;
         }
 
-        public void Execute(ScheduledTask directive, HostManifest host, IPackageLog log)
+        public void Execute(ScheduledTask directive, HostManifest host, IBottleLog log)
         {
             cleanDirectoryIfRequested(directive, log);
             
@@ -30,7 +30,7 @@ namespace Bottles.Deployment.Deployers.Scheduling
             new WindowsScedulerDisabler(_runner).Execute(directive, host, log);
         }
 
-        private static void cleanDirectoryIfRequested(ScheduledTask directive, IPackageLog log)
+        private static void cleanDirectoryIfRequested(ScheduledTask directive, IBottleLog log)
         {
             if (directive.Clean)
             {
@@ -39,7 +39,7 @@ namespace Bottles.Deployment.Deployers.Scheduling
             }
         }
 
-        private void installService(ScheduledTask directive, IPackageLog log)
+        private void installService(ScheduledTask directive, IBottleLog log)
         {
             var psi = new ProcessStartInfo("schtasks");
             var args = @"/create /tn {0} /sc {1} /mo {2} /ru {3} /tr ""{4}"" /F".ToFormat(directive.Name, directive.ScheduleType, directive.Modifier, directive.UserAccount, directive.TaskToRun);

@@ -86,7 +86,7 @@ namespace Bottles.Deployment.Deployers.Installers
 
     public class InstallersDeployer : IFinalizer<InstallersDirective>
     {
-        public void Execute(InstallersDirective directive, HostManifest host, IPackageLog log)
+        public void Execute(InstallersDirective directive, HostManifest host, IBottleLog log)
         {
             log.Trace(directive.Input.Title());
             log.Trace("Writing the installer log file to " + directive.Input.LogFileFlag.ToFullPath());

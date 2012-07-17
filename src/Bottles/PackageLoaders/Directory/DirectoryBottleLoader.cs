@@ -24,7 +24,7 @@ namespace Bottles.PackageLoaders.Directory
             _searchPoint = searchPoint;
         }
 
-        public IEnumerable<IPackageInfo> Load(IPackageLog log)
+        public IEnumerable<IBottleInfo> Load(IBottleLog log)
         {
             var manifestReader = new BottleManifestReader(new FileSystem(), folder => folder);
             

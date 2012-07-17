@@ -17,7 +17,7 @@ namespace Bottles.Deployment.Deployers.Simple
             _bottles = bottles;
         }
 
-        public void Execute(ExplodeBottles directive, HostManifest host, IPackageLog log)
+        public void Execute(ExplodeBottles directive, HostManifest host, IBottleLog log)
         {
             _fileSystem.DeleteDirectory(directive.RootDirectory);
             _fileSystem.CreateDirectory(directive.RootDirectory);
@@ -30,23 +30,23 @@ namespace Bottles.Deployment.Deployers.Simple
             return "Exploding bottles to " + directive.RootDirectory;
         }
 
-        private void explodeBottle(ExplodeBottles directive, IPackageLog log, string bottleName)
+        private void explodeBottle(ExplodeBottles directive, IBottleLog log, string bottleName)
         {
             _bottles.ExplodeFiles(new BottleExplosionRequest(log){
-                BottleDirectory = BottleFiles.BinaryFolder,
+                BottleDirectory = WellKnownFiles.BinaryFolder,
                 DestinationDirectory = directive.RootDirectory.AppendPath(directive.BinDirectory ?? string.Empty),
                 BottleName = bottleName
             });
 
             _bottles.ExplodeFiles(new BottleExplosionRequest(log){
-                BottleDirectory = BottleFiles.WebContentFolder,
+                BottleDirectory = WellKnownFiles.WebContentFolder,
                 DestinationDirectory = directive.RootDirectory.AppendPath(directive.WebContentDirectory ?? string.Empty),
                 BottleName = bottleName
             });
 
             _bottles.ExplodeFiles(new BottleExplosionRequest(log)
             {
-                BottleDirectory = BottleFiles.DataFolder,
+                BottleDirectory = WellKnownFiles.DataFolder,
                 DestinationDirectory = directive.RootDirectory.AppendPath(directive.DataDirectory ?? string.Empty),
                 BottleName = bottleName
             });

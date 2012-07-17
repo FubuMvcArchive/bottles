@@ -88,7 +88,7 @@
     <Compile Include="Deployers\Configuration\ResolveDbConnection.cs" />
     <Compile Include="Deployers\Configuration\ResolveDbConnectionDeployer.cs" />
     <Compile Include="Deployers\Installers\InstallersDirective.cs" />
-    <Compile Include="Deployers\Scheduling\SchedTaskPackageFacility.cs" />
+    <Compile Include="Deployers\Scheduling\SchedTaskBottleFacility.cs" />
     <Compile Include="Deployers\Scheduling\WindowsScedulerDisabler.cs" />
     <Compile Include="Deployers\Scheduling\WindowsSchedulerEnabler.cs" />
     <Compile Include="Deployers\Scheduling\WinSchedBottleDestination.cs" />

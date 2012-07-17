@@ -31,8 +31,8 @@ namespace Bottles.Tests.Deployment.Deployers
                 Name = "the bottle name"
             }).Single();
 
-            request.BottleDirectory.ShouldEqual(BottleFiles.BinaryFolder);
-            request.DestinationDirectory.ShouldEqual(FileSystem.Combine(theRootFolder, BottleFiles.BinaryFolder));
+            request.BottleDirectory.ShouldEqual(WellKnownFiles.BinaryFolder);
+            request.DestinationDirectory.ShouldEqual(FileSystem.Combine(theRootFolder, WellKnownFiles.BinaryFolder));
             request.BottleName.ShouldEqual("the bottle name");
         }
 
@@ -45,8 +45,8 @@ namespace Bottles.Tests.Deployment.Deployers
                 Name = "the bottle name"
             }).Single();
 
-            request.BottleDirectory.ShouldEqual(BottleFiles.ConfigFolder);
-            request.DestinationDirectory.ShouldEqual(FileSystem.Combine(theRootFolder, BottleFiles.ConfigFolder));
+            request.BottleDirectory.ShouldEqual(WellKnownFiles.ConfigFolder);
+            request.DestinationDirectory.ShouldEqual(FileSystem.Combine(theRootFolder, WellKnownFiles.ConfigFolder));
             request.BottleName.ShouldEqual("the bottle name");
         }
 
@@ -60,8 +60,8 @@ namespace Bottles.Tests.Deployment.Deployers
             });
 
             var secondRequet = requests.First();
-            secondRequet.BottleDirectory.ShouldEqual(BottleFiles.BinaryFolder);
-            secondRequet.DestinationDirectory.ShouldEqual(theRootFolder.AppendPath(BottleFiles.BinaryFolder));
+            secondRequet.BottleDirectory.ShouldEqual(WellKnownFiles.BinaryFolder);
+            secondRequet.DestinationDirectory.ShouldEqual(theRootFolder.AppendPath(WellKnownFiles.BinaryFolder));
         }
 
         [Test]
@@ -74,8 +74,8 @@ namespace Bottles.Tests.Deployment.Deployers
             });
 
             var expected = new List<BottleExplosionRequest>{
-                new BottleExplosionRequest(new PackageLog()){BottleName = "the bottle name", BottleDirectory = BottleFiles.BinaryFolder, DestinationDirectory = FileSystem.Combine(theRootFolder, BottleFiles.BinaryFolder)},
-                new BottleExplosionRequest(new PackageLog()){BottleName = "the bottle name", BottleDirectory = BottleFiles.WebContentFolder, DestinationDirectory = theRootFolder},
+                new BottleExplosionRequest(new BottleLog()){BottleName = "the bottle name", BottleDirectory = WellKnownFiles.BinaryFolder, DestinationDirectory = FileSystem.Combine(theRootFolder, WellKnownFiles.BinaryFolder)},
+                new BottleExplosionRequest(new BottleLog()){BottleName = "the bottle name", BottleDirectory = WellKnownFiles.WebContentFolder, DestinationDirectory = theRootFolder},
             };
 
             requests.ShouldHaveTheSameElementsAs(expected);

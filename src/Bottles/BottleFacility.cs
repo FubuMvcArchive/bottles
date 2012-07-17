@@ -9,14 +9,14 @@ namespace Bottles
     /// <summary>
     /// Configuration DSL layer
     /// </summary>
-    public class PackageFacility : IPackageFacility, IPackagingRuntimeGraphConfigurer
+    public class BottleFacility : IBottleFacility, IPackagingRuntimeGraphConfigurer
     {
         private readonly IList<Action<BottlingRuntimeGraph>> _configurableActions = new List<Action<BottlingRuntimeGraph>>();
 
 
         public void Assembly(Assembly assembly)
         {
-            addConfigurableAction(g => g.AddLoader(new AssemblyPackageLoader(assembly)));
+            addConfigurableAction(g => g.AddLoader(new AssemblyBottleLoader(assembly)));
         }
 
         public void Bootstrapper(IBootstrapper bootstrapper)
@@ -29,7 +29,7 @@ namespace Bottles
            addConfigurableAction(g => g.AddLoader(loader));
         }
 
-        public void Facility(IPackageFacility facility)
+        public void Facility(IBottleFacility facility)
         {
             addConfigurableAction(graph =>
             {
@@ -42,7 +42,7 @@ namespace Bottles
            addConfigurableAction(g => g.AddActivator(activator));
         }
 
-        public void Bootstrap(Func<IPackageLog, IEnumerable<IActivator>> lambda)
+        public void Bootstrap(Func<IBottleLog, IEnumerable<IActivator>> lambda)
         {
             var lambdaBootstrapper = new LambdaBootstrapper(lambda);
             lambdaBootstrapper.Provenance = ProvenanceHelper.GetProvenanceFromStack();

@@ -23,13 +23,13 @@ namespace Bottles.Exploding
             _fileSystem = fileSystem;
         }
 
-        public IEnumerable<string> ExplodeAllZipsAndReturnPackageDirectories(string applicationDirectory, IPackageLog log)
+        public IEnumerable<string> ExplodeAllZipsAndReturnPackageDirectories(string applicationDirectory, IBottleLog log)
         {
             LogWriter.Current.Trace("Exploding all the package zip files for the application at " + applicationDirectory);
 
             return ExplodeDirectory(new ExplodeDirectory(){
-                DestinationDirectory = BottleFiles.GetExplodedPackagesDirectory(applicationDirectory),
-                BottleDirectory = BottleFiles.GetApplicationPackagesDirectory(applicationDirectory),
+                DestinationDirectory = WellKnownFiles.GetExplodedPackagesDirectory(applicationDirectory),
+                BottleDirectory = WellKnownFiles.GetApplicationPackagesDirectory(applicationDirectory),
                 Log = log
             });
         }
@@ -76,18 +76,18 @@ namespace Bottles.Exploding
         public void CleanAll(string applicationDirectory)
         {
             ConsoleWriter.Write("Cleaning all exploded packages out of " + applicationDirectory);
-            var directory = BottleFiles.GetExplodedPackagesDirectory(applicationDirectory);
+            var directory = WellKnownFiles.GetExplodedPackagesDirectory(applicationDirectory);
             clearExplodedDirectories(directory);
 
             // This is here for legacy installations that may have old exploded packages in bin/fubu-packages
-            clearExplodedDirectories(BottleFiles.GetApplicationPackagesDirectory(applicationDirectory));
+            clearExplodedDirectories(WellKnownFiles.GetApplicationPackagesDirectory(applicationDirectory));
         }
 
         public string ReadVersion(string directoryName)
         {
             var parts = new[]{
                 directoryName,
-                BottleFiles.VersionFile
+                WellKnownFiles.VersionFile
             };
 
             // TODO -- harden?
@@ -99,9 +99,9 @@ namespace Bottles.Exploding
             return Guid.Empty.ToString();
         }
 
-        public void ExplodeAssembly(string applicationDirectory, Assembly assembly, IPackageInfo packageInfo)
+        public void ExplodeAssembly(string applicationDirectory, Assembly assembly, IBottleInfo bottleInfo)
         {
-            var directory = BottleFiles.GetDirectoryForExplodedPackage(applicationDirectory, assembly.GetName().Name);
+            var directory = WellKnownFiles.GetDirectoryForExplodedPackage(applicationDirectory, assembly.GetName().Name);
 
             var request = new ExplodeRequest{
                 Directory = directory,
@@ -116,7 +116,7 @@ namespace Bottles.Exploding
             {
                 var name = Path.GetFileName(child);
 
-                packageInfo.Files.RegisterFolder(name, child.ToFullPath());
+                bottleInfo.Files.RegisterFolder(name, child.ToFullPath());
             });
         }
 
@@ -135,9 +135,9 @@ namespace Bottles.Exploding
             _fileSystem.DeleteDirectory(directory);
             _fileSystem.CreateDirectory(directory);
 
-            assembly.GetManifestResourceNames().Where(BottleFiles.IsEmbeddedPackageZipFile).Each(name =>
+            assembly.GetManifestResourceNames().Where(WellKnownFiles.IsEmbeddedPackageZipFile).Each(name =>
             {
-                var folderName = BottleFiles.EmbeddedPackageFolderName(name);
+                var folderName = WellKnownFiles.EmbeddedPackageFolderName(name);
                 var stream = assembly.GetManifestResourceStream(name);
 
                 var description = "Resource {0} in Assembly {1}".ToFormat(name, assembly.GetName().FullName);
@@ -146,7 +146,7 @@ namespace Bottles.Exploding
                 _service.ExtractTo(description, stream, destinationFolder);
 
                 var version = assembly.GetName().Version.ToString();
-                _fileSystem.WriteStringToFile(FileSystem.Combine(directory, BottleFiles.VersionFile), version);
+                _fileSystem.WriteStringToFile(FileSystem.Combine(directory, WellKnownFiles.VersionFile), version);
             });
         }
 
@@ -173,7 +173,7 @@ namespace Bottles.Exploding
             return new BottleExploder(new ZipFileService(fileSystem), new BottleExploderLogger(text => LogWriter.Current.Trace(text)), fileSystem);
         }
 
-        public static BottleExploder GetPackageExploder(IPackageLog log)
+        public static BottleExploder GetPackageExploder(IBottleLog log)
         {
             var fileSystem = new FileSystem();
             return new BottleExploder(new ZipFileService(fileSystem), new BottleExploderLogger(text => log.Trace(text)), fileSystem);

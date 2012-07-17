@@ -28,7 +28,7 @@ namespace Bottles.Tests.Deployment.Runtime.Content
             addBottle("B", 1);
             addBottle("C", 4);
 
-            ClassUnderTest.Move(MockFor<IPackageLog>(), MockFor<IBottleDestination>(), theReferences);
+            ClassUnderTest.Move(MockFor<IBottleLog>(), MockFor<IBottleDestination>(), theReferences);
         }
 
         private void addBottle(string name, int numberOfExplosionRequests)
@@ -42,7 +42,7 @@ namespace Bottles.Tests.Deployment.Runtime.Content
             var list = new List<BottleExplosionRequest>();
             for (int i = 0; i < numberOfExplosionRequests; i++)
             {
-                list.Add(new BottleExplosionRequest(new PackageLog()){
+                list.Add(new BottleExplosionRequest(new BottleLog()){
                     BottleName = name,
                     DestinationDirectory = "name:" + i
                 });

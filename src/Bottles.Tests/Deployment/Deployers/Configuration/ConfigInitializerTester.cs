@@ -38,7 +38,7 @@ namespace Bottles.Tests.Deployment.Deployers.Configuration
 
             Services.Inject(theSettings);
 
-            ClassUnderTest.Execute(theCentralConfig, theHost, MockFor<IPackageLog>());
+            ClassUnderTest.Execute(theCentralConfig, theHost, MockFor<IBottleLog>());
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace Bottles.Tests.Deployment.Deployers.Configuration
 
             Services.Inject(theSettings);
 
-            ClassUnderTest.Execute(theCentralConfig, theHost, MockFor<IPackageLog>());
+            ClassUnderTest.Execute(theCentralConfig, theHost, MockFor<IBottleLog>());
         }
 
         [Test]
@@ -112,7 +112,7 @@ namespace Bottles.Tests.Deployment.Deployers.Configuration
         
             Services.Inject(theSettings);
 
-            ClassUnderTest.Execute(theCentralConfig, theHost, MockFor<IPackageLog>());
+            ClassUnderTest.Execute(theCentralConfig, theHost, MockFor<IBottleLog>());
         }
 
         [Test]
@@ -126,21 +126,21 @@ namespace Bottles.Tests.Deployment.Deployers.Configuration
         {
             var theBottleRepository = MockFor<IBottleRepository>();
             theBottleRepository.AssertWasCalled(x => x.ExplodeFiles(new BottleExplosionRequest(){
-                BottleDirectory = BottleFiles.ConfigFolder,
+                BottleDirectory = WellKnownFiles.ConfigFolder,
                 BottleName = "A",
                 DestinationDirectory = theCentralConfig.Directory
             }));
 
             theBottleRepository.AssertWasCalled(x => x.ExplodeFiles(new BottleExplosionRequest()
             {
-                BottleDirectory = BottleFiles.ConfigFolder,
+                BottleDirectory = WellKnownFiles.ConfigFolder,
                 BottleName = "B",
                 DestinationDirectory = theCentralConfig.Directory
             }));
 
             theBottleRepository.AssertWasCalled(x => x.ExplodeFiles(new BottleExplosionRequest()
             {
-                BottleDirectory = BottleFiles.ConfigFolder,
+                BottleDirectory = WellKnownFiles.ConfigFolder,
                 BottleName = "C",
                 DestinationDirectory = theCentralConfig.Directory
             }));

@@ -10,7 +10,7 @@ namespace Bottles.Tests.Deployment
 
         public T PassedInDirective { get; private set; }
         public bool DeployWasCalled { get; private set; }
-        public void Execute(T directive, HostManifest host, IPackageLog log)
+        public void Execute(T directive, HostManifest host, IBottleLog log)
         {
             PassedInDirective = directive;
             DeployWasCalled = true;

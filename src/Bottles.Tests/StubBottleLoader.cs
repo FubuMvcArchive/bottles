@@ -14,7 +14,7 @@ namespace Bottles.Tests
             names.Each(x => _packages.FillDefault(x));
         }
 
-        public IEnumerable<IPackageInfo> Load(IPackageLog log)
+        public IEnumerable<IBottleInfo> Load(IBottleLog log)
         {
             Thread.Sleep(101);
             return _packages;
@@ -30,7 +30,7 @@ namespace Bottles.Tests
             _packages.FillDefault(name);
         }
 
-        public IEnumerable<IPackageInfo> Packages
+        public IEnumerable<IBottleInfo> Packages
         {
             get { return _packages; }
         }

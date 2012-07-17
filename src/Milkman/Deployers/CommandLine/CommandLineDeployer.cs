@@ -17,7 +17,7 @@ namespace Bottles.Deployment.Deployers.CommandLine
             _processRunner = processRunner;
         }
 
-        public void Execute(CommandLineExecution directive, HostManifest host, IPackageLog log)
+        public void Execute(CommandLineExecution directive, HostManifest host, IBottleLog log)
         {
             var processStartInfo = GetProcessStartInfo(directive);
 

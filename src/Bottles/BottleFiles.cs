@@ -4,9 +4,9 @@ using FubuCore;
 
 namespace Bottles
 {
-    public static class BottleFiles
+    public static class WellKnownFiles
     {
-        static BottleFiles()
+        static WellKnownFiles()
         {
             ContentFolder = "content";
             PackagesFolder = "packages";

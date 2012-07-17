@@ -10,7 +10,7 @@ namespace Bottles.Tests
     {
         private void loadPackages(Action<StubBottleLoader> configuration)
         {
-            PackageRegistry.LoadPackages(facility =>
+            BottleRegistry.LoadPackages(facility =>
             {
                 var loader = new StubBottleLoader();
                 configuration(loader);
@@ -21,7 +21,7 @@ namespace Bottles.Tests
 
         private void thePackageNamesInOrderShouldBe(params string[] names)
         {
-            PackageRegistry.Packages.Select(x => x.Name)
+            BottleRegistry.Bottles.Select(x => x.Name)
                 .ShouldHaveTheSameElementsAs(names);
         }
 
@@ -47,7 +47,7 @@ namespace Bottles.Tests
                 x.PackageFor("A").MandatoryDependency("A1");
             });
 
-            PackageRegistry.AssertNoFailures();
+            BottleRegistry.AssertNoFailures();
 
             thePackageNamesInOrderShouldBe("A1", "A");
         }
@@ -62,7 +62,7 @@ namespace Bottles.Tests
 
             Exception<ApplicationException>.ShouldBeThrownBy(() =>
             {
-                PackageRegistry.AssertNoFailures();
+                BottleRegistry.AssertNoFailures();
             }).Message.ShouldContain("Missing required Bottle/Package dependency named 'B'");
         }
     }

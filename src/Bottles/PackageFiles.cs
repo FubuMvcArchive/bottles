@@ -8,7 +8,7 @@ using FubuCore.Util;
 
 namespace Bottles
 {
-    public interface IPackageFiles
+    public interface IBottleFiles
     {
         /// <summary>
         ///   This a way to abstract the file system. You can add the directory
@@ -39,7 +39,7 @@ namespace Bottles
     }
 
     [DebuggerDisplay("{debuggerDisplay()}")]
-    public class PackageFiles : IPackageFiles
+    public class BottleFiles : IBottleFiles
     {
         private readonly Cache<string, string> _directories = new Cache<string, string>();
 

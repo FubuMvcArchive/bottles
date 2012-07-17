@@ -14,7 +14,7 @@ namespace Bottles.Tests.Zipping
         [Test]
         public void read_version_out_of_a_zip_file()
         {
-            var versionFile = Path.Combine(Path.GetTempPath(), BottleFiles.VersionFile);
+            var versionFile = Path.Combine(Path.GetTempPath(), WellKnownFiles.VersionFile);
             var guid = Guid.NewGuid();
             new FileSystem().WriteStringToFile(versionFile, guid.ToString());
 

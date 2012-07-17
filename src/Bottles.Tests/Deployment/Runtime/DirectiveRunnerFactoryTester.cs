@@ -85,7 +85,7 @@ namespace Bottles.Tests.Deployment.Runtime
 
     public class FakeInitializer<T> : IInitializer<T> where T : IDirective
     {
-        public void Execute(T directive, HostManifest host, IPackageLog log)
+        public void Execute(T directive, HostManifest host, IBottleLog log)
         {
             directive.As<FakeDirective>().HitIt();
         }
@@ -102,7 +102,7 @@ namespace Bottles.Tests.Deployment.Runtime
 
     public class FakeDeployer<T> : IDeployer<T> where T : IDirective
     {
-        public void Execute(T directive, HostManifest host, IPackageLog log)
+        public void Execute(T directive, HostManifest host, IBottleLog log)
         {
             directive.As<FakeDirective>().HitIt();
         }
@@ -123,7 +123,7 @@ namespace Bottles.Tests.Deployment.Runtime
 
     public class FakeFinalizer<T> : IFinalizer<T> where T : IDirective
     {
-        public void Execute(T directive, HostManifest host, IPackageLog log)
+        public void Execute(T directive, HostManifest host, IBottleLog log)
         {
             directive.As<FakeDirective>().HitIt();
         }

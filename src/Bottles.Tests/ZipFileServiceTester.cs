@@ -13,8 +13,8 @@ namespace Bottles.Tests
         [SetUp]
         public void SetUp()
         {
-            var assembly = typeof (AssemblyPackageMarker).Assembly;
-            var stream = assembly.GetManifestResourceStream(typeof (AssemblyPackageMarker), "pak-data.zip");
+            var assembly = typeof (AssemblyBottleMarker).Assembly;
+            var stream = assembly.GetManifestResourceStream(typeof (AssemblyBottleMarker), "pak-data.zip");
 
             var service = new ZipFileService(new FileSystem());
             service.ExtractTo("description of this", stream, "package-data");

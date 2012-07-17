@@ -15,7 +15,7 @@ namespace Bottles.Deployers.Iis
             _fileSystem = fileSystem;
         }
 
-        public void Execute(Website directive, HostManifest host, IPackageLog log)
+        public void Execute(Website directive, HostManifest host, IBottleLog log)
         {
             // Just in case these directories do not already exist
             _fileSystem.CreateDirectory(directive.WebsitePhysicalPath);
@@ -33,7 +33,7 @@ namespace Bottles.Deployers.Iis
                                           "&lt;html&gt;&lt;body&gt;Application is being rebuilt&lt;/body&gt;&lt;/html&gt;");
         }
 
-        private static void stopPools(Website directive, IPackageLog log)
+        private static void stopPools(Website directive, IBottleLog log)
         {
             using (var sm = new ServerManager())
             {

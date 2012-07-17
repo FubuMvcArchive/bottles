@@ -114,7 +114,7 @@ namespace Bottles.Tests.Creation
         {
             _theZipFileService.ZipRequests.ShouldContain(new ZipFolderRequest(){
                 FileSet = theManifest.ContentFileSet,
-                ZipDirectory = BottleFiles.WebContentFolder,
+                ZipDirectory = WellKnownFiles.WebContentFolder,
                 RootDirectory = theInput.PackageFolder
             });
         }
@@ -125,8 +125,8 @@ namespace Bottles.Tests.Creation
             _theZipFileService.ZipRequests.ShouldContain(new ZipFolderRequest()
             {
                 FileSet = theManifest.DataFileSet,
-                ZipDirectory = BottleFiles.DataFolder,
-                RootDirectory = Path.Combine(theInput.PackageFolder, BottleFiles.DataFolder)
+                ZipDirectory = WellKnownFiles.DataFolder,
+                RootDirectory = Path.Combine(theInput.PackageFolder, WellKnownFiles.DataFolder)
             });
         }
     }

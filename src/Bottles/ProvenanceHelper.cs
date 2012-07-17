@@ -10,7 +10,7 @@ namespace Bottles
     {
         public static string GetProvenanceFromStack()
         {
-            var theBottleAssembly = typeof(IPackageInfo).Assembly; //bottle assembly
+            var theBottleAssembly = typeof(IBottleInfo).Assembly; //bottle assembly
             var trace = new StackTrace(Thread.CurrentThread, false);
 
             //walk the stack looking for the first 'valid' frame to use

@@ -15,7 +15,7 @@ namespace Bottles.Deployment.Deployers.Configuration
             _resolver = resolver;
         }
 
-        public void Execute(ResolveDbConnection directive, HostManifest host, IPackageLog log)
+        public void Execute(ResolveDbConnection directive, HostManifest host, IBottleLog log)
         {
             var pathedDirective = host.Directives.OfType<IDirectiveWithRoot>().FirstOrDefault();
             if (pathedDirective == null)

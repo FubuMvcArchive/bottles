@@ -122,7 +122,7 @@ namespace Bottles.Tests
         [Test]
         public void the_package_should_be_a_child_of_the_loader()
         {
-            diagnostics.LogFor(loader).FindChildren<IPackageInfo>().Single().ShouldBeTheSameAs(_bottle);
+            diagnostics.LogFor(loader).FindChildren<IBottleInfo>().Single().ShouldBeTheSameAs(_bottle);
         }
 
 

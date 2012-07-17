@@ -88,7 +88,7 @@ namespace Bottles.Creation
             zipFile.AddFiles(new ZipFolderRequest
                                  {
                                      FileSet = manifest.ContentFileSet,
-                                     ZipDirectory = BottleFiles.WebContentFolder,
+                                     ZipDirectory = WellKnownFiles.WebContentFolder,
                                      RootDirectory = input.PackageFolder
                                  });
         }
@@ -105,8 +105,8 @@ namespace Bottles.Creation
             zipFile.AddFiles(new ZipFolderRequest()
                              {
                                  FileSet = manifest.DataFileSet,
-                                 ZipDirectory = BottleFiles.DataFolder,
-                                 RootDirectory = Path.Combine(input.PackageFolder, BottleFiles.DataFolder)
+                                 ZipDirectory = WellKnownFiles.DataFolder,
+                                 RootDirectory = Path.Combine(input.PackageFolder, WellKnownFiles.DataFolder)
                              });
         }
 
@@ -123,7 +123,7 @@ namespace Bottles.Creation
             zipFile.AddFiles(new ZipFolderRequest(){
                 FileSet = manifest.ConfigFileSet,
                 RootDirectory = input.PackageFolder,
-                ZipDirectory = BottleFiles.ConfigFolder
+                ZipDirectory = WellKnownFiles.ConfigFolder
             });
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace Bottles.Deployment.Deployers.Scheduling
 {
-    public class SchedTaskPackageFacility
+    public class SchedTaskBottleFacility
     {
         public static string PackagesFolder
         {

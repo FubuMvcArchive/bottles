@@ -15,14 +15,14 @@ namespace Bottles.Deployers.Iis
             _fileSystem = fileSystem;
         }
 
-        public void Execute(Website directive, HostManifest host, IPackageLog log)
+        public void Execute(Website directive, HostManifest host, IBottleLog log)
         {
             _fileSystem.DeleteFile(FileSystem.Combine(directive.VDirPhysicalPath, "app_offline.htm"));
 
             restartPools(directive, log);
         }
 
-        private void restartPools(Website directive, IPackageLog log)
+        private void restartPools(Website directive, IBottleLog log)
         {
             using(var sm = new ServerManager())
             {

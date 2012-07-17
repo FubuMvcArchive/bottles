@@ -9,7 +9,7 @@
         public const string Binaries = "binaries";
 
         /// <summary>
-        /// Packages that extend 'application' with new functionality. Another
+        /// Bottles that extend 'application' with new functionality. Another
         /// way to express this is 'plugin'
         /// </summary>
         public const string Module = "module";
@@ -26,7 +26,7 @@
 
 
         /// <summary>
-        /// Packages that are strictly data. aka just files
+        /// Bottles that are strictly data. aka just files
         /// </summary>
         public const string Data = "data";
     }

@@ -7,18 +7,18 @@ namespace Bottles.PackageLoaders.Assemblies
     /// <summary>
     /// Loads a package from an assembly (.dll / .exe)
     /// </summary>
-    public class AssemblyPackageLoader : IBottleLoader
+    public class AssemblyBottleLoader : IBottleLoader
     {
         private readonly Assembly _assembly;
 
-        public AssemblyPackageLoader(Assembly assembly)
+        public AssemblyBottleLoader(Assembly assembly)
         {
             _assembly = assembly;
         }
 
-        public IEnumerable<IPackageInfo> Load(IPackageLog log)
+        public IEnumerable<IBottleInfo> Load(IBottleLog log)
         {
-            yield return AssemblyPackageInfoFactory.CreateFor(_assembly);
+            yield return AssemblyBottleInfoFactory.CreateFor(_assembly);
         }
 
         public override string ToString()
@@ -26,7 +26,7 @@ namespace Bottles.PackageLoaders.Assemblies
             return string.Format("Assembly: {0}", _assembly);
         }
 
-        public bool Equals(AssemblyPackageLoader other)
+        public bool Equals(AssemblyBottleLoader other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -37,8 +37,8 @@ namespace Bottles.PackageLoaders.Assemblies
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof (AssemblyPackageLoader)) return false;
-            return Equals((AssemblyPackageLoader) obj);
+            if (obj.GetType() != typeof (AssemblyBottleLoader)) return false;
+            return Equals((AssemblyBottleLoader) obj);
         }
 
         public override int GetHashCode()

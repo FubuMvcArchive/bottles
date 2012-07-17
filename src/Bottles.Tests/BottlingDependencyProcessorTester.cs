@@ -39,7 +39,7 @@ namespace Bottles.Tests
         [Test]
         public void log_missing_dependency_marks_a_failure()
         {
-            var log = MockRepository.GenerateMock<IPackageLog>();
+            var log = MockRepository.GenerateMock<IBottleLog>();
             log.LogMissingDependency("A1");
 
             log.AssertWasCalled(x => x.MarkFailure("Missing required Bottle/Package dependency named 'A1'"));
@@ -123,7 +123,7 @@ namespace Bottles.Tests
             }
 
             thePackages.Add(x);
-            Services.Inject<IPackageInfo>(x);
+            Services.Inject<IBottleInfo>(x);
             return x;
         }
 
@@ -146,14 +146,14 @@ namespace Bottles.Tests
 
     public class StubBottleDiagnostics : IBottlingDiagnostics
     {
-        private readonly Cache<object, IPackageLog> _logs = new Cache<object, IPackageLog>(o => MockRepository.GenerateMock<IPackageLog>());
+        private readonly Cache<object, IBottleLog> _logs = new Cache<object, IBottleLog>(o => MockRepository.GenerateMock<IBottleLog>());
 
         public void LogObject(object target, string provenance)
         {
             throw new NotImplementedException();
         }
 
-        public void LogPackage(IPackageInfo package, IBottleLoader loader)
+        public void LogPackage(IBottleInfo bottle, IBottleLoader loader)
         {
             throw new NotImplementedException();
         }
@@ -163,17 +163,17 @@ namespace Bottles.Tests
             throw new NotImplementedException();
         }
 
-        public void LogAssembly(IPackageInfo package, Assembly assembly, string provenance)
+        public void LogAssembly(IBottleInfo bottle, Assembly assembly, string provenance)
         {
             throw new NotImplementedException();
         }
 
-        public void LogDuplicateAssembly(IPackageInfo package, string assemblyName)
+        public void LogDuplicateAssembly(IBottleInfo bottle, string assemblyName)
         {
             throw new NotImplementedException();
         }
 
-        public void LogAssemblyFailure(IPackageInfo package, string fileName, Exception exception)
+        public void LogAssemblyFailure(IBottleInfo bottle, string fileName, Exception exception)
         {
             throw new NotImplementedException();
         }
@@ -183,7 +183,7 @@ namespace Bottles.Tests
             throw new NotImplementedException();
         }
 
-        public void EachLog(Action<object, PackageLog> action)
+        public void EachLog(Action<object, BottleLog> action)
         {
             throw new NotImplementedException();
         }
@@ -193,7 +193,7 @@ namespace Bottles.Tests
             throw new NotImplementedException();
         }
 
-        public IPackageLog LogFor(object target)
+        public IBottleLog LogFor(object target)
         {
             return _logs[target];
         }

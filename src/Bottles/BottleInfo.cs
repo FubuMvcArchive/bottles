@@ -9,13 +9,13 @@ using Bottles.PackageLoaders.Assemblies;
 namespace Bottles
 {
     [DebuggerDisplay("{Name}:{Role}")]
-    public class PackageInfo : IPackageInfo
+    public class BottleInfo : IBottleInfo
     {
-        private readonly PackageFiles _files = new PackageFiles();
+        private readonly BottleFiles _files = new BottleFiles();
         private readonly IList<Dependency> _dependencies = new List<Dependency>();
         private readonly IList<AssemblyTarget> _assemblies = new List<AssemblyTarget>();
 
-        public PackageInfo(PackageManifest manifest)
+        public BottleInfo(PackageManifest manifest)
         {
             Manifest = manifest;
         }
@@ -68,7 +68,7 @@ namespace Bottles
 
        
 
-        public IPackageFiles Files
+        public IBottleFiles Files
         {
             get { return _files; }
         }
@@ -87,7 +87,7 @@ namespace Bottles
                             });
         }  
 
-        public bool Equals(PackageInfo other)
+        public bool Equals(BottleInfo other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -98,8 +98,8 @@ namespace Bottles
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(PackageInfo)) return false;
-            return Equals((PackageInfo)obj);
+            if (obj.GetType() != typeof(BottleInfo)) return false;
+            return Equals((BottleInfo)obj);
         }
 
         public override int GetHashCode()

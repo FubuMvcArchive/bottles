@@ -13,22 +13,22 @@ namespace Bottles.PackageLoaders.LinkedFolders
     /// 
     /// CHANGING the NAME of this will break FubuMVC in a small way
     /// </summary>
-    public class LinkedFolderPackageLoader : IBottleLoader
+    public class LinkedFolderBottleLoader : IBottleLoader
     {
         private readonly string _applicationDirectory;
         private readonly IFileSystem _fileSystem = new FileSystem();
         private readonly BottleManifestReader _reader;
 
-        public LinkedFolderPackageLoader(string applicationDirectory, Func<string, string> getContentFolderFromPackageFolder)
+        public LinkedFolderBottleLoader(string applicationDirectory, Func<string, string> getContentFolderFromPackageFolder)
         {
             _applicationDirectory = applicationDirectory;
             _reader = new BottleManifestReader(_fileSystem, getContentFolderFromPackageFolder);
         }
 
 
-        public IEnumerable<IPackageInfo> Load(IPackageLog log)
+        public IEnumerable<IBottleInfo> Load(IBottleLog log)
         {
-            var packages = new List<IPackageInfo>();
+            var packages = new List<IBottleInfo>();
 
             var manifestFile = FileSystem.Combine(_applicationDirectory, LinkManifest.FILE);
             var manifest = _fileSystem.LoadFromFile<LinkManifest>(manifestFile);

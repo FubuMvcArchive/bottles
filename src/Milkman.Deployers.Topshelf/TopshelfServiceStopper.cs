@@ -11,7 +11,7 @@ namespace Bottles.Deployers.Topshelf
 {
     public class TopshelfServiceStopper : IInitializer<TopshelfService>
     {
-        public void Execute(TopshelfService directive, HostManifest host, IPackageLog log)
+        public void Execute(TopshelfService directive, HostManifest host, IBottleLog log)
         {
             stopServiceIfItExists(directive, log);
         }
@@ -21,7 +21,7 @@ namespace Bottles.Deployers.Topshelf
             return "Stops service '{0}'".ToFormat(directive.ServiceName);
         }
 
-        private void stopServiceIfItExists(TopshelfService directive, IPackageLog log)
+        private void stopServiceIfItExists(TopshelfService directive, IBottleLog log)
         {
             var service = ServiceController.GetServices()
                 .DefaultIfEmpty(null)
@@ -47,7 +47,7 @@ namespace Bottles.Deployers.Topshelf
             return (service.Status == ServiceControllerStatus.Stopped || service.Status == ServiceControllerStatus.StopPending);
         }
 
-        private void stopService(ServiceController service, IPackageLog log)
+        private void stopService(ServiceController service, IBottleLog log)
         {
             if (!service.CanStop)
             {

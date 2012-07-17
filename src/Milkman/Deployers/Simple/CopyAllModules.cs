@@ -21,7 +21,7 @@ namespace Bottles.Deployment.Deployers.Simple
             _bottleMover = bottleMover;
         }
 
-        public void Execute(CopyAllModules directive, HostManifest host, IPackageLog log)
+        public void Execute(CopyAllModules directive, HostManifest host, IBottleLog log)
         {
             var destination = new CopyAllModulesDestination(directive.Destination);
 

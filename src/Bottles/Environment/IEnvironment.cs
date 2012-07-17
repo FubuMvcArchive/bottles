@@ -10,6 +10,6 @@ namespace Bottles.Environment
     public interface IEnvironment : IDisposable
     {
 
-        IEnumerable<IInstaller> StartUp(IPackageLog log);
+        IEnumerable<IInstaller> StartUp(IBottleLog log);
     }
 }

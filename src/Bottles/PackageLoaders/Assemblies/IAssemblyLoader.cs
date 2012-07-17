@@ -7,6 +7,6 @@ namespace Bottles.PackageLoaders.Assemblies
     /// </summary>
     public interface IAssemblyLoader
     {
-        void ReadPackage(IPackageInfo package, IPackageLog log);
+        void ReadPackage(IBottleInfo bottle, IBottleLog log);
     }
 }

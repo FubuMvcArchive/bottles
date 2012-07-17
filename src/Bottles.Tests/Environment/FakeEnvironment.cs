@@ -12,7 +12,7 @@ namespace Bottles.Tests.Environment
             throw new NotImplementedException();
         }
 
-        public IEnumerable<IInstaller> StartUp(IPackageLog log)
+        public IEnumerable<IInstaller> StartUp(IBottleLog log)
         {
             throw new NotImplementedException();
         }

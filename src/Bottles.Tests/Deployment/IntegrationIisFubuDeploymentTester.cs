@@ -37,7 +37,7 @@ namespace Bottles.Tests.Deployment
             directive.DirectoryBrowsing = Activation.Enable;
 
 
-            initializer.Execute(directive, new HostManifest("something"), new PackageLog());
+            initializer.Execute(directive, new HostManifest("something"), new BottleLog());
 
             deployer.Create(directive);
         }
@@ -66,7 +66,7 @@ namespace Bottles.Tests.Deployment
             directive.DirectoryBrowsing = Activation.Enable;
 
 
-            initializer.Execute(directive, new HostManifest("something"), new PackageLog());
+            initializer.Execute(directive, new HostManifest("something"), new BottleLog());
 
             deployer.Create(directive);
 

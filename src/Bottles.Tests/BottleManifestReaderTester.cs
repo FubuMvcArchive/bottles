@@ -9,7 +9,7 @@ namespace Bottles.Tests
     public class when_reading_a_package_from_a_folder
     {
         private PackageManifest theOriginalManifest;
-        private IPackageInfo thePackage;
+        private IBottleInfo _theBottle;
 
         [SetUp]
         public void SetUp()
@@ -33,20 +33,20 @@ namespace Bottles.Tests
 
             theOriginalManifest.WriteTo("package1");
 
-            thePackage = new BottleManifestReader(new FileSystem(), directory => directory.AppendPath("WebContent")).LoadFromFolder("package1");
+            _theBottle = new BottleManifestReader(new FileSystem(), directory => directory.AppendPath("WebContent")).LoadFromFolder("package1");
         }
 
         [Test]
         public void has_all_the_dependencies()
         {
-            thePackage.Dependencies
+            _theBottle.Dependencies
                 .ShouldHaveTheSameElementsAs(Dependency.Mandatory("bottle1"), Dependency.Mandatory("bottle2"), Dependency.Optional("bottle3"));
         }
 
         [Test]
         public void reads_the_package_name()
         {
-            thePackage.Name.ShouldEqual(theOriginalManifest.Name);
+            _theBottle.Name.ShouldEqual(theOriginalManifest.Name);
         }
 
     }

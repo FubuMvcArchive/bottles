@@ -9,7 +9,7 @@ namespace Bottles.Tests
     [TestFixture]
     public class BottleInfoTester
     {
-        private PackageInfo thePackage;
+        private BottleInfo _theBottle;
 		private string theDataFolder;
 
         [SetUp]
@@ -22,8 +22,8 @@ namespace Bottles.Tests
                 Directory.Delete(theDataFolder, true);
             }
 
-            thePackage = new PackageInfo(new PackageManifest(){Name="a"});
-            thePackage.RegisterFolder(BottleFiles.DataFolder, Path.GetFullPath(theDataFolder));
+            _theBottle = new BottleInfo(new PackageManifest(){Name="a"});
+            _theBottle.RegisterFolder(WellKnownFiles.DataFolder, Path.GetFullPath(theDataFolder));
         }
 
         [Test]
@@ -33,11 +33,11 @@ namespace Bottles.Tests
             var dep2 = Dependency.Optional("Bottle2");
             var dep3 = Dependency.Optional("Bottle3");
         
-            thePackage.AddDependency(dep1);
-            thePackage.AddDependency(dep2);
-            thePackage.AddDependency(dep3);
+            _theBottle.AddDependency(dep1);
+            _theBottle.AddDependency(dep2);
+            _theBottle.AddDependency(dep3);
 
-            thePackage.As<IPackageInfo>().Dependencies
+            _theBottle.As<IBottleInfo>().Dependencies
                 .ShouldHaveTheSameElementsAs(dep1, dep2, dep3);
         }
 
@@ -65,7 +65,7 @@ namespace Bottles.Tests
         public IEnumerable<string> readFiles(string searchString)
         {
             var list = new List<string>();
-            ((IPackageInfo)thePackage).ForFiles(BottleFiles.DataFolder, searchString, (name, stream) => list.Add(stream.ReadAllText()));
+            ((IBottleInfo)_theBottle).ForFiles(WellKnownFiles.DataFolder, searchString, (name, stream) => list.Add(stream.ReadAllText()));
 
             list.Sort();
 
@@ -75,7 +75,7 @@ namespace Bottles.Tests
         [Test]
         public void happily_do_nothing_if_caller_requests_a_folder_That_does_not_exist()
         {
-            ((IPackageInfo)thePackage).ForFiles(BottleFiles.DataFolder, join("nonexistent", "*.xml"), (x, y) => Assert.Fail("Not supposed to call this"));
+            ((IBottleInfo)_theBottle).ForFiles(WellKnownFiles.DataFolder, join("nonexistent", "*.xml"), (x, y) => Assert.Fail("Not supposed to call this"));
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace Bottles.Tests
             writeText(FileSystem.Combine(theDataFolder, "e.t2"), "e");
 
             var list = new List<string>();
-            ((IPackageInfo)thePackage).ForFiles(BottleFiles.DataFolder, "*.*", (name, stream) => list.Add(name));
+            ((IBottleInfo)_theBottle).ForFiles(WellKnownFiles.DataFolder, "*.*", (name, stream) => list.Add(name));
 
             list.Sort();
             list.ShouldHaveTheSameElementsAs("c.txt", "e.t2", join("st", "a.txt"), join("st",  "b.txt"), join("st", "d.t2"));

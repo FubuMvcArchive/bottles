@@ -15,7 +15,7 @@ namespace Bottles.Deployment.Deployers.Scheduling
             _runner = runner;
         }
 
-        public void Execute(ScheduledTask directive, HostManifest host, IPackageLog log)
+        public void Execute(ScheduledTask directive, HostManifest host, IBottleLog log)
         {
             log.Trace("Enabling the scheduled task {0}".ToFormat(directive.Name));
             var psi = new ProcessStartInfo("schtasks");

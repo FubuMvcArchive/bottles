@@ -18,7 +18,7 @@ namespace Bottles.Tests.Environment
                           EnvironmentClassName = typeof(FakeEnvironment).AssemblyQualifiedName
                       };
 
-            run.FindEnvironmentType(new PackageLog()).ShouldEqual(typeof (FakeEnvironment));
+            run.FindEnvironmentType(new BottleLog()).ShouldEqual(typeof (FakeEnvironment));
         }
 
         [Test]
@@ -29,7 +29,7 @@ namespace Bottles.Tests.Environment
                           EnvironmentClassName = typeof(FakeEnvironment).AssemblyQualifiedName
                       };
 
-            run.FindEnvironmentType(new PackageLog()).ShouldEqual(typeof(FakeEnvironment));
+            run.FindEnvironmentType(new BottleLog()).ShouldEqual(typeof(FakeEnvironment));
         }
 
         [Test]

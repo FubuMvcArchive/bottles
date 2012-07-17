@@ -11,7 +11,7 @@ namespace Bottles.Environment
         public string Description { get; set; }
         public long TimeInMilliseconds { get; set; }
 
-        public static EnvironmentLogEntry FromPackageLog(object target, IPackageLog log)
+        public static EnvironmentLogEntry FromPackageLog(object target, IBottleLog log)
         {
             return new EnvironmentLogEntry(){
                 Description = target.ToString(),

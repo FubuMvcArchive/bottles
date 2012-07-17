@@ -6,7 +6,7 @@ namespace Bottles.Exploding
     {
         public string BottleDirectory { get; set;}
         public string DestinationDirectory { get; set; }
-        public IPackageLog Log { get; set; }
+        public IBottleLog Log { get; set; }
 
         public bool Equals(ExplodeDirectory other)
         {

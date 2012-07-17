@@ -4,10 +4,6 @@ using Bottles.Diagnostics;
 
 namespace Bottles
 {
-    [Obsolete]
-    public interface IPackageLoader : IBottleLoader
-    {
-    }
 
     /// <summary>
     /// Finds bottles
@@ -19,6 +15,6 @@ namespace Bottles
         /// </summary>
         /// <param name="log">log for logging</param>
         /// <returns>found package infos</returns>
-        IEnumerable<IPackageInfo> Load(IPackageLog log);
+        IEnumerable<IBottleInfo> Load(IBottleLog log);
     }
 }

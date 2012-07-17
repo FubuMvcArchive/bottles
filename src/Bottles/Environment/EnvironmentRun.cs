@@ -35,7 +35,7 @@ namespace Bottles.Environment
         }
 
         // TODO -- harden with a better exception
-        public Type FindEnvironmentType(IPackageLog log)
+        public Type FindEnvironmentType(IBottleLog log)
         {
             if (EnvironmentClassName.IsNotEmpty())
             {

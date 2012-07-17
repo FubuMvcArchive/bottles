@@ -8,7 +8,7 @@ namespace SampleBottleService
     public class SampleService :
         IBottleAwareService
     {
-        public IEnumerable<IActivator> Bootstrap(IPackageLog log)
+        public IEnumerable<IActivator> Bootstrap(IBottleLog log)
         {
             //boot up IOC 
 
