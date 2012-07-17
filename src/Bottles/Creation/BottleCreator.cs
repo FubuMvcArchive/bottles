@@ -65,25 +65,13 @@ namespace Bottles.Creation
                     });
                 }
 
-                WriteVersion(zipFile);
-
-                zipFile.AddFile(FileSystem.Combine(input.PackageFolder, PackageManifest.FILE), "");
+                zipFile.AddFile(input.PackageFolder.AppendPath(PackageManifest.FILE), "");
 
                 // TODO -- there's an opportunity to generalize this
                 AddDataFiles(input, zipFile, manifest);
                 AddContentFiles(input, zipFile, manifest);
                 AddConfigFiles(input, zipFile, manifest);
             });
-        }
-
-        public Guid WriteVersion(IZipFile zipFile)
-        {
-            var versionFile = Path.Combine(Path.GetTempPath(), BottleFiles.VersionFile);
-            var guid = Guid.NewGuid();
-            _fileSystem.WriteStringToFile(versionFile, guid.ToString());
-            zipFile.AddFile(versionFile);
-
-            return guid;
         }
 
         public void AddContentFiles(CreateBottleInput input, IZipFile zipFile, PackageManifest manifest)
