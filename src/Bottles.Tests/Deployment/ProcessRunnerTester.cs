@@ -11,7 +11,7 @@ namespace Bottles.Tests.Deployment
         [Test]
         public void ShouldntBeAnyExceptionsIfTheProcessHasExited()
         {
-            var pr = new ProcessRunner();
+            var pr = new ProcessRunner(new FileSystem());
             var x = pr.Run(new ProcessStartInfo("ping", "127.0.0.1"));
             x.OutputText.IsNotEmpty();
         }

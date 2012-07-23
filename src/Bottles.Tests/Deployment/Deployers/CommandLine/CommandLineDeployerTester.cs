@@ -51,7 +51,7 @@ namespace Bottles.Tests.Deployment.Deployers.CommandLine
         {
             theHost = new HostManifest("hi");
             
-            Services.Inject<IProcessRunner>(new ProcessRunner());
+            Services.Inject<IProcessRunner>(new ProcessRunner(new FileSystem()));
             
             theDirective = new CommandLineExecution()
             {

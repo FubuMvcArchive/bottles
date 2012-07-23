@@ -45,6 +45,13 @@ namespace Bottles.Deployment
 
     public class ProcessRunner : IProcessRunner
     {
+        private IFileSystem _fileSystem;
+
+        public ProcessRunner(IFileSystem fileSystem)
+        {
+            _fileSystem = fileSystem;
+        }
+
         public ProcessReturn Run(ProcessStartInfo info, TimeSpan waitDuration)
         {
             //use the operating system shell to start the process
@@ -64,6 +71,8 @@ namespace Bottles.Deployment
             {
                 info.FileName = info.WorkingDirectory.AppendPath(info.FileName);
             }
+
+            validate(info);
 
             ProcessReturn returnValue = null;
 			var output = new StringBuilder();
@@ -88,6 +97,18 @@ namespace Bottles.Deployment
             }
 
             return returnValue;
+        }
+
+        private void validate(ProcessStartInfo info)
+        {
+            if (!_fileSystem.DirectoryExists(info.WorkingDirectory))
+            {
+                LogWriter.Current.Trace("Working directory doesn't exist: '{0}'", info.WorkingDirectory);
+            }
+            if(!_fileSystem.FileExists(info.FileName))
+            {
+                LogWriter.Current.Trace("File doesn't exist: '{0}'", info.FileName);
+            }
         }
 
         private void killProcessIfItStillExists(int pid)

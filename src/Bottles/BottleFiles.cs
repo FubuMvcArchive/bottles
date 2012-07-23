@@ -55,19 +55,19 @@ namespace Bottles
 
         public static string GetDirectoryForExplodedPackage(string applicationDirectory, string packageName)
         {
-            var dir = FileSystem.Combine(applicationDirectory, ContentFolder, packageName);
-            return dir;
+            var dir = applicationDirectory.AppendPath(ContentFolder, packageName);
+            return dir.ToFullPath();
         }
 
         public static string GetApplicationPackagesDirectory(string applicationDirectory)
         {
-            var dir = FileSystem.Combine(applicationDirectory, PackagesFolder);
-            return dir;
+            var dir = applicationDirectory.AppendPath(PackagesFolder);
+            return dir.ToFullPath();
         }
 
         public static string GetExplodedPackagesDirectory(string applicationDirectory)
         {
-            return FileSystem.Combine(applicationDirectory, ContentFolder);
+            return applicationDirectory.AppendPath(ContentFolder).ToFullPath();
         }
     }
 }
