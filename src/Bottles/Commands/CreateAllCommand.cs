@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Bottles.Creation;
@@ -78,9 +79,10 @@ namespace Bottles.Commands
             {
                 var folder = Path.GetDirectoryName(file);
                 return createPackage(folder, output, input);
-            });
+            }).ToArray();
 
-            return results.Any(r => !r);
+            var result =  results.All(r => r);
+            return result;
         }
 
         private static bool createPackage(string packageFolder, string bottlesDirectory, CreateAllInput input)
