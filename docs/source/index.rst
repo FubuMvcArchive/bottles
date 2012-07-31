@@ -12,6 +12,7 @@ Bottles Documentation
    :maxdepth: 2
 
    overview/index.rst
+   using/index.rst
 
 ..   topics/index
 ..   ref/index
