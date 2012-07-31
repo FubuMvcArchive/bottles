@@ -3,7 +3,8 @@ Leveraging Bottles in your Framework
 
 To use Bottles you will be using the  BottleRegistry.
 
-.. sourcecode::
+.. sourcecode:: csharp
+    :linenos:
 
     BottleRegistry.LoadPackages(facility => 
     {

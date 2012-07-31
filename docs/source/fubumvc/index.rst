@@ -3,7 +3,8 @@ Leveraging Bottles in your FubuMVC app
 
 Briefly, the simplest way to use it is the following.
 
-.. sourcecode::
+.. sourcecode:: csharp
+    :linenos:
 
     public class BottleRegistry : Registry //structure map
     {
