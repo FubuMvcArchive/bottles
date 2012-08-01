@@ -17,3 +17,4 @@ should provide a convenient way to host these types of services.
     usecase.rst
     nuget.rst
     daytoday.rst
+    complex.rst
