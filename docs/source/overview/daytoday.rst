@@ -71,13 +71,22 @@ The package manifest files look like this::
 Linking Bottles
 ---------------
 
-*content*
+The short version, is that it allows you to 'link' in other modules that might
+be optional for your application. AWESOMENESS.
+
+*content*::
 
     bottles link <app> <module>
+    bottles link MyApp MyModule
+
+This help in dev mode. Now the MyApp will have a ``.links`` file that will point
+back to MyModule. And now the MyModule will be available from the
+``BottleRegistry.Bottles`` property.
 
 Managing DLLs
 -------------
 
 *content*
 
-version dependencies: bottles doesn't up to the user currently
+version dependencies: bottles doesn't help you, its up to the user
+to not get them selves in a bind currently.
