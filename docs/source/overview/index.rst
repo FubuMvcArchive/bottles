@@ -16,3 +16,4 @@ should provide a convenient way to host these types of services.
     lifecycle.rst
     usecase.rst
     nuget.rst
+    daytoday.rst
