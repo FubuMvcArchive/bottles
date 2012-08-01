@@ -65,6 +65,8 @@ namespace Bottles.Creation
                     });
                 }
 
+                WriteVersion(zipFile);
+
                 zipFile.AddFile(input.PackageFolder.AppendPath(PackageManifest.FILE), "");
 
                 // TODO -- there's an opportunity to generalize this
@@ -72,6 +74,17 @@ namespace Bottles.Creation
                 AddContentFiles(input, zipFile, manifest);
                 AddConfigFiles(input, zipFile, manifest);
             });
+        }
+
+         public Guid WriteVersion(IZipFile zipFile)
+        {
+            var versionFile = Path.Combine(Path.GetTempPath(), WellKnownFiles.VersionFile);
+            var guid = Guid.NewGuid();
+            _fileSystem.WriteStringToFile(versionFile, guid.ToString());
+            zipFile.AddFile(versionFile);
+
+	  	
+            return guid;
         }
 
         public void AddContentFiles(CreateBottleInput input, IZipFile zipFile, PackageManifest manifest)
