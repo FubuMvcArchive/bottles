@@ -12,8 +12,7 @@ Bottles Documentation
    :maxdepth: 2
 
    overview/index.rst
-   fubumvc/index.rst
-   using/index.rst
+   frameworks/index.rst
 
 ..   topics/index
 ..   ref/index
