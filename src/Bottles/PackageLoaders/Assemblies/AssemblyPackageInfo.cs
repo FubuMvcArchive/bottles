@@ -1,5 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Reflection;
+using Bottles.Exploding;
+using FubuCore;
 
 namespace Bottles.PackageLoaders.Assemblies
 {
@@ -7,15 +11,71 @@ namespace Bottles.PackageLoaders.Assemblies
     /// Reperesents a bottle that is contained in a .dll
     /// </summary>
     [DebuggerDisplay("{Name}:{Role}")]
-    public class AssemblyPackageInfo : PackageInfo
+    public class AssemblyPackageInfo : IPackageInfo
     {
         private readonly Assembly _assembly;
+        private readonly Lazy<PackageInfo> _inner;
+        private readonly PackageManifest _manifest;
 
-        public AssemblyPackageInfo(Assembly assembly) :
-            base(new AssemblyPackageManifestFactory().Extract(assembly))
+        public AssemblyPackageInfo(Assembly assembly)
         {
+            _manifest = new AssemblyPackageManifestFactory().Extract(assembly);
+            _inner = new Lazy<PackageInfo>(() =>
+            {
+                var inner = new PackageInfo(_manifest);
+
+                var exploder = BottleExploder.GetPackageExploder(new FileSystem());
+                exploder.ExplodeAssembly(PackageRegistry.GetApplicationDirectory(), assembly, inner);
+
+                return inner;
+            });
+
             _assembly = assembly;
-            AddAssembly(_assembly);
+        }
+
+        public string Name
+        {
+            get { return _manifest.Name; }
+        }
+
+        public string Role
+        {
+            get { return _inner.Value.Role; }
+        }
+
+        public string Description
+        {
+            get { return "Assembly: " + _assembly.GetName().Name; }
+        }
+
+        public void LoadAssemblies(IAssemblyRegistration loader)
+        {
+            loader.Use(_assembly);
+        }
+
+        public void ForFolder(string folderName, Action<string> onFound)
+        {
+            _inner.Value.ForFolder(folderName, onFound);
+        }
+
+        public void ForFiles(string directory, string searchPattern, Action<string, Stream> fileCallback)
+        {
+            _inner.Value.ForFiles(directory, searchPattern, fileCallback);
+        }
+
+        public Dependency[] Dependencies
+        {
+            get { return _manifest.Dependencies; }
+        }
+
+        public PackageManifest Manifest
+        {
+            get { return _manifest; }
+        }
+
+        public IPackageFiles Files
+        {
+            get { return _inner.Value.Files; }
         }
     }
 }

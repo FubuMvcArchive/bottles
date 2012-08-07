@@ -1,9 +1,11 @@
+using System;
 using System.Reflection;
 using Bottles.Exploding;
 using FubuCore;
 
 namespace Bottles.PackageLoaders.Assemblies
 {
+    [MarkedForTermination("Need to get this shit encapsulated back into AssemblyPackageInfo where it belongs")]
     public static class AssemblyPackageInfoFactory
     {
         public static IPackageInfo CreateFor(Assembly assembly)

@@ -26,7 +26,7 @@ namespace Bottles.Tests
         [Test]
         public void name_just_returns_the_assembly_name()
         {
-            package.Name.ShouldEqual("Assembly:  " + assembly.GetName().FullName);
+            package.Name.ShouldEqual(assembly.GetName().Name);
         }
 
         [Test]
