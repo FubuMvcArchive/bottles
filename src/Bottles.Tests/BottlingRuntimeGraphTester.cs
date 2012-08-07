@@ -137,6 +137,53 @@ namespace Bottles.Tests
         }
     }
 
+    [TestFixture]
+    public class when_detecting_a_duplicate_package_in_a_later_loader : InteractionContext<BottlingRuntimeGraph>
+    {
+        private StubBottleLoader loader1;
+        private StubBottleLoader loader2;
+        private StubBottleLoader loader3;
+        private IEnumerable<IPackageInfo> foundPackages;
+        private StubBottleDiagnostics diagnostics;
+
+        protected override void beforeEach()
+        {
+            diagnostics = new StubBottleDiagnostics();
+            Services.Inject<IBottlingDiagnostics>(diagnostics);
+
+            loader1 = new StubBottleLoader("1a", "1b", "1c");
+            loader2 = new StubBottleLoader("2a", "2b");
+            loader3 = new StubBottleLoader("1a", "2b");
+
+            ClassUnderTest.PushProvenance("A");
+            ClassUnderTest.AddLoader(loader1);
+
+            ClassUnderTest.PushProvenance("B");
+            ClassUnderTest.AddLoader(loader2);
+
+            ClassUnderTest.PopProvenance();
+            ClassUnderTest.AddLoader(loader3);
+
+            foundPackages = ClassUnderTest.FindAllPackages();
+        }
+
+        [Test]
+        public void should_not_duplicate_package_names()
+        {
+            foundPackages.OrderBy(x => x.Name).Select(x => x.Name)
+                .ShouldHaveTheSameElementsAs("1a", "1b", "1c", "2a", "2b");
+        }
+
+        [Test]
+        public void the_first_package_found_has_priority()
+        {
+            var duplicates = loader3.Load(new PackageLog());
+        
+            foundPackages.Any(x => ReferenceEquals(x, duplicates.First())).ShouldBeFalse();
+            foundPackages.Any(x => ReferenceEquals(x, duplicates.Last())).ShouldBeFalse();
+        }
+    }
+
 
     public class StubBootstrapper : IBootstrapper
     {

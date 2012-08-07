@@ -54,7 +54,7 @@ namespace Bottles
         //I kinda want this method elsewhere
         public void DiscoverAndLoadPackages(Action onAssembliesScanned, bool runActivators = true)
         {
-            var allPackages = findAllPackages();
+            var allPackages = FindAllPackages();
 
             //orders _packages
             analyzePackageDependenciesAndOrder(allPackages);
@@ -135,7 +135,7 @@ namespace Bottles
             onAssembliesScanned();
         }
 
-        private IEnumerable<IPackageInfo> findAllPackages()
+        public IEnumerable<IPackageInfo> FindAllPackages()
         {
             var result = new List<IPackageInfo>();
 
@@ -144,7 +144,17 @@ namespace Bottles
                 var packageInfos = currentLoader.Load(log).ToArray();
                 _diagnostics.LogPackages(currentLoader, packageInfos);
 
-                result.AddRange(packageInfos);
+                packageInfos.Each(pak =>
+                {
+                    if (result.Any(x => x.Name == pak.Name))
+                    {
+                        _diagnostics.LogFor(pak).Trace("Bottle named {0} already found by a previous loader.  Ignoring.", pak.Name);                        
+                    }
+                    else
+                    {
+                        result.Add(pak);
+                    }
+                });
             });
 
             return result;

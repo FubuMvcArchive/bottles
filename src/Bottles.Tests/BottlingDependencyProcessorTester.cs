@@ -150,12 +150,11 @@ namespace Bottles.Tests
 
         public void LogObject(object target, string provenance)
         {
-            throw new NotImplementedException();
         }
 
         public void LogPackage(IPackageInfo package, IBottleLoader loader)
         {
-            throw new NotImplementedException();
+      
         }
 
         public void LogBootstrapperRun(IBootstrapper bootstrapper, IEnumerable<IActivator> activators)
@@ -180,7 +179,7 @@ namespace Bottles.Tests
 
         public void LogExecution(object target, Action continuation)
         {
-            throw new NotImplementedException();
+            continuation();
         }
 
         public void EachLog(Action<object, PackageLog> action)
@@ -201,6 +200,11 @@ namespace Bottles.Tests
         public bool HasMessages()
         {
             return _logs.Any();
+        }
+
+        public IEnumerable<IPackageLog> AllLogs()
+        {
+            return _logs.GetAll();
         }
     }
 }
