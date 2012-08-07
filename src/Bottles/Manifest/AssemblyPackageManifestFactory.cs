@@ -73,7 +73,7 @@ namespace Bottles.PackageLoaders.Assemblies
         {
             return new PackageManifest
             {
-                Name = "Assembly:  " + assembly.FullName,
+                Name = assembly.GetName().Name,
                 Role = BottleRoles.Binaries,
                 Assemblies = new[] { assembly.FullName },
                 Dependencies = new Dependency[0]
