@@ -13,6 +13,12 @@ namespace Bottles.PackageLoaders.Assemblies
     [DebuggerDisplay("{Name}:{Role}")]
     public class AssemblyPackageInfo : IPackageInfo
     {
+        public static AssemblyPackageInfo For(string fileName)
+        {
+            var assembly = AssemblyLoader.LoadPackageAssemblyFromAppBinPath(fileName);
+            return new AssemblyPackageInfo(assembly);
+        }
+
         private readonly Assembly _assembly;
         private readonly Lazy<PackageInfo> _inner;
         private readonly PackageManifest _manifest;

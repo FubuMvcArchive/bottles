@@ -20,7 +20,7 @@ namespace Bottles.Tests
         public void SetUp()
         {
             assembly = Assembly.GetExecutingAssembly();
-            package = AssemblyPackageInfoFactory.CreateFor(assembly);
+            package = new AssemblyPackageInfo(assembly);
         }
 
         [Test]
@@ -54,7 +54,7 @@ namespace Bottles.Tests
         public void SetUp()
         {
             new FileSystem().DeleteDirectory("content");
-            thePackage = AssemblyPackageInfoFactory.CreateFor(typeof (AssemblyPackageMarker).Assembly);
+            thePackage = new AssemblyPackageInfo(typeof (AssemblyPackageMarker).Assembly);
         }
 
 

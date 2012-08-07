@@ -65,7 +65,6 @@
     <Compile Include="PackageLoaders\Assemblies\AssemblyFiles.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyLoader.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyPackageInfo.cs" />
-    <Compile Include="PackageLoaders\Assemblies\AssemblyPackageInfoFactory.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyPackageLoader.cs" />
     <Compile Include="Commands\AssembliesCommand.cs" />
     <Compile Include="Commands\AssemblyPackageCommand.cs" />
