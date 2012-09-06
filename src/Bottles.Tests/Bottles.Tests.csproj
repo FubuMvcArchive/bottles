@@ -76,6 +76,7 @@
     <Compile Include="AssemblyTargetTester.cs" />
     <Compile Include="Commands\AssemblyBottleCommandTester.cs" />
     <Compile Include="Commands\LinkCommandTester.cs" />
+    <Compile Include="Configuration\BottleConfigurationTester.cs" />
     <Compile Include="Configuration\ConnectionStringResolverTester.cs" />
     <Compile Include="Configuration\ResolveDbConnectionDeployerTester.cs" />
     <Compile Include="Commands\AliasLibraryTester.cs" />
@@ -91,6 +92,7 @@
       <DependentUpon>environment.settings</DependentUpon>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Configuration\when_asserting_the_bottle_configuration.cs" />
     <Compile Include="Creation\BottleCreatorTester.cs" />
     <Compile Include="Deployment\Bootstrapping\DeploymentBootstrapperIntegratedTester.cs" />
     <Compile Include="Deployment\Commands\DeployInputTester.cs" />
