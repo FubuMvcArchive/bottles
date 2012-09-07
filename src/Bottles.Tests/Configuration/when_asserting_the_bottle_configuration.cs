@@ -26,7 +26,7 @@ namespace Bottles.Tests.Configuration
         [Test]
         public void each_rule_gets_evaluated()
         {
-            theInstaller.CheckEnvironment(new PackageLog());
+            theInstaller.Activate(new IPackageInfo[0], new PackageLog());
 
             r1.AssertWasCalled(x => x.Evaluate(Arg<BottleConfiguration>.Is.NotNull));
             r2.AssertWasCalled(x => x.Evaluate(Arg<BottleConfiguration>.Is.NotNull));
@@ -36,10 +36,10 @@ namespace Bottles.Tests.Configuration
         public void the_configuration_exception_is_thrown_when_the_configuration_is_not_valid()
         {
             r1.Stub(x => x.Evaluate(Arg<BottleConfiguration>.Is.NotNull))
-                .WhenCalled(mi => mi.Arguments[0].As<BottleConfiguration>().RegisterError(new MissingPlugin()));
+                .WhenCalled(mi => mi.Arguments[0].As<BottleConfiguration>().RegisterError(new MissingService(typeof(object))));
 
             Exception<BottleConfigurationException>
-                .ShouldBeThrownBy(() => theInstaller.CheckEnvironment(new PackageLog()));
+                .ShouldBeThrownBy(() => theInstaller.Activate(new IPackageInfo[0], new PackageLog()));
         }
     }
 }

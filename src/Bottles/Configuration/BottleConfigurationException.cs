@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using FubuCore;
 
 namespace Bottles.Configuration
 {
@@ -17,7 +19,14 @@ namespace Bottles.Configuration
 
         public override string Message
         {
-            get { return Errors.Select(x => x.ToString()).Join(", "); }
+            get
+            {
+                var message = new StringBuilder("Bottle Configuration Error: {0}".ToFormat(_provenance));
+                message.AppendLine("=========================================");
+                Errors.Select(x => x.ToString()).Each(x => message.AppendLine(x));
+
+                return message.ToString();
+            }
         }
 
         public IEnumerable<BottleConfigurationError> Errors
@@ -30,9 +39,9 @@ namespace Bottles.Configuration
             get { return _provenance; }
         }
 
-        public IEnumerable<MissingPlugin> MissingPlugins
+        public IEnumerable<MissingService> MissingPlugins
         {
-            get { return _errors.OfType<MissingPlugin>(); }
+            get { return _errors.OfType<MissingService>(); }
         }
     }
 }

@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using Bottles.Diagnostics;
-using Bottles.Environment;
 
 namespace Bottles.Configuration
 {
-    public class AssertBottleConfiguration : IInstaller
+    public class AssertBottleConfiguration : IActivator
     {
         private readonly string _provenance;
         private readonly IEnumerable<IBottleConfigurationRule> _rules;
@@ -15,17 +14,12 @@ namespace Bottles.Configuration
             _rules = rules;
         }
 
-        public void Install(IPackageLog log)
-        {
-            // no-op
-        }
-
-        public void CheckEnvironment(IPackageLog log)
+        public void Activate(IEnumerable<IPackageInfo> packages, IPackageLog log)
         {
             var configuration = new BottleConfiguration(_provenance);
             _rules.Each(r => r.Evaluate(configuration));
 
-            if(!configuration.IsValid())
+            if (!configuration.IsValid())
             {
                 throw new BottleConfigurationException(_provenance, configuration.Errors);
             }

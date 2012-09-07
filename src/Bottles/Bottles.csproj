@@ -58,8 +58,10 @@
     <Compile Include="CompileTarget.cs" />
     <Compile Include="Configuration\AssertBottleConfiguration.cs" />
     <Compile Include="Configuration\BottleConfiguration.cs" />
+    <Compile Include="Configuration\BottleConfigurationError.cs" />
     <Compile Include="Configuration\BottleConfigurationException.cs" />
     <Compile Include="Configuration\IBottleConfigurationRule.cs" />
+    <Compile Include="Configuration\MissingService.cs" />
     <Compile Include="Exceptions\BottleException.cs" />
     <Compile Include="Exploding\ExplodeDirectory.cs" />
     <Compile Include="Exploding\ExplodeOptions.cs" />

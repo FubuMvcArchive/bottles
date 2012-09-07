@@ -22,7 +22,17 @@ namespace Bottles.Configuration
 
         public void RegisterError(BottleConfigurationError error)
         {
-            _errors.Add(error);
+            _errors.Fill(error);
+        }
+
+        public void RegisterMissingService<T>()
+        {
+            RegisterMissingService(typeof (T));
+        }
+
+        public void RegisterMissingService(Type type)
+        {
+            RegisterError(new MissingService(type));
         }
 
         public bool IsValid()
@@ -35,17 +45,9 @@ namespace Bottles.Configuration
             get { return _errors; }
         }
 
-        public IEnumerable<MissingPlugin> MissingPlugins
+        public IEnumerable<MissingService> MissingServices
         {
-            get { return _errors.OfType<MissingPlugin>(); }
+            get { return _errors.OfType<MissingService>(); }
         }
-    }
-
-    public interface BottleConfigurationError { }
-
-    public class MissingPlugin : BottleConfigurationError
-    {
-        public Type PluginType { get; set; }
-        public string Message { get; set; }
     }
 }

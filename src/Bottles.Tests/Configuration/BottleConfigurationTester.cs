@@ -25,12 +25,20 @@ namespace Bottles.Tests.Configuration
         }
 
         [Test]
-        public void finds_the_missing_plugins()
+        public void finds_the_missing_services()
         {
-            var plugin = new MissingPlugin();
+            var plugin = new MissingService(typeof(object));
             theConfiguration.RegisterError(plugin);
 
-            theConfiguration.MissingPlugins.ShouldHaveTheSameElementsAs(plugin);
+            theConfiguration.MissingServices.ShouldHaveTheSameElementsAs(plugin);
+        }
+
+        [Test]
+        public void finds_the_missing_services_helper()
+        {
+            theConfiguration.RegisterMissingService<object>();
+
+            theConfiguration.MissingServices.ShouldHaveTheSameElementsAs(new MissingService(typeof(object)));
         }
 
         [Test]
