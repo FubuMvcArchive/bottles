@@ -21,8 +21,7 @@ namespace Bottles.Configuration
         {
             get
             {
-                var message = new StringBuilder("Bottle Configuration Error: {0}".ToFormat(_provenance));
-                message.AppendLine("=========================================");
+                var message = new StringBuilder("Bottle Configuration Error: {0}".ToFormat(_provenance)).AppendLine();
                 Errors.Select(x => x.ToString()).Each(x => message.AppendLine(x));
 
                 return message.ToString();
