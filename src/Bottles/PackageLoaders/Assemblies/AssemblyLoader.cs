@@ -52,15 +52,36 @@ namespace Bottles.PackageLoaders.Assemblies
 
         public IList<Assembly> Assemblies { get; private set; }
 
+        private static string determineAssemblyPath()
+        {
+            var privateBinPath = AppDomain.CurrentDomain.SetupInformation.PrivateBinPath;
+            var applicationBase = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            if (privateBinPath.IsEmpty())
+            {
+                return applicationBase;
+            }
+
+            if (Path.IsPathRooted(privateBinPath))
+            {
+                return privateBinPath;
+            }
+
+            return applicationBase.AppendPath(privateBinPath);
+        }
+
         public static Assembly LoadPackageAssemblyFromAppBinPath(string file)
         {
             var assemblyName = Path.GetFileNameWithoutExtension(file);
-            var appBinPath = AppDomain.CurrentDomain.SetupInformation.PrivateBinPath ?? AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            var appBinPath = determineAssemblyPath();
+
             if (!Path.GetDirectoryName(file).EqualsIgnoreCase(appBinPath))
             {
+                
+
                 var destFileName = appBinPath.AppendPath(Path.GetFileName(file));
                 if (shouldUpdateFile(file, destFileName))
                 {
+                    Console.WriteLine("Copying {0} to {1}", file.ToFullPath(), destFileName.ToFullPath());
                     File.Copy(file, destFileName, true);
                 }
             }
