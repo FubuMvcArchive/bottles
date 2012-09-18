@@ -81,7 +81,7 @@ namespace Bottles.Diagnostics
 
         public void MarkFailure(string text, params object[] args)
         {
-            var output = text.ToFormat(args);
+            var output = args.Any() ? text.ToFormat(args) : text;
             ConsoleWriter.Write(ConsoleColor.Red, output);
 
             _text.WriteLine(output);
