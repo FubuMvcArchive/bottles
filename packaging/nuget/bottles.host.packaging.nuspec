@@ -12,7 +12,7 @@
     <description>Support for creating services via Bottles</description>
     <tags>packaging service</tags>
     <dependencies>
-      <dependency id="FubuCore" version="0.9.9.149" />
+      <dependency id="FubuCore" version="0.9.9.182" />
       <dependency id="Bottles" />
       <dependency id="Milkman" />
     </dependencies>
