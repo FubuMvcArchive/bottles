@@ -11,13 +11,13 @@ namespace Bottles.Tests.Commands
         IFileSystem fs = new FileSystem();
         private string thePath = "initpath";
         private string pakName = "init-test";
-        private InitPakInput theInput;
+        private InitInput theInput;
 
         [SetUp]
         public void BeforeEach()
         {
             fs.DeleteDirectory(thePath);
-            theInput = new InitPakInput
+            theInput = new InitInput
                        {
                            Name = pakName,
                            Path = thePath
@@ -35,7 +35,7 @@ namespace Bottles.Tests.Commands
         void execute()
         {
             
-            var cmd = new InitPakCommand();
+            var cmd = new InitCommand();
             cmd.Execute(theInput);
         }
 

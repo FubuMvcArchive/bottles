@@ -75,7 +75,6 @@
     <Compile Include="Commands\AssembliesCommand.cs" />
     <Compile Include="Commands\AssemblyPackageCommand.cs" />
     <Compile Include="Commands\CreatePackageCommand.cs" />
-    <Compile Include="Commands\InitPakCommand.cs" />
     <Compile Include="Commands\LinkCommand.cs" />
     <Compile Include="Diagnostics\IBottleLogger.cs" />
     <Compile Include="Environment\EnvironmentLogEntry.cs" />
@@ -123,7 +122,7 @@
     <Compile Include="PackageFiles.cs" />
     <Compile Include="PackageLoaders\LinkedFolders\LinksService.cs" />
     <Compile Include="BottleLoadingRecord.cs" />
-    <Compile Include="Manifest\PackageManifest.cs" />
+    <Compile Include="PackageManifest.cs" />
     <Compile Include="Manifest\BottleManifestReader.cs" />
     <Compile Include="PackageRegistry.cs" />
     <Compile Include="Diagnostics\PackageLog.cs" />

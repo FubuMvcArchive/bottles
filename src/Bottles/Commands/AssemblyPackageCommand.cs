@@ -4,6 +4,8 @@ using System.Xml;
 using Bottles.Zipping;
 using FubuCore;
 using FubuCore.CommandLine;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Bottles.Commands
 {
@@ -14,6 +16,9 @@ namespace Bottles.Commands
 
         [Description("Name of the csproj file.  If set, this command attempts to add the zip files as embedded resources")]
         public string ProjFileFlag { get; set; }
+
+        [Description("Previews which files will be added to the assembly bottle")]
+        public bool PreviewFlag { get; set; }
     }
 
     // TODO -- make this mess with the csproj files
@@ -27,6 +32,23 @@ namespace Bottles.Commands
         {
             input.RootFolder = new AliasService().GetFolderForAlias(input.RootFolder);
 
+            if (input.PreviewFlag)
+            {
+                var manifest = fileSystem.LoadPackageManifestFrom(input.RootFolder);
+                if (manifest == null)
+                {
+                    Console.WriteLine("Package manifest file {0} was not found", input.RootFolder.AppendPath(PackageManifest.FILE));
+                    return false;
+                }
+
+                previewFiles(input, BottleFiles.WebContentFolder, manifest.ContentFileSet);
+                previewFiles(input, BottleFiles.DataFolder, manifest.DataFileSet);
+                previewFiles(input, BottleFiles.ConfigFolder, manifest.ConfigFileSet);
+
+
+                return true;
+            }
+
             var zipService = new ZipFileService(fileSystem);
 
             // TODO -- this is where it would be valuable to start generalizing the file set
@@ -39,7 +61,32 @@ namespace Bottles.Commands
             return true;
         }
 
-        
+        private void previewFiles(AssemblyPackageInput input, string folder, FileSet fileSearch)
+        {
+            if (fileSearch == null)
+            {
+                Console.WriteLine("{0}:  No files", folder);
+                return;
+            }
+
+            var fileSystem = new FileSystem();
+            var contentFolder = input.RootFolder.AppendPath(folder);
+
+            var files = fileSystem.DirectoryExists(contentFolder) ? fileSystem.FindFiles(contentFolder, fileSearch) : fileSystem.FindFiles(input.RootFolder, fileSearch);
+
+            if (files.Any())
+            {
+                Console.WriteLine("{0}: {1} file(s)", folder, files.Count());
+                files.Each(f => Console.WriteLine(f));
+            }
+            else
+            {
+                Console.WriteLine("{0}:  No files", folder);
+            }
+
+            Console.WriteLine();
+        }
+
         private void createZipFile(AssemblyPackageInput input, string childFolderName, ZipFileService zipService, Func<PackageManifest, FileSet> fileSource)
         {
             var zipRequest = BuildZipRequest(input, childFolderName, fileSource);

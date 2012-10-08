@@ -27,7 +27,7 @@ namespace Bottles.Tests
             manifest.Role.ShouldEqual(BottleRoles.Module);
 
             manifest.ContentFileSet.ShouldNotBeNull();
-            manifest.ContentFileSet.Include.ShouldContain("*.as*x");
+            manifest.ContentFileSet.Include.ShouldContain("*.*");
         }
 
         [Test]

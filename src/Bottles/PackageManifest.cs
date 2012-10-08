@@ -133,8 +133,8 @@ namespace Bottles
                     DataFileSet = new FileSet();
                     ContentFileSet = new FileSet()
                     {
-                        Include = "*.as*x;*.master;Content{0}*.*;*.config".ToFormat(Path.DirectorySeparatorChar),
-                        Exclude = "data/*"
+                        Include = "*.*",
+                        Exclude = "data/*;*.cs;bin/*;obj/*;*.csproj*;packages.config"
                     };
                     break;
 
