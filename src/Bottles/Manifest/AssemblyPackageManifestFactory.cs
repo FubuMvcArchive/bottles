@@ -26,7 +26,9 @@ namespace Bottles.PackageLoaders.Assemblies
 
         PackageManifest extractFromEmbeddedResource(Assembly assembly)
         {
-            using (var resource = assembly.GetManifestResourceStream(".package-manifest"))
+            var resourceName = assembly.GetName().Name + "." + PackageManifest.FILE;
+
+            using (var resource = assembly.GetManifestResourceStream(resourceName))
             {
                 if (resource != null)
                 {

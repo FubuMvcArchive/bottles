@@ -39,7 +39,7 @@ namespace Bottles.Tests.Exploding
             var text = "not the right thing";
             theFiles.GetFiles(BottleFiles.DataFolder, "1.txt", (name, data) =>
             {
-                name.ShouldEqual("1.txt");
+                name.ShouldEqual("data{0}1.txt".ToFormat(Path.DirectorySeparatorChar));
                 text = new StreamReader(data).ReadToEnd();
             });
 
