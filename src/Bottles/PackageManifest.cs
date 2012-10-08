@@ -134,7 +134,7 @@ namespace Bottles
                     ContentFileSet = new FileSet()
                     {
                         Include = "*.*",
-                        Exclude = "data/*;*.cs;bin/*;obj/*;*.csproj*;packages.config"
+                        Exclude = "data/*;*.cs;bin/*;obj/*;*.csproj*;packages.config;repositories.config;pak-*.zip"
                     };
                     break;
 
