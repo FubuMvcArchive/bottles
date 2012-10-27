@@ -27,9 +27,9 @@ namespace Bottles.Tests
         {
             var log = new PackageLog();
 
-            var loader1 = new StubBottleLoader();
-            var loader2 = new StubBottleLoader();
-            var loader3 = new StubBottleLoader();
+            var loader1 = new StubPackageLoader();
+            var loader2 = new StubPackageLoader();
+            var loader3 = new StubPackageLoader();
 
             var package1 = new StubBottle("1");
             var package2 = new StubBottle("2");
@@ -37,7 +37,7 @@ namespace Bottles.Tests
         
             log.AddChild(loader1, loader2, loader3, package1, package2, package3);
 
-            log.FindChildren<IBottleLoader>().ShouldHaveTheSameElementsAs(loader1, loader2, loader3);
+            log.FindChildren<IPackageLoader>().ShouldHaveTheSameElementsAs(loader1, loader2, loader3);
 
             log.FindChildren<IPackageInfo>().ShouldHaveTheSameElementsAs(package1, package2, package3);
         }

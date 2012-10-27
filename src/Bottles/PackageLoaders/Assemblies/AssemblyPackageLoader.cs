@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Bottles.Diagnostics;
+using FubuCore.Descriptions;
 
 namespace Bottles.PackageLoaders.Assemblies
 {
     /// <summary>
     /// Loads a package from an assembly (.dll / .exe)
     /// </summary>
-    public class AssemblyPackageLoader : IBottleLoader
+    public class AssemblyPackageLoader : IPackageLoader, DescribesItself
     {
         private readonly Assembly _assembly;
 
@@ -44,6 +45,12 @@ namespace Bottles.PackageLoaders.Assemblies
         public override int GetHashCode()
         {
             return (_assembly != null ? _assembly.GetHashCode() : 0);
+        }
+
+        public void Describe(Description description)
+        {
+            description.Title = "Load Assembly";
+            description.ShortDescription = _assembly.GetName().FullName;
         }
     }
 }

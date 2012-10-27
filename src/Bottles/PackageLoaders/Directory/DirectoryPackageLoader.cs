@@ -4,22 +4,18 @@ using System.Linq;
 using Bottles.Diagnostics;
 using Bottles.Manifest;
 using FubuCore;
+using FubuCore.Descriptions;
 
 namespace Bottles.PackageLoaders.Directory
 {
     /// <summary>
     /// Used to find packages to be loaded by looking in a directory.
-    /// Its not really tied to a solution at all.
-    /// 
-    /// Renaming this will break BLUE - small break
-    /// 
-    /// Again these seem to be finders.
     /// </summary>
-    public class DirectoryBottleLoader : IBottleLoader
+    public class DirectoryPackageLoader : IPackageLoader, DescribesItself
     {
         private readonly string _searchPoint;
 
-        public DirectoryBottleLoader(string searchPoint)
+        public DirectoryPackageLoader(string searchPoint)
         {
             _searchPoint = searchPoint;
         }
@@ -44,6 +40,12 @@ namespace Bottles.PackageLoaders.Directory
             LogWriter.Current.PrintHorizontalLine();
 
             return filtered;
+        }
+
+        public void Describe(Description description)
+        {
+            description.Title = "Directory Package Loader";
+            description.ShortDescription = "Scans directory {0} for packages".ToFormat(_searchPoint);
         }
     }
 }

@@ -152,7 +152,7 @@ namespace Bottles.Tests
         {
         }
 
-        public void LogPackage(IPackageInfo package, IBottleLoader loader)
+        public void LogPackage(IPackageInfo package, IPackageLoader loader)
         {
       
         }

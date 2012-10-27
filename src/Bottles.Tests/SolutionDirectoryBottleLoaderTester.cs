@@ -11,7 +11,7 @@ namespace Bottles.Tests
     public class SolutionDirectoryBottleLoaderTester
     {
         private string thePathToScan = "solDirPackLoad";
-        private DirectoryBottleLoader theLoader;
+        private DirectoryPackageLoader theLoader;
 
         [SetUp]
         public void BeforeEach()
@@ -21,7 +21,7 @@ namespace Bottles.Tests
             fs.CreateDirectory(thePathToScan);
             fs.CreateDirectory(thePathToScan, "bin");
 
-            theLoader = new DirectoryBottleLoader(thePathToScan.ToFullPath());
+            theLoader = new DirectoryPackageLoader(thePathToScan.ToFullPath());
             var manifest = new PackageManifest{
                 Name = "test-mani"
             };

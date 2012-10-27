@@ -35,7 +35,7 @@ namespace Bottles
         /// - controls the format of the package (assembly, zip file)
         /// </summary>
         /// <param name="loader"></param>
-        void Loader(IBottleLoader loader);
+        void Loader(IPackageLoader loader);
 
         /// <summary>
         /// Adds another standard package facility configuration

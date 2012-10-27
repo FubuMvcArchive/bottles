@@ -23,7 +23,7 @@ namespace Bottles.Tests
         [Test]
         public void log_an_object_creates_a_log_file()
         {
-            var loader = new StubBottleLoader("a", "b");
+            var loader = new StubPackageLoader("a", "b");
             diagnostics.LogObject(loader, "registered at XYZ");
 
             diagnostics.LogFor(loader).Provenance.ShouldEqual("registered at XYZ");
@@ -32,7 +32,7 @@ namespace Bottles.Tests
         [Test]
         public void log_an_object_sticks_the_ToString_value_of_the_object_on_to_the_description()
         {
-            var loader = new StubBottleLoader("a", "b");
+            var loader = new StubPackageLoader("a", "b");
             diagnostics.LogObject(loader, "registered at XYZ");
 
             diagnostics.LogFor(loader).Description.ShouldEqual(loader.ToString());
@@ -41,7 +41,7 @@ namespace Bottles.Tests
         [Test]
         public void log_execution_happy_path()
         {
-            var loader = new StubBottleLoader("a", "b");
+            var loader = new StubPackageLoader("a", "b");
             diagnostics.LogObject(loader, "registered at XYZ");
 
             diagnostics.LogExecution(loader, () => Thread.Sleep(5));
@@ -54,7 +54,7 @@ namespace Bottles.Tests
         [Test]
         public void log_execution_that_throws_exception()
         {
-            var loader = new StubBottleLoader("a", "b");
+            var loader = new StubPackageLoader("a", "b");
             diagnostics.LogObject(loader, "registered at XYZ");
 
             diagnostics.LogExecution(loader, () =>
@@ -99,7 +99,7 @@ namespace Bottles.Tests
     public class when_logging_a_package
     {
         private BottlingDiagnostics diagnostics;
-        private StubBottleLoader loader;
+        private StubPackageLoader loader;
         private StubBottle _bottle;
 
         [SetUp]
@@ -107,7 +107,7 @@ namespace Bottles.Tests
         {
             diagnostics = new BottlingDiagnostics(new LoggingSession());
 
-            loader = new StubBottleLoader("a", "b");
+            loader = new StubPackageLoader("a", "b");
             _bottle = new StubBottle("a");
 
             diagnostics.LogPackage(_bottle, loader);

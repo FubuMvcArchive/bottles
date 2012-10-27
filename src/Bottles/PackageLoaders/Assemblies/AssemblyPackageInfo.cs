@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using Bottles.Exploding;
 using FubuCore;
+using FubuCore.Descriptions;
 
 namespace Bottles.PackageLoaders.Assemblies
 {
@@ -11,7 +12,7 @@ namespace Bottles.PackageLoaders.Assemblies
     /// Reperesents a bottle that is contained in a .dll
     /// </summary>
     [DebuggerDisplay("{Name}:{Role}")]
-    public class AssemblyPackageInfo : IPackageInfo
+    public class AssemblyPackageInfo : IPackageInfo, DescribesItself
     {
         public static AssemblyPackageInfo For(string fileName)
         {
@@ -82,6 +83,14 @@ namespace Bottles.PackageLoaders.Assemblies
         public IPackageFiles Files
         {
             get { return _inner.Value.Files; }
+        }
+
+        public void Describe(Description description)
+        {
+            description.ShortDescription = "Assembly:  " + _assembly.GetName().Name;
+            description.Properties["Assembly"] = _assembly.GetName().FullName;
+
+            description.AddChild("Inner", _inner.Value);
         }
     }
 }

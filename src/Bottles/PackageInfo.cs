@@ -5,11 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Bottles.PackageLoaders.Assemblies;
+using FubuCore.Descriptions;
+using FubuCore;
 
 namespace Bottles
 {
     [DebuggerDisplay("{Name}:{Role}")]
-    public class PackageInfo : IPackageInfo
+    public class PackageInfo : IPackageInfo, DescribesItself
     {
         private readonly PackageFiles _files = new PackageFiles();
         private readonly IList<Dependency> _dependencies = new List<Dependency>();
@@ -108,6 +110,16 @@ namespace Bottles
             {
                 return ((Name != null ? Name.GetHashCode() : 0) * 397) ^ (Description != null ? Description.GetHashCode() : 0);
             }
+        }
+
+        public void Describe(Description description)
+        {
+            description.Title = "Package '{0}'".ToFormat(Name);
+            description.Properties["Role"] = Role;
+
+            description.AddChild("Manifest", Manifest);
+
+            if (Dependencies != null && Dependencies.Any()) description.AddList("Dependencies", Dependencies);
         }
 
         public override string ToString()

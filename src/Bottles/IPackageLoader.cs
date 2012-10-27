@@ -4,15 +4,10 @@ using Bottles.Diagnostics;
 
 namespace Bottles
 {
-    [Obsolete]
-    public interface IPackageLoader : IBottleLoader
-    {
-    }
-
     /// <summary>
     /// Finds bottles
     /// </summary>
-    public interface IBottleLoader
+    public interface IPackageLoader
     {
         /// <summary>
         /// The load method should find all packages and return them in the enum

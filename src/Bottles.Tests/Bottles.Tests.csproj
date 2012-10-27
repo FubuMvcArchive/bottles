@@ -32,13 +32,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FubuCore">
-      <HintPath>..\packages\FubuCore.0.9.9.182\lib\FubuCore.dll</HintPath>
+      <HintPath>..\packages\FubuCore.0.9.9.194\lib\FubuCore.dll</HintPath>
     </Reference>
     <Reference Include="FubuTestingSupport">
-      <HintPath>..\packages\FubuTestingSupport.0.9.9.182\lib\FubuTestingSupport.dll</HintPath>
+      <HintPath>..\packages\FubuTestingSupport.0.9.9.194\lib\FubuTestingSupport.dll</HintPath>
     </Reference>
     <Reference Include="HtmlTags">
-      <HintPath>..\packages\HtmlTags.1.1.0.116\lib\4.0\HtmlTags.dll</HintPath>
+      <HintPath>..\packages\HtmlTags.1.2.0.123\lib\4.0\HtmlTags.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\lib\Ionic.Zip.dll</HintPath>
@@ -146,6 +146,7 @@
     <Compile Include="BottlingDiagnosticsTester.cs" />
     <Compile Include="BottlingRegistryLogTester.cs" />
     <Compile Include="BottlingRuntimeGraphTester.cs" />
+    <Compile Include="must_be_descriptions_on_important_things.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyPackageInfoTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecipeTester.cs" />
@@ -153,7 +154,7 @@
     <Compile Include="Deployment\Runtime\DirectiveBuilderTester.cs" />
     <Compile Include="SolutionDirectoryBottleLoaderTester.cs" />
     <Compile Include="StubBottle.cs" />
-    <Compile Include="StubBottleLoader.cs" />
+    <Compile Include="StubPackageLoader.cs" />
     <Compile Include="ZipFileServiceTester.cs" />
     <Compile Include="Zipping\ZipFileServiceTester.cs" />
     <Compile Include="Zipping\ZipFolderRequestTester.cs" />

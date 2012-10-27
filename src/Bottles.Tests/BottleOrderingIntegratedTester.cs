@@ -8,11 +8,11 @@ namespace Bottles.Tests
     [TestFixture]
     public class BottleOrderingIntegratedTester
     {
-        private void loadPackages(Action<StubBottleLoader> configuration)
+        private void loadPackages(Action<StubPackageLoader> configuration)
         {
             PackageRegistry.LoadPackages(facility =>
             {
-                var loader = new StubBottleLoader();
+                var loader = new StubPackageLoader();
                 configuration(loader);
 
                 facility.Loader(loader);

@@ -14,7 +14,7 @@ namespace Bottles.Diagnostics
             });
         }
 
-        public static void LogPackages(this IBottlingDiagnostics diagnostics, IBottleLoader loader, IEnumerable<IPackageInfo> packages)
+        public static void LogPackages(this IBottlingDiagnostics diagnostics, IPackageLoader loader, IEnumerable<IPackageInfo> packages)
         {
             packages.Each(p =>
             {

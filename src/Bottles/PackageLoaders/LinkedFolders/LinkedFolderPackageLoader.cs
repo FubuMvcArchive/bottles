@@ -4,16 +4,15 @@ using System.Linq;
 using Bottles.Diagnostics;
 using Bottles.Manifest;
 using FubuCore;
+using FubuCore.Descriptions;
 
 namespace Bottles.PackageLoaders.LinkedFolders
 {
     /// <summary>
     /// To be used in other projects (ie FubuMVC) to allow additional packages to be loaded
     /// via the .links file.
-    /// 
-    /// CHANGING the NAME of this will break FubuMVC in a small way
     /// </summary>
-    public class LinkedFolderPackageLoader : IBottleLoader
+    public class LinkedFolderPackageLoader : IPackageLoader, DescribesItself
     {
         private readonly string _applicationDirectory;
         private readonly IFileSystem _fileSystem = new FileSystem();
@@ -56,6 +55,12 @@ namespace Bottles.PackageLoaders.LinkedFolders
             }
 
             return packages;
+        }
+
+        public void Describe(Description description)
+        {
+            description.Title = "Linked Folder";
+            description.ShortDescription = "Link to " + _applicationDirectory;
         }
     }
 }
