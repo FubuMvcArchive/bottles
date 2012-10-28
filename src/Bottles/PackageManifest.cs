@@ -9,7 +9,7 @@ using FubuCore.Descriptions;
 namespace Bottles
 {
     [XmlType("package")]
-    public class PackageManifest : DescribesItself
+    public class PackageManifest 
     {
         public const string FILE = ".package-manifest";
 
@@ -19,20 +19,6 @@ namespace Bottles
                 DeepSearch = true,
                 Include = FILE
             };
-        }
-
-        public void Describe(Description description)
-        {
-            description.Title = "Manifest";
-            description.Properties["Role"] = Role;
-            description.Properties["BinPath"] = BinPath;
-            description.Properties["Assemblies"] = Assemblies.Join(", ");
-
-            if (ContentFileSet != null) description.Properties["Content Files"] = ContentFileSet.ToString();
-            if (DataFileSet != null) description.Properties["Data Files"] = DataFileSet.ToString();
-            if (ConfigFileSet != null) description.Properties["Config Files"] = ConfigFileSet.ToString();
-
-            if (Dependencies.Any()) description.AddList("Despendencies", Dependencies);
         }
 
         public static IEnumerable<string> FindManifestFilesInDirectory(string directory)
