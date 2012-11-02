@@ -22,7 +22,7 @@ namespace Bottles.PackageLoaders.Directory
 
         public IEnumerable<IPackageInfo> Load(IPackageLog log)
         {
-            var manifestReader = new BottleManifestReader(new FileSystem(), folder => folder);
+            var manifestReader = new PackageManifestReader(new FileSystem(), folder => folder);
             
             var pis = PackageManifest.FindManifestFilesInDirectory(_searchPoint)
                 .Select(Path.GetDirectoryName)

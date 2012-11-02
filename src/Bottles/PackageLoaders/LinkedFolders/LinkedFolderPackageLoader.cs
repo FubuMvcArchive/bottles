@@ -16,12 +16,12 @@ namespace Bottles.PackageLoaders.LinkedFolders
     {
         private readonly string _applicationDirectory;
         private readonly IFileSystem _fileSystem = new FileSystem();
-        private readonly BottleManifestReader _reader;
+        private readonly PackageManifestReader _reader;
 
         public LinkedFolderPackageLoader(string applicationDirectory, Func<string, string> getContentFolderFromPackageFolder)
         {
             _applicationDirectory = applicationDirectory;
-            _reader = new BottleManifestReader(_fileSystem, getContentFolderFromPackageFolder);
+            _reader = new PackageManifestReader(_fileSystem, getContentFolderFromPackageFolder);
         }
 
 

@@ -32,7 +32,7 @@ namespace Bottles.PackageLoaders.Assemblies
             {
                 if (resource != null)
                 {
-                    return new BottleManifestReader(new FileSystem(), s => s).LoadFromStream(resource);
+                    return new PackageManifestReader(new FileSystem(), s => s).LoadFromStream(resource);
                 }
             }
 

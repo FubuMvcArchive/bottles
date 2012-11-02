@@ -8,7 +8,7 @@ using Rhino.Mocks;
 namespace Bottles.Tests
 {
     [TestFixture]
-    public class when_adding_an_bootstrapper : InteractionContext<BottlingRuntimeGraph>
+    public class when_adding_an_bootstrapper : InteractionContext<PackagingRuntimeGraph>
     {
         private StubBootstrapper bootstrapper1;
         private StubBootstrapper bootstrapper2;
@@ -52,7 +52,7 @@ namespace Bottles.Tests
 
 
     [TestFixture]
-    public class when_adding_an_activator : InteractionContext<BottlingRuntimeGraph>
+    public class when_adding_an_activator : InteractionContext<PackagingRuntimeGraph>
     {
         private StubActivator activator1;
         private StubActivator activator2;
@@ -96,7 +96,7 @@ namespace Bottles.Tests
 
 
     [TestFixture]
-    public class when_adding_a_package_loader : InteractionContext<BottlingRuntimeGraph>
+    public class when_adding_a_package_loader : InteractionContext<PackagingRuntimeGraph>
     {
         private StubPackageLoader loader1;
         private StubPackageLoader loader2;
@@ -138,7 +138,7 @@ namespace Bottles.Tests
     }
 
     [TestFixture]
-    public class when_detecting_a_duplicate_package_in_a_later_loader : InteractionContext<BottlingRuntimeGraph>
+    public class when_detecting_a_duplicate_package_in_a_later_loader : InteractionContext<PackagingRuntimeGraph>
     {
         private StubPackageLoader loader1;
         private StubPackageLoader loader2;

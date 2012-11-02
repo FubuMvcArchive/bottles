@@ -10,14 +10,14 @@ using FubuCore.CommandLine;
 
 namespace Bottles.Creation
 {
-    public class BottleCreator
+    public class ZipPackageCreator
     {
         private readonly IFileSystem _fileSystem;
         private readonly IZipFileService _zipFileService;
         private readonly IBottleLogger _logger;
         private readonly IAssemblyFileFinder _assemblyFinder;
 
-        public BottleCreator(IFileSystem fileSystem, IZipFileService zipFileService, IBottleLogger logger, IAssemblyFileFinder assemblyFinder)
+        public ZipPackageCreator(IFileSystem fileSystem, IZipFileService zipFileService, IBottleLogger logger, IAssemblyFileFinder assemblyFinder)
         {
             _fileSystem = fileSystem;
             _zipFileService = zipFileService;

@@ -6,12 +6,12 @@ using FubuCore;
 
 namespace Bottles.Manifest
 {
-    public class BottleManifestReader : IBottleManifestReader
+    public class PackageManifestReader : IPackageManifestReader
     {
         private readonly IFileSystem _fileSystem;
         private readonly Func<string, string> _getContentFolderFromBottleFolder;
 
-        public BottleManifestReader(IFileSystem fileSystem, Func<string, string> getContentFolderFromBottleFolder)
+        public PackageManifestReader(IFileSystem fileSystem, Func<string, string> getContentFolderFromBottleFolder)
         {
             _fileSystem = fileSystem;
             _getContentFolderFromBottleFolder = getContentFolderFromBottleFolder;

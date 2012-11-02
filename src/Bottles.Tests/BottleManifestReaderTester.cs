@@ -33,7 +33,7 @@ namespace Bottles.Tests
 
             theOriginalManifest.WriteTo("package1");
 
-            thePackage = new BottleManifestReader(new FileSystem(), directory => directory.AppendPath("WebContent")).LoadFromFolder("package1");
+            thePackage = new PackageManifestReader(new FileSystem(), directory => directory.AppendPath("WebContent")).LoadFromFolder("package1");
         }
 
         [Test]

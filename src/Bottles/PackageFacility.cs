@@ -11,7 +11,7 @@ namespace Bottles
     /// </summary>
     public class PackageFacility : IPackageFacility, IPackagingRuntimeGraphConfigurer
     {
-        private readonly IList<Action<BottlingRuntimeGraph>> _configurableActions = new List<Action<BottlingRuntimeGraph>>();
+        private readonly IList<Action<PackagingRuntimeGraph>> _configurableActions = new List<Action<PackagingRuntimeGraph>>();
 
 
         public void Assembly(Assembly assembly)
@@ -50,12 +50,12 @@ namespace Bottles
             Bootstrapper(lambdaBootstrapper);
         }
         
-        public void Configure(BottlingRuntimeGraph graph)
+        public void Configure(PackagingRuntimeGraph graph)
         {
             _configurableActions.Each(cfgAction => cfgAction(graph));
         }
 
-        private void addConfigurableAction(Action<BottlingRuntimeGraph> action)
+        private void addConfigurableAction(Action<PackagingRuntimeGraph> action)
         {
             _configurableActions.Add(action);
         }
