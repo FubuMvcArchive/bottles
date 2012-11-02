@@ -46,7 +46,7 @@ namespace Bottles
             {
                 return (T) xmlSerializer.Deserialize(fileStream);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new ApplicationException(
                     "Unable to deserialize the contents of stream into an instance of type {0}".ToFormat(typeof (T)));

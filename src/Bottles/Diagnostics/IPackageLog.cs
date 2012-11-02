@@ -3,9 +3,7 @@ using System.Collections.Generic;
 
 namespace Bottles.Diagnostics
 {
-    public interface IPackageLog : IBottleLog { }
-
-    public interface IBottleLog
+    public interface IPackageLog
     {
         void Trace(ConsoleColor color, string text, params object[] parameters);
         void Trace(string text, params object[] parameters);

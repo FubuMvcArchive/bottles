@@ -31,17 +31,14 @@ ARTIFACTS = File.expand_path("artifacts")
 props = { :stage => File.expand_path("build"), :artifacts => ARTIFACTS }
 
 desc "**Default**, compiles, merges and runs tests"
-task :default => [:compile, :ilrepack, :create_deployer_bottles, :unit_test]
-
-desc "Creates and publishes the nuget files for the current code"
-task :local_nuget_push => [:compile, :ilrepack, :create_deployer_bottles, "nuget:build", "nuget:push"]
+task :default => [:compile, :ilrepack, :unit_test]
 
 desc "Target used for the CI server"
-task :ci => [:update_all_dependencies, :default,:package,:create_deployer_bottles,:history, :package]
+task :ci => [:update_all_dependencies, :default,:history, :package]
 
 desc "Update the version information for the build"
 assemblyinfo :version do |asm|
-  asm_version = BUILD_VERSION + ".0"
+  asm_version = BUILD_NUMBER
   
   begin
     commit = `git log -1 --pretty=format:%H`
@@ -85,13 +82,6 @@ task :compile => [:restore_if_missing, :clean, :version] do
   MSBuildRunner.compile :compilemode => COMPILE_TARGET, :solutionfile => 'src/Bottles.Console/Bottles.Console.csproj', :clrversion => CLR_TOOLS_VERSION
   bottles "assembly-pak src/AssemblyPackage"
   MSBuildRunner.compile :compilemode => COMPILE_TARGET, :solutionfile => 'src/Bottles.sln', :clrversion => CLR_TOOLS_VERSION
-  
-  sleep 1
-  puts 'Trying to copy files from bin directories to the build directory'
-  #copyOutputFiles "src/Milkman.Deployers.Iis/bin/#{COMPILE_TARGET}", "*.{dll,pdb}", props[:stage]  
-  #copyOutputFiles "src/Milkman.Deployers.Topshelf/bin/#{COMPILE_TARGET}", "*.{dll,pdb}", props[:stage]
-  #copyOutputFiles "src/Bottles.Host/bin/#{COMPILE_TARGET}", "*.{dll,pdb,exe}", props[:stage]
-  #copyOutputFiles "src/Bottles.Console/bin/#{COMPILE_TARGET}", "*.{dll,pdb,exe,config}", props[:stage]
 end
 
 def copyOutputFiles(fromDir, filePattern, outDir)
@@ -109,30 +99,10 @@ task :unit_test => :compile do
   runner.executeTests ['Bottles.Tests']
 end
 
-desc "Runs the StoryTeller suite of end to end tests.  IIS must be running first"
-task :storyteller => [:compile] do
-  echo 'Not ready yet'
-  # sh "lib/storyteller/StoryTellerRunner Storyteller.xml output/st-results.htm"
-end
-
-desc "ZIPs up the build results"
-zip :package do |zip|
-	zip.directories_to_zip = [props[:stage]]
-	zip.output_file = 'milkman.zip'
-	zip.output_path = [props[:artifacts]]
-end
-
-desc "Creates the deployer bottle files"
-task :create_deployer_bottles => :compile do
-  bottles "create src/milk -o build/milkman.zip --target #{COMPILE_TARGET}"
-  bottles "create src/Bottles.Host -o build/topshelf-deployers.zip --target #{COMPILE_TARGET}"
-  bottles "create src/Milkman.Deployers.Iis -o build/iis-deployers.zip --target #{COMPILE_TARGET}"
-end
 
 desc "Merge dotnetzip assembly into Bottles projects"
 task :ilrepack do
   merge_ionic("src/Bottles/bin/#{COMPILE_TARGET}", 'Bottles.dll')
-  merge_ionic("src/Milkman/bin/#{COMPILE_TARGET}", 'Milkman.dll')
 end
 
 def merge_ionic(dir, assembly)
