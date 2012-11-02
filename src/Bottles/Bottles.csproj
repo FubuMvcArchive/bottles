@@ -95,7 +95,7 @@
     <Compile Include="BottleFiles.cs" />
     <Compile Include="FileSystemExtensions.cs" />
     <Compile Include="IActivator.cs" />
-    <Compile Include="Manifest\AssemblyPackageManifestFactory.cs" />
+    <Compile Include="PackageLoaders\Assemblies\AssemblyPackageManifestFactory.cs" />
     <Compile Include="PackageLoaders\Assemblies\BottleAttribute.cs" />
     <Compile Include="PackageLoaders\Assemblies\IAssemblyFileFinder.cs" />
     <Compile Include="PackageLoaders\Assemblies\IAssemblyLoader.cs" />
@@ -128,7 +128,7 @@
     <Compile Include="Diagnostics\PackageLog.cs" />
     <Compile Include="Diagnostics\BottlingDiagnostics.cs" />
     <Compile Include="Diagnostics\PackagingDiagnosticsExtensions.cs" />
-    <Compile Include="Manifest\BottleRoles.cs" />
+    <Compile Include="BottleRoles.cs" />
     <Compile Include="BottlingRuntimeGraph.cs" />
     <Compile Include="ProvenanceHelper.cs" />
     <Compile Include="PackageLoaders\Directory\DirectoryPackageLoader.cs" />

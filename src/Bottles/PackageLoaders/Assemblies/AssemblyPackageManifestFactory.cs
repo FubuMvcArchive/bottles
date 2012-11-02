@@ -5,9 +5,9 @@ using FubuCore;
 
 namespace Bottles.PackageLoaders.Assemblies
 {
-    public class AssemblyPackageManifestFactory
+    public static class AssemblyPackageManifestFactory
     {
-        public PackageManifest Extract(Assembly assembly)
+        public static PackageManifest Extract(Assembly assembly)
         {
             var result = extractFromEmbeddedResource(assembly);
 
@@ -24,7 +24,7 @@ namespace Bottles.PackageLoaders.Assemblies
         }
 
 
-        PackageManifest extractFromEmbeddedResource(Assembly assembly)
+        static PackageManifest extractFromEmbeddedResource(Assembly assembly)
         {
             var resourceName = assembly.GetName().Name + "." + PackageManifest.FILE;
 
@@ -39,7 +39,7 @@ namespace Bottles.PackageLoaders.Assemblies
             return null;
         }
 
-        PackageManifest extractFromAssemblyAttributes(Assembly assembly)
+        static PackageManifest extractFromAssemblyAttributes(Assembly assembly)
         {
             var attribs = assembly.GetCustomAttributes(typeof(BottleAttribute), false);
             if (attribs.Any())
@@ -71,7 +71,7 @@ namespace Bottles.PackageLoaders.Assemblies
             return null;
         }
 
-        PackageManifest defaults(Assembly assembly)
+        static PackageManifest defaults(Assembly assembly)
         {
             return new PackageManifest
             {

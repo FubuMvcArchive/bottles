@@ -26,7 +26,7 @@ namespace Bottles.PackageLoaders.Assemblies
 
         public AssemblyPackageInfo(Assembly assembly)
         {
-            _manifest = new AssemblyPackageManifestFactory().Extract(assembly);
+            _manifest = AssemblyPackageManifestFactory.Extract(assembly);
             _inner = new Lazy<PackageInfo>(() =>
             {
                 var inner = new PackageInfo(_manifest);
