@@ -9,26 +9,27 @@ namespace Bottles.Commands
 {
     public class AliasInput
     {
-        [RequiredUsage("create", "remove")]
         [Description("The name of the alias")]
         public string Name { get; set; }
 
-        [RequiredUsage("create")]
         [Description("The path to the actual folder")]
         public string Folder { get; set; }
 
-        [ValidUsage("remove")]
         [Description("Removes the alias")]
         public bool RemoveFlag { get; set; }
     }
 
 
-    [Usage("list", "List all the aliases for this solution folder")]
-    [Usage("create", "Creates a new alias for a folder")]
-    [Usage("remove", "Removes an alias")]
     [CommandDescription("Manage folder aliases")]
     public class AliasCommand : FubuCommand<AliasInput>
     {
+        public AliasCommand()
+        {
+            Usage("List all the aliases for this solution folder").Arguments().ValidFlags();
+            Usage("Creates a new alias for a folder").Arguments(x => x.Name, x => x.Folder).ValidFlags();
+            Usage("Removes the alias").Arguments(x => x.Name).ValidFlags(x => x.RemoveFlag);
+        }
+
         public override bool Execute(AliasInput input)
         {
             Execute(input, new FileSystem());

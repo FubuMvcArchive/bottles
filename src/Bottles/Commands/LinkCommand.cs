@@ -11,20 +11,15 @@ namespace Bottles.Commands
     public class LinkInput
     {
         [Description("The physical folder (or valid alias) of the main application")]
-        [RequiredUsage("list", "create", "remove", "clean")]
         public string AppFolder { get; set; }
 
         [Description("The physical folder (or valid alias) of a bottle")]
-        [RequiredUsage("create", "remove")]
         public string BottleFolder { get; set; }
 
         [Description("Remove the package folder link from the application")]
-        [RequiredUsage("remove")]
-        [ValidUsage("remove")]
         public bool RemoveFlag { get; set; }
 
         [Description("Remove all links from an application manifest file")]
-        [ValidUsage("clean")]
         public bool CleanAllFlag { get; set; }
 
         public string RelativePathOfPackage()
@@ -36,13 +31,17 @@ namespace Bottles.Commands
         }
     }
 
-    [Usage("list", "List the current links for the application")]
-    [Usage("create", "Create a new link for the application to the package")]
-    [Usage("remove", "Remove any existing link for the application to the package")]
-    [Usage("clean", "Remove any and all existing links from the application to any package folder")]
     [CommandDescription("Links a package folder to an application folder in development mode")]
     public class LinkCommand : FubuCommand<LinkInput>
     {
+        public LinkCommand()
+        {
+            Usage("List the current links for the application").Arguments(x => x.AppFolder).ValidFlags();
+            Usage("Create a new link for the application to the package").Arguments(x => x.AppFolder, x => x.BottleFolder).ValidFlags();
+            Usage("Remove any existing link for the application to the package").Arguments(x => x.AppFolder, x => x.BottleFolder).ValidFlags(x => x.RemoveFlag);
+            Usage("Remove any and all existing links from the application to any package folder").Arguments(x => x.AppFolder).ValidFlags(x => x.CleanAllFlag);
+        }
+
         readonly ILinksService _links = new LinksService(new FileSystem());
 
         public override bool Execute(LinkInput input)

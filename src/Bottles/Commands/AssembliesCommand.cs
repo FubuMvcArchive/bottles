@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using Bottles.Creation;
 using FubuCore;
 using FubuCore.CommandLine;
@@ -14,91 +13,18 @@ namespace Bottles.Commands
         list
     }
 
-    public class AssembliesInput
-    {
-    	public AssembliesInput()
-    	{
-    	    Target = CompileTarget.Debug.ToString();
-    	}
-
-    	[Description("Add, remove, or list the assemblies for this manifest")]
-        [RequiredUsage("all", "single")]
-        public AssembliesCommandMode Mode { get; set; }
-
-        [Description("The package or application directory")]
-        [RequiredUsage("all", "single")]
-        public string Directory { get; set; }
-
-        [Description("Overrides the name of the manifest file if it's not the default .package-manifest or .fubu-manifest")]
-        [FlagAlias("file", 'f')]
-        public string FileNameFlag { get; set; }
-
-
-        [RequiredUsage("single")]
-        [Description("Add or removes the named assembly")]
-        public string AssemblyName { get; set; }
-
-        [Description("Opens the manifest file in your editor")]
-        public bool OpenFlag { get; set; }
-
-        [Description("Choose the compilation target for any assemblies.  Default is Debug")]
-        public string Target { get; set; }
-
-        [IgnoreOnCommandLine]
-        public PackageManifest Manifest { get; set;}
-
-        [IgnoreOnCommandLine]
-        public string BinariesFolder { get; set;}
-
-
-
-        public void FindManifestAndBinaryFolders(IFileSystem fileSystem)
-        {
-            BinariesFolder = fileSystem.FindBinaryDirectory(Directory, Target);
-
-            Manifest = fileSystem.TryFindManifest(Directory, FileNameFlag) ??
-                       fileSystem.LoadPackageManifestFrom(Directory);
-        }
-
-        public void Save(IFileSystem fileSystem)
-        {
-            fileSystem.PersistToFile(Manifest, Manifest.ManifestFileName);
-        }
-
-        public void RemoveAssemblies(IFileSystem fileSystem)
-        {
-            if (AssemblyName.IsNotEmpty())
-            {
-                Manifest.RemoveAssembly(AssemblyName);
-            }
-            else
-            {
-                Manifest.RemoveAllAssemblies();
-            }
-            
-            Save(fileSystem);
-        }
-
-        public void AddAssemblies(IFileSystem fileSystem)
-        {
-            if (AssemblyName.IsNotEmpty())
-            {
-                Manifest.AddAssembly(AssemblyName);
-            }
-            else
-            {
-                fileSystem.FindAssemblyNames(BinariesFolder).Each(name => Manifest.AddAssembly(name));
-            }
-            
-            Save(fileSystem);
-        }
-    }
-
-    [Usage("all", "Remove or adds all assemblies to the manifest file")]
-    [Usage("single", "Removes or adds a single assembly name to the manifest file")]
     [CommandDescription("Adds assemblies to a given manifest")]
     public class AssembliesCommand : FubuCommand<AssembliesInput>
     {
+        public AssembliesCommand()
+        {
+            Usage("Remove or adds all assemblies to the manifest file").Arguments(x => x.Mode, x => x.Directory);
+            Usage("Removes or adds a single assembly name to the manifest file").Arguments(x => x.Mode, x => x.Directory,
+                                                                                           x => x.AssemblyName);
+
+
+        }
+
         public override bool Execute(AssembliesInput input)
         {
             input.Directory = new AliasService().GetFolderForAlias(input.Directory);
