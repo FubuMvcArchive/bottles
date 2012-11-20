@@ -14,14 +14,13 @@ namespace Bottles.Commands
         [Description("The root folder for the project if different from the project file's folder")]
         public string RootFolder { get; set; }
 
-        [Description("Name of the csproj file.  If set, this command attempts to add the zip files as embedded resources")]
+        [Description("Explicitly define the csproj file in this directory.  If not set, this command will look for a single csproj file in the directory to attach the embedded resources")]
         public string ProjFileFlag { get; set; }
 
         [Description("Previews which files will be added to the assembly bottle")]
         public bool PreviewFlag { get; set; }
     }
 
-    // TODO -- do something that tests this
     [CommandDescription("Bundle up the content and data files for a self contained assembly package", Name = "assembly-pak")]
     public class AssemblyPackageCommand : FubuCommand<AssemblyPackageInput>
     {
@@ -31,31 +30,69 @@ namespace Bottles.Commands
         {
             input.RootFolder = new AliasService().GetFolderForAlias(input.RootFolder);
 
+            determineMissingCsProjFile(input);
+
             if (input.PreviewFlag)
             {
-                var manifest = fileSystem.LoadPackageManifestFrom(input.RootFolder);
-                if (manifest == null)
-                {
-                    Console.WriteLine("Package manifest file {0} was not found", input.RootFolder.AppendPath(PackageManifest.FILE));
-                    return false;
-                }
-
-                previewFiles(input, BottleFiles.WebContentFolder, manifest.ContentFileSet);
-                previewFiles(input, BottleFiles.DataFolder, manifest.DataFileSet);
-                previewFiles(input, BottleFiles.ConfigFolder, manifest.ConfigFileSet);
-
-
-                return true;
+                return displayPreview(input);
             }
 
             var zipService = new ZipFileService(fileSystem);
 
-            createZipFile(input, "WebContent", zipService, m => m.ContentFileSet);
-            createZipFile(input, "Data", zipService, m => m.DataFileSet);
-            createZipFile(input, "Config", zipService, m => m.ConfigFileSet);
+            var manifest = fileSystem.LoadPackageManifestFrom(input.RootFolder);
+            if (manifest == null)
+            {
+                Console.WriteLine("No PackageManifest found, using defaults instead");
+                manifest = new PackageManifest();
+                manifest.SetRole(BottleRoles.Module);
+
+
+                Console.WriteLine("WebContent:  " + manifest.ContentFileSet);
+                Console.WriteLine("Data:  " + manifest.DataFileSet);
+                Console.WriteLine("Config:  " + manifest.ConfigFileSet);
+            }
+
+            createZipFile(input, BottleFiles.WebContentFolder, zipService, manifest.ContentFileSet);
+            createZipFile(input, BottleFiles.DataFolder, zipService, manifest.DataFileSet);
+            createZipFile(input, BottleFiles.ConfigFolder, zipService, manifest.ConfigFileSet);
 
 
             return true;
+        }
+
+        private bool displayPreview(AssemblyPackageInput input)
+        {
+            var manifest = fileSystem.LoadPackageManifestFrom(input.RootFolder);
+            if (manifest == null)
+            {
+                Console.WriteLine("Package manifest file {0} was not found", input.RootFolder.AppendPath(PackageManifest.FILE));
+                return false;
+            }
+
+            previewFiles(input, BottleFiles.WebContentFolder, manifest.ContentFileSet);
+            previewFiles(input, BottleFiles.DataFolder, manifest.DataFileSet);
+            previewFiles(input, BottleFiles.ConfigFolder, manifest.ConfigFileSet);
+            return true;
+        }
+
+        private void determineMissingCsProjFile(AssemblyPackageInput input)
+        {
+            if (input.ProjFileFlag.IsEmpty())
+            {
+                var files = fileSystem.FindFiles(input.RootFolder, new FileSet {Include = "*.csproj"});
+                if (files.Count() == 1)
+                {
+                    Console.WriteLine("Found 1 csproj file");
+                    Console.WriteLine("Using " + files.Single());
+                    input.ProjFileFlag = files.Single().ToFullPath();
+                }
+
+                if (files.Count() > 1)
+                {
+                    Console.WriteLine(
+                        "Found more than one *.csproj file in this directory.  You'll need to specify the --proj-file flag");
+                }
+            }
         }
 
         private void previewFiles(AssemblyPackageInput input, string folder, FileSet fileSearch)
@@ -84,14 +121,21 @@ namespace Bottles.Commands
             Console.WriteLine();
         }
 
-        private void createZipFile(AssemblyPackageInput input, string childFolderName, ZipFileService zipService, Func<PackageManifest, FileSet> fileSource)
+        private void createZipFile(AssemblyPackageInput input, string childFolderName, ZipFileService zipService, FileSet fileSearch)
         {
-            var zipRequest = BuildZipRequest(input, childFolderName, fileSource);
+            var zipRequest = BuildZipRequest(input, fileSearch);
             if (zipRequest == null)
             {
                 ConsoleWriter.Write("No content for " + childFolderName);
 
                 return;
+            }
+
+            // Hack, but it makes /data and data/*.* work
+            if (fileSystem.DirectoryExists(input.RootFolder.AppendPath(childFolderName)) && zipRequest.FileSet.Include.StartsWith(childFolderName, StringComparison.InvariantCultureIgnoreCase))
+            {
+                zipRequest.FileSet = FileSet.Deep("*.*");
+                zipRequest.RootDirectory = zipRequest.RootDirectory.AppendPath(childFolderName);
             }
 
             var zipFileName = "pak-{0}.zip".ToFormat(childFolderName);
@@ -107,31 +151,15 @@ namespace Bottles.Commands
             attachZipFileToProjectFile(input, zipFileName);
         }
 
-        public ZipFolderRequest BuildZipRequest(AssemblyPackageInput input, string childFolderName, Func<PackageManifest, FileSet> fileSource)
+        public ZipFolderRequest BuildZipRequest(AssemblyPackageInput input, FileSet fileSearch)
         {
-            var contentDirectory = FileSystem.Combine(input.RootFolder, childFolderName);
+            if (fileSearch == null) return null;
 
-            var manifest = fileSystem.LoadPackageManifestFrom(input.RootFolder);
-            if (manifest != null)
-            {
-                var files = fileSource(manifest);
-                if (files == null) return null;
-
-                return new ZipFolderRequest{
-                    FileSet = files,
-                    RootDirectory = input.RootFolder,
-                    ZipDirectory = string.Empty
-                };
-            }
-
-            if (!fileSystem.DirectoryExists(contentDirectory)) return null;
-
-            return new ZipFolderRequest()
-                   {
-                       FileSet = new FileSet() { DeepSearch = true, Include = "*.*" },
-                       RootDirectory = contentDirectory,
-                       ZipDirectory = string.Empty
-                   };
+            return new ZipFolderRequest{
+                FileSet = fileSearch,
+                RootDirectory = input.RootFolder,
+                ZipDirectory = string.Empty
+            };
         }
 
         private void attachZipFileToProjectFile(AssemblyPackageInput input, string zipFileName)

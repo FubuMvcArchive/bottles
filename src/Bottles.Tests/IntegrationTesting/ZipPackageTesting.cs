@@ -4,28 +4,12 @@ using NUnit.Framework;
 namespace Bottles.Tests.IntegrationTesting
 {
     [TestFixture]
-    public class ZipPackageTesting : IntegrationTestDriver
+    public class ZipPackageTesting : IntegrationTestContext
     {
-        private BottleLoadingDomain _domain;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _domain = new BottleLoadingDomain();
-
-            ResetBottleProjectCode();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            _domain.Dispose();
-        }
-
         [Test]
         public void read_data_and_web_content_from_a_zipped_package()
         {
-            RunBottlesCommand("init bottles-staging BottlesProject");
+            RunBottlesCommand("init bottles-staging BottleProject");
 
             AlterManifest(manifest => {
                 manifest.RemoveAllAssemblies();
@@ -47,7 +31,7 @@ namespace Bottles.Tests.IntegrationTesting
         [Test]
         public void bottle_should_be_reexploded_when_the_versioning_changes()
         {
-            RunBottlesCommand("init bottles-staging BottlesProject");
+            RunBottlesCommand("init bottles-staging BottleProject");
 
             AlterManifest(manifest =>
             {

@@ -132,9 +132,10 @@ namespace Bottles
                     break;
 
                 default:
-                    DataFileSet = new FileSet();
+                    DataFileSet = new FileSet{DeepSearch = true, Include = "data/*"};
                     ContentFileSet = new FileSet()
                     {
+                        DeepSearch = true,
                         Include = "*.*",
                         Exclude = "data/*;*.cs;bin/*;obj/*;*.csproj*;packages.config;repositories.config;pak-*.zip"
                     };

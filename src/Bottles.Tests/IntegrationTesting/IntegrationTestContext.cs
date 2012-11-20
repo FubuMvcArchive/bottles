@@ -4,6 +4,7 @@ using System.Threading;
 using Bottles.PackageLoaders.Directory;
 using FubuCore;
 using FubuTestingSupport;
+using NUnit.Framework;
 
 namespace Bottles.Tests.IntegrationTesting
 {
@@ -20,8 +21,27 @@ assembly-pak -> Bundle up the content and data files for a self contained assemb
 
 
 
-    public class IntegrationTestDriver
+    public class IntegrationTestContext
     {
+
+        protected BottleLoadingDomain _domain;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _domain = new BottleLoadingDomain();
+
+            new FileSystem().CleanDirectory("content");
+
+            ResetBottleProjectCode();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _domain.Dispose();
+        }
+
         public static string SolutionDirectory = ".".ToFullPath().ParentDirectory().ParentDirectory().ParentDirectory().ParentDirectory();
         public static string StagingDirectory = SolutionDirectory.AppendPath("bottles-staging");
         public static string SourceDirectory = SolutionDirectory.AppendPath("src").AppendPath("BottleProject");
