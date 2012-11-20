@@ -34,9 +34,6 @@
     <Reference Include="FubuCore">
       <HintPath>..\packages\FubuCore.1.0.0.207\lib\FubuCore.dll</HintPath>
     </Reference>
-    <Reference Include="HtmlTags">
-      <HintPath>..\packages\HtmlTags.1.2.0.129\lib\4.0\HtmlTags.dll</HintPath>
-    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\lib\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -133,6 +130,7 @@
     <Compile Include="ProvenanceHelper.cs" />
     <Compile Include="PackageLoaders\Directory\DirectoryPackageLoader.cs" />
     <Compile Include="StringExtensions.cs" />
+    <Compile Include="ZipFilePackageLoader.cs" />
     <Compile Include="Zipping\IZipFile.cs" />
     <Compile Include="Zipping\IZipFileService.cs" />
     <Compile Include="Zipping\ZipFileService.cs" />

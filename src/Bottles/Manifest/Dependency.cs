@@ -1,7 +1,7 @@
 using System.Xml.Serialization;
 using FubuCore;
 
-namespace Bottles
+namespace Bottles.Manifest
 {
     [XmlType("dependency")]
     public class Dependency

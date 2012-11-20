@@ -104,7 +104,7 @@ namespace Bottles.Diagnostics
             return _log.HasErrors();
         }
 
-        // TODO -- think about this little puppy
+        // Hokey, but it gets the job done.
         public static string GetTypeName(object target)
         {
             if (target is IBootstrapper) return typeof (IBootstrapper).Name;

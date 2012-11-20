@@ -45,5 +45,7 @@ External
 lib/**/*.nupkg
 src/packages
 results/*
-
 src/Bottles.1.2.dotCover
+bottles-staging
+zips
+exploded

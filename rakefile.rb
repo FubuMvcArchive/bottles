@@ -68,6 +68,11 @@ task :clean => [:update_buildsupport] do
 	Dir.mkdir props[:artifacts] unless exists?(props[:artifacts])
 end
 
+desc "Compiles the BottleProject"
+task :compile_bottle_project do
+  MSBuildRunner.compile :compilemode => COMPILE_TARGET, :solutionfile => 'bottles-staging/BottleProject.csproj', :clrversion => CLR_TOOLS_VERSION
+end
+
 def waitfor(&block)
   checks = 0
   until block.call || checks >10 
@@ -114,3 +119,4 @@ end
 def bottles(args)
   sh Platform.runtime("src/Bottles.Console/bin/#{COMPILE_TARGET}/BottleRunner.exe #{args}")
 end
+

@@ -6,6 +6,7 @@ using FubuCore.CommandLine;
 
 namespace Bottles.Commands
 {
+    [Obsolete, MarkedForTermination]
     public class CreatePackageInput
     {
         public CreatePackageInput()
@@ -19,9 +20,6 @@ namespace Bottles.Commands
 
         [Description("The filepath where the zip file for the package will be written ie. ./blue/my-pak.zip")]
         public string ZipFile { get; set; }
-
-        [IgnoreOnCommandLine]
-        public string BottlesDirectory { get; set; }
 
         [Description("Includes any matching .pdb files for the package assemblies")]
         [FlagAlias("pdb", 'b')]
@@ -40,7 +38,7 @@ namespace Bottles.Commands
 
         public string GetZipFileName(PackageManifest manifest)
         {
-            return ZipFile ?? FileSystem.Combine(BottlesDirectory, manifest.Name + ".zip");
+            return ZipFile ?? manifest.Name + ".zip";
         }
     }
 
@@ -54,7 +52,6 @@ namespace Bottles.Commands
                          {
                              PackageFolder = input.PackageFolder,
                              ZipFileFlag = input.ZipFile,
-                             BottlesDirectory = input.BottlesDirectory,
                              PdbFlag = input.PdbFlag,
                              ForceFlag = input.ForceFlag,
                              TargetFlag = input.TargetFlag,

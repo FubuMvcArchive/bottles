@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using Bottles.Manifest;
 using FubuCore;
 using FubuCore.Descriptions;
 

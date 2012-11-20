@@ -13,7 +13,6 @@
     <tags>packaging areas slices</tags>
     <dependencies>
       <dependency id="FubuCore" version="0.9.9.182" />
-      <dependency id="HtmlTags" />
     </dependencies>
   </metadata>
   <files>

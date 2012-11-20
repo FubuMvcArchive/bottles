@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using Bottles.Creation;
 using Bottles.Diagnostics;
@@ -23,9 +24,6 @@ namespace Bottles.Commands
         [FlagAlias("output", 'o')]
         public string ZipFileFlag { get; set; }
 
-        [IgnoreOnCommandLine]
-        public string BottlesDirectory { get; set; }
-
         [Description("Includes any matching .pdb files for the package assemblies")]
         [FlagAlias("pdb", 'b')]
         public bool PdbFlag { get; set; }
@@ -43,7 +41,7 @@ namespace Bottles.Commands
 
         public string GetZipFileName(PackageManifest manifest)
         {
-            return ZipFileFlag ?? FileSystem.Combine(BottlesDirectory, manifest.Name + ".zip");
+            return ZipFileFlag ??  manifest.Name + ".zip";
         }
     }
 

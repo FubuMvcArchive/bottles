@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Bottles.Manifest;
 using Bottles.PackageLoaders.Assemblies;
 using FubuCore.Util;
 

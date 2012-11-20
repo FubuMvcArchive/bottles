@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using Bottles.Exploding;
+using Bottles.Manifest;
 using FubuCore;
 using FubuCore.Descriptions;
 

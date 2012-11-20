@@ -1,0 +1,1 @@
+rake compile_bottle_project

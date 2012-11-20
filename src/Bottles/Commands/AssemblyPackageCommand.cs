@@ -50,8 +50,6 @@ namespace Bottles.Commands
 
             var zipService = new ZipFileService(fileSystem);
 
-            // TODO -- this is where it would be valuable to start generalizing the file set
-            // storage within Package Manifest
             createZipFile(input, "WebContent", zipService, m => m.ContentFileSet);
             createZipFile(input, "Data", zipService, m => m.DataFileSet);
             createZipFile(input, "Config", zipService, m => m.ConfigFileSet);

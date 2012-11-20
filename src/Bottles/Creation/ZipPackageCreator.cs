@@ -69,7 +69,6 @@ namespace Bottles.Creation
 
                 zipFile.AddFile(FileSystem.Combine(input.PackageFolder, PackageManifest.FILE), "");
 
-                // TODO -- there's an opportunity to generalize this
                 AddDataFiles(input, zipFile, manifest);
                 AddContentFiles(input, zipFile, manifest);
                 AddConfigFiles(input, zipFile, manifest);

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using Bottles.Manifest;
 using FubuCore;
 using FubuTestingSupport;
 using NUnit.Framework;

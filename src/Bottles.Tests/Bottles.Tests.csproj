@@ -72,7 +72,7 @@
   <ItemGroup>
     <Compile Include="AssemblyFileFinderTester.cs" />
     <Compile Include="AssemblyLoaderTester.cs" />
-    <Compile Include="AssemblyBottleInfoTester.cs" />
+    <Compile Include="AssemblyPackageInfoTester.cs" />
     <Compile Include="AssemblyTargetTester.cs" />
     <Compile Include="Commands\AssemblyBottleCommandTester.cs" />
     <Compile Include="Commands\LinkCommandTester.cs" />
@@ -95,6 +95,8 @@
     <Compile Include="Exploding\BottleExploderTester.cs" />
     <Compile Include="FileSystemExtensionsTester.cs" />
     <Compile Include="FileSystemTester.cs" />
+    <Compile Include="IntegrationTesting\IntegrationTestDriver.cs" />
+    <Compile Include="IntegrationTesting\ZipPackageTesting.cs" />
     <Compile Include="LambdaActivatorTester.cs" />
     <Compile Include="BottleInfoTester.cs" />
     <Compile Include="BottleManifestReaderTester.cs" />
@@ -124,6 +126,10 @@
     <ProjectReference Include="..\AttributeMarkedBottle\AttributeMarkedBottle.csproj">
       <Project>{F9B9C686-EA25-4BD1-8794-87524604C7C3}</Project>
       <Name>AttributeMarkedBottle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bottles.Console\Bottles.Console.csproj">
+      <Project>{2B4DB712-DEB9-4EEC-B7AD-0CAE306AB042}</Project>
+      <Name>Bottles.Console</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bottles\Bottles.csproj">
       <Project>{E208A2B1-31B0-4455-BA16-3D79F5887ECE}</Project>
