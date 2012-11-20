@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using Bottles.PackageLoaders.Directory;
 using FubuCore;
@@ -74,6 +72,11 @@ assembly-pak -> Bundle up the content and data files for a self contained assemb
             });
         }
 
+        public static void WriteZipVersion(string version)
+        {
+            new FileSystem().WriteStringToFile(StagingDirectory.AppendPath(BottleFiles.VersionFile), version);
+        }
+
         public static void SetData(string value)
         {
             var file = StagingDirectory.AppendPath("data").AppendPath("1.txt");
@@ -108,182 +111,6 @@ assembly-pak -> Bundle up the content and data files for a self contained assemb
             alteration(manifest);
 
             fileSystem.WriteObjectToFile(StagingDirectory.AppendPath(PackageManifest.FILE), manifest);
-        }
-    }
-
-
-
-    public class ProcessRunner
-    {
-        public ProcessReturn Run(ProcessStartInfo info, TimeSpan waitDuration, Action<string> callback)
-        {
-            //use the operating system shell to start the process
-            //this allows credentials to flow through.
-            //info.UseShellExecute = true; 
-            info.UseShellExecute = false;
-            info.Verb = "runas";
-            info.WindowStyle = ProcessWindowStyle.Normal;
-
-            //don't open a new terminal window
-            info.CreateNoWindow = false;
-
-            info.RedirectStandardError = info.RedirectStandardOutput = true;
-
-            //if (!Path.IsPathRooted(info.FileName))
-            //{
-            //    info.FileName = info.WorkingDirectory.AppendPath(info.FileName);
-            //}
-
-            ProcessReturn returnValue = null;
-            var output = new StringBuilder();
-            int pid = 0;
-            using (var proc = Process.Start(info))
-            {
-                pid = proc.Id;
-                proc.OutputDataReceived += (sender, outputLine) =>
-                {
-                    if (outputLine.Data.IsNotEmpty())
-                    {
-                        callback(outputLine.Data);
-                    }
-                    output.AppendLine(outputLine.Data);
-                };
-
-                proc.BeginOutputReadLine();
-                proc.WaitForExit((int)waitDuration.TotalMilliseconds);
-
-                killProcessIfItStillExists(pid);
-
-                returnValue = new ProcessReturn()
-                {
-                    ExitCode = proc.ExitCode,
-                    OutputText = output.ToString()
-                };
-            }
-
-            return returnValue;
-        }
-
-        private void killProcessIfItStillExists(int pid)
-        {
-            if (Process.GetProcesses()
-                .Where(p => p.Id == pid)
-                .Any())
-            {
-                try
-                {
-                    var p = Process.GetProcessById(pid);
-                    if (!p.HasExited)
-                    {
-                        p.Kill();
-                        Thread.Sleep(100);
-                    }
-                }
-                catch (ArgumentException)
-                {
-                    //ignore
-                }
-            }
-        }
-
-        public ProcessReturn Run(ProcessStartInfo info, Action<string> callback)
-        {
-            return Run(info, new TimeSpan(0, 0, 0, 10), callback);
-        }
-    }
-
-    public class ProcessReturn
-    {
-        public string OutputText { get; set; }
-        public int ExitCode { get; set; }
-    }
-
-    public class BottleDomainProxy : MarshalByRefObject
-    {
-        private IPackageInfo bottle
-        {
-            get { return PackageRegistry.Packages.Single(x => x.Name == "BottlesProject"); }
-        }
-
-        public string ReadData(string path)
-        {
-            return readContent(path, BottleFiles.DataFolder);
-        }
-
-        public string ReadWebContent(string path)
-        {
-            return readContent(path, BottleFiles.WebContentFolder);
-        }
-
-        private string readContent(string path, string folderName)
-        {
-            string returnValue = null;
-
-            bottle.ForFolder(folderName, folder => {
-                var file = folder.AppendPath(path);
-                returnValue = new FileSystem().ReadStringFromFile(file);
-            });
-
-            return returnValue;
-        }
-
-        public void LoadViaZip(string folder)
-        {
-            PackageRegistry.LoadPackages(x => {
-                x.Loader(new ZipFilePackageLoader(IntegrationTestDriver.SolutionDirectory.AppendPath("exploded"), new string[]{folder}));
-            });
-        }
-
-        public override object InitializeLifetimeService()
-        {
-            return null;
-        }
-    }
-
-    public class BottleLoadingDomain : IDisposable
-    {
-        private Lazy<AppDomain> _domain;
-        private Lazy<BottleDomainProxy> _proxy; 
-
-        public BottleLoadingDomain()
-        {
-            Recycle();
-        }
-
-        public BottleDomainProxy Proxy
-        {
-            get { return _proxy.Value; }
-        }
-
-        public void Recycle()
-        {
-            Dispose();
-
-            _domain = new Lazy<AppDomain>(() =>
-            {
-                var setup = new AppDomainSetup
-                {
-                    ApplicationName = "Bottles-Testing-" + Guid.NewGuid(),
-                    ShadowCopyFiles = "true",
-                    ApplicationBase = AppDomain.CurrentDomain.BaseDirectory
-                };
-
-                return AppDomain.CreateDomain("Bottles-Testing", null, setup);
-            });
-
-            _proxy = new Lazy<BottleDomainProxy>(() =>
-            {
-                var proxyType = typeof(BottleDomainProxy);
-                return (BottleDomainProxy)_domain.Value.CreateInstanceAndUnwrap(proxyType.Assembly.FullName, proxyType.FullName);
-            });
-        }
-
-        public void Dispose()
-        {
-            if (_domain != null && _domain.IsValueCreated)
-            {
-                AppDomain.Unload(_domain.Value);
-            }
         }
     }
 }

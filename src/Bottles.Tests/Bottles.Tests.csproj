@@ -95,7 +95,11 @@
     <Compile Include="Exploding\BottleExploderTester.cs" />
     <Compile Include="FileSystemExtensionsTester.cs" />
     <Compile Include="FileSystemTester.cs" />
+    <Compile Include="IntegrationTesting\BottleDomainProxy.cs" />
+    <Compile Include="IntegrationTesting\BottleLoadingDomain.cs" />
     <Compile Include="IntegrationTesting\IntegrationTestDriver.cs" />
+    <Compile Include="IntegrationTesting\ProcessReturn.cs" />
+    <Compile Include="IntegrationTesting\ProcessRunner.cs" />
     <Compile Include="IntegrationTesting\ZipPackageTesting.cs" />
     <Compile Include="LambdaActivatorTester.cs" />
     <Compile Include="BottleInfoTester.cs" />
