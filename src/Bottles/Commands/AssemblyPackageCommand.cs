@@ -6,6 +6,7 @@ using FubuCore;
 using FubuCore.CommandLine;
 using System.Linq;
 using System.Collections.Generic;
+using FubuCsProjFile;
 
 namespace Bottles.Commands
 {
@@ -42,12 +43,12 @@ namespace Bottles.Commands
             var manifest = fileSystem.LoadPackageManifestFrom(input.RootFolder);
             if (manifest == null)
             {
-                Console.WriteLine("No PackageManifest found, using defaults instead");
+                System.Console.WriteLine("No PackageManifest found, using defaults instead");
                 manifest = new PackageManifest();
                 manifest.SetRole(BottleRoles.Module);
 
 
-                Console.WriteLine("WebContent:  " + manifest.ContentFileSet);
+                System.Console.WriteLine("WebContent:  " + manifest.ContentFileSet);
             }
 
             createZipFile(input, BottleFiles.WebContentFolder, zipService, manifest.ContentFileSet);
@@ -63,7 +64,7 @@ namespace Bottles.Commands
             var manifest = fileSystem.LoadPackageManifestFrom(input.RootFolder);
             if (manifest == null)
             {
-                Console.WriteLine("Package manifest file {0} was not found", input.RootFolder.AppendPath(PackageManifest.FILE));
+                System.Console.WriteLine("Package manifest file {0} was not found", input.RootFolder.AppendPath(PackageManifest.FILE));
                 return false;
             }
 
@@ -80,14 +81,14 @@ namespace Bottles.Commands
                 var files = fileSystem.FindFiles(input.RootFolder, new FileSet {Include = "*.csproj"});
                 if (files.Count() == 1)
                 {
-                    Console.WriteLine("Found 1 csproj file");
-                    Console.WriteLine("Using " + files.Single());
+                    System.Console.WriteLine("Found 1 csproj file");
+                    System.Console.WriteLine("Using " + files.Single());
                     input.ProjFileFlag = files.Single().ToFullPath();
                 }
 
                 if (files.Count() > 1)
                 {
-                    Console.WriteLine(
+                    System.Console.WriteLine(
                         "Found more than one *.csproj file in this directory.  You'll need to specify the --proj-file flag");
                 }
             }
@@ -97,7 +98,7 @@ namespace Bottles.Commands
         {
             if (fileSearch == null)
             {
-                Console.WriteLine("{0}:  No files", folder);
+                System.Console.WriteLine("{0}:  No files", folder);
                 return;
             }
 
@@ -108,15 +109,15 @@ namespace Bottles.Commands
 
             if (files.Any())
             {
-                Console.WriteLine("{0}: {1} file(s)", folder, files.Count());
-                files.Each(f => Console.WriteLine(f));
+                System.Console.WriteLine("{0}: {1} file(s)", folder, files.Count());
+                files.Each(f => System.Console.WriteLine(f));
             }
             else
             {
-                Console.WriteLine("{0}:  No files", folder);
+                System.Console.WriteLine("{0}:  No files", folder);
             }
 
-            Console.WriteLine();
+            System.Console.WriteLine();
         }
 
         private void createZipFile(AssemblyPackageInput input, string childFolderName, ZipFileService zipService, FileSet fileSearch)
@@ -162,29 +163,11 @@ namespace Bottles.Commands
 
         private void attachZipFileToProjectFile(AssemblyPackageInput input, string zipFileName)
         {
-            var document = new XmlDocument();
             var projectFileName = FileSystem.Combine(input.RootFolder, input.ProjFileFlag);
-            document.Load(projectFileName);
+            var csprojfile = new CsProjFile(projectFileName);
+            csprojfile.EmbedResource(zipFileName);
 
-            //var search = "//ItemGroup/EmbeddedResource[@Include='{0}']".ToFormat(zipFileName);
-            //if (document.DocumentElement.SelectSingleNode(search, new XmlNamespaceManager(document.NameTable)) == null)
-            if (document.DocumentElement.OuterXml.Contains(zipFileName))
-            {
-                ConsoleWriter.Write("The file {0} is already embedded in project {1}".ToFormat(zipFileName, projectFileName));
-                return;
-            }
-
-            ConsoleWriter.Write("Adding the ItemGroup / Embedded Resource for {0} to {1}".ToFormat(zipFileName,
-                                                                                                   projectFileName));
-            var node = document.CreateNode(XmlNodeType.Element, "ItemGroup", document.DocumentElement.NamespaceURI);
-            var element = document.CreateNode(XmlNodeType.Element, "EmbeddedResource", document.DocumentElement.NamespaceURI);
-            var attribute = document.CreateAttribute("Include");
-            attribute.Value = zipFileName;
-            element.Attributes.Append(attribute);
-            node.AppendChild(element);
-            document.DocumentElement.AppendChild(node);
-
-            document.Save(projectFileName);
+            csprojfile.Save();
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel;
 using Bottles.Creation;
 using Bottles.Diagnostics;

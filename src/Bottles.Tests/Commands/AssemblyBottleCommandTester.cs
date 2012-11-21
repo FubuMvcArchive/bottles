@@ -1,4 +1,3 @@
-using Bottles.Commands;
 using NUnit.Framework;
 
 namespace Bottles.Tests.Commands

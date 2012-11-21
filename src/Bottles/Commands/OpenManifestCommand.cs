@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using FubuCore.CommandLine;
 using FubuCore;
 
@@ -19,19 +18,19 @@ namespace Bottles.Commands
             var directory = new AliasService().GetFolderForAlias(input.BottleDirectory);
 
             var packageFile = directory.AppendPath(PackageManifest.FILE);
-            Console.WriteLine("Looking for " + packageFile);
+            System.Console.WriteLine("Looking for " + packageFile);
 
             var system = new FileSystem();
 
             if (system.FileExists(packageFile))
             {
-                Console.WriteLine("Opening file...");
+                System.Console.WriteLine("Opening file...");
                 system.LaunchEditor(packageFile);
             }
             else
             {
-                Console.WriteLine("Could not find a PackageManifest");
-                Console.WriteLine("To create a new PackageManifest, use 'bottles init " + directory + " [PackageName]'");
+                System.Console.WriteLine("Could not find a PackageManifest");
+                System.Console.WriteLine("To create a new PackageManifest, use 'bottles init " + directory + " [PackageName]'");
             }
 
 

@@ -49,8 +49,10 @@
     <Compile Include="AliasRegistry.cs" />
     <Compile Include="AssemblyTarget.cs" />
     <Compile Include="Commands\AliasCommand.cs" />
+    <Compile Include="Commands\AssemblyPackageCommand.cs" />
     <Compile Include="Commands\CreateBottleCommand.cs" />
     <Compile Include="Commands\InitCommand.cs" />
+    <Compile Include="Commands\LinkCommand.cs" />
     <Compile Include="Commands\OpenManifestCommand.cs" />
     <Compile Include="CompileTarget.cs" />
     <Compile Include="Configuration\AssertBottleConfiguration.cs" />
@@ -69,8 +71,6 @@
     <Compile Include="PackageLoaders\Assemblies\AssemblyLoader.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyPackageInfo.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyPackageLoader.cs" />
-    <Compile Include="Commands\AssemblyPackageCommand.cs" />
-    <Compile Include="Commands\LinkCommand.cs" />
     <Compile Include="Diagnostics\IBottleLogger.cs" />
     <Compile Include="Environment\EnvironmentLogEntry.cs" />
     <Compile Include="Diagnostics\LoggingSession.cs" />
@@ -138,7 +138,12 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\FubuCsProjFile\FubuCsProjFile.csproj">
+      <Project>{5630FC3F-8C3E-4EAD-B960-B38FE3D87463}</Project>
+      <Name>FubuCsProjFile</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
