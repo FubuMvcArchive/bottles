@@ -22,7 +22,7 @@ namespace Bottles.Tests.IntegrationTesting
 
         }
 
-        [Test]
+        [Test, Ignore("Not yet")]
         public void read_contents_with_explicit_manifest()
         {
             // dipshit forgot to write a command that does this for you.

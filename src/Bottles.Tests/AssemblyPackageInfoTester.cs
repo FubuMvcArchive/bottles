@@ -62,21 +62,12 @@ namespace Bottles.Tests
         public void can_read_the_package_manifest_from_the_assembly_when_it_is_an_embedded_resource()
         {
             var assembly = typeof (AssemblyPackageMarker).Assembly;
-            var manifest = AssemblyPackageManifestFactory.Extract(assembly);
+            var manifest = AssemblyPackageInfo.DetermineManifest(assembly);
 
             manifest.Name.ShouldEqual("FakeProject");
             manifest.Role.ShouldEqual("module");
         }
 
-        [Test]
-        public void can_read_the_package_manifest_from_a_bottle_attribute()
-        {
-            var assembly = typeof (AttributeMarkedBottleMarker).Assembly;
-            var manifest = AssemblyPackageManifestFactory.Extract(assembly);
-
-            manifest.Name.ShouldEqual("SpecialBottle");
-            manifest.Dependencies.Select(x => x.Name).ShouldHaveTheSameElementsAs("foo1", "foo2");
-        }
 
         [Test]
         public void can_retrieve_data_from_package()
@@ -84,7 +75,7 @@ namespace Bottles.Tests
             var text = "not the right thing";
             thePackage.ForFiles(BottleFiles.DataFolder, "1.txt", (name, data) =>
             {
-                name.ShouldEqual("data{0}1.txt".ToFormat(Path.DirectorySeparatorChar));
+                name.ShouldEqual("1.txt".ToFormat(Path.DirectorySeparatorChar));
                 text = new StreamReader(data).ReadToEnd();
             });
 

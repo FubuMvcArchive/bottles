@@ -106,16 +106,9 @@ namespace Bottles.Creation
 
         public void AddDataFiles(CreateBottleInput input, IZipFile zipFile, PackageManifest manifest)
         {
-            if (manifest.DataFileSet == null)
-            {
-                ConsoleWriter.Write("      No data files");
-                return;
-            }
-
-            ConsoleWriter.Write("      Adding Data folder for " + manifest.DataFileSet);
             zipFile.AddFiles(new ZipFolderRequest()
                              {
-                                 FileSet = manifest.DataFileSet,
+                                 FileSet = FileSet.Deep("*"),
                                  ZipDirectory = BottleFiles.DataFolder,
                                  RootDirectory = Path.Combine(input.PackageFolder, BottleFiles.DataFolder)
                              });
@@ -123,16 +116,9 @@ namespace Bottles.Creation
 
         public void AddConfigFiles(CreateBottleInput input, IZipFile zipFile, PackageManifest manifest)
         {
-            if (manifest.ConfigFileSet == null)
-            {
-                ConsoleWriter.Write("      No config files");
-                return;
-            }
-
-
-            ConsoleWriter.Write("      Adding Config folder for " + manifest.ConfigFileSet);
+            ConsoleWriter.Write("      Adding Config folder for " + BottleFiles.ConfigFiles);
             zipFile.AddFiles(new ZipFolderRequest(){
-                FileSet = manifest.ConfigFileSet,
+                FileSet = BottleFiles.ConfigFiles,
                 RootDirectory = input.PackageFolder,
                 ZipDirectory = BottleFiles.ConfigFolder
             });

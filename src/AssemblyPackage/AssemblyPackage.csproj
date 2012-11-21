@@ -79,4 +79,7 @@
   <ItemGroup>
     <EmbeddedResource Include=".package-manifest" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="pak-Config.zip" />
+  </ItemGroup>
 </Project>

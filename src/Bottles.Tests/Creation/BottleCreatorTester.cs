@@ -33,7 +33,6 @@ namespace Bottles.Tests.Creation
 			
             theManifest = new PackageManifest
             {
-                DataFileSet = new FileSet(),
                 ContentFileSet = new FileSet()
             };
 
@@ -118,17 +117,6 @@ namespace Bottles.Tests.Creation
                 RootDirectory = theInput.PackageFolder
             });
         }
-
-        [Test]
-        public void add_the_data_files()
-        {
-            _theZipFileService.ZipRequests.ShouldContain(new ZipFolderRequest()
-            {
-                FileSet = theManifest.DataFileSet,
-                ZipDirectory = BottleFiles.DataFolder,
-                RootDirectory = Path.Combine(theInput.PackageFolder, BottleFiles.DataFolder)
-            });
-        }
     }
 
     [TestFixture]
@@ -149,7 +137,6 @@ namespace Bottles.Tests.Creation
 			
             theManifest = new PackageManifest
             {
-                DataFileSet = new FileSet(),
                 ContentFileSet = new FileSet()
             };
 
@@ -269,7 +256,6 @@ namespace Bottles.Tests.Creation
 			theBinFolder = Path.Combine(theBaseFolder, "bin");	
 			
             theManifest = new PackageManifest{
-                DataFileSet = new FileSet(),
                 ContentFileSet = new FileSet()
             };
 

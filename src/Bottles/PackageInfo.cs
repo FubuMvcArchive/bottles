@@ -123,8 +123,6 @@ namespace Bottles
             if (Manifest.BinPath != null) description.Properties["BinPath"] = Manifest.BinPath;
 
             if (Manifest.ContentFileSet != null) description.Properties["Content Files"] = Manifest.ContentFileSet.ToString();
-            if (Manifest.DataFileSet != null) description.Properties["Data Files"] = Manifest.DataFileSet.ToString();
-            if (Manifest.ConfigFileSet != null) description.Properties["Config Files"] = Manifest.ConfigFileSet.ToString();
 
             if (Dependencies != null && Dependencies.Any()) description.AddList("Dependencies", Dependencies);
         }

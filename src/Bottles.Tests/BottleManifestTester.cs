@@ -39,10 +39,6 @@ namespace Bottles.Tests
             manifest.Role.ShouldEqual(BottleRoles.Config);
 
             manifest.ContentFileSet.ShouldBeNull();
-            manifest.DataFileSet.ShouldBeNull();
-            manifest.ConfigFileSet.ShouldNotBeNull();
-
-            manifest.ConfigFileSet.Include.ShouldEqual("*.*");
 
             manifest.Assemblies.Any().ShouldBeFalse();
             
@@ -69,8 +65,6 @@ namespace Bottles.Tests
             manifest.SetRole(BottleRoles.Binaries);
 
             manifest.ContentFileSet.ShouldBeNull();
-            manifest.DataFileSet.ShouldBeNull();
-            manifest.ConfigFileSet.ShouldBeNull();
         }
 
         [Test]
@@ -80,10 +74,6 @@ namespace Bottles.Tests
             manifest.SetRole(BottleRoles.Data);
 
             manifest.ContentFileSet.ShouldBeNull();
-            manifest.ConfigFileSet.ShouldBeNull();
-
-            manifest.DataFileSet.DeepSearch.ShouldBeTrue();
-            manifest.DataFileSet.Include.ShouldEqual("*.*");
         }
 
     }

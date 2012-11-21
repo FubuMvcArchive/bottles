@@ -36,4 +36,3 @@ using Bottles.PackageLoaders.Assemblies;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-[assembly: Bottle(Name = "SpecialBottle", Dependencies = new string[] { "foo1", "foo2" })]

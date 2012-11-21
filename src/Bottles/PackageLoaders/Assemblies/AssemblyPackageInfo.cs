@@ -27,7 +27,7 @@ namespace Bottles.PackageLoaders.Assemblies
 
         public AssemblyPackageInfo(Assembly assembly)
         {
-            _manifest = AssemblyPackageManifestFactory.Extract(assembly);
+            _manifest = DetermineManifest(assembly);
             _inner = new Lazy<PackageInfo>(() =>
             {
                 var inner = new PackageInfo(_manifest);
@@ -92,6 +92,33 @@ namespace Bottles.PackageLoaders.Assemblies
             description.Properties["Assembly"] = _assembly.GetName().FullName;
 
             description.AddChild("Inner", _inner.Value);
+        }
+
+        public static PackageManifest DetermineManifest(Assembly assembly)
+        {
+            var resourceName = assembly.GetName().Name + "." + PackageManifest.FILE;
+
+            using (var resource = assembly.GetManifestResourceStream(resourceName))
+            {
+                if (resource != null)
+                {
+                    return new PackageManifestReader(new FileSystem(), s => s).LoadFromStream(resource);
+                }
+            }
+
+            return defaults(assembly);
+        }
+
+
+        private static PackageManifest defaults(Assembly assembly)
+        {
+            return new PackageManifest
+                   {
+                       Name = assembly.GetName().Name,
+                       Role = BottleRoles.Module,
+                       Assemblies = new[] { assembly.FullName },
+                       Dependencies = new Dependency[0]
+                   };
         }
     }
 }

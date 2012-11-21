@@ -25,6 +25,8 @@ namespace Bottles
         public static string ContentFolder { get; set; }
         public static string PackagesFolder { get; set; }
 
+        public static readonly FileSet DataFiles = FileSet.Deep("data/*");
+        public static readonly FileSet ConfigFiles = FileSet.Deep("config/*");
 
 
         public static string FolderForPackage(string name)

@@ -71,22 +71,10 @@ namespace Bottles
             return true;
         }
 
-        public FileSet DataFileSet
-        {
-            get; set;
-        }
-
         public FileSet ContentFileSet
         {
             get; set;
         }
-
-        public FileSet ConfigFileSet
-        {
-            get; set;
-        }
-
-
 
         public override string ToString()
         {
@@ -112,32 +100,25 @@ namespace Bottles
             switch (role)
             {
                 case BottleRoles.Config:
-                    ConfigFileSet = new FileSet(){Include = "*.*", DeepSearch = true};
                     ContentFileSet = null;
-                    DataFileSet = null;
                     RemoveAllAssemblies();
                     break;
 
                 case BottleRoles.Binaries:
-                    ConfigFileSet = null;
                     ContentFileSet = null;
-                    DataFileSet = null;
                     break;
 
                 case BottleRoles.Data:
-                    ConfigFileSet = null;
                     ContentFileSet = null;
                     RemoveAllAssemblies();
-                    DataFileSet = new FileSet(){DeepSearch = true, Include = "*.*"};
                     break;
 
                 default:
-                    DataFileSet = new FileSet{DeepSearch = true, Include = "data/*"};
                     ContentFileSet = new FileSet()
                     {
                         DeepSearch = true,
                         Include = "*.*",
-                        Exclude = "data/*;*.cs;bin/*;obj/*;*.csproj*;packages.config;repositories.config;pak-*.zip"
+                        Exclude = "data/*;*.cs;bin/*;obj/*;*.csproj*;packages.config;repositories.config;pak-*.zip;*.sln"
                     };
                     break;
 

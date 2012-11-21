@@ -48,13 +48,12 @@ namespace Bottles.Commands
 
 
                 Console.WriteLine("WebContent:  " + manifest.ContentFileSet);
-                Console.WriteLine("Data:  " + manifest.DataFileSet);
-                Console.WriteLine("Config:  " + manifest.ConfigFileSet);
             }
 
+            // TODO -- automatically filter out /data and /config
             createZipFile(input, BottleFiles.WebContentFolder, zipService, manifest.ContentFileSet);
-            createZipFile(input, BottleFiles.DataFolder, zipService, manifest.DataFileSet);
-            createZipFile(input, BottleFiles.ConfigFolder, zipService, manifest.ConfigFileSet);
+            createZipFile(input, BottleFiles.DataFolder, zipService, BottleFiles.DataFiles);
+            createZipFile(input, BottleFiles.ConfigFolder, zipService, BottleFiles.ConfigFiles);
 
 
             return true;
@@ -69,9 +68,10 @@ namespace Bottles.Commands
                 return false;
             }
 
+            // TODO -- automatically filter out /data and /config
             previewFiles(input, BottleFiles.WebContentFolder, manifest.ContentFileSet);
-            previewFiles(input, BottleFiles.DataFolder, manifest.DataFileSet);
-            previewFiles(input, BottleFiles.ConfigFolder, manifest.ConfigFileSet);
+            previewFiles(input, BottleFiles.DataFolder, BottleFiles.DataFiles);
+            previewFiles(input, BottleFiles.ConfigFolder, BottleFiles.ConfigFiles);
             return true;
         }
 
