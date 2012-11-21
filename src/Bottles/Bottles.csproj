@@ -49,7 +49,6 @@
     <Compile Include="AliasRegistry.cs" />
     <Compile Include="AssemblyTarget.cs" />
     <Compile Include="Commands\AliasCommand.cs" />
-    <Compile Include="Commands\AssembliesInput.cs" />
     <Compile Include="Commands\CreateBottleCommand.cs" />
     <Compile Include="Commands\InitCommand.cs" />
     <Compile Include="CompileTarget.cs" />
@@ -69,7 +68,6 @@
     <Compile Include="PackageLoaders\Assemblies\AssemblyLoader.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyPackageInfo.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyPackageLoader.cs" />
-    <Compile Include="Commands\AssembliesCommand.cs" />
     <Compile Include="Commands\AssemblyPackageCommand.cs" />
     <Compile Include="Commands\LinkCommand.cs" />
     <Compile Include="Diagnostics\IBottleLogger.cs" />

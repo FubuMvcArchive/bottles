@@ -78,7 +78,6 @@
     <Compile Include="Commands\LinkCommandTester.cs" />
     <Compile Include="Configuration\BottleConfigurationTester.cs" />
     <Compile Include="Commands\AliasLibraryTester.cs" />
-    <Compile Include="Commands\AssembliesInputTester.cs" />
     <Compile Include="Commands\CreateBottleCommandTester.cs" />
     <Compile Include="Commands\InitBottleCommandTester.cs" />
     <Compile Include="Configuration\environment.Designer.cs">
