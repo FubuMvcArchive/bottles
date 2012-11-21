@@ -51,6 +51,7 @@
     <Compile Include="Commands\AliasCommand.cs" />
     <Compile Include="Commands\CreateBottleCommand.cs" />
     <Compile Include="Commands\InitCommand.cs" />
+    <Compile Include="Commands\OpenManifestCommand.cs" />
     <Compile Include="CompileTarget.cs" />
     <Compile Include="Configuration\AssertBottleConfiguration.cs" />
     <Compile Include="Configuration\BottleConfiguration.cs" />
