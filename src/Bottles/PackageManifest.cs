@@ -32,6 +32,14 @@ namespace Bottles
             Role = BottleRoles.Module;
         }
 
+        public static PackageManifest DefaultModuleManifest()
+        {
+            var manifest = new PackageManifest();
+            manifest.SetRole(BottleRoles.Module);
+
+            return manifest;
+        }
+
         [XmlIgnore]
         public string ManifestFileName { get; set; }
 

@@ -102,7 +102,13 @@ namespace Bottles.PackageLoaders.Assemblies
             {
                 if (resource != null)
                 {
-                    return new PackageManifestReader(new FileSystem(), s => s).LoadFromStream(resource);
+                    var manifest = new PackageManifestReader(new FileSystem(), s => s).LoadFromStream(resource);
+                    if (manifest.Name.IsEmpty())
+                    {
+                        manifest.Name = assembly.GetName().Name;
+                    }
+
+                    return manifest;
                 }
             }
 

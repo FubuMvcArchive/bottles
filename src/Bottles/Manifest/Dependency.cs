@@ -1,9 +1,11 @@
+using System;
 using System.Xml.Serialization;
 using FubuCore;
 
 namespace Bottles.Manifest
 {
     [XmlType("dependency")]
+    [Serializable]
     public class Dependency
     {
         public static Dependency Optional(string name)

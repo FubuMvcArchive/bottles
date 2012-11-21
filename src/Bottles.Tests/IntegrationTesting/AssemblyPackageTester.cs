@@ -1,5 +1,6 @@
 ﻿using FubuTestingSupport;
 using NUnit.Framework;
+using System.Linq;
 
 namespace Bottles.Tests.IntegrationTesting
 {
@@ -22,13 +23,27 @@ namespace Bottles.Tests.IntegrationTesting
 
         }
 
-        [Test, Ignore("Not yet")]
+        [Test]
         public void read_contents_with_explicit_manifest()
         {
-            // dipshit forgot to write a command that does this for you.
-            Assert.Fail("have the init command add it in as an embedded resource?");
-            // use assembly attributes instead?
-            // assembly-pak --add-manifest?  <== like that.
+            RunBottlesCommand("assembly-pak bottles-staging --init");
+
+            AlterManifest(manifest => {
+                manifest.AddDependency("FubuCore", false);
+            });
+
+            RunBottlesCommand("assembly-pak bottles-staging");
+            Recompile();
+
+            _domain.Proxy.LoadViaAssembly();
+
+            _domain.Proxy.ReadWebContent("content/scripts/script1.js").Trim()
+                   .ShouldEqual("var x = 1;");
+
+            _domain.Proxy.ReadData("1.txt").Trim()
+                   .ShouldEqual("Original Value");
+
+            _domain.Proxy.BottleDependencies().Single().Name.ShouldEqual("FubuCore");
         }
 
         [Test]

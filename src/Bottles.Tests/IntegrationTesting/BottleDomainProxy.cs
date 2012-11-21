@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Bottles.Manifest;
 using Bottles.PackageLoaders.Assemblies;
 using Bottles.PackageLoaders.LinkedFolders;
 using FubuCore;
@@ -69,6 +71,11 @@ namespace Bottles.Tests.IntegrationTesting
             PackageRegistry.LoadPackages(x => {
                 x.Loader(new LinkedFolderPackageLoader(AppDomain.CurrentDomain.BaseDirectory, folder => folder));
             });
+        }
+
+        public Dependency[] BottleDependencies()
+        {
+            return bottle.Dependencies;
         }
     }
 }

@@ -20,12 +20,15 @@ namespace Bottles.Commands
 
         [Description("Previews which files will be added to the assembly bottle")]
         public bool PreviewFlag { get; set; }
+
+        [Description("If selected, will intitialize a default PackageManifest file and embed it into the assembly for more fine-grained control over the Bottle properties")]
+        public bool InitFlag { get; set; }
     }
 
     [CommandDescription("Bundle up the content and data files for a self contained assembly package", Name = "assembly-pak")]
     public class AssemblyPackageCommand : FubuCommand<AssemblyPackageInput>
     {
-        IFileSystem fileSystem = new FileSystem();
+        readonly IFileSystem fileSystem = new FileSystem();
 
         public override bool Execute(AssemblyPackageInput input)
         {
@@ -36,6 +39,12 @@ namespace Bottles.Commands
             if (input.PreviewFlag)
             {
                 return displayPreview(input);
+            }
+
+            if (input.InitFlag)
+            {
+                createNewManifest(input);
+                return true;
             }
 
             var zipService = new ZipFileService(fileSystem);
@@ -57,6 +66,33 @@ namespace Bottles.Commands
 
 
             return true;
+        }
+
+        private void createNewManifest(AssemblyPackageInput input)
+        {
+            
+            var filename = input.RootFolder.AppendPath(PackageManifest.FILE);
+
+            if (fileSystem.FileExists(filename))
+            {
+                Console.WriteLine("File already exists at " + filename);
+            }
+            else
+            {
+                Console.WriteLine("Writing new package manifest to " + filename);
+                var manifest = PackageManifest.DefaultModuleManifest();
+                fileSystem.WriteObjectToFile(filename, manifest);
+            }
+
+            Console.WriteLine("Adding an embedded resource for '{0}' to {1}", PackageManifest.FILE, input.ProjFileFlag);
+            var csProjFile = new CsProjFile(input.ProjFileFlag);
+            csProjFile.EmbedResource(PackageManifest.FILE);
+            csProjFile.Save();
+
+
+            Console.WriteLine("Use 'bottles open-manifest {0}' to open and edit the PackageManifest", input.RootFolder);
+
+            
         }
 
         private bool displayPreview(AssemblyPackageInput input)
