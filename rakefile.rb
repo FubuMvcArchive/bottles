@@ -34,7 +34,7 @@ desc "**Default**, compiles, merges and runs tests"
 task :default => [:compile, :ilrepack, :unit_test, :integration_test]
 
 desc "Target used for the CI server"
-task :ci => [:update_all_dependencies, :default,:history, :package]
+task :ci => [:update_all_dependencies, :compile, :ilrepack, :unit_test,:history, :package]
 
 desc "Update the version information for the build"
 assemblyinfo :version do |asm|
