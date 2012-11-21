@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using Bottles.PackageLoaders.Assemblies;
+using Bottles.PackageLoaders.LinkedFolders;
 using FubuCore;
 
 namespace Bottles.Tests.IntegrationTesting
@@ -60,6 +61,13 @@ namespace Bottles.Tests.IntegrationTesting
 
             PackageRegistry.LoadPackages(x => {
                 x.Loader(new AssemblyPackageLoader(assembly));
+            });
+        }
+
+        public void LoadViaFolder(string stagingDirectory)
+        {
+            PackageRegistry.LoadPackages(x => {
+                x.Loader(new LinkedFolderPackageLoader(AppDomain.CurrentDomain.BaseDirectory, folder => folder));
             });
         }
     }
