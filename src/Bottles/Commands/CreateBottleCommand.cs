@@ -59,7 +59,6 @@ namespace Bottles.Commands
 
         public bool Execute(CreateBottleInput input, IFileSystem fileSystem)
         {
-            //TODO: harden
             if (fileSystem.FileExists(input.ZipFileFlag) && !input.ForceFlag)
             {
                 WriteZipFileAlreadyExists(input.ZipFileFlag);

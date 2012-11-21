@@ -8,7 +8,6 @@ using FubuCore.Descriptions;
 
 namespace Bottles
 {
-    // TODO -- this really needs to be used by FubuMVC.  
     public class ZipFilePackageLoader : IPackageLoader, DescribesItself
     {
         private readonly string _explosionDirectory;

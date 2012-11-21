@@ -129,7 +129,7 @@ namespace Bottles.Commands
                 return;
             }
 
-            // Hack, but it makes /data and data/*.* work
+            // Hackey, but it makes /data and data/*.* work
             if (fileSystem.DirectoryExists(input.RootFolder.AppendPath(childFolderName)) && zipRequest.FileSet.Include.StartsWith(childFolderName, StringComparison.InvariantCultureIgnoreCase))
             {
                 zipRequest.FileSet = FileSet.Deep("*.*");

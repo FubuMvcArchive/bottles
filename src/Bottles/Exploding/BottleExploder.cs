@@ -51,7 +51,6 @@ namespace Bottles.Exploding
                 var packageName = Path.GetFileNameWithoutExtension(file);
                 var explodedDirectory = FileSystem.Combine(directory.DestinationDirectory, packageName);
 
-                // TODO -- need more logging here. Pass in the log and have it log what happens internally
                 var request = new ExplodeRequest{
                     Directory = explodedDirectory,
                     ExplodeAction = () => Explode(file, explodedDirectory, ExplodeOptions.DeleteDestination),
@@ -66,7 +65,6 @@ namespace Bottles.Exploding
             }).ToList();  // Needs to be evaluated right now.
         }
 
-        //destinationDirectory = var directoryName = BottleFiles.DirectoryForPackageZipFile(applicationDirectory, sourceZipFile);
         public void Explode(string sourceZipFile, string destinationDirectory, ExplodeOptions options)
         {
             _logger.WritePackageZipFileExploded(sourceZipFile, destinationDirectory);
@@ -90,7 +88,6 @@ namespace Bottles.Exploding
                 BottleFiles.VersionFile
             };
 
-            // TODO -- harden?
             if (_fileSystem.FileExists(parts))
             {
                 return _fileSystem.ReadStringFromFile(parts);
