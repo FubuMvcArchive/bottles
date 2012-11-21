@@ -73,7 +73,20 @@ namespace Bottles
 
         public FileSet ContentFileSet
         {
-            get; set;
+            get
+            {
+                return _contentFileSet;
+            }
+            set
+            {
+                _contentFileSet = value;
+
+                if (_contentFileSet != null)
+                {
+                    _contentFileSet.AppendExclude(BottleFiles.DataFiles.Include);
+                    _contentFileSet.AppendExclude(BottleFiles.ConfigFiles.Include);
+                }
+            }
         }
 
         public override string ToString()
@@ -118,7 +131,7 @@ namespace Bottles
                     {
                         DeepSearch = true,
                         Include = "*.*",
-                        Exclude = "data/*;*.cs;bin/*;obj/*;*.csproj*;packages.config;repositories.config;pak-*.zip;*.sln"
+                        Exclude = "*.cs;bin/*;obj/*;*.csproj*;packages.config;repositories.config;pak-*.zip;*.sln"
                     };
                     break;
 
@@ -126,6 +139,7 @@ namespace Bottles
         }
 
         private readonly IList<Dependency> _dependencies = new List<Dependency>();
+        private FileSet _contentFileSet;
 
         [XmlElement("dependency")]
         public Dependency[] Dependencies
