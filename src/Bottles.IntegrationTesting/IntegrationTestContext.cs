@@ -2,12 +2,11 @@
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
-using Bottles.PackageLoaders.Directory;
 using FubuCore;
 using FubuTestingSupport;
 using NUnit.Framework;
 
-namespace Bottles.Tests.IntegrationTesting
+namespace Bottles.IntegrationTesting
 {
     /*
        alias -> Manage folder aliases

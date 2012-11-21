@@ -1,8 +1,8 @@
-﻿using FubuTestingSupport;
+﻿using System.Linq;
+using FubuTestingSupport;
 using NUnit.Framework;
-using System.Linq;
 
-namespace Bottles.Tests.IntegrationTesting
+namespace Bottles.IntegrationTesting
 {
     [TestFixture]
     public class AssemblyPackageTester : IntegrationTestContext

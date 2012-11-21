@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Bottles.Manifest;
@@ -7,7 +6,7 @@ using Bottles.PackageLoaders.Assemblies;
 using Bottles.PackageLoaders.LinkedFolders;
 using FubuCore;
 
-namespace Bottles.Tests.IntegrationTesting
+namespace Bottles.IntegrationTesting
 {
     public class BottleDomainProxy : MarshalByRefObject
     {

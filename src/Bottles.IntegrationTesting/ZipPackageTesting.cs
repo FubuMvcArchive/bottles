@@ -1,7 +1,7 @@
 ﻿using FubuTestingSupport;
 using NUnit.Framework;
 
-namespace Bottles.Tests.IntegrationTesting
+namespace Bottles.IntegrationTesting
 {
     [TestFixture]
     public class ZipPackageTesting : IntegrationTestContext

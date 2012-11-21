@@ -31,7 +31,7 @@ ARTIFACTS = File.expand_path("artifacts")
 props = { :stage => File.expand_path("build"), :artifacts => ARTIFACTS }
 
 desc "**Default**, compiles, merges and runs tests"
-task :default => [:compile, :ilrepack, :unit_test]
+task :default => [:compile, :ilrepack, :unit_test, :integration_test]
 
 desc "Target used for the CI server"
 task :ci => [:update_all_dependencies, :default,:history, :package]
@@ -102,6 +102,12 @@ desc "Runs unit tests"
 task :unit_test => :compile do
   runner = NUnitRunner.new :compilemode => COMPILE_TARGET, :source => 'src', :platform => 'x86'
   runner.executeTests ['Bottles.Tests']
+end
+
+desc "Runs the integration tests"
+task :integration_test => :compile do
+  runner = NUnitRunner.new :compilemode => COMPILE_TARGET, :source => 'src', :platform => 'x86'
+  runner.executeTests ['Bottles.IntegrationTesting']
 end
 
 

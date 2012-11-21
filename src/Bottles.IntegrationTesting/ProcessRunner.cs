@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using FubuCore;
 
-namespace Bottles.Tests.IntegrationTesting
+namespace Bottles.IntegrationTesting
 {
     public class ProcessRunner
     {
@@ -24,7 +24,7 @@ namespace Bottles.Tests.IntegrationTesting
             info.RedirectStandardError = info.RedirectStandardOutput = true;
 
             //if (!Path.IsPathRooted(info.FileName))
-            //{
+            //{B
             //    info.FileName = info.WorkingDirectory.AppendPath(info.FileName);
             //}
 

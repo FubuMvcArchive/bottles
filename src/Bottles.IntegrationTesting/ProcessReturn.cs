@@ -1,4 +1,4 @@
-﻿namespace Bottles.Tests.IntegrationTesting
+﻿namespace Bottles.IntegrationTesting
 {
     public class ProcessReturn
     {

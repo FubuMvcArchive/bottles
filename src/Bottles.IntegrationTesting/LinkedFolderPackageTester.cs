@@ -1,9 +1,9 @@
 ﻿using System;
+using FubuCore;
 using FubuTestingSupport;
 using NUnit.Framework;
-using FubuCore;
 
-namespace Bottles.Tests.IntegrationTesting
+namespace Bottles.IntegrationTesting
 {
     [TestFixture]
     public class LinkedFolderPackageTester : IntegrationTestContext

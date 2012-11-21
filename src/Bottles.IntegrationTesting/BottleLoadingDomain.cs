@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bottles.Tests.IntegrationTesting
+namespace Bottles.IntegrationTesting
 {
     public class BottleLoadingDomain : IDisposable
     {
