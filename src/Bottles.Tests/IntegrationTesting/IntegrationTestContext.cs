@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using Bottles.PackageLoaders.Directory;
 using FubuCore;
@@ -50,6 +51,18 @@ assembly-pak -> Bundle up the content and data files for a self contained assemb
         private static string BottleRunnerFile =
             SolutionDirectory.AppendPath("src").AppendPath("Bottles.Console").AppendPath("bin").AppendPath("debug").
                 AppendPath("BottleRunner.exe");
+
+        static IntegrationTestContext()
+        {
+            if (!File.Exists(BottleRunnerFile))
+            {
+                BottleRunnerFile =
+            SolutionDirectory.AppendPath("src").AppendPath("Bottles.Console").AppendPath("bin").AppendPath("release").
+                AppendPath("BottleRunner.exe");
+            }
+        }
+
+
 
         public static void ResetBottleProjectCode()
         {
