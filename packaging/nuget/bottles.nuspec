@@ -12,7 +12,7 @@
     <description>Shared libraries for runtime and deployment packaging of .Net applications</description>
     <tags>packaging areas slices</tags>
     <dependencies>
-      <dependency id="FubuCore" version="0.9.9.182" />
+      <dependency id="FubuCore" version="1.0.0.210" />
     </dependencies>
   </metadata>
   <files>
@@ -23,9 +23,5 @@
     <file src="..\..\src\Bottles.Console\bin\release\BottleRunner.exe.config" target="tools" />
     <file src="..\..\src\Bottles\bin\release\Bottles.dll" target="tools" />
     <file src="..\..\src\Bottles.Tests\bin\release\FubuCore.dll" target="tools" />
-    <file src="..\..\src\Bottles.Tests\bin\release\FubuCsProjFile.dll" target="tools" />
-    <file src="..\..\src\Bottles.Tests\bin\release\StructureMap.dll" target="tools" />
-    <file src="..\..\src\Bottles.Tests\bin\release\HtmlTags.dll" target="tools" />
-    <file src="..\..\lib\Microsoft.Web.Administration\Microsoft.Web.Administration.dll" target="tools" />
   </files>
 </package>
