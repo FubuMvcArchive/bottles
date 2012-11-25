@@ -34,7 +34,10 @@
     <Reference Include="FubuCore">
       <HintPath>..\packages\FubuCore.1.0.0.210\lib\FubuCore.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Build" />
+    <Reference Include="Microsoft.Build">
+      <Private>True</Private>
+	  <HintPath>..\..\lib\Microsoft.Build.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
