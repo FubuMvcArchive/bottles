@@ -34,7 +34,7 @@ desc "**Default**, compiles, merges and runs tests"
 task :default => [:compile, :ilrepack, :unit_test, :integration_test]
 
 desc "**Mono**, compiles, merges and runs unit tests"
-task :mono_ci => [:compile, :ilrepack, :unit_test, :integration_test]
+task :mono_ci => [:compile, :ilrepack, :unit_test]
 
 desc "Target used for the CI server"
 task :ci => [:update_all_dependencies, :compile, :ilrepack, :unit_test,:history, :package]
