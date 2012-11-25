@@ -114,7 +114,7 @@ end
 desc "Merge dotnetzip assembly into Bottles projects"
 task :ilrepack do
   merge_ionic("src/Bottles/bin/#{COMPILE_TARGET}", 'Bottles.dll')
-  merge_fubucsprojfile("src/Bottles/bin/#{COMPILE_TARGET}", 'Bottles.dll')
+  #merge_fubucsprojfile("src/Bottles/bin/#{COMPILE_TARGET}", 'Bottles.dll')
 end
 
 def merge_ionic(dir, assembly)

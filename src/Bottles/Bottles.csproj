@@ -138,12 +138,6 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FubuCsProjFile\FubuCsProjFile.csproj">
-      <Project>{5630FC3F-8C3E-4EAD-B960-B38FE3D87463}</Project>
-      <Name>FubuCsProjFile</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

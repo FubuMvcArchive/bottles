@@ -52,10 +52,6 @@
       <Project>{E208A2B1-31B0-4455-BA16-3D79F5887ECE}</Project>
       <Name>Bottles</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FubuCsProjFile\FubuCsProjFile.csproj">
-      <Project>{5630FC3F-8C3E-4EAD-B960-B38FE3D87463}</Project>
-      <Name>FubuCsProjFile</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

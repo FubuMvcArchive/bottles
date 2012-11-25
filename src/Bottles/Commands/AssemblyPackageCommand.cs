@@ -6,7 +6,6 @@ using FubuCore;
 using FubuCore.CommandLine;
 using System.Linq;
 using System.Collections.Generic;
-using FubuCsProjFile;
 
 namespace Bottles.Commands
 {
@@ -85,9 +84,7 @@ namespace Bottles.Commands
             }
 
             Console.WriteLine("Adding an embedded resource for '{0}' to {1}", PackageManifest.FILE, input.ProjFileFlag);
-            var csProjFile = new CsProjFile(input.ProjFileFlag);
-            csProjFile.EmbedResource(PackageManifest.FILE);
-            csProjFile.Save();
+            attachZipFileToProjectFile(input, PackageManifest.FILE);
 
 
             Console.WriteLine("Use 'bottles open-manifest {0}' to open and edit the PackageManifest", input.RootFolder);
@@ -197,13 +194,34 @@ namespace Bottles.Commands
             };
         }
 
+
         private void attachZipFileToProjectFile(AssemblyPackageInput input, string zipFileName)
         {
+            var document = new XmlDocument();
             var projectFileName = FileSystem.Combine(input.RootFolder, input.ProjFileFlag);
-            var csprojfile = new CsProjFile(projectFileName);
-            csprojfile.EmbedResource(zipFileName);
+            document.Load(projectFileName);
 
-            csprojfile.Save();
+            //var search = "//ItemGroup/EmbeddedResource[@Include='{0}']".ToFormat(zipFileName);
+            //if (document.DocumentElement.SelectSingleNode(search, new XmlNamespaceManager(document.NameTable)) == null)
+            if (document.DocumentElement.OuterXml.Contains(zipFileName))
+            {
+                ConsoleWriter.Write("The file {0} is already embedded in project {1}".ToFormat(zipFileName, projectFileName));
+                return;
+            }
+
+            ConsoleWriter.Write("Adding the ItemGroup / Embedded Resource for {0} to {1}".ToFormat(zipFileName,
+                                                                                                   projectFileName));
+            var node = document.CreateNode(XmlNodeType.Element, "ItemGroup", document.DocumentElement.NamespaceURI);
+            var element = document.CreateNode(XmlNodeType.Element, "EmbeddedResource", document.DocumentElement.NamespaceURI);
+            var attribute = document.CreateAttribute("Include");
+            attribute.Value = zipFileName;
+            element.Attributes.Append(attribute);
+            node.AppendChild(element);
+            document.DocumentElement.AppendChild(node);
+
+            document.Save(projectFileName);
         }
+
+
     }
 }
