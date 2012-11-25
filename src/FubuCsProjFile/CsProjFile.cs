@@ -13,7 +13,9 @@ namespace FubuCsProjFile
 
         public CsProjFile(string filename)
         {
-            _project = ProjectCollection.GlobalProjectCollection.LoadProject(filename);
+            _project = new Project(filename, new Dictionary<string, string>{{"Random", Guid.NewGuid().ToString()}}, null, new ProjectCollection());
+                
+                //ProjectCollection.GlobalProjectCollection.LoadProject(filename);
 
             var list = new List<ProjectItem>();
             list.AddRange(_project.Items);
