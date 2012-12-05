@@ -64,6 +64,7 @@
     <Compile Include="Exceptions\BottleException.cs" />
     <Compile Include="Exploding\ExplodeDirectory.cs" />
     <Compile Include="Exploding\ExplodeOptions.cs" />
+    <Compile Include="IDeactivator.cs" />
     <Compile Include="Manifest\Dependency.cs" />
     <Compile Include="PackageInfo.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyFileFinder.cs" />
