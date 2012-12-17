@@ -37,7 +37,7 @@ desc "**Mono**, compiles, merges and runs unit tests"
 task :mono_ci => [:compile, :ilrepack, :unit_test]
 
 desc "Target used for the CI server"
-task :ci => [:update_all_dependencies, "docs:bottle",:compile, :ilrepack, :unit_test,:history, :package]
+task :ci => [:update_all_dependencies,:compile, :ilrepack, :unit_test,:history, :package]
 
 desc "Update the version information for the build"
 assemblyinfo :version do |asm|
@@ -86,7 +86,7 @@ def waitfor(&block)
 end
 
 desc "Compiles the app"
-task :compile => [:restore_if_missing, :clean, :version] do
+task :compile => [:restore_if_missing, :clean, :version, "docs:bottle"] do
   MSBuildRunner.compile :compilemode => COMPILE_TARGET, :solutionfile => 'src/Bottles.Console/Bottles.Console.csproj', :clrversion => CLR_TOOLS_VERSION
   bottles "assembly-pak src/AssemblyPackage"
   MSBuildRunner.compile :compilemode => COMPILE_TARGET, :solutionfile => 'src/Bottles.sln', :clrversion => CLR_TOOLS_VERSION
