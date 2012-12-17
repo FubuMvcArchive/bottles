@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0637CB99-A3F4-4F51-AFA9-1B5B074DD7A8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bottles.Docs</RootNamespace>
+    <AssemblyName>Bottles.Docs</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FubuDocs">
+      <HintPath>..\..\buildsupport\FubuDocs\FubuDocs.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Architecture\AliasingFolders.cs" />
+    <Compile Include="Architecture\Architecture.cs" />
+    <Compile Include="Architecture\Assemblypackageinfo.cs" />
+    <Compile Include="Architecture\BottlesFromTheCommandLine.cs" />
+    <Compile Include="Architecture\BottlesInit.cs" />
+    <Compile Include="Architecture\BottlesOpenmanifest.cs" />
+    <Compile Include="Architecture\CombiningBottlesWithStructuremap.cs" />
+    <Compile Include="Architecture\ConsumingBottles.cs" />
+    <Compile Include="Architecture\Diagnostics.cs" />
+    <Compile Include="Architecture\Iactivator.cs" />
+    <Compile Include="Architecture\Iassemblyloader.cs" />
+    <Compile Include="Architecture\Ibootstrapper.cs" />
+    <Compile Include="Architecture\Ipackageinfo.cs" />
+    <Compile Include="Architecture\Ipackageloader.cs" />
+    <Compile Include="Architecture\LinkedFolderBottles.cs" />
+    <Compile Include="Architecture\PackageAssemblies.cs" />
+    <Compile Include="Architecture\Packagefacility.cs" />
+    <Compile Include="Architecture\Packageinfo.cs" />
+    <Compile Include="Architecture\PackageManifestSchema.cs" />
+    <Compile Include="Architecture\Packageregistry.cs" />
+    <Compile Include="Architecture\Packages.cs" />
+    <Compile Include="Architecture\WorkingWithZipBottles.cs" />
+    <Compile Include="BottlesRoot.cs" />
+    <Compile Include="BottlesRootTopicRegistry.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <EmbeddedResource Include="pak-WebContent.zip" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="pak-Data.zip" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="pak-Config.zip" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Topics.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Architecture\AliasingFolders.spark" />
+    <None Include="Architecture\Architecture.spark" />
+    <None Include="Architecture\Assemblypackageinfo.spark" />
+    <None Include="Architecture\BottlesFromTheCommandLine.spark" />
+    <None Include="Architecture\BottlesInit.spark" />
+    <None Include="Architecture\BottlesOpenmanifest.spark" />
+    <None Include="Architecture\CombiningBottlesWithStructuremap.spark" />
+    <None Include="Architecture\ConsumingBottles.spark" />
+    <None Include="Architecture\Diagnostics.spark" />
+    <None Include="Architecture\Iactivator.spark" />
+    <None Include="Architecture\Iassemblyloader.spark" />
+    <None Include="Architecture\Ibootstrapper.spark" />
+    <None Include="Architecture\Ipackageinfo.spark" />
+    <None Include="Architecture\Ipackageloader.spark" />
+    <None Include="Architecture\LinkedFolderBottles.spark" />
+    <None Include="Architecture\PackageAssemblies.spark" />
+    <None Include="Architecture\Packagefacility.spark" />
+    <None Include="Architecture\Packageinfo.spark" />
+    <None Include="Architecture\PackageManifestSchema.spark" />
+    <None Include="Architecture\Packageregistry.spark" />
+    <None Include="Architecture\Packages.spark" />
+    <None Include="Architecture\WorkingWithZipBottles.spark" />
+    <None Include="BottlesRoot.spark" />
+  </ItemGroup>
+</Project>

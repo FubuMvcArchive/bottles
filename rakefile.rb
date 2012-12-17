@@ -86,7 +86,7 @@ def waitfor(&block)
 end
 
 desc "Compiles the app"
-task :compile => [:restore_if_missing, :clean, :version] do
+task :compile => [:restore_if_missing, :clean, :version, "docs:bottle"] do
   MSBuildRunner.compile :compilemode => COMPILE_TARGET, :solutionfile => 'src/Bottles.Console/Bottles.Console.csproj', :clrversion => CLR_TOOLS_VERSION
   bottles "assembly-pak src/AssemblyPackage"
   MSBuildRunner.compile :compilemode => COMPILE_TARGET, :solutionfile => 'src/Bottles.sln', :clrversion => CLR_TOOLS_VERSION

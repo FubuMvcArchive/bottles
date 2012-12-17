@@ -1,0 +1,30 @@
+<Topic title="Bottles" name="BottlesRoot">
+  <Architecture>
+    <Topic title="Consuming Bottles"/>
+    <Topic title="Architecture">
+      <Topic title="IPackageInfo"/>
+      <Topic title="PackageInfo"/>
+      <Topic title="AssemblyPackageInfo"/>
+      <Topic title="PackageRegistry">
+        <Topic title="Package Assemblies"/>
+        <Topic title="Diagnostics"/>
+        <Topic title="Packages"/>
+      </Topic>
+      <Topic title="IPackageLoader"/>
+      <Topic title="IBootstrapper"/>
+      <Topic title="IActivator"/>
+      <Topic title="PackageFacility"/>
+      <Topic title="IAssemblyLoader"/>
+
+    </Topic>
+    <Topic title="Combining Bottles with StructureMap" />
+    <Topic title="Package Manifest Schema" />
+    <Topic title="Bottles from the Command Line">
+      <Topic title="bottles init"/>
+      <Topic title="bottles open-manifest"/>
+      <Topic title="Working with Zip Bottles"/>
+      <Topic title="Linked Folder Bottles"/>
+      <Topic title="Aliasing Folders" />
+    </Topic>
+  </Architecture>
+</Topic>
