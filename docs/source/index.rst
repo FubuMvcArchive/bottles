@@ -11,6 +11,4 @@ Bottles Documentation
 .. toctree::
    :maxdepth: 2
 
-..   topics/index
-..   ref/index
-..   internals/index
+   ref/index
