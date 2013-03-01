@@ -32,11 +32,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FubuCore">
-      <HintPath>..\packages\FubuCore.1.0.0.210\lib\FubuCore.dll</HintPath>
+      <HintPath>..\packages\FubuCore.1.0.2.232\lib\FubuCore.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Build">
       <Private>True</Private>
-	  <HintPath>..\..\lib\Microsoft.Build.dll</HintPath>
+      <HintPath>..\..\lib\Microsoft.Build.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
