@@ -37,7 +37,7 @@ desc "**Mono**, compiles, merges and runs unit tests"
 task :mono_ci => [:compile, :ilrepack, :unit_test]
 
 desc "Target used for the CI server"
-task :ci => [:update_all_dependencies,:compile, :ilrepack, :unit_test,:history, :package]
+task :ci => [:compile, :ilrepack, :unit_test,:history, :package]
 
 desc "Update the version information for the build"
 assemblyinfo :version do |asm|
