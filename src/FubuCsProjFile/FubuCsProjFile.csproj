@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="Microsoft.Build">
       <HintPath>..\..\lib\Microsoft.Build.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
