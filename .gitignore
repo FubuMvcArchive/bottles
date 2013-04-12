@@ -12,7 +12,7 @@ _ReSharper.*
 *.csproj.user
 *.resharper.user
 *.ReSharper.user
-*.DotSettings.user
+*.DotSettings*
 *.suo
 *.cache
 ~$*
