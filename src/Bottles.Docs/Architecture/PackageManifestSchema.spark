@@ -1,9 +1,0 @@
-<viewdata model="Bottles.Docs.Architecture.PackageManifestSchema"/>
-<use master="Topic" />
-<content:main>
-
-<markdown>
-
-</markdown>
-
-</content:main>
