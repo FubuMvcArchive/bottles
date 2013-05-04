@@ -19,7 +19,7 @@ namespace Bottles.IntegrationTesting
             info.WindowStyle = ProcessWindowStyle.Normal;
 
             //don't open a new terminal window
-            info.CreateNoWindow = false;
+            info.CreateNoWindow = true;
 
             info.RedirectStandardError = info.RedirectStandardOutput = true;
 

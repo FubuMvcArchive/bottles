@@ -117,11 +117,12 @@ namespace Bottles.Creation
         public void AddConfigFiles(CreateBottleInput input, IZipFile zipFile, PackageManifest manifest)
         {
             ConsoleWriter.Write("      Adding Config folder for " + BottleFiles.ConfigFiles);
-            zipFile.AddFiles(new ZipFolderRequest(){
-                FileSet = BottleFiles.ConfigFiles,
-                RootDirectory = input.PackageFolder,
-                ZipDirectory = BottleFiles.ConfigFolder
-            });
+            zipFile.AddFiles(new ZipFolderRequest()
+                            {
+                                FileSet = FileSet.Deep("*"),
+                                ZipDirectory = BottleFiles.ConfigFolder,
+                                RootDirectory = Path.Combine(input.PackageFolder, BottleFiles.ConfigFolder)
+                            });
         }
 
     }
