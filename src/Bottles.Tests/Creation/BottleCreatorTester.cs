@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Bottles.Commands;
 using Bottles.Creation;
 using Bottles.Diagnostics;
@@ -292,6 +293,87 @@ namespace Bottles.Tests.Creation
         {
             MockFor<IZipFileService>().AssertWasNotCalled(x => x.CreateZipFile(null, null), x => x.IgnoreArguments());
         }
+    }
 
+    [TestFixture]
+    public class when_adding_config_files_to_zip : InteractionContext<ZipPackageCreator>
+    {
+        private PackageManifest theManifest;
+        private CreateBottleInput theInput;
+        private string theBaseFolder;
+        private StubZipFile theZipFile;
+        private ZipFolderRequest theRequest;
+
+        protected override void beforeEach()
+        {
+            theBaseFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "folder1");
+
+            theManifest = new PackageManifest();
+            theManifest.SetRole(BottleRoles.Config);
+            
+            theInput = new CreateBottleInput()
+            {
+                PackageFolder = theBaseFolder
+            };
+
+            theZipFile = new StubZipFile();
+
+            ClassUnderTest.AddConfigFiles(theInput, theZipFile, theManifest);
+
+            theRequest = theZipFile.ZipRequests.Single();
+        }
+
+        [Test]
+        public void should_set_zip_directory_to_empty_to_avoid_having_nested_config_config_folders()
+        {
+            theRequest.ZipDirectory.ShouldEqual(BottleFiles.ConfigFolder);
+        }
+
+        [Test]
+        public void should_set_the_root_directory_as_the_config_subfolder_under_the_package_folder()
+        {
+            theRequest.RootDirectory.ShouldEqual(Path.Combine(theBaseFolder, BottleFiles.ConfigFolder));
+        }
+    }
+
+    [TestFixture]
+    public class when_adding_data_files_to_zip : InteractionContext<ZipPackageCreator>
+    {
+        private PackageManifest theManifest;
+        private CreateBottleInput theInput;
+        private string theBaseFolder;
+        private StubZipFile theZipFile;
+        private ZipFolderRequest theRequest;
+
+        protected override void beforeEach()
+        {
+            theBaseFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "folder1");
+
+            theManifest = new PackageManifest();
+            theManifest.SetRole(BottleRoles.Data);
+
+            theInput = new CreateBottleInput()
+            {
+                PackageFolder = theBaseFolder
+            };
+
+            theZipFile = new StubZipFile();
+
+            ClassUnderTest.AddDataFiles(theInput, theZipFile, theManifest);
+
+            theRequest = theZipFile.ZipRequests.Single();
+        }
+
+        [Test]
+        public void should_set_zip_directory_to_empty_to_avoid_having_nested_data_data_folders()
+        {
+            theRequest.ZipDirectory.ShouldEqual(BottleFiles.DataFolder);
+        }
+
+        [Test]
+        public void should_set_the_root_directory_as_the_data_subfolder_under_the_package_folder()
+        {
+            theRequest.RootDirectory.ShouldEqual(Path.Combine(theBaseFolder, BottleFiles.DataFolder));
+        }
     }
 }
