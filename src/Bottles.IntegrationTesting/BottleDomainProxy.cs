@@ -20,6 +20,11 @@ namespace Bottles.IntegrationTesting
             return readContent(path, BottleFiles.DataFolder);
         }
 
+        public string ReadConfig(string path)
+        {
+            return readContent(path, BottleFiles.ConfigFolder);
+        }
+
         public string ReadWebContent(string path)
         {
             return readContent(path, BottleFiles.WebContentFolder);
