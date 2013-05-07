@@ -29,6 +29,54 @@ namespace Bottles.IntegrationTesting
         }
 
         [Test]
+        public void config_bottle_should_have_proper_config_folder_in_zip()
+        {
+            CleanStagingDirectory();
+
+            RunBottlesCommand("init bottles-staging BottleProject");
+
+            AlterManifest(manifest =>
+            {
+                manifest.RemoveAllAssemblies();
+                manifest.SetRole("config");
+            });
+
+            SetConfig("some config stuff");
+
+            RunBottlesCommand("create bottles-staging -o zips/BottleProject.zip");
+
+            _domain.Proxy.LoadViaZip(ZipsDirectory);
+            
+            _domain.Proxy
+                .ReadConfig("1.txt").Trim()
+                .ShouldEqual("some config stuff");
+        }
+
+        [Test]
+        public void data_bottle_should_have_proper_data_folder_in_zip()
+        {
+            CleanStagingDirectory();
+
+            RunBottlesCommand("init bottles-staging BottleProject");
+
+            AlterManifest(manifest =>
+            {
+                manifest.RemoveAllAssemblies();
+                manifest.SetRole("data");
+            });
+
+            SetData("some data stuff");
+
+            RunBottlesCommand("create bottles-staging -o zips/BottleProject.zip");
+
+            _domain.Proxy.LoadViaZip(ZipsDirectory);
+
+            _domain.Proxy
+                .ReadData("1.txt").Trim()
+                .ShouldEqual("some data stuff");
+        }
+
+        [Test]
         public void bottle_should_be_reexploded_when_the_versioning_changes()
         {
             RunBottlesCommand("init bottles-staging BottleProject");

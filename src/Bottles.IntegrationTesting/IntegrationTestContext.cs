@@ -61,16 +61,17 @@ assembly-pak -> Bundle up the content and data files for a self contained assemb
             }
         }
 
-
+        public static void CleanStagingDirectory()
+        {
+            var system = new FileSystem();
+            system.CleanDirectory(StagingDirectory);
+            Thread.Sleep(100);
+        }
 
         public static void ResetBottleProjectCode()
         {
             var system = new FileSystem();
-
-
-
-            system.CleanDirectory(StagingDirectory);
-            Thread.Sleep(100);
+            CleanStagingDirectory();
 
             system.Copy(SourceDirectory, StagingDirectory);
 
@@ -115,6 +116,12 @@ assembly-pak -> Bundle up the content and data files for a self contained assemb
             new FileSystem().WriteStringToFile(file, value);
         }
 
+        public static void SetConfig(string value)
+        {
+            var file = StagingDirectory.AppendPath("config").AppendPath("1.txt");
+            new FileSystem().WriteStringToFile(file, value);
+        }
+
         public static void SetContent(string value)
         {
             var file = StagingDirectory.AppendPath("content").
@@ -127,7 +134,6 @@ assembly-pak -> Bundle up the content and data files for a self contained assemb
             var processInfo = new ProcessStartInfo(BottleRunnerFile)
             {
                 Arguments = arguments,
-                CreateNoWindow = true,
                 WorkingDirectory = SolutionDirectory
             };
 
