@@ -13,7 +13,7 @@ namespace Bottles.PackageLoaders.Assemblies
     /// </summary>
     public class AssemblyLoader : 
         IAssemblyLoader, 
-        IAssemblyRegistration //why is this playing TWO roles?
+        IAssemblyRegistration 
     {
         public static readonly string DIRECTLY_REGISTERED_MESSAGE = "Directly loaded by the Package";
 
@@ -27,15 +27,9 @@ namespace Bottles.PackageLoaders.Assemblies
             _diagnostics = diagnostics;
         }
 
-
-        //why is this a public function?
-        //so it can be overridden in tests is one reason
-        // ? is it used in fubumvc?
-        // can't I just pass it in the ctor?
         public Func<string, Assembly> AssemblyFileLoader { get; set; }
 
 
-        //why is this virtual? - for testing
         public virtual void LoadAssembliesFromPackage(IPackageInfo packageInfo)
         {
             _currentPackage = packageInfo;
@@ -46,7 +40,6 @@ namespace Bottles.PackageLoaders.Assemblies
         {
             _currentPackage = package;
 
-            //double dispatch - hard to follow - at the moment
             package.LoadAssemblies(this);
         }
 
@@ -72,31 +65,12 @@ namespace Bottles.PackageLoaders.Assemblies
         public static Assembly LoadPackageAssemblyFromAppBinPath(string file)
         {
             var assemblyName = Path.GetFileNameWithoutExtension(file);
-            var appBinPath = determineAssemblyPath();
 
-            if (!Path.GetDirectoryName(file).EqualsIgnoreCase(appBinPath))
-            {
-                
-
-                var destFileName = appBinPath.AppendPath(Path.GetFileName(file));
-                if (shouldUpdateFile(file, destFileName))
-                {
-                    Console.WriteLine("Copying {0} to {1}", file.ToFullPath(), destFileName.ToFullPath());
-                    File.Copy(file, destFileName, true);
-                }
-            }
             return Assembly.Load(assemblyName);
-        }
-
-        static bool shouldUpdateFile(string source, string destination)
-        {
-            return !File.Exists(destination) || File.GetLastWriteTimeUtc(source) > File.GetLastWriteTimeUtc(destination);
         }
 
         bool hasAssemblyByName(string assemblyName)
         {
-            // I know, packaging *ONLY* supporting one version of a dll.  Use older stuff to 
-            // make redirects go
             return (Assemblies.Any(x => x.GetName().Name == assemblyName));
         }
 
