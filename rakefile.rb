@@ -28,7 +28,7 @@ end
 	sln.fubudocs_enabled = true
 	
 	sln.defaults = [:ilrepack, :integration_test]
-	sln.ci_steps = [:ilrepack]
+	sln.ci_steps = [:ilrepack, :archive_gem]
 	
 	
 	sln.compile_step :compile_console, 'src/Bottles.Console/Bottles.Console.csproj'
@@ -62,5 +62,63 @@ end
 
 def bottles(args)
   sh Platform.runtime("src/Bottles.Console/bin/#{@solution.compilemode}/BottleRunner.exe #{args}")
+end
+
+desc "Replaces the existing installed gem with the new version for local testing"
+task :local_gem => [:create_gem] do
+	sh 'gem uninstall bottles'
+	Dir.chdir 'pkg'
+	sh 'gem install bottles'
+	Dir.chdir '..'
+end
+
+require 'rubygems/package_task'
+
+desc "Creates the gem for BottleRunner.exe"
+task :create_gem => [:compile, :ilrepack] do
+	cleanDirectory 'bin';	
+	cleanDirectory 'pkg'
+	
+
+	copyOutputFiles "src/Bottles.Console/bin/#{@solution.compilemode}", '*.dll', 'bin'
+	copyOutputFiles "src/Bottles.Console/bin/#{@solution.compilemode}", '*BottleRunner.exe', 'bin/bottles.exe'
+	
+	FileUtils.copy 'bottles', 'bin'
+	
+	Rake::Task[:gem].invoke
+end
+
+desc "Moves the gem to the archive folder"
+task :archive_gem => [:create_gem] do
+	copyOutputFiles "pkg", "*.pkg", "archive"
+end
+
+spec = Gem::Specification.new do |s|
+  s.platform    = Gem::Platform::RUBY
+  s.name        = 'bottles'
+  s.version     = @solution.build_number
+  s.files =  Dir['bin/*']
+  s.files += Dir['lib/*.rb']
+  s.bindir = 'bin'
+  s.executables << 'bottles'
+  
+  s.summary     = 'Command line tools for using Bottles'
+  s.description = 'Shared libraries for runtime and deployment packaging of .Net'
+  
+  s.authors           = ['Jeremy D. Miller', 'Josh Arnold', 'Chad Myers', 'Joshua Flanagan']
+  s.email             = 'fubumvc-devel@googlegroups.com'
+  s.homepage          = 'http://fubu-project.org'
+  s.rubyforge_project = 'bottles'
+end
+
+
+Gem::PackageTask.new(spec) do |pkg|
+  pkg.need_zip = true
+  pkg.need_tar = true
+end
+
+desc "Outputs the command line usage"
+task :dump_usages => [:compile] do
+  bottles 'dump-usages bottles src/Bottles.Docs/bottles.cli.xml'
 end
 

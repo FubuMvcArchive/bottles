@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<CommandLineApplicationReport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ApplicationName>bottles</ApplicationName>
+  <Commands>
+    <CommandReport>
+      <Name>dumpusages</Name>
+      <Description>DumpUsagesCommand</Description>
+      <Arguments>
+        <ArgumentReport>
+          <Name>applicationname</Name>
+          <Description>ApplicationName</Description>
+        </ArgumentReport>
+        <ArgumentReport>
+          <Name>location</Name>
+          <Description>Location</Description>
+        </ArgumentReport>
+      </Arguments>
+      <Flags />
+      <Usages>
+        <UsageReport>
+          <Description>DumpUsagesCommand</Description>
+          <Usage>bottles dumpusages &lt;applicationname&gt; &lt;location&gt;</Usage>
+        </UsageReport>
+      </Usages>
+    </CommandReport>
+    <CommandReport>
+      <Name>help</Name>
+      <Description>list all the available commands</Description>
+      <Arguments>
+        <ArgumentReport>
+          <Name>name</Name>
+          <Description>A command name</Description>
+        </ArgumentReport>
+      </Arguments>
+      <Flags />
+      <Usages>
+        <UsageReport>
+          <Description>List all the available commands</Description>
+          <Usage>bottles help &lt;name&gt;</Usage>
+        </UsageReport>
+        <UsageReport>
+          <Description>Show all the valid usages for a command</Description>
+          <Usage>bottles help </Usage>
+        </UsageReport>
+      </Usages>
+    </CommandReport>
+    <CommandReport>
+      <Name>alias</Name>
+      <Description>Manage folder aliases</Description>
+      <Arguments>
+        <ArgumentReport>
+          <Name>name</Name>
+          <Description>The name of the alias</Description>
+        </ArgumentReport>
+        <ArgumentReport>
+          <Name>folder</Name>
+          <Description>The path to the actual folder</Description>
+        </ArgumentReport>
+      </Arguments>
+      <Flags>
+        <FlagReport>
+          <UsageDescription>[-r, --remove]</UsageDescription>
+          <Description>Removes the alias</Description>
+        </FlagReport>
+      </Flags>
+      <Usages>
+        <UsageReport>
+          <Description>List all the aliases for this solution folder</Description>
+          <Usage>bottles alias </Usage>
+        </UsageReport>
+        <UsageReport>
+          <Description>Creates a new alias for a folder</Description>
+          <Usage>bottles alias &lt;name&gt; &lt;folder&gt;</Usage>
+        </UsageReport>
+        <UsageReport>
+          <Description>Removes the alias</Description>
+          <Usage>bottles alias &lt;name&gt; [-r, --remove]</Usage>
+        </UsageReport>
+      </Usages>
+    </CommandReport>
+    <CommandReport>
+      <Name>assembly-pak</Name>
+      <Description>Bundle up the content and data files for a self contained assembly package</Description>
+      <Arguments>
+        <ArgumentReport>
+          <Name>rootfolder</Name>
+          <Description>The root folder for the project if different from the project file's folder</Description>
+        </ArgumentReport>
+      </Arguments>
+      <Flags>
+        <FlagReport>
+          <UsageDescription>[-p, --proj-file &lt;projfile&gt;]</UsageDescription>
+          <Description>Explicitly define the csproj file in this directory.  If not set, this command will look for a single csproj file in the directory to attach the embedded resources</Description>
+        </FlagReport>
+        <FlagReport>
+          <UsageDescription>[-p, --preview]</UsageDescription>
+          <Description>Previews which files will be added to the assembly bottle</Description>
+        </FlagReport>
+        <FlagReport>
+          <UsageDescription>[-i, --init]</UsageDescription>
+          <Description>If selected, will intitialize a default PackageManifest file and embed it into the assembly for more fine-grained control over the Bottle properties</Description>
+        </FlagReport>
+      </Flags>
+      <Usages>
+        <UsageReport>
+          <Description>Bundle up the content and data files for a self contained assembly package</Description>
+          <Usage>bottles assembly-pak &lt;rootfolder&gt; [-p, --proj-file &lt;projfile&gt;] [-p, --preview] [-i, --init]</Usage>
+        </UsageReport>
+      </Usages>
+    </CommandReport>
+    <CommandReport>
+      <Name>create</Name>
+      <Description>Create a bottle zip from a package directory</Description>
+      <Arguments>
+        <ArgumentReport>
+          <Name>packagefolder</Name>
+          <Description>The root physical folder (or valid alias) of the package</Description>
+        </ArgumentReport>
+      </Arguments>
+      <Flags>
+        <FlagReport>
+          <UsageDescription>[-o, --output &lt;zipfile&gt;]</UsageDescription>
+          <Description>The filepath where the zip file for the package will be written ie. ./deployment/bottles/my-btl.zip</Description>
+        </FlagReport>
+        <FlagReport>
+          <UsageDescription>[-b, --pdb]</UsageDescription>
+          <Description>Includes any matching .pdb files for the package assemblies</Description>
+        </FlagReport>
+        <FlagReport>
+          <UsageDescription>[-f, --force]</UsageDescription>
+          <Description>Forces the command to delete any existing zip file first</Description>
+        </FlagReport>
+        <FlagReport>
+          <UsageDescription>[-t, --target &lt;target&gt;]</UsageDescription>
+          <Description>Choose the compilation target for any assemblies</Description>
+        </FlagReport>
+        <FlagReport>
+          <UsageDescription>[-m, --manifest &lt;manifestfilename&gt;]</UsageDescription>
+          <Description>Overrides the name of the manifest file (defaults to '.package-manifest'</Description>
+        </FlagReport>
+      </Flags>
+      <Usages>
+        <UsageReport>
+          <Description>Create a bottle zip from a package directory</Description>
+          <Usage>bottles create &lt;packagefolder&gt; [-o, --output &lt;zipfile&gt;] [-b, --pdb] [-f, --force] [-t, --target &lt;target&gt;] [-m, --manifest &lt;manifestfilename&gt;]</Usage>
+        </UsageReport>
+      </Usages>
+    </CommandReport>
+    <CommandReport>
+      <Name>init</Name>
+      <Description>Initialize a bottle manifest</Description>
+      <Arguments>
+        <ArgumentReport>
+          <Name>path</Name>
+          <Description>The physical path to the directory of the new bottle</Description>
+        </ArgumentReport>
+        <ArgumentReport>
+          <Name>name</Name>
+          <Description>The package name</Description>
+        </ArgumentReport>
+      </Arguments>
+      <Flags>
+        <FlagReport>
+          <UsageDescription>[-r, --role &lt;role&gt;]</UsageDescription>
+          <Description>What role should this bottle play - Options: module (default), binaries, config, application</Description>
+        </FlagReport>
+        <FlagReport>
+          <UsageDescription>[-a, --alias &lt;alias&gt;]</UsageDescription>
+          <Description>Creates a folder alias for the bottle folder.  Equivalent to blue alias &lt;folder&gt; &lt;alias&gt;</Description>
+        </FlagReport>
+        <FlagReport>
+          <UsageDescription>[-o, --open]</UsageDescription>
+          <Description>Opens the bottle manifest file in notepad</Description>
+        </FlagReport>
+        <FlagReport>
+          <UsageDescription>[-w, --noweb]</UsageDescription>
+          <Description>There is no web content to include</Description>
+        </FlagReport>
+        <FlagReport>
+          <UsageDescription>[-f, --force]</UsageDescription>
+          <Description>Force the command to overwrite any existing manifest file if using the -create flag</Description>
+        </FlagReport>
+      </Flags>
+      <Usages>
+        <UsageReport>
+          <Description>Initialize a bottle manifest</Description>
+          <Usage>bottles init &lt;path&gt; &lt;name&gt; [-r, --role &lt;role&gt;] [-a, --alias &lt;alias&gt;] [-o, --open] [-w, --noweb] [-f, --force]</Usage>
+        </UsageReport>
+      </Usages>
+    </CommandReport>
+    <CommandReport>
+      <Name>link</Name>
+      <Description>Links a package folder to an application folder in development mode</Description>
+      <Arguments>
+        <ArgumentReport>
+          <Name>appfolder</Name>
+          <Description>The physical folder (or valid alias) of the main application</Description>
+        </ArgumentReport>
+        <ArgumentReport>
+          <Name>bottlefolder</Name>
+          <Description>The physical folder (or valid alias) of a bottle</Description>
+        </ArgumentReport>
+      </Arguments>
+      <Flags>
+        <FlagReport>
+          <UsageDescription>[-r, --remove]</UsageDescription>
+          <Description>Remove the package folder link from the application</Description>
+        </FlagReport>
+        <FlagReport>
+          <UsageDescription>[-c, --clean-all]</UsageDescription>
+          <Description>Remove all links from an application manifest file</Description>
+        </FlagReport>
+      </Flags>
+      <Usages>
+        <UsageReport>
+          <Description>List the current links for the application</Description>
+          <Usage>bottles link &lt;appfolder&gt;</Usage>
+        </UsageReport>
+        <UsageReport>
+          <Description>Create a new link for the application to the package</Description>
+          <Usage>bottles link &lt;appfolder&gt; &lt;bottlefolder&gt;</Usage>
+        </UsageReport>
+        <UsageReport>
+          <Description>Remove any existing link for the application to the package</Description>
+          <Usage>bottles link &lt;appfolder&gt; &lt;bottlefolder&gt; [-r, --remove]</Usage>
+        </UsageReport>
+        <UsageReport>
+          <Description>Remove any and all existing links from the application to any package folder</Description>
+          <Usage>bottles link &lt;appfolder&gt; [-c, --clean-all]</Usage>
+        </UsageReport>
+      </Usages>
+    </CommandReport>
+    <CommandReport>
+      <Name>open-manifest</Name>
+      <Description>Opens the package manifest file in the supplied directory in your text editor</Description>
+      <Arguments>
+        <ArgumentReport>
+          <Name>bottledirectory</Name>
+          <Description>The physical path or alias for the Bottle directory</Description>
+        </ArgumentReport>
+      </Arguments>
+      <Flags />
+      <Usages>
+        <UsageReport>
+          <Description>Opens the package manifest file in the supplied directory in your text editor</Description>
+          <Usage>bottles open-manifest &lt;bottledirectory&gt;</Usage>
+        </UsageReport>
+      </Usages>
+    </CommandReport>
+  </Commands>
+</CommandLineApplicationReport>
