@@ -94,7 +94,6 @@ task :archive_gem => [:create_gem] do
 end
 
 spec = Gem::Specification.new do |s|
-  s.platform    = Gem::Platform::RUBY
   s.name        = 'bottles'
   s.version     = @solution.build_number
   s.files =  Dir['bin/*']
