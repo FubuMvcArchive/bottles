@@ -90,7 +90,7 @@ end
 
 desc "Moves the gem to the archive folder"
 task :archive_gem => [:create_gem] do
-	copyOutputFiles "pkg", "*.pkg", "archive"
+	copyOutputFiles "pkg", "*.gem", "artifacts"
 end
 
 spec = Gem::Specification.new do |s|
