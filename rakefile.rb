@@ -88,9 +88,9 @@ task :create_gem => [:compile, :ilrepack] do
 	
 	# letting the file system catch up, otherwise you occasionally
 	# get a gem w/ no binaries, and it always happens on CI
-	waitFor {!exists?('bin/bottles.exe')}
-	waitFor {!exists?('bin/Bottles.dll')}
-	waitFor {!exists?('bin/FubuCore.dll')}
+	waitfor {exists?('bin/bottles.exe')}
+	waitfor {exists?('bin/Bottles.dll')}
+	waitfor {exists?('bin/FubuCore.dll')}
 	Rake::Task[:gem].invoke
 end
 
