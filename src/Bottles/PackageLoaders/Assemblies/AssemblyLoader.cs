@@ -64,9 +64,16 @@ namespace Bottles.PackageLoaders.Assemblies
 
         public static Assembly LoadPackageAssemblyFromAppBinPath(string file)
         {
+            // First try to load it locally just in case it's already there
             var assemblyName = Path.GetFileNameWithoutExtension(file);
+            var filename = Path.GetFileName(file);
+            var path = determineAssemblyPath().AppendPath(filename);
+            if (File.Exists(path))
+            {
+                return Assembly.Load(assemblyName);
+            }
 
-            return Assembly.Load(assemblyName);
+            return Assembly.LoadFile(file);
         }
 
         bool hasAssemblyByName(string assemblyName)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using FubuCore;
 using FubuTestingSupport;
 using NUnit.Framework;
@@ -12,6 +13,9 @@ namespace Bottles.IntegrationTesting
         public void read_and_write_files_from_a_linked_folder()
         {
             RunBottlesCommand("init bottles-staging BottleProject");
+
+            // REALLY NEED THIS CLEAN TO BE A VALID TEST
+            File.Delete("BottleProject.dll");
 
             AlterManifest(manifest =>
             {
