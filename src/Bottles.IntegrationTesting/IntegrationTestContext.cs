@@ -29,6 +29,7 @@ assembly-pak -> Bundle up the content and data files for a self contained assemb
         [SetUp]
         public void SetUp()
         {
+            File.Delete(".".ToFullPath().ParentDirectory().ParentDirectory().ParentDirectory().AppendPath("BottleProject", PackageManifest.FILE));
             _domain = new BottleLoadingDomain();
 
             new FileSystem().CleanDirectory("content");

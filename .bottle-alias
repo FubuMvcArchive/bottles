@@ -7,5 +7,6 @@
     <alias name="iis-deployers" folder="src\Milkman.Deployers.Iis" />
     <alias name="bottlesproject" folder="bottles-staging" />
     <alias name="bottleproject" folder="bottles-staging" />
+    <alias name="bottles-staging" folder="C:\code\bottles\bottles-staging" />
   </Aliases>
 </aliases>

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -119,6 +120,29 @@ namespace Bottles.Commands
             var msg = wasAdded
                           ? "Folder {0} was added to the application at {1}"
                           : "Folder {0} is already included in the application at {1}";
+
+            var system = new FileSystem();
+
+            if (!system.FileExists(input.BottleFolder.AppendPath(PackageManifest.FILE)))
+            {
+                // First guess of the bottle name is by the folder
+                var name = Path.GetFileNameWithoutExtension(input.BottleFolder);
+                
+                // Second guess is a csproj file if one exists
+                var files = system.FindFiles(input.BottleFolder, FileSet.Shallow("*.csproj"));
+                if (files.Count() == 1)
+                {
+                    name = Path.GetFileNameWithoutExtension(files.Single());
+                }
+
+                ConsoleWriter.Write(ConsoleColor.Green, "Initializing a new {0} file at {1}".ToFormat(PackageManifest.FILE, input.BottleFolder));
+                
+                new InitCommand().Execute(new InitInput
+                {
+                    Path = input.BottleFolder,
+                    Name = name
+                });
+            }
 
             ConsoleWriter.Write(msg, input.BottleFolder, input.AppFolder);
         }
