@@ -86,6 +86,10 @@ task :create_gem => [:compile, :ilrepack] do
 	
 	FileUtils.copy 'bottles', 'bin'
 	
+	# letting the file system catch up, otherwise you occasionally
+	# get a gem w/ no binaries, and it always happens on CI
+	sleep 1
+	
 	Rake::Task[:gem].invoke
 end
 
