@@ -88,7 +88,7 @@ task :create_gem => [:compile, :ilrepack] do
 	
 	# letting the file system catch up, otherwise you occasionally
 	# get a gem w/ no binaries, and it always happens on CI
-	sleep 1
+	sleep 5
 	
 	Rake::Task[:gem].invoke
 end
