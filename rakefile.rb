@@ -101,7 +101,8 @@ end
 spec = Gem::Specification.new do |s|
   s.name        = 'bottles'
   s.version     = @solution.build_number
-  s.files =  Dir['bin/*']
+  s.files =  Dir['bin/*.dll']
+  s.files += Dir['bin/*.exe']
   s.files += Dir['lib/*.rb']
   s.bindir = 'bin'
   s.executables << 'bottles'
