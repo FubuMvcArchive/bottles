@@ -107,11 +107,7 @@ end
 spec = Gem::Specification.new do |s|
   s.name        = 'bottles'
   s.version     = @solution.build_number
-  s.files =  Dir['bin/*.dll']
-  s.files += Dir['bin/*.exe']
-  s.files += Dir['bin/FubuCore.dll']
-  s.files += Dir['bin/Bottles.dll']
-  s.files += Dir['bin/bottles.exe']
+  s.files =  Dir.glob("bin/**/*").to_a
   s.files += Dir['lib/*.rb']
   s.bindir = 'bin'
   s.executables << 'bottles'
