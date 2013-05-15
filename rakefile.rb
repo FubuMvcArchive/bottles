@@ -68,15 +68,24 @@ end
 desc "Replaces the existing installed gem with the new version for local testing"
 task :local_gem => [:create_gem] do
 	sh 'gem uninstall bottles'
-	Dir.chdir 'pkg'
-	sh 'gem install bottles'
-	Dir.chdir '..'
+	Dir.chdir 'pkg' do
+	    sh 'gem install bottles'
+    end
 end
 
-require 'rubygems/package_task'
+desc "Moves the gem to the archive folder"
+task :archive_gem => [:create_gem] do
+	copyOutputFiles "pkg", "*.gem", "artifacts"
+end
+
+desc "Outputs the command line usage"
+task :dump_usages => [:compile] do
+  bottles 'dump-usages bottles src/Bottles.Docs/bottles.cli.xml'
+end
 
 desc "Creates the gem for BottleRunner.exe"
 task :create_gem => [:compile, :ilrepack] do
+    require "rubygems/package"
 	cleanDirectory 'bin';	
 	cleanDirectory 'pkg'
 	
@@ -95,42 +104,30 @@ task :create_gem => [:compile, :ilrepack] do
 	Dir.foreach('bin') do |item|
 	  puts item
 	end
-	
-	Rake::Task[:gem].invoke
+
+    onthefly = Gem::Specification.new do |s|
+        s.name        = 'bottles'
+        s.version     = @solution.build_number
+        s.files =  Dir.glob("bin/**/*").to_a
+        s.files += Dir['lib/*.rb']
+        s.bindir = 'bin'
+        s.executables << 'bottles'
+
+        s.license = 'Apache 2'
+
+        s.summary     = 'Command line tools for using Bottles'
+        s.description = 'Shared libraries for runtime and deployment packaging of .Net'
+
+        s.authors           = ['Jeremy D. Miller', 'Josh Arnold', 'Chad Myers', 'Joshua Flanagan']
+        s.email             = 'fubumvc-devel@googlegroups.com'
+        s.homepage          = 'http://fubu-project.org'
+        s.rubyforge_project = 'bottles'
+    end     
+    puts "ON THE FLY SPEC FILES"
+    puts onthefly.files
+    puts "=========="
+
+    Gem::Package::build onthefly, true
+
+	copyOutputFiles ".", "*.gem", "pkg"
 end
-
-desc "Moves the gem to the archive folder"
-task :archive_gem => [:create_gem] do
-	copyOutputFiles "pkg", "*.gem", "artifacts"
-end
-
-spec = Gem::Specification.new do |s|
-  s.name        = 'bottles'
-  s.version     = @solution.build_number
-  s.files =  Dir.glob("bin/**/*").to_a
-  s.files += Dir['lib/*.rb']
-  s.bindir = 'bin'
-  s.executables << 'bottles'
-  
-  s.license = 'Apache 2'
-  
-  s.summary     = 'Command line tools for using Bottles'
-  s.description = 'Shared libraries for runtime and deployment packaging of .Net'
-  
-  s.authors           = ['Jeremy D. Miller', 'Josh Arnold', 'Chad Myers', 'Joshua Flanagan']
-  s.email             = 'fubumvc-devel@googlegroups.com'
-  s.homepage          = 'http://fubu-project.org'
-  s.rubyforge_project = 'bottles'
-end
-
-
-Gem::PackageTask.new(spec) do |pkg|
-  pkg.need_zip = true
-  pkg.need_tar = true
-end
-
-desc "Outputs the command line usage"
-task :dump_usages => [:compile] do
-  bottles 'dump-usages bottles src/Bottles.Docs/bottles.cli.xml'
-end
-

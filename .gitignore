@@ -52,3 +52,5 @@ exploded
 logs
 pkg
 Gemfile.lock
+*.gem
+
