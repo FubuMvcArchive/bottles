@@ -116,6 +116,8 @@ spec = Gem::Specification.new do |s|
   s.bindir = 'bin'
   s.executables << 'bottles'
   
+  s.license = 'Apache 2'
+  
   s.summary     = 'Command line tools for using Bottles'
   s.description = 'Shared libraries for runtime and deployment packaging of .Net'
   
