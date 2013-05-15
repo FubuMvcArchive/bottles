@@ -43,7 +43,7 @@ desc "**Mono**, compiles, merges and runs unit tests"
 task :mono_ci => [:compile, :ilrepack, :unit_test]
 
 desc "does the assembly bottling of the AssemblyPackage test project"
-task :bottle_assembly_package => [:compile_bottle_project] do
+task :bottle_assembly_package do
   bottles "assembly-pak src/AssemblyPackage"
 end
 
