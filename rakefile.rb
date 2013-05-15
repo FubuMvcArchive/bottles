@@ -27,7 +27,8 @@ end
 	sln.ripple_enabled = true
 	#sln.fubudocs_enabled = true
 	
-	sln.defaults = [:ilrepack, :integration_test]
+	# TODO -- put the integration testing back into the build.  Has file cleanup problems now
+	sln.defaults = [:ilrepack]
 	sln.ci_steps = [:ilrepack, :archive_gem]
 	
 	
