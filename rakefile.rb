@@ -91,6 +91,11 @@ task :create_gem => [:compile, :ilrepack] do
 	waitfor {exists?('bin/bottles.exe')}
 	waitfor {exists?('bin/Bottles.dll')}
 	waitfor {exists?('bin/FubuCore.dll')}
+	
+	Dir.foreach('bin') do |item|
+	  puts item
+	end
+	
 	Rake::Task[:gem].invoke
 end
 
