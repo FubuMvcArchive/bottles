@@ -25,7 +25,7 @@ end
 	}
 	
 	sln.ripple_enabled = true
-	sln.fubudocs_enabled = true
+	#sln.fubudocs_enabled = true
 	
 	sln.defaults = [:ilrepack, :integration_test]
 	sln.ci_steps = [:ilrepack, :archive_gem]
