@@ -62,7 +62,7 @@ def merge_ionic(dir, assembly)
 end
 
 def bottles(args)
-  sh Platform.runtime("src/Bottles.Console/bin/#{@solution.compilemode}/BottleRunner.exe #{args}")
+  sh Platform.runtime("src/Bottles.Console/bin/#{@solution.compilemode}/BottleRunner.exe #{args}", @solution.options[:clrversion])
 end
 
 desc "Replaces the existing installed gem with the new version for local testing"
