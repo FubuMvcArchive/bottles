@@ -58,7 +58,7 @@ require_relative 'ILRepack'
 def merge_ionic(dir, assembly)
 	output = File.join(dir, assembly)
 	packer = ILRepack.new :out => output, :lib => dir
-	packer.merge :lib => dir, :refs => [assembly, 'Ionic.Zip.dll']
+	packer.merge :lib => dir, :refs => [assembly, 'Ionic.Zip.dll'], :clrversion => @solution.options[:clrversion]
 end
 
 def bottles(args)
