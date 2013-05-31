@@ -1,11 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "__Build_Utilities", "__Build_Utilities", "{7AC4D197-535A-4686-8E21-18257B2ADB3A}"
-	ProjectSection(SolutionItems) = preProject
-		..\InstallGems.bat = ..\InstallGems.bat
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyPackage", "AssemblyPackage\AssemblyPackage.csproj", "{99DBA82A-E811-4DA0-983C-12E8317F8642}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bottles", "Bottles\Bottles.csproj", "{E208A2B1-31B0-4455-BA16-3D79F5887ECE}"
@@ -21,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FubuCsProjFile", "FubuCsProjFile\FubuCsProjFile.csproj", "{5630FC3F-8C3E-4EAD-B960-B38FE3D87463}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bottles.IntegrationTesting", "Bottles.IntegrationTesting\Bottles.IntegrationTesting.csproj", "{46E8F359-EB7B-40A8-949C-BD4E755903D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bottles.Docs", "Bottles.Docs\Bottles.Docs.csproj", "{0637CB99-A3F4-4F51-AFA9-1B5B074DD7A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,6 +138,21 @@ Global
 		{46E8F359-EB7B-40A8-949C-BD4E755903D9}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{46E8F359-EB7B-40A8-949C-BD4E755903D9}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
 		{46E8F359-EB7B-40A8-949C-BD4E755903D9}.Retail|x86.ActiveCfg = Release|Any CPU
+		{0637CB99-A3F4-4F51-AFA9-1B5B074DD7A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0637CB99-A3F4-4F51-AFA9-1B5B074DD7A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0637CB99-A3F4-4F51-AFA9-1B5B074DD7A8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0637CB99-A3F4-4F51-AFA9-1B5B074DD7A8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0637CB99-A3F4-4F51-AFA9-1B5B074DD7A8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0637CB99-A3F4-4F51-AFA9-1B5B074DD7A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0637CB99-A3F4-4F51-AFA9-1B5B074DD7A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0637CB99-A3F4-4F51-AFA9-1B5B074DD7A8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0637CB99-A3F4-4F51-AFA9-1B5B074DD7A8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0637CB99-A3F4-4F51-AFA9-1B5B074DD7A8}.Release|x86.ActiveCfg = Release|Any CPU
+		{0637CB99-A3F4-4F51-AFA9-1B5B074DD7A8}.Retail|Any CPU.ActiveCfg = Release|Any CPU
+		{0637CB99-A3F4-4F51-AFA9-1B5B074DD7A8}.Retail|Any CPU.Build.0 = Release|Any CPU
+		{0637CB99-A3F4-4F51-AFA9-1B5B074DD7A8}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0637CB99-A3F4-4F51-AFA9-1B5B074DD7A8}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
+		{0637CB99-A3F4-4F51-AFA9-1B5B074DD7A8}.Retail|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -55,7 +55,12 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="2.architecture\index.spark" />
+    <None Include="3.structuremap\index.spark" />
+    <None Include="4.manifest\index.spark" />
+    <None Include="5.commandline\index.spark" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="pak-WebContent.zip" />
   </ItemGroup>

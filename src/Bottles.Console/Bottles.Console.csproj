@@ -37,7 +37,7 @@
       <HintPath>..\packages\FubuCore\lib\FubuCore.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
-      <HintPath>..\packages\DotNetZip\lib\net20\Ionic.Zip.dll</HintPath>
+      <HintPath>..\..\lib\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />

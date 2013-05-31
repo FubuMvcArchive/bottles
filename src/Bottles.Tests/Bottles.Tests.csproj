@@ -41,7 +41,7 @@
       <HintPath>..\packages\HtmlTags.1.2.0.129\lib\4.0\HtmlTags.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
-      <HintPath>..\packages\DotNetZip\lib\net20\Ionic.Zip.dll</HintPath>
+      <HintPath>..\..\lib\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="nunit.framework">

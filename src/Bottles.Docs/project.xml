@@ -6,6 +6,7 @@
   <UserGroupUrl>https://groups.google.com/forum/?fromgroups#!forum/fubumvc-devel</UserGroupUrl>
   <BuildServerUrl>http://build.fubu-project.org/project.html?projectId=project53&amp;tab=projectOverview</BuildServerUrl>
   <BottleName>Bottles.Docs</BottleName>
+  <TeamCityBuildType>bt5</TeamCityBuildType>
   <Nugets>
     <PublishedNuget>
       <Name>Bottles</Name>
