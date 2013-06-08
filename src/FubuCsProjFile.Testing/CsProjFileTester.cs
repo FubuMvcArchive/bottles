@@ -45,5 +45,45 @@ namespace FubuCsProjFile.Testing
 
 
         }
+
+        [Test]
+        public void can_read_embedded_resources()
+        {
+            var project = CsProjFile.LoadFrom("FubuMVC.SlickGrid.Docs.csproj");
+            project.Save();
+
+            project = CsProjFile.LoadFrom(project.FileName);
+
+            project.EmbeddedResources().Select(x => x.RelativePath)
+                .ShouldHaveTheSameElementsAs("pak-Config.zip", "pak-Data.zip", "pak-WebContent.zip");
+        }
+
+        [Test]
+        public void can_write_embedded_resources()
+        {
+            fileSystem.WriteStringToFile("myproj".AppendPath("foo.txt"), "using System.Web;");
+            fileSystem.WriteStringToFile("myproj".AppendPath("bar.txt"), "using System.Web;");
+
+            var project = CsProjFile.CreateAtSolutionDirectory("MyProj", "myproj");
+            project.AddEmbeddedResource("foo.txt");
+            project.AddEmbeddedResource("bar.txt");
+
+            project.Save();
+
+            var project2 = CsProjFile.LoadFrom(project.FileName);
+            project2.EmbeddedResources().Select(x => x.RelativePath)
+                .ShouldHaveTheSameElementsAs("bar.txt", "foo.txt");
+
+            project2.AddEmbeddedResource("ten.txt");
+            project2.AddEmbeddedResource("aaa.txt");
+
+            project2.Save();
+
+            var project3 = CsProjFile.LoadFrom(project2.FileName);
+            project3.EmbeddedResources().Select(x => x.RelativePath)
+                .ShouldHaveTheSameElementsAs("aaa.txt", "bar.txt", "foo.txt", "ten.txt");
+
+
+        }
     }
 }

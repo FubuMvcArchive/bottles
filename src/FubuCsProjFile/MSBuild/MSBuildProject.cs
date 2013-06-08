@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 using FubuCore;
+using System.Linq;
 
 namespace FubuCsProjFile.MSBuild
 {
@@ -76,6 +77,12 @@ namespace FubuCsProjFile.MSBuild
                 else
                     doc.DocumentElement.RemoveAttribute("ToolsVersion");
             }
+        }
+
+        public MSBuildItemGroup FindGroup(Func<MSBuildItem, bool> itemTest)
+        {
+            return ItemGroups.FirstOrDefault(x => x.Items.Any(itemTest))
+                   ?? AddNewItemGroup();
         }
 
         public List<string> Imports
@@ -174,6 +181,17 @@ namespace FubuCsProjFile.MSBuild
         {
             // StringWriter.Encoding always returns UTF16. We need it to return UTF8, so the
             // XmlDocument will write the UTF8 header.
+
+            ItemGroups.Each(group => {
+                var items = group.Items.ToArray();
+                group.Element.RemoveAll();
+
+                var orderedItems = items.OrderBy(x => x.Name).ThenBy(x => x.Include);
+                orderedItems
+                     .Each(item => group.AddNewItem(item.Name, item.Include));
+            });
+
+
             var sw = new ProjectWriter(bom);
             sw.NewLine = newLine;
             doc.Save(sw);

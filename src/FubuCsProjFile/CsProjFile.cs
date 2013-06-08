@@ -35,6 +35,12 @@ namespace FubuCsProjFile
             _project.AddNewItem("Compile", relativePath);
         }
 
+        public void AddEmbeddedResource(string relativePath)
+        {
+            _project.FindGroup(item => item.IsEmbeddedResource())
+                    .AddNewItem(EmbeddedResource.ItemName, relativePath);
+        }
+
         public IEnumerable<CodeFile> CodeFiles()
         {
             var group = _project.ItemGroups.FirstOrDefault(x => x.Items.Any(item => item.IsCodeFile()));
@@ -65,23 +71,21 @@ namespace FubuCsProjFile
 
         public void Save()
         {
-            reorderCodeFiles();
-
             _project.Save(_fileName);
-        }
-
-        private void reorderCodeFiles()
-        {
-            var codefiles = CodeFiles().OrderBy(x => x.RelativePath).ToArray();
-            _codefiles.Value.Element.RemoveAll();
-
-            codefiles.Each(x => _codefiles.Value.AddNewItem(CodeFile.COMPILE, x.RelativePath));
         }
 
         public static CsProjFile LoadFrom(string filename)
         {
             var project = MSBuildProject.LoadFrom(filename);
             return new CsProjFile(filename, project);
+        }
+
+        public IEnumerable<EmbeddedResource> EmbeddedResources()
+        {
+            return _project.ItemGroups.SelectMany(x => x.Items)
+                           .Where(x => x.IsEmbeddedResource())
+                           .OrderBy(x => x.Include)
+                           .Select(x => new EmbeddedResource(x.Include));
         }
     }
 
