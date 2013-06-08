@@ -64,6 +64,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CsProjFileTester.cs" />
     <Compile Include="MSBuildProjectTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

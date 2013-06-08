@@ -1,60 +1,91 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using FubuCore;
-using Microsoft.Build.Evaluation;
+using FubuCsProjFile.MSBuild;
 using System.Linq;
 
 namespace FubuCsProjFile
 {
     public class CsProjFile
     {
-        private readonly Project _project;
+        private readonly string _fileName;
+        private readonly MSBuildProject _project;
+        private readonly Lazy<MSBuildItemGroup> _codefiles;
 
-        public CsProjFile(string filename)
+
+        public CsProjFile(string fileName) : this(fileName, MSBuildProject.LoadFrom(fileName))
         {
-            _project = new Project(filename, new Dictionary<string, string>{{"Random", Guid.NewGuid().ToString()}}, null, new ProjectCollection());
-                
-                //ProjectCollection.GlobalProjectCollection.LoadProject(filename);
+        }
 
-            var list = new List<ProjectItem>();
-            list.AddRange(_project.Items);
+        private CsProjFile(string fileName, MSBuildProject project)
+        {
+            _fileName = fileName;
+            _project = project;
 
-            foreach (var item in _project.Items)
+            _codefiles = new Lazy<MSBuildItemGroup>(() => {
+                var group = _project.ItemGroups.FirstOrDefault(x => x.Items.Any(item => item.IsCodeFile()));
+
+                return group ?? _project.AddNewItemGroup();
+            });
+        }
+
+        public void AddCodeFile(string relativePath)
+        {
+            _project.AddNewItem("Compile", relativePath);
+        }
+
+        public IEnumerable<CodeFile> CodeFiles()
+        {
+            var group = _project.ItemGroups.FirstOrDefault(x => x.Items.Any(item => item.IsCodeFile()));
+
+            if (group == null)
             {
-                Debug.WriteLine(item.ItemType);
+                yield break;
+            }
+
+            foreach (var item in group.Items)
+            {
+                yield return new CodeFile(item.Include);
             }
         }
 
-        public IEnumerable<AssemblyReference> AssemblyReferences()
+        public static CsProjFile CreateAtSolutionDirectory(string assemblyName, string directory)
         {
-            return _project.Items.Where(x => x.ItemType == "Reference").Select(x => new AssemblyReference(x));
-        } 
+            var fileName = directory.AppendPath(assemblyName) + ".csproj";
+            var project = MSBuildProject.Create(assemblyName);
 
-        public IEnumerable<EmbeddedResource> EmbeddedResources()
+            return new CsProjFile(fileName, project);
+        }
+
+        public string FileName
         {
-            return _project.Items.Where(x => x.ItemType == "EmbeddedResource").Select(x => new EmbeddedResource(x));
-        } 
-
-        public void EmbedResource(string filename)
-        {
-            var existing =
-                _project.Items.FirstOrDefault(
-                    x =>
-                    x.ItemType == "EmbeddedResource" &&
-                    x.EvaluatedInclude.Equals(filename, StringComparison.InvariantCultureIgnoreCase));
-
-            if (existing != null) return;
-
-            _project.AddItem("EmbeddedResource", filename);
+            get { return _fileName; }
         }
 
         public void Save()
         {
-            _project.Save();
+            reorderCodeFiles();
+
+            _project.Save(_fileName);
+        }
+
+        private void reorderCodeFiles()
+        {
+            var codefiles = CodeFiles().OrderBy(x => x.RelativePath).ToArray();
+            _codefiles.Value.Element.RemoveAll();
+
+            codefiles.Each(x => _codefiles.Value.AddNewItem(CodeFile.COMPILE, x.RelativePath));
+        }
+
+        public static CsProjFile LoadFrom(string filename)
+        {
+            var project = MSBuildProject.LoadFrom(filename);
+            return new CsProjFile(filename, project);
         }
     }
 
+    
 
 //    public class Target
 //    {

@@ -414,5 +414,13 @@ namespace FubuCsProjFile.MSBuild
                 get { return encoding ?? Encoding.UTF8; }
             }
         }
+
+        public static MSBuildProject LoadFrom(string fileName)
+        {
+            var project = new MSBuildProject();
+            project.Load(fileName);
+
+            return project;
+        }
     }
 }
