@@ -14,7 +14,10 @@ namespace FubuCsProjFile.MSBuild
         {
             var text = Assembly.GetExecutingAssembly().GetManifestResourceStream(typeof(MSBuildProject),"Project.txt").ReadAllText();
 
-            text = text.Replace("FUBUPROJECTNAME", assemblyName);
+            text = text
+                .Replace("FUBUPROJECTNAME", assemblyName)
+                .Replace("GUID", Guid.NewGuid().ToString());
+            
 
             var project = new MSBuildProject();
             project.doc = new XmlDocument
