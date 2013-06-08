@@ -21,7 +21,7 @@ end
 	}
 	
 	sln.options = {
-		:unit_test_projects => ['Bottles.Tests']
+		:unit_test_projects => ['Bottles.Tests', 'FubuCsProjFile.Testing']
 	}
 	
 	sln.ripple_enabled = true
