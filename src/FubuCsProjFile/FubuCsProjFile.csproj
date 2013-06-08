@@ -49,11 +49,19 @@
     <Compile Include="AssemblyReference.cs" />
     <Compile Include="CsProjFile.cs" />
     <Compile Include="EmbeddedResource.cs" />
-    <Compile Include="MSBuildClasses.cs" />
+    <Compile Include="MSBuild\ByteOrderMark.cs" />
+    <Compile Include="MSBuild\MSBuildProject.cs" />
+    <Compile Include="MSBuild\MSBuildItem.cs" />
+    <Compile Include="MSBuild\MSBuildItemGroup.cs" />
+    <Compile Include="MSBuild\MSBuildObject.cs" />
+    <Compile Include="MSBuild\MSBuildProperty.cs" />
+    <Compile Include="MSBuild\MSBuildPropertyGroup.cs" />
+    <Compile Include="MSBuild\MSBuildPropertyGroupMerged.cs" />
+    <Compile Include="MSBuild\MSBuildPropertySet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Project.txt" />
+    <EmbeddedResource Include="MSBuild\Project.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
