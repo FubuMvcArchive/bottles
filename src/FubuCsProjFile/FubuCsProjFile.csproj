@@ -43,11 +43,12 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyReference.cs" />
     <Compile Include="CodeFile.cs" />
     <Compile Include="CsProjFile.cs" />
     <Compile Include="EmbeddedResource.cs" />
+    <Compile Include="IProjectItem.cs" />
     <Compile Include="MSBuild\ByteOrderMark.cs" />
-    <Compile Include="MSBuild\MSBuildExtensions.cs" />
     <Compile Include="MSBuild\MSBuildProject.cs" />
     <Compile Include="MSBuild\MSBuildItem.cs" />
     <Compile Include="MSBuild\MSBuildItemGroup.cs" />

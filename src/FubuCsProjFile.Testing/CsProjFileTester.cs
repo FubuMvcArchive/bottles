@@ -25,24 +25,45 @@ namespace FubuCsProjFile.Testing
             fileSystem.WriteStringToFile("myproj".AppendPath("bar.cs"), "using System.Web;");
 
             var project = CsProjFile.CreateAtSolutionDirectory("MyProj", "myproj");
-            project.AddCodeFile("foo.cs");
-            project.AddCodeFile("bar.cs");
+            project.Add<CodeFile>("foo.cs");
+            project.Add<CodeFile>("bar.cs");
 
             project.Save();
 
             var project2 = CsProjFile.LoadFrom(project.FileName);
-            project2.CodeFiles().Select(x => x.RelativePath)
+            project2.All<CodeFile>().Select(x => x.Include)
                 .ShouldHaveTheSameElementsAs("bar.cs", "foo.cs");
 
-            project2.AddCodeFile("ten.cs");
-            project2.AddCodeFile("aaa.cs");
+            project2.Add<CodeFile>("ten.cs");
+            project2.Add<CodeFile>("aaa.cs");
 
             project2.Save();
 
             var project3 = CsProjFile.LoadFrom(project2.FileName);
-            project3.CodeFiles().Select(x => x.RelativePath)
+            project3.All<CodeFile>().Select(x => x.Include)
                 .ShouldHaveTheSameElementsAs("aaa.cs", "bar.cs", "foo.cs", "ten.cs");
 
+
+        }
+
+        [Test]
+        public void adding_items_is_idempotent()
+        {
+            fileSystem.WriteStringToFile("myproj".AppendPath("foo.cs"), "using System.Web;");
+            fileSystem.WriteStringToFile("myproj".AppendPath("bar.cs"), "using System.Web;");
+
+            var project = CsProjFile.CreateAtSolutionDirectory("MyProj", "myproj");
+            project.Add<CodeFile>("foo.cs");
+            project.Add<CodeFile>("bar.cs");
+
+            project.Add<CodeFile>("foo.cs");
+            project.Add<CodeFile>("bar.cs");
+
+
+            project.Add<CodeFile>("bar.cs");
+            project.Add<CodeFile>("foo.cs");
+
+            project.All<CodeFile>().Select(x => x.Include).ShouldHaveTheSameElementsAs("bar.cs", "foo.cs");
 
         }
 
@@ -54,7 +75,7 @@ namespace FubuCsProjFile.Testing
 
             project = CsProjFile.LoadFrom(project.FileName);
 
-            project.EmbeddedResources().Select(x => x.RelativePath)
+            project.All<EmbeddedResource>().Select(x => x.Include)
                 .ShouldHaveTheSameElementsAs("pak-Config.zip", "pak-Data.zip", "pak-WebContent.zip");
         }
 
@@ -65,22 +86,22 @@ namespace FubuCsProjFile.Testing
             fileSystem.WriteStringToFile("myproj".AppendPath("bar.txt"), "using System.Web;");
 
             var project = CsProjFile.CreateAtSolutionDirectory("MyProj", "myproj");
-            project.AddEmbeddedResource("foo.txt");
-            project.AddEmbeddedResource("bar.txt");
+            project.Add<EmbeddedResource>("foo.txt");
+            project.Add<EmbeddedResource>("bar.txt");
 
             project.Save();
 
             var project2 = CsProjFile.LoadFrom(project.FileName);
-            project2.EmbeddedResources().Select(x => x.RelativePath)
+            project2.All<EmbeddedResource>().Select(x => x.Include)
                 .ShouldHaveTheSameElementsAs("bar.txt", "foo.txt");
 
-            project2.AddEmbeddedResource("ten.txt");
-            project2.AddEmbeddedResource("aaa.txt");
+            project2.Add<EmbeddedResource>("ten.txt");
+            project2.Add<EmbeddedResource>("aaa.txt");
 
             project2.Save();
 
             var project3 = CsProjFile.LoadFrom(project2.FileName);
-            project3.EmbeddedResources().Select(x => x.RelativePath)
+            project3.All<EmbeddedResource>().Select(x => x.Include)
                 .ShouldHaveTheSameElementsAs("aaa.txt", "bar.txt", "foo.txt", "ten.txt");
 
 
