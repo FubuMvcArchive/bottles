@@ -24,7 +24,7 @@ namespace FubuCsProjFile
 
         public void Add<T>(T item) where T : ProjectItem
         {
-            var group = _project.FindGroup(x => x.Name == item.Name);
+            var group = _project.FindGroup(item.Matches) ?? _project.FindGroup(x => x.Name == item.Name);
             item.Configure(group);
         }
 

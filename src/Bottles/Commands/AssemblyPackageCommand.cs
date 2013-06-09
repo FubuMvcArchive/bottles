@@ -6,6 +6,7 @@ using FubuCore;
 using FubuCore.CommandLine;
 using System.Linq;
 using System.Collections.Generic;
+using FubuCsProjFile;
 
 namespace Bottles.Commands
 {
@@ -197,29 +198,12 @@ namespace Bottles.Commands
 
         private void attachZipFileToProjectFile(AssemblyPackageInput input, string zipFileName)
         {
-            var document = new XmlDocument();
-            var projectFileName = FileSystem.Combine(input.RootFolder, input.ProjFileFlag);
-            document.Load(projectFileName);
+            // TODO -- determine the csproj file name magically?
+            var projectFileName = input.RootFolder.AppendPath(input.ProjFileFlag);
 
-            //var search = "//ItemGroup/EmbeddedResource[@Include='{0}']".ToFormat(zipFileName);
-            //if (document.DocumentElement.SelectSingleNode(search, new XmlNamespaceManager(document.NameTable)) == null)
-            if (document.DocumentElement.OuterXml.Contains(zipFileName))
-            {
-                ConsoleWriter.Write("The file {0} is already embedded in project {1}".ToFormat(zipFileName, projectFileName));
-                return;
-            }
-
-            ConsoleWriter.Write("Adding the ItemGroup / Embedded Resource for {0} to {1}".ToFormat(zipFileName,
-                                                                                                   projectFileName));
-            var node = document.CreateNode(XmlNodeType.Element, "ItemGroup", document.DocumentElement.NamespaceURI);
-            var element = document.CreateNode(XmlNodeType.Element, "EmbeddedResource", document.DocumentElement.NamespaceURI);
-            var attribute = document.CreateAttribute("Include");
-            attribute.Value = zipFileName;
-            element.Attributes.Append(attribute);
-            node.AppendChild(element);
-            document.DocumentElement.AppendChild(node);
-
-            document.Save(projectFileName);
+            var csProjFile = CsProjFile.LoadFrom(projectFileName);
+            csProjFile.Add<EmbeddedResource>(zipFileName);
+            csProjFile.Save();
         }
 
 

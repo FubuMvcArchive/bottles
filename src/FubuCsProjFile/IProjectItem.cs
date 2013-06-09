@@ -27,9 +27,14 @@ namespace FubuCsProjFile
 
         public string Include { get; set; }
 
+        internal bool Matches(MSBuildItem item)
+        {
+            return item.Name == Name && item.Include == Include;
+        }
+
         internal virtual MSBuildItem Configure(MSBuildItemGroup @group)
         {
-            var item = @group.Items.FirstOrDefault(x => x.Name == Name && x.Include == Include)
+            var item = @group.Items.FirstOrDefault(Matches)
                        ?? @group.AddNewItem(Name, Include);
 
             return item;
