@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.IO;
 using FubuCore;
 using FubuCsProjFile.MSBuild;
 using System.Linq;
@@ -20,6 +21,18 @@ namespace FubuCsProjFile
         {
             _fileName = fileName;
             _project = project;
+        }
+
+        public Guid ProjectGuid
+        {
+            get
+            {
+                var raw = _project.PropertyGroups.Select(x => x.GetPropertyValue("ProjectGuid"))
+                        .FirstOrDefault(x => x.IsNotEmpty());
+
+                return raw.IsEmpty() ? Guid.Empty : Guid.Parse(raw.TrimStart('{').TrimEnd('}'));
+
+            }
         }
 
         public void Add<T>(T item) where T : ProjectItem
@@ -57,6 +70,11 @@ namespace FubuCsProjFile
             return new CsProjFile(fileName, project);
         }
 
+        public string ProjectName
+        {
+            get { return Path.GetFileNameWithoutExtension(_fileName); }
+        }
+
         public string FileName
         {
             get { return _fileName; }
@@ -66,6 +84,27 @@ namespace FubuCsProjFile
         {
             _project.Save(_fileName);
         }
+
+        public IEnumerable<Guid> ProjectTypes()
+        {
+            var raws =
+                _project.PropertyGroups.Select(x => x.GetPropertyValue("ProjectTypeGuids")).Where(x => x.IsNotEmpty());
+
+            if (raws.Any())
+            {
+                foreach (var raw in raws)
+                {
+                    foreach ( var guid in raw.Split(';'))
+                    {
+                        yield return Guid.Parse(guid.TrimStart('{').TrimEnd('}'));
+                    }
+                }
+            }
+            else
+            {
+                yield return Guid.Parse("FAE04EC0-301F-11D3-BF4B-00C04F79EFBC"); // Class library
+            }
+        } 
 
         public static CsProjFile LoadFrom(string filename)
         {

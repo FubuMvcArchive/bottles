@@ -1,4 +1,5 @@
-﻿using FubuCore;
+﻿using System;
+using FubuCore;
 using NUnit.Framework;
 using System.Linq;
 using FubuTestingSupport;
@@ -16,6 +17,35 @@ namespace FubuCsProjFile.Testing
             fileSystem = new FileSystem();
             fileSystem.DeleteDirectory("myproj");
             fileSystem.CreateDirectory("myproj");
+        }
+
+        [Test]
+        public void read_the_project_guid()
+        {
+            var project = CsProjFile.LoadFrom("FubuMVC.SlickGrid.Docs.csproj");
+            project.ProjectGuid.ShouldEqual(Guid.Parse("CACA4EC1-7F9A-4E38-A0A4-94FB4E23B91C"));
+        }
+
+        [Test]
+        public void read_the_project_name()
+        {
+            var project = CsProjFile.LoadFrom("FubuMVC.SlickGrid.Docs.csproj");
+            project.ProjectName.ShouldEqual("FubuMVC.SlickGrid.Docs");
+        }
+
+        [Test]
+        public void read_the_project_types_when_it_is_explicit_in_the_project()
+        {
+            var project = CsProjFile.LoadFrom("SlickGridHarness.csproj");
+            project.ProjectTypes().ShouldHaveTheSameElementsAs(Guid.Parse("349c5851-65df-11da-9384-00065b846f21"), Guid.Parse("fae04ec0-301f-11d3-bf4b-00c04f79efbc"));
+        }
+
+        [Test]
+        public void read_project_type_as_a_class_library_if_no_explicit_project_type()
+        {
+            var project = CsProjFile.LoadFrom("FubuMVC.SlickGrid.Docs.csproj");
+            project.ProjectTypes().Single()
+                   .ShouldEqual(Guid.Parse("FAE04EC0-301F-11D3-BF4B-00C04F79EFBC"));
         }
 
         [Test]
