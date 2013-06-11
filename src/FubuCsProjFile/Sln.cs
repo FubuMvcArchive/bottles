@@ -3,6 +3,7 @@ using FubuCore;
 
 namespace FubuCsProjFile
 {
+    [MarkedForTermination]
     public class Sln
     {
         private readonly IList<CsProjFile>  _projects = new List<CsProjFile>();

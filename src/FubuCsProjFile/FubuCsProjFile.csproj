@@ -47,10 +47,12 @@
     <Compile Include="AddProjectsModifier.cs" />
     <Compile Include="AppendLineModifier.cs" />
     <Compile Include="AssemblyReference.cs" />
+    <Compile Include="BuildConfiguration.cs" />
     <Compile Include="CodeFile.cs" />
     <Compile Include="CsProjFile.cs" />
     <Compile Include="EmbeddedResource.cs" />
     <Compile Include="EnvironmentalStringExtensions.cs" />
+    <Compile Include="GlobalSection.cs" />
     <Compile Include="ProjectItem.cs" />
     <Compile Include="ISolutionFileModifier.cs" />
     <Compile Include="ISolutionFileService.cs" />
@@ -67,6 +69,7 @@
     <Compile Include="Sln.cs" />
     <Compile Include="Solution.cs" />
     <Compile Include="SolutionFileService.cs" />
+    <Compile Include="SolutionLoading.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MSBuild\Project.txt" />

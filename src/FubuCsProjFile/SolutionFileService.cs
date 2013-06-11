@@ -5,6 +5,7 @@ using FubuCore;
 
 namespace FubuCsProjFile
 {
+    [MarkedForTermination]
     public class SolutionFileService : ISolutionFileService
     {
         private readonly IFileSystem _fileSystem;
