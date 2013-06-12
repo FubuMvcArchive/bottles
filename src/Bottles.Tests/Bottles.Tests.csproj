@@ -34,6 +34,9 @@
     <Reference Include="FubuCore">
       <HintPath>..\packages\FubuCore\lib\FubuCore.dll</HintPath>
     </Reference>
+    <Reference Include="FubuCsProjFile">
+      <HintPath>..\packages\FubuCsProjFile\lib\net40\FubuCsProjFile.dll</HintPath>
+    </Reference>
     <Reference Include="FubuTestingSupport">
       <HintPath>..\packages\FubuTestingSupport\lib\FubuTestingSupport.dll</HintPath>
     </Reference>
@@ -132,10 +135,6 @@
       <Project>{E208A2B1-31B0-4455-BA16-3D79F5887ECE}</Project>
       <Name>Bottles</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FubuCsProjFile\FubuCsProjFile.csproj">
-      <Project>{5630FC3F-8C3E-4EAD-B960-B38FE3D87463}</Project>
-      <Name>FubuCsProjFile</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Configuration\environment.settings">
@@ -161,8 +160,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <PreBuildEvent></PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
