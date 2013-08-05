@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>BottleServiceRunner</id>
+    <version>0.0.0</version>
+    <authors>Joshua Arnold, Jeremy D. Miller, et al.</authors>
+    <owners>Jeremy D. Miller Joshua Arnold</owners>
+    <licenseUrl>https://github.com/DarthFubuMVC/bottles/raw/master/license.txt</licenseUrl>
+    <projectUrl>http://bottles.fubu-project.org/</projectUrl>
+    <iconUrl>https://github.com/DarthFubuMVC/fubu-collateral/raw/master/Icons/FubuBottles_256.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Topshelf host for Bottles</description>
+    <tags>packaging areas slices services topshelf</tags>
+  </metadata>
+  <files>
+    <file src="..\..\src\BottleServiceRunner\bin\release\*.*" target="tools" />
+  </files>
+</package>

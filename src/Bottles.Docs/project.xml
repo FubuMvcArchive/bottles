@@ -12,6 +12,10 @@
       <Name>Bottles</Name>
       <Description>Shared libraries for runtime and deployment packaging of .Net applications</Description>
     </PublishedNuget>
+    <PublishedNuget>
+      <Name>BottleServiceRunner</Name>
+      <Description>Topshelf host for Bottles</Description>
+    </PublishedNuget>
   </Nugets>
   <Url>bottles</Url>
 </ProjectRoot>
