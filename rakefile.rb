@@ -26,6 +26,7 @@ end
 	
 	sln.ripple_enabled = true
 	sln.fubudocs_enabled = true
+	sln.bottles_enabled = false # needs to be done all special like in Bottles itself
 	
 	# TODO -- put the integration testing back into the build.  Has file cleanup problems now
 	sln.defaults = [:ilrepack]
