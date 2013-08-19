@@ -48,6 +48,8 @@ namespace Bottles.Services.Messaging.Tracking
             _hubs.Clear();
         }
 
+
+
         public static void Record(MessageTrack track)
         {
             _lock.Write(() => {
@@ -98,6 +100,13 @@ namespace Bottles.Services.Messaging.Tracking
             {
                 Record(message);
             }
+        }
+
+        public static bool WaitForWorkToFinish(Action action, int timeoutMilliseconds = 5000)
+        {
+            ClearAll();
+            action();
+            return Wait.Until(() => !Outstanding().Any(), timeoutInMilliseconds: timeoutMilliseconds);
         }
     }
 

@@ -67,6 +67,43 @@ namespace Bottles.Services.Tests.Messaging.Tracking
         }
 
         [Test]
+        public void finish_successfully_with_MessageHistory_WaitForWorkToFinish_positive()
+        {
+            var foo1 = new Foo();
+            var foo2 = new Foo();
+            var foo3 = new Foo();
+
+            MessageHistory.WaitForWorkToFinish(() => {
+                MessageHistory.Record(MessageTrack.ForSent(foo1));
+                MessageHistory.Record(MessageTrack.ForSent(foo2));
+                MessageHistory.Record(MessageTrack.ForSent(foo3));
+
+                MessageHistory.Record(MessageTrack.ForReceived(foo1));
+                MessageHistory.Record(MessageTrack.ForReceived(foo2));
+                MessageHistory.Record(MessageTrack.ForReceived(foo3));
+            }).ShouldBeTrue();
+        }
+
+        [Test]
+        public void timeout_unsuccessful_with_MessageHistory_WaitForWorkToFinish_positive()
+        {
+            var foo1 = new Foo();
+            var foo2 = new Foo();
+            var foo3 = new Foo();
+
+            MessageHistory.WaitForWorkToFinish(() =>
+            {
+                MessageHistory.Record(MessageTrack.ForSent(foo1));
+                MessageHistory.Record(MessageTrack.ForSent(foo2));
+                MessageHistory.Record(MessageTrack.ForSent(foo3));
+
+                MessageHistory.Record(MessageTrack.ForReceived(foo1));
+                MessageHistory.Record(MessageTrack.ForReceived(foo2));
+                //MessageHistory.Record(MessageTrack.ForReceived(foo3));
+            }).ShouldBeFalse();
+        }
+
+        [Test]
         public void track_received()
         {
             var foo1 = new Foo();
