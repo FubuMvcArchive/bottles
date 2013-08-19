@@ -6,9 +6,9 @@ namespace Bottles.Services
 {
     public static class Wait
     {
-        public static void Until(Func<bool> condition, int millisecondPolling = 500, int timeoutInMilliseconds = 5000)
+        public static bool Until(Func<bool> condition, int millisecondPolling = 500, int timeoutInMilliseconds = 5000)
         {
-            if (condition()) return;
+            if (condition()) return true;
 
             var clock = new Stopwatch();
             clock.Start();
@@ -16,10 +16,12 @@ namespace Bottles.Services
             while (clock.ElapsedMilliseconds < timeoutInMilliseconds)
             {
                 Thread.Yield();
-                Thread.Sleep(500);
+                Thread.Sleep(millisecondPolling);
 
-                if (condition()) return;
+                if (condition()) return true;
             }
+
+            return false;
         }
     }
 }
