@@ -43,6 +43,8 @@ namespace Bottles.Tests.Harness
             };
 
             var process = Process.Start(processInfo);
+            //Console.WriteLine(process.StandardOutput.ReadToEnd());
+
 
             _checker.WaitForActivated();
 

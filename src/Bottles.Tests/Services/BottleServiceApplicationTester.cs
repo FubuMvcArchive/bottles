@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using Bottles.Services;
+using FubuCore;
 using FubuTestingSupport;
 using NUnit.Framework;
 
@@ -63,6 +64,38 @@ namespace Bottles.Tests.Services
         {
             BottleServiceApplication.BuildApplicationLoader(typeof (GoodApplicationSource))
                 .ShouldBeOfType<ApplicationLoader<GoodApplicationSource, Application, IDisposable>>();
+        }
+
+        [Test]
+        public void find_loader_types()
+        {
+            var types = BottleServiceApplication.FindLoaderTypes();
+            types.ShouldContain(typeof(GoodApplicationSource));
+            types.ShouldContain(typeof(FakeApplicationLoader));
+
+            types.ShouldNotContain(typeof(DefaultBottleApplication));
+        }
+
+        [Test]
+        public void finds_bootstrapper_by_name()
+        {
+            BottleServiceApplication.FindLoader(typeof(FakeApplicationLoader).AssemblyQualifiedName)
+                .ShouldBeOfType<FakeApplicationLoader>();
+        }
+
+        [Test]
+        public void finds_bootstrapper_by_name_for_a_source()
+        {
+            BottleServiceApplication.FindLoader(typeof(GoodApplicationSource).AssemblyQualifiedName)
+                .ShouldBeOfType<ApplicationLoader<GoodApplicationSource, Application, IDisposable>>();
+        }
+
+        [Test]
+        public void blows_up_if_more_than_one_application_source()
+        {
+            Exception<Exception>.ShouldBeThrownBy(() => {
+                BottleServiceApplication.FindLoader(null);
+            }).Message.ShouldContain("Found multiple candidates, you may need to specify an explicit selection in the bottle-service.config file.");
         }
     }
 

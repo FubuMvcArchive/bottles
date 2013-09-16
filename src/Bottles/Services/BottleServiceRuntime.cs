@@ -27,6 +27,7 @@ namespace Bottles.Services
 
         public void Start()
         {
+            Console.WriteLine("Starting application from " + Runner);
             _shutdown = Runner.Load();
         }
 

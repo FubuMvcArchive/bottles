@@ -11,12 +11,50 @@ namespace Bottles.Services
         [SkipOverForProvenance]
         public static IApplicationLoader FindLoader(string bootstrapperType)
         {
-            // TODO -- do something w/ the custom bootstrapper!
-            // TODO -- go look for IApplicationSource & IApplicationLoader
+            if (bootstrapperType.IsNotEmpty())
+            {
+                var type = Type.GetType(bootstrapperType);
+                return BuildApplicationLoader(type);
+            }
+
+            var candidates = FindLoaderTypes();
+            if (candidates.Count() == 1)
+            {
+                return BuildApplicationLoader(candidates.Single());
+            }
+            else if (candidates.Any())
+            {
+                throw new Exception(
+                    "Found multiple candidates, you may need to specify an explicit selection in the bottle-service.config file.  \nCandidates found are " +
+                    candidates.Select(x => x.AssemblyQualifiedName).Join(",\n"));
+            }
+            else
+            {
+                Console.WriteLine("Found no loaders or application sources");
+            }
 
             return new DefaultBottleApplication();
 
         }
+
+        public static IEnumerable<Type> FindLoaderTypes()
+        {
+            var list = new List<Type>();
+
+            AssemblyFinder.FindAssemblies(a => !a.IsDynamic && a.GetName().Name != "Bottles").Each(assem => {
+                try
+                {
+                    list.AddRange(assem.GetExportedTypes().Where(IsLoaderTypeCandidate));
+                }
+                catch (Exception)
+                {
+                    
+                    Console.WriteLine("Unable to find exported types for assembly " + assem.FullName);
+                }
+            });
+
+            return list;
+        } 
 
         public static bool IsLoaderTypeCandidate(Type type)
         {

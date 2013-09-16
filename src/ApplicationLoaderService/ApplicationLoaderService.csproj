@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FubuCore, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FubuCore\lib\FubuCore.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,10 +48,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bottles.Tests\Bottles.Tests.csproj">
-      <Project>{C6CE4324-3E5A-48C8-900E-10833AC01BDC}</Project>
-      <Name>Bottles.Tests</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BottleServiceRunner\BottleServiceRunner.csproj">
       <Project>{98E3001B-02B2-4449-927D-F5D63C3C5AA9}</Project>
       <Name>BottleServiceRunner</Name>
