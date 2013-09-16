@@ -97,6 +97,7 @@
     <Compile Include="Exploding\BottleExploderTester.cs" />
     <Compile Include="FileSystemExtensionsTester.cs" />
     <Compile Include="FileSystemTester.cs" />
+    <Compile Include="Harness\HarnessClasses.cs" />
     <Compile Include="LambdaActivatorTester.cs" />
     <Compile Include="BottleInfoTester.cs" />
     <Compile Include="BottleManifestReaderTester.cs" />
