@@ -41,7 +41,6 @@ namespace Bottles.Services.Tests
         {
             var types = BottleServiceFinder.FindTypes(theAssemblies);
             types.Contains(typeof(StubService)).ShouldBeTrue();
-            types.Contains(typeof(RecordingService)).ShouldBeTrue();
         }
     }
 }

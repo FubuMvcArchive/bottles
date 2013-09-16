@@ -116,9 +116,7 @@
     <Compile Include="Runtime\BootstrappingIntegratedTester.cs" />
     <Compile Include="Services\BottleServiceApplicationTester.cs" />
     <Compile Include="Services\BottleServiceFinderTester.cs" />
-    <Compile Include="Services\BottleServiceRunnerTester.cs" />
     <Compile Include="Services\BottleServiceTester.cs" />
-    <Compile Include="Services\IntegratedBottleServiceAggregatorTester.cs" />
     <Compile Include="Services\Integration\service_activation_integration_tester.cs" />
     <Compile Include="Services\Messaging\EventAggregatorTester.cs" />
     <Compile Include="Services\Messaging\MessageWaitConditionTester.cs" />

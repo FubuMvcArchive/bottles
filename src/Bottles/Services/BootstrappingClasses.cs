@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Sockets;
+using System.Threading.Tasks;
+using Bottles.Services.Messaging;
 
 namespace Bottles.Services
 {
@@ -31,33 +35,37 @@ namespace Bottles.Services
         TApplication BuildApplication();
     }
 
-    public class DefaultBottleApplication : IApplication<DefaultBottleApplication>,
-        IApplicationSource<DefaultBottleApplication, DefaultBottleApplication>, IDisposable
+    public class DefaultBottleApplication : IApplicationLoader, IDisposable
     {
-        private BottleServiceRunner _services;
+        private IEnumerable<IBottleService> _services;
 
-        public DefaultBottleApplication Bootstrap()
+        public IDisposable Load()
         {
             var facility = new BottlesServicePackageFacility();
+
             PackageRegistry.LoadPackages(x => x.Facility(facility));
-
-
             PackageRegistry.AssertNoFailures();
 
-            _services = facility.Aggregator.ServiceRunner();
-            _services.Start();
+            _services = facility.Services();
+            if (!_services.Any())
+            {
+                throw new ApplicationException("No services were detected.  Shutting down.");
+            }
 
-            return this;
-        }
+            var tasks = _services.Select(x => x.ToTask()).ToArray();
 
-        public DefaultBottleApplication BuildApplication()
-        {
+            _services.Each(x => EventAggregator.Messaging.AddListener(x));
+
+            tasks.Each(x => x.Start());
+
+            Task.WaitAll(tasks);
+
             return this;
         }
 
         public void Dispose()
         {
-            _services.Stop();
+            _services.Each(x => x.Stop());
         }
     }
 }

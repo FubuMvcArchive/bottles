@@ -3,7 +3,7 @@ using Bottles.Diagnostics;
 
 namespace Bottles.Services
 {
-    public class BottleServiceAggregator : IBootstrapper
+    public class BottleServiceBootstrapper : IBootstrapper
     {
         private readonly IList<IBottleService> _services = new List<IBottleService>();
  
@@ -15,9 +15,9 @@ namespace Bottles.Services
             return new IActivator[0];
         }
 
-        public BottleServiceRunner ServiceRunner()
+        public IEnumerable<IBottleService> Services()
         {
-            return new BottleServiceRunner(_services);
-        }
+            return _services;
+        } 
     }
 }

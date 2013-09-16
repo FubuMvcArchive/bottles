@@ -38,11 +38,17 @@ namespace Bottles.Services
             {
                 ActivatorTypeName = _activator.GetType().AssemblyQualifiedName
             });
+
+            Console.WriteLine("Started service " + _activator);
         }
 
         public void Stop()
         {
-            _activator.As<IDeactivator>().Deactivate(_log);
+            var deactivator = _activator as IDeactivator;
+            if (deactivator != null)
+            {
+                deactivator.Deactivate(_log);
+            }
         }
 
         public Task ToTask()

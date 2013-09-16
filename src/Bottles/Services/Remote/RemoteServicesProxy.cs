@@ -1,12 +1,11 @@
 ﻿using System;
 using Bottles.Services.Messaging;
-using FubuCore;
 
 namespace Bottles.Services.Remote
 {
     public class RemoteServicesProxy : MarshalByRefObject
     {
-        private BottleServiceRunner _runner;
+        private IDisposable _shutdown;
 
         public void Start(string bootstrapperName, MarshalByRefObject remoteListener)
         {
@@ -16,15 +15,14 @@ namespace Bottles.Services.Remote
             // TODO -- need to handle exceptions gracefully here
             EventAggregator.Start((IRemoteListener) remoteListener);
 
-            var application = new BottleServiceApplication();
-            _runner = application.Bootstrap(bootstrapperName);
-            _runner.Start();
+            var loader = BottleServiceApplication.FindLoader(bootstrapperName);
+            _shutdown = loader.Load();
         }
 
         public void Shutdown()
         {
             EventAggregator.Stop();
-            _runner.Stop();
+            _shutdown.Dispose();
         }
 
         public override object InitializeLifetimeService()

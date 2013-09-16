@@ -1,21 +1,22 @@
 using System;
+using System.Collections.Generic;
 
 namespace Bottles.Services
 {
     public class BottlesServicePackageFacility : PackageFacility
     {
-        private readonly BottleServiceAggregator _aggregator = new BottleServiceAggregator();
+        private readonly BottleServiceBootstrapper _bootstrapper = new BottleServiceBootstrapper();
 
         public BottlesServicePackageFacility()
         {
-            Bootstrapper(_aggregator);
+            Bootstrapper(_bootstrapper);
             Loader(new BottleServicePackageLoader());
         }
 
-        public BottleServiceAggregator Aggregator
+        public IEnumerable<IBottleService> Services()
         {
-            get { return _aggregator; }
-        }
+            return _bootstrapper.Services();
+        } 
 
         public static string GetApplicationDirectory()
         {

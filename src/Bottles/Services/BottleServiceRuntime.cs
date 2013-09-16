@@ -1,43 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Bottles.Services
 {
-	public class BottleServiceRuntime
-	{
-		private readonly Lazy<BottleServiceRunner> _runner;
+    /// <summary>
+    /// Strictly used within the main Program
+    /// </summary>
+    public class BottleServiceRuntime
+    {
+        private readonly Lazy<IApplicationLoader> _runner;
+        private IDisposable _shutdown;
 
-		public BottleServiceRuntime()
-		{
-			_runner = new Lazy<BottleServiceRunner>(bootstrap);
-		}
+        public BottleServiceRuntime()
+        {
+            _runner = new Lazy<IApplicationLoader>(bootstrap);
+        }
 
-		private BottleServiceRunner Runner { get { return _runner.Value; } }
+        private IApplicationLoader Runner
+        {
+            get { return _runner.Value; }
+        }
 
-		private BottleServiceRunner bootstrap()
-		{
-			var application = new BottleServiceApplication();
-			var runner = application.Bootstrap();
+        private IApplicationLoader bootstrap()
+        {
+            return BottleServiceApplication.FindLoader(null);
+        }
 
-			if (!runner.Services.Any())
-			{
-				throw new ApplicationException("No services were detected.  Shutting down.");
-			}
+        public void Start()
+        {
+            _shutdown = Runner.Load();
+        }
 
-			runner.Services.Each(x => Console.WriteLine("Started " + x));
-
-			return runner;
-		}
-
-		public void Start()
-		{
-			Runner.Start();
-		}
-
-		public void Stop()
-		{
-			Runner.Stop();
-		}
-	}
+        public void Stop()
+        {
+            _shutdown.Dispose();
+        }
+    }
 }

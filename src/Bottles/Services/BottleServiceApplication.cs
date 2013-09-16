@@ -6,38 +6,16 @@ using System.Linq;
 
 namespace Bottles.Services
 {
-
-
-
-
-    // TODO -- This gets fancier later
-    public class BottleServiceApplication
+    public static class BottleServiceApplication
     {
         [SkipOverForProvenance]
-        public BottleServiceRunner Bootstrap(string bootstrapperType = null)
+        public static IApplicationLoader FindLoader(string bootstrapperType)
         {
-            // TODO -- this is going to change to using IApplicationSource
-            // Check if this is IApplicationLoader or closes IApplicationSource<,>
-            if (bootstrapperType.IsNotEmpty())
-            {
-                var type = Type.GetType(bootstrapperType);
-                var bootstrapper = Activator.CreateInstance(type).As<IBootstrapper>();
+            // TODO -- do something w/ the custom bootstrapper!
+            // TODO -- go look for IApplicationSource & IApplicationLoader
 
-                var wrapped = new WrappedBootstrapper(bootstrapper);
-                PackageRegistry.LoadPackages(x => x.Bootstrapper(wrapped));
+            return new DefaultBottleApplication();
 
-                PackageRegistry.AssertNoFailures();
-
-                return new BottleServiceRunner(wrapped.BottleServices());
-            }
-
-            var facility = new BottlesServicePackageFacility();
-            PackageRegistry.LoadPackages(x => x.Facility(facility));
-            
-
-            PackageRegistry.AssertNoFailures();
-
-            return facility.Aggregator.ServiceRunner();
         }
 
         public static bool IsLoaderTypeCandidate(Type type)

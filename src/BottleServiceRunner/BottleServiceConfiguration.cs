@@ -9,7 +9,7 @@ namespace BottleServiceRunner
 
         public BottleServiceConfiguration()
         {
-            var defaultValue = typeof (Bottles.Services.BottleServiceRunner).Name + "Service";
+            var defaultValue = "BottlesService";
 
             Name = defaultValue;
             DisplayName = defaultValue;
