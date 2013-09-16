@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using FubuCore;
 using NUnit.Framework;
 
@@ -15,7 +14,6 @@ namespace Bottles.Tests.Harness
     public class ServiceRunner
     {
         private readonly string _directory;
-        private readonly string[] _serviceDirectories;
         private readonly ServiceFileChecker _checker;
 
         public ServiceRunner(string directory, params string[] serviceDirectories)
