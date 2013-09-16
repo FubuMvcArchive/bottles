@@ -13,6 +13,6 @@
     <tags>packaging areas slices services topshelf</tags>
   </metadata>
   <files>
-    <file src="..\..\src\BottleServiceRunner\bin\release\*.*" target="tools" />
+    <file src="..\..\src\BottleServiceRunner\bin\release\*.*" target="lib" />
   </files>
 </package>
