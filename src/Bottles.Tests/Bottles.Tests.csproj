@@ -97,7 +97,9 @@
     <Compile Include="Exploding\BottleExploderTester.cs" />
     <Compile Include="FileSystemExtensionsTester.cs" />
     <Compile Include="FileSystemTester.cs" />
-    <Compile Include="Harness\HarnessClasses.cs" />
+    <Compile Include="Harness\FileWriterActivator.cs" />
+    <Compile Include="Harness\ServiceRunner.cs" />
+    <Compile Include="Harness\ServiceFileChecker.cs" />
     <Compile Include="LambdaActivatorTester.cs" />
     <Compile Include="BottleInfoTester.cs" />
     <Compile Include="BottleManifestReaderTester.cs" />
@@ -117,6 +119,7 @@
     <Compile Include="Services\BottleServiceRunnerTester.cs" />
     <Compile Include="Services\BottleServiceTester.cs" />
     <Compile Include="Services\IntegratedBottleServiceAggregatorTester.cs" />
+    <Compile Include="Services\Integration\service_activation_integration_tester.cs" />
     <Compile Include="Services\Messaging\EventAggregatorTester.cs" />
     <Compile Include="Services\Messaging\MessageWaitConditionTester.cs" />
     <Compile Include="Services\Messaging\MessagingHubTester.cs" />

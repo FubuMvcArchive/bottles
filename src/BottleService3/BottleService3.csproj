@@ -56,6 +56,10 @@
       <Project>{9BBD6EF5-749E-4BCB-B5BD-4F5D2EF463B7}</Project>
       <Name>BottleService2</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BottleServiceRunner\BottleServiceRunner.csproj">
+      <Project>{98E3001B-02B2-4449-927D-F5D63C3C5AA9}</Project>
+      <Name>BottleServiceRunner</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bottles\Bottles.csproj">
       <Project>{E208A2B1-31B0-4455-BA16-3D79F5887ECE}</Project>
       <Name>Bottles</Name>

@@ -48,6 +48,10 @@
       <Project>{C6CE4324-3E5A-48C8-900E-10833AC01BDC}</Project>
       <Name>Bottles.Tests</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BottleServiceRunner\BottleServiceRunner.csproj">
+      <Project>{98E3001B-02B2-4449-927D-F5D63C3C5AA9}</Project>
+      <Name>BottleServiceRunner</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bottles\Bottles.csproj">
       <Project>{E208A2B1-31B0-4455-BA16-3D79F5887ECE}</Project>
       <Name>Bottles</Name>

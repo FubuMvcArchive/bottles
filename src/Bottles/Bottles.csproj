@@ -53,6 +53,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AliasRegistry.cs" />
+    <Compile Include="AssemblyFinder.cs" />
     <Compile Include="AssemblyTarget.cs" />
     <Compile Include="Commands\AliasCommand.cs" />
     <Compile Include="Commands\AssemblyPackageCommand.cs" />
