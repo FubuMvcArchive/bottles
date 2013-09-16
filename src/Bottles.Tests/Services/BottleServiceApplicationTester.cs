@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Bottles.Services;
 using FubuTestingSupport;
 using NUnit.Framework;
@@ -48,6 +49,20 @@ namespace Bottles.Tests.Services
         {
             BottleServiceApplication.IsLoaderTypeCandidate(typeof(TemplatedApplicationSource))
                 .ShouldBeFalse();
+        }
+
+        [Test]
+        public void build_application_loader_for_application_loader_type()
+        {
+            BottleServiceApplication.BuildApplicationLoader(typeof(FakeApplicationLoader))
+                .ShouldBeOfType<FakeApplicationLoader>();
+        }
+
+        [Test]
+        public void building_an_application_loader_for_application_source()
+        {
+            BottleServiceApplication.BuildApplicationLoader(typeof (GoodApplicationSource))
+                .ShouldBeOfType<ApplicationLoader<GoodApplicationSource, Application, IDisposable>>();
         }
     }
 

@@ -48,6 +48,23 @@ namespace Bottles.Services
 
             return type.CanBeCastTo<IApplicationLoader>();
         }
+
+        public static IApplicationLoader BuildApplicationLoader(Type type)
+        {
+            var loaderType = determineLoaderType(type);
+
+            return Activator.CreateInstance(loaderType).As<IApplicationLoader>();
+        }
+
+        private static Type determineLoaderType(Type type)
+        {
+            var @interface = type.FindInterfaceThatCloses(typeof (IApplicationSource<,>));
+            if (@interface == null) return type;
+
+            var genericArguments = @interface.GetGenericArguments();
+            return typeof (ApplicationLoader<,,>)
+                .MakeGenericType(type, genericArguments.First(), genericArguments.Last());
+        }
     }
 
     [MarkedForTermination("Going to eliminate.")]
