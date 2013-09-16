@@ -44,6 +44,7 @@ namespace Bottles.Tests.Harness
             _checker.WaitForActivated();
 
             process.StandardInput.WriteLine("\x3");
+            process.WaitForExit(5000);
             
             _checker.WaitForDeactivated();
 
