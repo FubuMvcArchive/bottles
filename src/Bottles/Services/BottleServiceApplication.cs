@@ -6,12 +6,18 @@ using System.Linq;
 
 namespace Bottles.Services
 {
+
+
+
+
     // TODO -- This gets fancier later
     public class BottleServiceApplication
     {
         [SkipOverForProvenance]
         public BottleServiceRunner Bootstrap(string bootstrapperType = null)
         {
+            // TODO -- this is going to change to using IApplicationSource
+            // Check if this is IApplicationLoader or closes IApplicationSource<,>
             if (bootstrapperType.IsNotEmpty())
             {
                 var type = Type.GetType(bootstrapperType);
@@ -33,8 +39,18 @@ namespace Bottles.Services
 
             return facility.Aggregator.ServiceRunner();
         }
+
+        public static bool IsLoaderTypeCandidate(Type type)
+        {
+            if (!type.IsConcreteWithDefaultCtor()) return false;
+
+            if (type.Closes(typeof (IApplicationSource<,>))) return true;
+
+            return type.CanBeCastTo<IApplicationLoader>();
+        }
     }
 
+    [MarkedForTermination("Going to eliminate.")]
     public class WrappedBootstrapper : IBootstrapper
     {
         private readonly IBootstrapper _inner;

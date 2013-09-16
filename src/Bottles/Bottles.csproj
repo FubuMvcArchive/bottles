@@ -132,6 +132,7 @@
     <Compile Include="PackagingRuntimeGraph.cs" />
     <Compile Include="ProvenanceHelper.cs" />
     <Compile Include="PackageLoaders\Directory\DirectoryPackageLoader.cs" />
+    <Compile Include="Services\BootstrappingClasses.cs" />
     <Compile Include="Services\BottleService.cs" />
     <Compile Include="Services\BottleServiceAggregator.cs" />
     <Compile Include="Services\BottleServiceApplication.cs" />
