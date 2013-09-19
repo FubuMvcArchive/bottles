@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
+using Bottles.Diagnostics;
 using Bottles.Services;
 using FubuCore;
 using FubuTestingSupport;
@@ -67,6 +69,21 @@ namespace Bottles.Tests.Services
         }
 
         [Test]
+        public void building_an_activation_loader_for_bootstrapper()
+        {
+            BottleServiceApplication.BuildApplicationLoader(typeof (FakeBootstrapper))
+                .ShouldBeOfType<BootstrapperApplicationLoader<FakeBootstrapper>>();
+        }
+
+        [Test]
+        public void building_an_activation_loader_for_a_bad_type_thows()
+        {
+            Exception<ArgumentOutOfRangeException>.ShouldBeThrownBy(() => {
+                BottleServiceApplication.BuildApplicationLoader(GetType());
+            });
+        }
+
+        [Test]
         public void find_loader_types()
         {
             var types = BottleServiceApplication.FindLoaderTypes();
@@ -108,6 +125,14 @@ namespace Bottles.Tests.Services
         public IDisposable Load()
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public class FakeBootstrapper : IBootstrapper
+    {
+        public IEnumerable<IActivator> Bootstrap(IPackageLog log)
+        {
+            yield break;
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Bottles.Diagnostics;
@@ -19,11 +20,12 @@ namespace Bottles.Services.Tests
         public void finds_the_bootstrappers()
         {
             var bootstrappers = BottleServiceFinder.FindBootstrappers(theAssemblies);
-            bootstrappers.ShouldHaveCount(3);
 
             var types = bootstrappers.Select(x => x.GetType());
-            types.ShouldHaveTheSameElementsAs(typeof(EmptyBootstrapper),
-                typeof(NonBottleServiceBootstrapper), typeof(StubServiceBootstrapper));
+            types.ShouldContain(typeof(EmptyBootstrapper));
+            types.ShouldContain(typeof(NonBottleServiceBootstrapper));
+            types.ShouldContain(typeof(StubServiceBootstrapper));
+
         }
 
         [Test]

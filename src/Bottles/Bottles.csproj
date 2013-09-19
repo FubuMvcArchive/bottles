@@ -133,7 +133,8 @@
     <Compile Include="PackagingRuntimeGraph.cs" />
     <Compile Include="ProvenanceHelper.cs" />
     <Compile Include="PackageLoaders\Directory\DirectoryPackageLoader.cs" />
-    <Compile Include="Services\BootstrappingClasses.cs" />
+    <Compile Include="Services\BootstrapperApplicationLoader.cs" />
+    <Compile Include="Services\ApplicationLoader.cs" />
     <Compile Include="Services\BottleService.cs" />
     <Compile Include="Services\BottleServiceBootstrapper.cs" />
     <Compile Include="Services\BottleServiceApplication.cs" />
@@ -142,6 +143,10 @@
     <Compile Include="Services\BottleServicePackageLoader.cs" />
     <Compile Include="Services\BottleServiceRuntime.cs" />
     <Compile Include="Services\BottlesServicePackageFacility.cs" />
+    <Compile Include="Services\DefaultBottleApplication.cs" />
+    <Compile Include="Services\IApplication.cs" />
+    <Compile Include="Services\IApplicationLoader.cs" />
+    <Compile Include="Services\IApplicationSource.cs" />
     <Compile Include="Services\Messaging\EventAggregator.cs" />
     <Compile Include="Services\Messaging\IListener.cs" />
     <Compile Include="Services\Messaging\IMessagingHub.cs" />

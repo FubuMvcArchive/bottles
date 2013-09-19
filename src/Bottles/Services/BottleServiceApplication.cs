@@ -67,15 +67,24 @@ namespace Bottles.Services
 
         public static IApplicationLoader BuildApplicationLoader(Type type)
         {
-            var loaderType = determineLoaderType(type);
+            var loaderType = DetermineLoaderType(type);
 
             return Activator.CreateInstance(loaderType).As<IApplicationLoader>();
         }
 
-        private static Type determineLoaderType(Type type)
+        public static Type DetermineLoaderType(Type type)
         {
+            if (type.CanBeCastTo<IApplicationLoader>()) return type;
+
+            if (type.CanBeCastTo<IBootstrapper>())
+            {
+                return typeof (BootstrapperApplicationLoader<>).MakeGenericType(type);
+            }
+
+            
+
             var @interface = type.FindInterfaceThatCloses(typeof (IApplicationSource<,>));
-            if (@interface == null) return type;
+            if (@interface == null) throw new ArgumentOutOfRangeException("type must implement either IBootstrapper, IApplicationLoader, or IApplicationSource<TApplication,TRuntime> (FubuMVC's IApplicationSource)");
 
             var genericArguments = @interface.GetGenericArguments();
             return typeof (ApplicationLoader<,,>)
@@ -83,7 +92,6 @@ namespace Bottles.Services
         }
     }
 
-    [MarkedForTermination("Going to eliminate.")]
     public class WrappedBootstrapper : IBootstrapper
     {
         private readonly IBootstrapper _inner;
@@ -97,6 +105,7 @@ namespace Bottles.Services
         public IEnumerable<IActivator> Bootstrap(IPackageLog log)
         {
             _services = _inner.Bootstrap(log).Select(x => new BottleService(x, log));
+            _services.Each(x => x.Start());
 
             return new IActivator[0];
         }

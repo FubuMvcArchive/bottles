@@ -84,8 +84,10 @@ namespace Bottles.Services.Remote
             return _remoteListener.WaitForMessage(filter, action, wait);
         }
 
-        public static RemoteServiceRunner For<T>(Action<RemoteDomainExpression> configure = null) where T : IBootstrapper
+        public static RemoteServiceRunner For<T>(Action<RemoteDomainExpression> configure = null)
         {
+            BottleServiceApplication.DetermineLoaderType(typeof (T));
+
             if (configure == null)
             {
                 configure = x => { };
