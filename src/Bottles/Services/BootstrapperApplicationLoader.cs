@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace Bottles.Services
 {
@@ -23,6 +24,11 @@ namespace Bottles.Services
         public void Dispose()
         {
             _wrappedBootstrapper.BottleServices().Each(x => x.Stop());
+        }
+
+        public override string ToString()
+        {
+            return new T().ToString();
         }
     }
 }

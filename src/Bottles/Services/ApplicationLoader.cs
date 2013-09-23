@@ -11,5 +11,10 @@ namespace Bottles.Services
         {
             return new TSource().BuildApplication().Bootstrap();
         }
+
+        public override string ToString()
+        {
+            return new TSource().ToString();
+        }
     }
 }
