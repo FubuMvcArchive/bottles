@@ -69,7 +69,10 @@ namespace Bottles
             _dependencies.Fill(dependency);
         }
 
-       
+        public void RemoveAllAssemblies()
+        {
+            _assemblies.Clear();
+        }
 
         public IPackageFiles Files
         {
