@@ -202,8 +202,11 @@ namespace Bottles.Commands
             var projectFileName = input.RootFolder.AppendPath(input.ProjFileFlag);
 
             var csProjFile = CsProjFile.LoadFrom(projectFileName);
-            csProjFile.Add<EmbeddedResource>(zipFileName);
-            csProjFile.Save();
+            if (csProjFile.Find<EmbeddedResource>(zipFileName) == null)
+            {
+                csProjFile.Add<EmbeddedResource>(zipFileName);
+                csProjFile.Save();
+            }
         }
 
 
