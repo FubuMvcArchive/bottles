@@ -104,6 +104,7 @@ task :create_gem => [:compile, :ilrepack] do
 	cleanDirectory 'bin';	
 	cleanDirectory 'pkg'
 	
+	Dir.mkdir 'bin' unless Dir.exists? 'bin'
 
 	copyOutputFiles "src/Bottles.Console/bin/#{@solution.compilemode}", '*.dll', 'bin'
 	copyOutputFiles "src/Bottles.Console/bin/#{@solution.compilemode}", '*BottleRunner.exe', 'bin/bottles.exe'
