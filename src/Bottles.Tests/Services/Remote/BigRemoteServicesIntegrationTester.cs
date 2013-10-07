@@ -44,6 +44,17 @@ namespace Bottles.Services.Tests.Remote
         }
 
         [Test]
+        public void start_with_a_parallel_folder()
+        {
+            using (var runner = new RemoteServiceRunner(x => {
+                x.UseParallelServiceDirectory("ApplicationLoaderService");
+            }))
+            {
+                runner.WaitForMessage<LoaderStarted>().LoaderTypeName.ShouldContain("MyApplicationLoader");
+            }
+        }
+
+        [Test]
         public void run_a_specific_bootstrapper()
         {
             using (var runner = RemoteServiceRunner.For<SampleBootstrapper>())

@@ -25,8 +25,6 @@ namespace Bottles.Services.Remote
 
             _domain = AppDomain.CreateDomain(expression.Setup.ApplicationName, null, setup);
 
-
-
             expression.As<IAssemblyMover>().MoveAssemblies(setup);
 
 
@@ -37,7 +35,7 @@ namespace Bottles.Services.Remote
             _remoteListener = new RemoteListener(_messagingHub);
 
 
-            _proxy.Start(expression.BootstrapperName, _remoteListener);
+            _proxy.Start(expression.BootstrapperName, expression.Properties.ToDictionary().As<Dictionary<string, string>>(), _remoteListener);
         }
 
         /// <summary>

@@ -128,6 +128,7 @@
     <Compile Include="Services\Messaging\WaitTester.cs" />
     <Compile Include="Services\Remote\BigRemoteServicesIntegrationTester.cs" />
     <Compile Include="Services\Remote\RemoteDomainExpressionTester.cs" />
+    <Compile Include="Services\Remote\RemoteServicesProxyTester.cs" />
     <Compile Include="Services\TestBootstrappers.cs" />
     <Compile Include="SolutionDirectoryBottleLoaderTester.cs" />
     <Compile Include="StubBottle.cs" />

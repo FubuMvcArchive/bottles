@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Web.Caching;
 using Bottles.Services.Messaging;
 using FubuCore;
+using FubuCore.Util;
 
 namespace Bottles.Services.Remote
 {
@@ -25,9 +28,29 @@ namespace Bottles.Services.Remote
             ApplicationBase = ".".ToFullPath()
         };
 
+        public readonly Cache<string, string> Properties = new Cache<string, string>(key => null);
+
         public AppDomainSetup Setup
         {
             get { return _setup; }
+        }
+
+        public void UseParallelServiceDirectory(string directory)
+        {
+            var path = AppDomain.CurrentDomain.BaseDirectory.ToFullPath();
+            if (Path.GetFileName(path).EqualsIgnoreCase("Debug") || Path.GetFileName(path).EqualsIgnoreCase("Release"))
+            {
+                path = path.ParentDirectory();
+            }
+
+            if (Path.GetFileName(path).EqualsIgnoreCase("bin"))
+            {
+                path = path.ParentDirectory();
+            }
+
+            path = path.ParentDirectory(); // src directory
+
+            ServiceDirectory = path.AppendPath(directory);
         }
 
         public string ServiceDirectory

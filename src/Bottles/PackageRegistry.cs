@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Bottles.Diagnostics;
 using Bottles.PackageLoaders.Assemblies;
+using FubuCore.Util;
 
 namespace Bottles
 {
@@ -145,5 +146,7 @@ namespace Bottles
                 throw new ApplicationException(writer.GetStringBuilder().ToString());
             });
         }
+
+        public readonly static Cache<string, string> Properties = new Cache<string, string>(key => null); 
     }
 }
