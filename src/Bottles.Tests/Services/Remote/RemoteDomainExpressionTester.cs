@@ -82,5 +82,7 @@ namespace Bottles.Services.Tests.Remote
 
             expression.Setup.PrivateBinPath.ShouldBeNull();
         }
+
+        
     }
 }

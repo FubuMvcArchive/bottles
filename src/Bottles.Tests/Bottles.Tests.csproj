@@ -113,6 +113,7 @@
     <Compile Include="must_be_descriptions_on_important_things.cs" />
     <Compile Include="PackageLoaders\Assemblies\AssemblyPackageInfoTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemoteDomain_determination_of_the_app_config_file_Tester.cs" />
     <Compile Include="Runtime\BootstrappingIntegratedTester.cs" />
     <Compile Include="Services\BottleServiceApplicationTester.cs" />
     <Compile Include="Services\BottleServiceFinderTester.cs" />

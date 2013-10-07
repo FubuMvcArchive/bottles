@@ -51,7 +51,14 @@ namespace Bottles.Services.Remote
                     _setup.PrivateBinPath = "bin".AppendPath("Debug");
                 }
 
-
+                if (fileSystem.FileExists(value.AppendPath("App.config")))
+                {
+                    _setup.ConfigurationFile = value.ToFullPath().AppendPath("App.config");
+                }
+                else if (fileSystem.FileExists(value.AppendPath("Web.config")))
+                {
+                    _setup.ConfigurationFile = value.ToFullPath().AppendPath("Web.config");
+                }
             }
         }
 
