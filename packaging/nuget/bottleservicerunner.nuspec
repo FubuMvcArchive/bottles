@@ -11,6 +11,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Topshelf host for Bottles</description>
     <tags>packaging areas slices services topshelf</tags>
+    <dependencies>
+      <dependency id="Bottles" version="2.0" />
+    </dependencies>
   </metadata>
   <files>
     <file src="..\..\src\BottleServiceRunner\bin\release\*.*" target="lib" />
