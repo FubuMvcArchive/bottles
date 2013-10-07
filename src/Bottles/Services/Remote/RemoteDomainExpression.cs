@@ -42,7 +42,11 @@ namespace Bottles.Services.Remote
                     _setup.PrivateBinPath = "bin";
                 }
 
-                if (fileSystem.DirectoryExists(value, "bin", "Debug"))
+                if (fileSystem.DirectoryExists(value, "bin", "Release"))
+                {
+                    _setup.PrivateBinPath = "bin".AppendPath("Release");
+                }
+                else if (fileSystem.DirectoryExists(value, "bin", "Debug"))
                 {
                     _setup.PrivateBinPath = "bin".AppendPath("Debug");
                 }
