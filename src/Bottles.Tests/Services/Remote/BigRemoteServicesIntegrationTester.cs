@@ -23,6 +23,27 @@ namespace Bottles.Services.Tests.Remote
         }
 
         [Test]
+        public void start_with_only_the_folder_name_with_an_IBottleService()
+        {
+            var servicePath = ".".ToFullPath().ParentDirectory().ParentDirectory().ParentDirectory().AppendPath("SampleService");
+            using (var runner = new RemoteServiceRunner(servicePath))
+            {
+                runner.WaitForServiceToStart<SampleService.SampleService>();
+                runner.Started.Any().ShouldBeTrue(); 
+            }
+        }
+
+        [Test]
+        public void start_with_only_the_folder_name_with_an_IApplicationLoader()
+        {
+            var servicePath = ".".ToFullPath().ParentDirectory().ParentDirectory().ParentDirectory().AppendPath("ApplicationLoaderService");
+            using (var runner = new RemoteServiceRunner(servicePath))
+            {
+                runner.WaitForMessage<LoaderStarted>().LoaderTypeName.ShouldContain("MyApplicationLoader");
+            }
+        }
+
+        [Test]
         public void run_a_specific_bootstrapper()
         {
             using (var runner = RemoteServiceRunner.For<SampleBootstrapper>())

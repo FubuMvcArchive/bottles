@@ -17,8 +17,6 @@ namespace Bottles.Services.Remote
 
         public RemoteServiceRunner(Action<RemoteDomainExpression> configure)
         {
-            
-
             var expression = new RemoteDomainExpression();
             configure(expression);
 
@@ -40,6 +38,29 @@ namespace Bottles.Services.Remote
 
 
             _proxy.Start(expression.BootstrapperName, _remoteListener);
+        }
+
+        /// <summary>
+        /// Simple way to launch and control a remote AppDomain assuming there is only one IApplicationLoader
+        /// in all the assemblies in the new AppDomain.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="binPath"></param>
+        /// <param name="configFile"></param>
+        public RemoteServiceRunner(string path, string binPath = null, string configFile = null) : this(x => {
+            x.ServiceDirectory = path;
+            if (binPath.IsNotEmpty())
+            {
+                x.Setup.PrivateBinPath = binPath;
+            }
+
+            if (configFile.IsNotEmpty())
+            {
+                x.Setup.ConfigurationFile = configFile;
+            }
+        })
+        {
+            
         }
 
         public IEnumerable<ServiceStarted> Started
@@ -74,13 +95,18 @@ namespace Bottles.Services.Remote
             _proxy.SendJson(json);
         }
 
-        public T WaitForMessage<T>(Action action, int wait = 5000)
+        public T WaitForMessage<T>(Action action = null, int wait = 5000)
         {
             return WaitForMessage<T>(t => true, action, wait);
         }
 
-        public T WaitForMessage<T>(Func<T, bool> filter, Action action, int wait = 5000)
+        public T WaitForMessage<T>(Func<T, bool> filter, Action action = null, int wait = 5000)
         {
+            if (action == null)
+            {
+                action = () => { };
+            }
+
             return _remoteListener.WaitForMessage(filter, action, wait);
         }
 

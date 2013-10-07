@@ -3,6 +3,11 @@ using Bottles.Services.Messaging;
 
 namespace Bottles.Services.Remote
 {
+    public class LoaderStarted
+    {
+        public string LoaderTypeName { get; set; }
+    }
+
     public class RemoteServicesProxy : MarshalByRefObject
     {
         private IDisposable _shutdown;
@@ -17,6 +22,11 @@ namespace Bottles.Services.Remote
 
             var loader = BottleServiceApplication.FindLoader(bootstrapperName);
             _shutdown = loader.Load();
+
+            EventAggregator.SendMessage(new LoaderStarted
+            {
+                LoaderTypeName = _shutdown.GetType().FullName
+            });
         }
 
         public void Shutdown()

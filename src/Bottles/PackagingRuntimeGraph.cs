@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Bottles.Diagnostics;
 using Bottles.PackageLoaders.Assemblies;
+using Bottles.Services.Messaging;
+using Bottles.Services.Remote;
 using FubuCore;
 
 namespace Bottles
@@ -78,7 +80,9 @@ namespace Bottles
         private void activatePackages(IList<IPackageInfo> packages, IList<IActivator> discoveredActivators)
         {
             var discoveredPlusRegisteredActivators = discoveredActivators.Union(_activators);
-            _diagnostics.LogExecutionOnEach(discoveredPlusRegisteredActivators, (activator, log) => activator.Activate(packages, log));
+            _diagnostics.LogExecutionOnEach(discoveredPlusRegisteredActivators, (activator, log) => {
+                activator.Activate(packages, log);
+            });
         }
 
         public void AddBootstrapper(IBootstrapper bootstrapper)

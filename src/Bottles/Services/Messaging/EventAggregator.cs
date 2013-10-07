@@ -59,8 +59,16 @@ namespace Bottles.Services.Messaging
 
         public static void SendMessage<T>(T message)
         {
-            _messages.Add(message);
-            _messaging.Send(message);
+            try
+            {
+                _messages.Add(message);
+                _messaging.Send(message);
+            }
+            catch (Exception e)
+            {
+                // THIS IS IMPORTANT, NO FAILURES CAN POSSIBLY GET OUT HERE
+                Console.WriteLine(e);
+            }
         }
 
         public static void ReceivedMessage(object message)
