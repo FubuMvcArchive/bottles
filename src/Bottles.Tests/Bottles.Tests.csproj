@@ -138,6 +138,10 @@
     <Compile Include="Zipping\ZipFolderRequestTester.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AssemblyPackageEmpty\AssemblyPackageEmpty.csproj">
+      <Project>{DDB83364-7676-4B36-B223-BE6167CE551B}</Project>
+      <Name>AssemblyPackageEmpty</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AssemblyPackage\AssemblyPackage.csproj">
       <Project>{99DBA82A-E811-4DA0-983C-12E8317F8642}</Project>
       <Name>AssemblyPackage</Name>
