@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationLoaderService", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationSourceService", "ApplicationSourceService\ApplicationSourceService.csproj", "{09F7D616-4C29-4663-9131-DE11D4FFE9AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyPackageEmpty", "AssemblyPackageEmpty\AssemblyPackageEmpty.csproj", "{DDB83364-7676-4B36-B223-BE6167CE551B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -255,6 +257,21 @@ Global
 		{09F7D616-4C29-4663-9131-DE11D4FFE9AB}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{09F7D616-4C29-4663-9131-DE11D4FFE9AB}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
 		{09F7D616-4C29-4663-9131-DE11D4FFE9AB}.Retail|x86.ActiveCfg = Release|Any CPU
+		{DDB83364-7676-4B36-B223-BE6167CE551B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDB83364-7676-4B36-B223-BE6167CE551B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDB83364-7676-4B36-B223-BE6167CE551B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DDB83364-7676-4B36-B223-BE6167CE551B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DDB83364-7676-4B36-B223-BE6167CE551B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DDB83364-7676-4B36-B223-BE6167CE551B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDB83364-7676-4B36-B223-BE6167CE551B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDB83364-7676-4B36-B223-BE6167CE551B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DDB83364-7676-4B36-B223-BE6167CE551B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{DDB83364-7676-4B36-B223-BE6167CE551B}.Release|x86.ActiveCfg = Release|Any CPU
+		{DDB83364-7676-4B36-B223-BE6167CE551B}.Retail|Any CPU.ActiveCfg = Release|Any CPU
+		{DDB83364-7676-4B36-B223-BE6167CE551B}.Retail|Any CPU.Build.0 = Release|Any CPU
+		{DDB83364-7676-4B36-B223-BE6167CE551B}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DDB83364-7676-4B36-B223-BE6167CE551B}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
+		{DDB83364-7676-4B36-B223-BE6167CE551B}.Retail|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -267,5 +284,6 @@ Global
 		{FE62CC8E-9566-4E6A-BE5E-F0A0D0530C39} = {703DCA45-AAA6-4E6C-BC08-61678551B57D}
 		{F19C5D9A-7C37-4862-A11B-15B70CA3BD6A} = {703DCA45-AAA6-4E6C-BC08-61678551B57D}
 		{09F7D616-4C29-4663-9131-DE11D4FFE9AB} = {703DCA45-AAA6-4E6C-BC08-61678551B57D}
+		{DDB83364-7676-4B36-B223-BE6167CE551B} = {703DCA45-AAA6-4E6C-BC08-61678551B57D}
 	EndGlobalSection
 EndGlobal
