@@ -132,6 +132,9 @@ namespace Bottles.Exploding
             _fileSystem.DeleteDirectory(directory);
             _fileSystem.CreateDirectory(directory);
 
+            var version = assembly.GetName().Version.ToString();
+            _fileSystem.WriteStringToFile(FileSystem.Combine(directory, BottleFiles.VersionFile), version);
+
             assembly.GetManifestResourceNames().Where(BottleFiles.IsEmbeddedPackageZipFile).Each(name =>
             {
                 var folderName = BottleFiles.EmbeddedPackageFolderName(name);
@@ -141,9 +144,6 @@ namespace Bottles.Exploding
                 var destinationFolder = FileSystem.Combine(directory, folderName);
 
                 _service.ExtractTo(description, stream, destinationFolder);
-
-                var version = assembly.GetName().Version.ToString();
-                _fileSystem.WriteStringToFile(FileSystem.Combine(directory, BottleFiles.VersionFile), version);
             });
         }
 

@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using AssemblyPackage;
+using AssemblyPackageEmpty;
 using Bottles.Diagnostics;
 using Bottles.Exploding;
 using Bottles.Zipping;
@@ -60,6 +61,31 @@ namespace Bottles.Tests.Exploding
         }
     }
 
+    [TestFixture]
+    public class integration_test_of_exploding_an_empty_assembly_package
+    {
+        private FileSystem fileSystem;
+
+        [SetUp]
+        public void SetUp()
+        {
+            fileSystem = new FileSystem();
+            fileSystem.DeleteDirectory("app1");
+            var exploder = new BottleExploder(new ZipFileService(fileSystem),
+                                               new BottleExploderLogger(s => ConsoleWriter.Write(s)), fileSystem);
+
+            var thePackage = new PackageInfo(new PackageManifest());
+
+            exploder.ExplodeAssembly("app1", typeof(EmptyPackageMarker).Assembly, thePackage);
+        }
+
+        [Test]
+        public void can_retrieve_the_version_from_the_package_folder()
+        {
+            var text = fileSystem.ReadStringFromFile("app1", "content", "AssemblyPackageEmpty", BottleFiles.VersionFile);
+            text.ShouldEqual("1.2.3.4");
+        }
+    }
 
     [TestFixture]
     public class when_extracting_package_zip_files : BottleExploderContext
