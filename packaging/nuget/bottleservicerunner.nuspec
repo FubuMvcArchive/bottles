@@ -16,6 +16,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\src\BottleServiceRunner\bin\release\*.*" target="lib" />
+    <file src="..\..\src\BottleServiceRunner\bin\release\BottleServiceRunner.exe" target="lib" />
   </files>
 </package>
