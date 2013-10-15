@@ -20,7 +20,7 @@ class ILRepack
     params << "/ndebug" unless debugsymbols
     params << "/union" if union
 
-    merge_exe = "#{File.dirname(__FILE__)}/ILMerge.exe"
+    merge_exe = "#{File.dirname(__FILE__)}/src/packages/ILRepack/tools/ILRepack.exe"
     @cmd = "#{merge_exe} #{params.join(' ')}"
   end
 
