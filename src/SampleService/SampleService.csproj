@@ -51,7 +51,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Topshelf">
-      <HintPath>..\packages\TopShelf\lib\net40-full\Topshelf.dll</HintPath>
+      <HintPath>..\packages\Topshelf\lib\net40-full\Topshelf.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -59,14 +59,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Bottles\Bottles.csproj">
-      <Project>{E208A2B1-31B0-4455-BA16-3D79F5887ECE}</Project>
-      <Name>Bottles</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Bottles\Bottles.csproj">
-      <Project>{E208A2B1-31B0-4455-BA16-3D79F5887ECE}</Project>
-      <Name>Bottles</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Bottles\Bottles.csproj">
       <Project>{E208A2B1-31B0-4455-BA16-3D79F5887ECE}</Project>
       <Name>Bottles</Name>
