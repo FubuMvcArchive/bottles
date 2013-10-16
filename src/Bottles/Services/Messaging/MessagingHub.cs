@@ -32,7 +32,7 @@ namespace Bottles.Services.Messaging
 
         public void AddListener(object listener)
         {
-            _listeners.Add(listener);
+            _listeners.Fill(listener);
         }
 
         public void RemoveListener(object listener)
