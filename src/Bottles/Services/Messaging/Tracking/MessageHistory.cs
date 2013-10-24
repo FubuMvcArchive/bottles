@@ -106,7 +106,7 @@ namespace Bottles.Services.Messaging.Tracking
         {
             ClearAll();
             action();
-            return Wait.Until(() => !Outstanding().Any(), timeoutInMilliseconds: timeoutMilliseconds);
+            return Wait.Until(() => !Outstanding().Any() && All().Any(), timeoutInMilliseconds: timeoutMilliseconds);
         }
     }
 
