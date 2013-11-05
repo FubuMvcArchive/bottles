@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
+using Bottles.Environment;
 using FubuCore;
 
 namespace Bottles.Diagnostics
@@ -104,6 +105,11 @@ namespace Bottles.Diagnostics
             return _log.HasErrors();
         }
 
+        public IEnumerable<LogSubject> LogsForSubjectType<T>()
+        {
+            return _log.LogsForSubjectType<T>();
+        }
+
         // Hokey, but it gets the job done.
         public static string GetTypeName(object target)
         {
@@ -113,6 +119,9 @@ namespace Bottles.Diagnostics
             if (target is IPackageFacility) return typeof (IPackageFacility).Name;
             if (target is IPackageInfo) return typeof (IPackageInfo).Name;
             if (target is Assembly) return typeof (Assembly).Name;
+            if (target is IEnvironmentRequirement) return typeof (IEnvironmentRequirement).Name;
+
+            // TODO -- add IEnvironmentTest
 
             return target.GetType().Name;
         }

@@ -2,15 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bottles.Diagnostics;
+using Bottles.Environment;
 using Bottles.PackageLoaders.Assemblies;
-using Bottles.Services.Messaging;
-using Bottles.Services.Remote;
 using FubuCore;
 
 namespace Bottles
 {
     /// <summary>
-    /// A collection of data about a given runtime
+    ///     A collection of data about a given runtime
     /// </summary>
     public class PackagingRuntimeGraph : IDisposable
     {
@@ -19,27 +18,33 @@ namespace Bottles
         private readonly IList<IBootstrapper> _bootstrappers = new List<IBootstrapper>();
         private readonly IBottlingDiagnostics _diagnostics;
         private readonly IList<IPackageLoader> _packageLoaders = new List<IPackageLoader>();
-        private readonly Stack<string> _provenanceStack = new Stack<string>();
         private readonly IList<IPackageInfo> _packages;
+        private readonly Stack<string> _provenanceStack = new Stack<string>();
 
-        public PackagingRuntimeGraph(IBottlingDiagnostics diagnostics, IAssemblyLoader assemblies, IList<IPackageInfo> packages)
+        public PackagingRuntimeGraph(IBottlingDiagnostics diagnostics, IAssemblyLoader assemblies,
+            IList<IPackageInfo> packages)
         {
             _diagnostics = diagnostics;
             _assemblies = assemblies;
-        	_packages = packages;
+            _packages = packages;
         }
 
+        private string currentProvenance
+        {
+            get { return _provenanceStack.Peek(); }
+        }
+
+
+        public void Dispose()
+        {
+            PopProvenance();
+        }
 
         public IDisposable InProvenance(string provenance, Action<PackagingRuntimeGraph> action)
         {
             PushProvenance(provenance);
             action(this);
             return this;
-        }
-
-        public void Dispose()
-        {
-            PopProvenance();
         }
 
         public void PushProvenance(string provenance)
@@ -56,17 +61,17 @@ namespace Bottles
         //I kinda want this method elsewhere
         public void DiscoverAndLoadPackages(Action onAssembliesScanned, bool runActivators = true)
         {
-            var allPackages = FindAllPackages();
+            IEnumerable<IPackageInfo> allPackages = FindAllPackages();
 
             //orders _packages
             analyzePackageDependenciesAndOrder(allPackages);
 
             loadAssemblies(_packages, onAssembliesScanned);
-            var discoveredActivators = collectAllActivatorsFromBootstrappers();
+            List<IActivator> discoveredActivators = collectAllActivatorsFromBootstrappers();
 
-            if(runActivators)
+            if (runActivators)
             {
-                activatePackages(_packages, discoveredActivators);    
+                activatePackages(_packages, discoveredActivators);
             }
         }
 
@@ -77,12 +82,23 @@ namespace Bottles
             _packages.AddRange(dependencyProcessor.OrderedPackages());
         }
 
-        private void activatePackages(IList<IPackageInfo> packages, IList<IActivator> discoveredActivators)
+        private void activatePackages(IEnumerable<IPackageInfo> packages, IEnumerable<IActivator> discoveredActivators)
         {
-            var discoveredPlusRegisteredActivators = discoveredActivators.Union(_activators);
-            _diagnostics.LogExecutionOnEach(discoveredPlusRegisteredActivators, (activator, log) => {
-                activator.Activate(packages, log);
-            });
+            IEnumerable<IActivator> discoveredPlusRegisteredActivators = discoveredActivators.Union(_activators).ToArray();
+
+            IEnumerable<IEnvironmentRequirement> requirements =
+                discoveredPlusRegisteredActivators.OfType<IEnvironmentRequirements>().SelectMany(x => x.Requirements());
+
+            _diagnostics.LogExecutionOnEach(requirements, (req, log) => { req.Check(log); });
+
+            // Do not bother to run any activators
+            if (_diagnostics.HasErrors())
+            {
+                return;
+            }
+
+            _diagnostics.LogExecutionOnEach(discoveredPlusRegisteredActivators,
+                (activator, log) => { activator.Activate(packages, log); });
         }
 
         public void AddBootstrapper(IBootstrapper bootstrapper)
@@ -108,23 +124,17 @@ namespace Bottles
             _diagnostics.LogObject(facility, currentProvenance);
 
             PushProvenance(facility.ToString());
-            
+
             facility.As<IPackagingRuntimeGraphConfigurer>().Configure(this);
             PopProvenance();
-        }
-
-        private string currentProvenance
-        {
-            get { return _provenanceStack.Peek(); }
         }
 
         private List<IActivator> collectAllActivatorsFromBootstrappers()
         {
             var result = new List<IActivator>();
-            
-            _diagnostics.LogExecutionOnEach(_bootstrappers, (currentBootstrapper, log) =>
-            {
-                var bootstrapperActivators = currentBootstrapper.Bootstrap(log);
+
+            _diagnostics.LogExecutionOnEach(_bootstrappers, (currentBootstrapper, log) => {
+                IEnumerable<IActivator> bootstrapperActivators = currentBootstrapper.Bootstrap(log);
                 result.AddRange(bootstrapperActivators);
                 _diagnostics.LogBootstrapperRun(currentBootstrapper, bootstrapperActivators);
             });
@@ -143,16 +153,15 @@ namespace Bottles
         {
             var result = new List<IPackageInfo>();
 
-            _diagnostics.LogExecutionOnEach(_packageLoaders, (currentLoader, log) =>
-            {
-                var packageInfos = currentLoader.Load(log).ToArray();
+            _diagnostics.LogExecutionOnEach(_packageLoaders, (currentLoader, log) => {
+                IPackageInfo[] packageInfos = currentLoader.Load(log).ToArray();
                 _diagnostics.LogPackages(currentLoader, packageInfos);
 
-                packageInfos.Each(pak =>
-                {
+                packageInfos.Each(pak => {
                     if (result.Any(x => x.Name == pak.Name))
                     {
-                        _diagnostics.LogFor(pak).Trace("Bottle named {0} already found by a previous loader.  Ignoring.", pak.Name);                        
+                        _diagnostics.LogFor(pak)
+                            .Trace("Bottle named {0} already found by a previous loader.  Ignoring.", pak.Name);
                     }
                     else
                     {

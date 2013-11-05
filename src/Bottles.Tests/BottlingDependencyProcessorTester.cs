@@ -192,6 +192,11 @@ namespace Bottles.Tests
             throw new NotImplementedException();
         }
 
+        public IEnumerable<LogSubject> LogsForSubjectType<T>()
+        {
+            throw new NotImplementedException();
+        }
+
         public IPackageLog LogFor(object target)
         {
             return _logs[target];

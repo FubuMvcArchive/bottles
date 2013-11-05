@@ -1,5 +1,8 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using FubuCore;
 using FubuCore.Util;
 
 namespace Bottles.Diagnostics
@@ -34,5 +37,26 @@ namespace Bottles.Diagnostics
         {
             return _logs.GetAll().Any(x => !x.Success);
         }
+
+        public IEnumerable<LogSubject> LogsForSubjectType<T>()
+        {
+            foreach (var pair in _logs.ToDictionary())
+            {
+                if (pair.Key.GetType().CanBeCastTo<T>())
+                {
+                    yield return new LogSubject
+                    {
+                        Subject = pair.Key,
+                        Log = pair.Value
+                    };
+                }    
+            }
+        }
+    }
+
+    public class LogSubject
+    {
+        public object Subject { get; set; }
+        public PackageLog Log { get; set; }
     }
 }

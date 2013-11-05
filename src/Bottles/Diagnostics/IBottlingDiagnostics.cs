@@ -19,5 +19,7 @@ namespace Bottles.Diagnostics
         IPackageLog LogFor(object target);
         void EachLog(Action<object, PackageLog> action);
         bool HasErrors();
+
+        IEnumerable<LogSubject> LogsForSubjectType<T>();
     }
 }

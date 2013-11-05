@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace Bottles.Services
 {
@@ -13,7 +12,6 @@ namespace Bottles.Services
             _wrappedBootstrapper = new WrappedBootstrapper(new T());
 
             PackageRegistry.LoadPackages(x => {
-                
                 x.Bootstrapper(_wrappedBootstrapper);
                 x.Loader(new BottleServicePackageLoader());
             });
