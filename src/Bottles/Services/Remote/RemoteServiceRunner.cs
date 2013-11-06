@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Bottles.Services.Messaging;
 using FubuCore;
@@ -9,33 +8,40 @@ namespace Bottles.Services.Remote
 {
     public class RemoteServiceRunner : IDisposable, IListener<ServiceStarted>
     {
-        private readonly AppDomain _domain;
+        private AppDomain _domain;
         private readonly IMessagingHub _messagingHub = new MessagingHub();
-        private readonly RemoteServicesProxy _proxy;
-        private readonly RemoteListener _remoteListener;
+        private RemoteServicesProxy _proxy;
+        private RemoteListener _remoteListener;
         private readonly IList<ServiceStarted> _started = new List<ServiceStarted>();
+        private RemoteDomainExpression _expression;
 
         public RemoteServiceRunner(Action<RemoteDomainExpression> configure)
         {
             var expression = new RemoteDomainExpression();
             configure(expression);
 
-            _messagingHub.AddListener(this);
-            AppDomainSetup setup = expression.Setup;
+            _expression = expression;
 
+            _messagingHub.AddListener(this);
+
+            startUpAppDomain(expression);
+        }
+
+        private void startUpAppDomain(RemoteDomainExpression expression)
+        {
+            AppDomainSetup setup = expression.Setup;
             _domain = AppDomain.CreateDomain(expression.Setup.ApplicationName, null, setup);
 
             expression.As<IAssemblyMover>().MoveAssemblies(setup);
 
-
             Type proxyType = typeof (RemoteServicesProxy);
             _proxy = (RemoteServicesProxy)
-                     _domain.CreateInstanceAndUnwrap(proxyType.Assembly.FullName, proxyType.FullName);
+                _domain.CreateInstanceAndUnwrap(proxyType.Assembly.FullName, proxyType.FullName);
 
             _remoteListener = new RemoteListener(_messagingHub);
 
-
-            _proxy.Start(expression.BootstrapperName, expression.Properties.ToDictionary().As<Dictionary<string, string>>(), _remoteListener);
+            _proxy.Start(expression.BootstrapperName, expression.Properties.ToDictionary().As<Dictionary<string, string>>(),
+                _remoteListener);
         }
 
         /// <summary>
@@ -73,8 +79,17 @@ namespace Bottles.Services.Remote
 
         public void Dispose()
         {
+            shutdownAppDomain();
+        }
+
+        private void shutdownAppDomain()
+        {
             _proxy.Shutdown();
             AppDomain.Unload(_domain);
+
+
+            _proxy = null;
+            _domain = null;
         }
 
         void IListener<ServiceStarted>.Receive(ServiceStarted message)
@@ -121,6 +136,12 @@ namespace Bottles.Services.Remote
                 configure(x);
                 x.BootstrapperName = typeof (T).AssemblyQualifiedName;
             });
+        }
+
+        public void Recycle()
+        {
+            shutdownAppDomain();
+            startUpAppDomain(_expression);
         }
     }
 }

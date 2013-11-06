@@ -23,6 +23,17 @@ namespace Bottles.Commands
         [Description("Remove all links from an application manifest file")]
         public bool CleanAllFlag { get; set; }
 
+        [Description("Create a 'remote' link that will run the service or app at the BottleFolder in a separate AppDomain")]
+        public bool RemoteFlag { get; set; }
+
+        [Description("Explicitly specify the name of the Bottles bootstrapper class for a remote link")]
+        public string BootstrapperFlag { get; set; }
+
+        [Description("Specify the name of the configuration file to use for a remote link")]
+        [FlagAlias("config-file",'f')]
+        public string ConfigFileFlag { get; set; }
+
+
         public string RelativePathOfPackage()
         {
             var pkg = Path.GetFullPath(BottleFolder);
@@ -96,6 +107,12 @@ namespace Bottles.Commands
             {
                 ConsoleWriter.Write("  No package links for " + appFolder);
             }
+
+            if (manifest.RemoteLinks.Any())
+            {
+                ConsoleWriter.Write("  Remote Links for " + appFolder);
+                manifest.RemoteLinks.Each(x => { ConsoleWriter.Write("    " + x); });
+            }
         }
 
         private void updateManifest(ILinksService links, LinkInput input, LinkManifest manifest)
@@ -108,10 +125,26 @@ namespace Bottles.Commands
             }
             else
             {
-                add(input, manifest);
+                if (input.RemoteFlag)
+                {
+                    
+                    var link = addRemoteLink(input, manifest);
+                    Console.WriteLine("Setting remote link " + link);
+                }
+                else
+                {
+                    add(input, manifest);
+                }
+
+                
             }
 
             links.Save(manifest, input.AppFolder);
+        }
+
+        private RemoteLink addRemoteLink(LinkInput input, LinkManifest manifest)
+        {
+            return manifest.AddRemoteLink(input);
         }
 
         private static void add(LinkInput input, LinkManifest manifest)

@@ -104,6 +104,7 @@
     <Compile Include="BottleManifestReaderTester.cs" />
     <Compile Include="BottleManifestTester.cs" />
     <Compile Include="BottleOrderingIntegratedTester.cs" />
+    <Compile Include="PackageLoaders\LinkedFolders\LinkManifestTester.cs" />
     <Compile Include="PackageRegistryTester.cs" />
     <Compile Include="BottlingDependencyProcessorTester.cs" />
     <Compile Include="BottlingDiagnosticsTester.cs" />
