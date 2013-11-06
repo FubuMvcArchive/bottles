@@ -68,7 +68,11 @@
     <Compile Include="Configuration\BottleConfigurationException.cs" />
     <Compile Include="Configuration\IBottleConfigurationRule.cs" />
     <Compile Include="Configuration\MissingService.cs" />
+    <Compile Include="Environment\CanWriteToFolder.cs" />
+    <Compile Include="Environment\FileExists.cs" />
+    <Compile Include="Environment\FolderExists.cs" />
     <Compile Include="Environment\IEnvironmentRequirement.cs" />
+    <Compile Include="Environment\IEnvironmentRequirements.cs" />
     <Compile Include="Exceptions\BottleException.cs" />
     <Compile Include="Exploding\ExplodeDirectory.cs" />
     <Compile Include="Exploding\ExplodeOptions.cs" />

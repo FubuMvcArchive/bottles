@@ -91,6 +91,8 @@
     </Compile>
     <Compile Include="Configuration\when_asserting_the_bottle_configuration.cs" />
     <Compile Include="Creation\BottleCreatorTester.cs" />
+    <Compile Include="Environment\FileExistsTester.cs" />
+    <Compile Include="Environment\FolderExistsTester.cs" />
     <Compile Include="Exploding\BottleExploderTester.cs" />
     <Compile Include="FileSystemExtensionsTester.cs" />
     <Compile Include="FileSystemTester.cs" />
