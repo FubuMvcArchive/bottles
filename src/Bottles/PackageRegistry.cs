@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Bottles.Diagnostics;
 using Bottles.PackageLoaders.Assemblies;
+using Bottles.Services.Remote;
 using FubuCore.Util;
 
 namespace Bottles
 {
-    //rename to bottles registry
     public static class PackageRegistry
     {
         private static readonly IList<Assembly> _assemblies = new List<Assembly>();
         private static readonly IList<IPackageInfo> _packages = new List<IPackageInfo>();
+        private static readonly IList<RemoteService> _remotes = new List<RemoteService>(); 
 
         static PackageRegistry()
         {
@@ -66,6 +68,14 @@ namespace Bottles
         public static IBottlingDiagnostics Diagnostics { get; private set; }
 
         /// <summary>
+        /// All the active, remotely hosted services
+        /// </summary>
+        public static IEnumerable<RemoteService> Remotes
+        {
+            get { return _remotes; }
+        }
+
+        /// <summary>
         /// The entry method into the bottles environment
         /// </summary>
         /// <param name="configuration"></param>
@@ -75,12 +85,16 @@ namespace Bottles
             //have it return an environment object.
         {
             _packages.Clear();
+            _remotes.Clear();
 
             Diagnostics = new BottlingDiagnostics(new LoggingSession());
             var record = new BottleLoadingRecord();
 
-            Diagnostics.LogExecution(record, () =>
-            {
+            Diagnostics.LogExecution(record, () => {
+                var remotes = RemoteService.LoadLinkedRemotes();
+                _remotes.AddRange(remotes);
+                var remoteTasks = remotes.Select(x => x.Start()).ToArray();
+
                 var facility = new PackageFacility();
                 var assemblyLoader = new AssemblyLoader(Diagnostics);
                 var graph = new PackagingRuntimeGraph(Diagnostics, assemblyLoader, _packages);
@@ -105,6 +119,8 @@ namespace Bottles
                     _assemblies.AddRange(assemblyLoader.Assemblies);
                     //the above assemblies are used when we need to resolve bottle assemblies
                 }, runActivators);
+
+                Task.WaitAll(remoteTasks);
             });
 
             record.Finished = DateTime.Now;

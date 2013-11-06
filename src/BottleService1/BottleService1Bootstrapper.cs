@@ -12,4 +12,6 @@ namespace BottleService1
             yield return new FileWriterActivator("1");
         }
     }
+
+    public class Fake{}
 }

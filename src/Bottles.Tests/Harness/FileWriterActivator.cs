@@ -13,7 +13,7 @@ namespace Bottles.Tests.Harness
 
         public FileWriterActivator(string directory)
         {
-            _directory = directory;
+            _directory = AppDomain.CurrentDomain.BaseDirectory.AppendPath(directory);
         }
 
         public void Activate(IEnumerable<IPackageInfo> packages, IPackageLog log)

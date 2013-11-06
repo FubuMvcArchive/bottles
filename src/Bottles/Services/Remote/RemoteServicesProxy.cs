@@ -40,7 +40,7 @@ namespace Bottles.Services.Remote
         public void Shutdown()
         {
             EventAggregator.Stop();
-            _shutdown.Dispose();
+            if (_shutdown != null) _shutdown.Dispose();
         }
 
         public override object InitializeLifetimeService()

@@ -26,7 +26,7 @@ namespace Bottles.PackageLoaders.LinkedFolders
             set
             {
                 _remotes.Clear();
-                _remotes.AddRange(value);
+                if (value != null) _remotes.AddRange(value);
             }
         }
 
@@ -86,6 +86,12 @@ namespace Bottles.PackageLoaders.LinkedFolders
             link.ConfigFile = input.ConfigFileFlag;
 
             return link;
+        }
+
+        public void AddRemoteLink(RemoteLink link)
+        {
+            _remotes.RemoveAll(x => x.Folder.EqualsIgnoreCase(link.Folder));
+            _remotes.Add(link);
         }
     }
 

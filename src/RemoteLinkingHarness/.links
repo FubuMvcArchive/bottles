@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<links xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <remote Folder="src/BottleService1" />
+  <remote Folder="src/BottleService2" />
+  <remote Folder="src/BottleService3" />
+</links>
