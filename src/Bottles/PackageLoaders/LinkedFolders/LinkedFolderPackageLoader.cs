@@ -29,7 +29,7 @@ namespace Bottles.PackageLoaders.LinkedFolders
         {
             var packages = new List<IPackageInfo>();
 
-            var manifestFile = FileSystem.Combine(_applicationDirectory, LinkManifest.FILE);
+            var manifestFile = _applicationDirectory.AppendPath(LinkManifest.FILE);
             var manifest = _fileSystem.LoadFromFile<LinkManifest>(manifestFile);
             if (manifest == null)
             {

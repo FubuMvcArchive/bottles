@@ -156,28 +156,36 @@ namespace Bottles.Commands
 
             var system = new FileSystem();
 
-            if (!system.FileExists(input.BottleFolder.AppendPath(PackageManifest.FILE)))
-            {
-                // First guess of the bottle name is by the folder
-                var name = Path.GetFileNameWithoutExtension(input.BottleFolder);
-                
-                // Second guess is a csproj file if one exists
-                var files = system.FindFiles(input.BottleFolder, FileSet.Shallow("*.csproj"));
-                if (files.Count() == 1)
-                {
-                    name = Path.GetFileNameWithoutExtension(files.Single());
-                }
+            var bottleFolder = input.BottleFolder;
 
-                ConsoleWriter.Write(ConsoleColor.Green, "Initializing a new {0} file at {1}".ToFormat(PackageManifest.FILE, input.BottleFolder));
+            if (!system.FileExists(bottleFolder.AppendPath(PackageManifest.FILE)))
+            {
+                var name = GuessAssemblyNameForFolder(bottleFolder, system);
+
+                ConsoleWriter.Write(ConsoleColor.Green, "Initializing a new {0} file at {1}".ToFormat(PackageManifest.FILE, bottleFolder));
                 
                 new InitCommand().Execute(new InitInput
                 {
-                    Path = input.BottleFolder,
+                    Path = bottleFolder,
                     Name = name
                 });
             }
 
-            ConsoleWriter.Write(msg, input.BottleFolder, input.AppFolder);
+            ConsoleWriter.Write(msg, bottleFolder, input.AppFolder);
+        }
+
+        public static string GuessAssemblyNameForFolder(string bottleFolder, FileSystem system)
+        {
+// First guess of the bottle name is by the folder
+            var name = Path.GetFileNameWithoutExtension(bottleFolder);
+
+            // Second guess is a csproj file if one exists
+            var files = system.FindFiles(bottleFolder, FileSet.Shallow("*.csproj"));
+            if (files.Count() == 1)
+            {
+                name = Path.GetFileNameWithoutExtension(files.Single());
+            }
+            return name;
         }
     }
 }

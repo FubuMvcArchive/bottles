@@ -12,7 +12,7 @@ namespace Bottles.IntegrationTesting
     {
         private IPackageInfo bottle
         {
-            get { return PackageRegistry.Packages.Single(x => x.Name == "BottleProject"); }
+            get { return PackageRegistry.Packages.Single(x => x.Name == "BottleProject" || x.Name == "bottles-staging"); }
         }
 
         public string ReadData(string path)

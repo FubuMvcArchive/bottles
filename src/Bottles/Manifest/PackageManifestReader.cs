@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Bottles.Commands;
 using FubuCore;
 
 namespace Bottles.Manifest
@@ -27,8 +28,10 @@ namespace Bottles.Manifest
         {
             packageDirectory = packageDirectory.ToFullPath();
 
-            var manifest = _fileSystem.LoadFromFile<PackageManifest>(packageDirectory, PackageManifest.FILE);
-
+            var manifest = _fileSystem.FileExists(packageDirectory.AppendPath(PackageManifest.FILE))
+                ? _fileSystem.LoadFromFile<PackageManifest>(packageDirectory, PackageManifest.FILE)
+                : createDefaultManifest(packageDirectory);
+            
             var package = new PackageInfo(manifest){
                 Description = "{0} ({1})".ToFormat(manifest.Name, packageDirectory),
                 Dependencies = manifest.Dependencies
@@ -42,6 +45,14 @@ namespace Bottles.Manifest
             readAssemblyPaths(manifest, package, binPath);
 
             return package;
+        }
+
+        private static PackageManifest createDefaultManifest(string packageDirectory)
+        {
+            var manifest = PackageManifest.DefaultModuleManifest();
+            manifest.AddAssembly(LinkCommand.GuessAssemblyNameForFolder(packageDirectory, new FileSystem()));
+            manifest.Name = Path.GetFileName(packageDirectory);
+            return manifest;
         }
 
         private string determineBinPath(string packageDirectory)
