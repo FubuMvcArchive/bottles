@@ -23,6 +23,11 @@ namespace Bottles.Commands
 
         [Description("If selected, will intitialize a default PackageManifest file and embed it into the assembly for more fine-grained control over the Bottle properties")]
         public bool InitFlag { get; set; }
+
+        public string FindCsProjFile()
+        {
+            return RootFolder.AppendPath(ProjFileFlag);
+        }
     }
 
     [CommandDescription("Bundle up the content and data files for a self contained assembly package", Name = "assembly-pak")]
@@ -172,6 +177,22 @@ namespace Bottles.Commands
             }
 
             var zipFileName = "pak-{0}.zip".ToFormat(childFolderName);
+
+            // do not create a zip file if there's no files there.
+            if (!fileSystem.FindFiles(input.RootFolder, zipRequest.FileSet).Any())
+            {
+                // TODO -- remove zip file if necessary
+                //                var projectFileName = input.FindCsProjFile();
+//                var csProjFile = CsProjFile.LoadFrom(projectFileName);
+//                if (csProjFile.Remove<EmbeddedResource>(zipFileName))
+//                {
+//                    csProjFile.Save();
+//                }
+
+                return;
+            }
+
+            
             var contentFile = FileSystem.Combine(input.RootFolder, zipFileName);
             ConsoleWriter.Write("Creating zip file " + contentFile);
             fileSystem.DeleteFile(contentFile);
@@ -199,7 +220,7 @@ namespace Bottles.Commands
         private void attachZipFileToProjectFile(AssemblyPackageInput input, string zipFileName)
         {
             // TODO -- determine the csproj file name magically?
-            var projectFileName = input.RootFolder.AppendPath(input.ProjFileFlag);
+            var projectFileName = input.FindCsProjFile();
 
             var csProjFile = CsProjFile.LoadFrom(projectFileName);
             if (csProjFile.Find<EmbeddedResource>(zipFileName) == null)
