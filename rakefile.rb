@@ -82,7 +82,6 @@ end
 
 desc "Replaces the existing installed gem with the new version for local testing"
 task :local_gem => [:create_gem] do
-	sh 'gem uninstall bottles'
 	Dir.chdir 'pkg' do
 	    sh 'gem install bottles'
     end
@@ -105,6 +104,7 @@ task :create_gem => [:compile, :ilrepack] do
 	cleanDirectory 'pkg'
 	
 	Dir.mkdir 'bin' unless Dir.exists? 'bin'
+	Dir.mkdir 'pkg' unless Dir.exists? 'pkg'
 
 	copyOutputFiles "src/Bottles.Console/bin/#{@solution.compilemode}", '*.dll', 'bin'
 	copyOutputFiles "src/Bottles.Console/bin/#{@solution.compilemode}", '*BottleRunner.exe', 'bin/bottles.exe'
@@ -125,7 +125,6 @@ task :create_gem => [:compile, :ilrepack] do
         s.name        = 'bottles'
         s.version     = @solution.build_number
         s.files =  Dir.glob("bin/**/*").to_a
-        s.files += Dir['lib/*.rb']
         s.bindir = 'bin'
         s.executables << 'bottles'
 

@@ -9,7 +9,7 @@ cmd = ""
 if(!RUBY_PLATFORM.match("linux|darwin").nil?)
   cmd << "mono "
 end
-cmd << File.dirname(__FILE__) + "/bottle.exe " + ARGV.join(' ')
+cmd << File.dirname(__FILE__) + "/bottles.exe " + ARGV.join(' ')
 
 result = system(cmd)
 exit 1 unless result
