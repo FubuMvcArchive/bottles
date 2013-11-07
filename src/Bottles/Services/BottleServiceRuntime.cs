@@ -7,11 +7,13 @@ namespace Bottles.Services
     /// </summary>
     public class BottleServiceRuntime
     {
+        private readonly BottleServiceConfiguration _configuration;
         private readonly Lazy<IApplicationLoader> _runner;
         private IDisposable _shutdown;
 
-        public BottleServiceRuntime()
+        public BottleServiceRuntime(BottleServiceConfiguration configuration)
         {
+            _configuration = configuration;
             _runner = new Lazy<IApplicationLoader>(bootstrap);
         }
 
@@ -22,7 +24,7 @@ namespace Bottles.Services
 
         private IApplicationLoader bootstrap()
         {
-            return BottleServiceApplication.FindLoader(null);
+            return BottleServiceApplication.FindLoader(_configuration.BootstrapperType);
         }
 
         public void Start()
@@ -36,4 +38,6 @@ namespace Bottles.Services
             _shutdown.Dispose();
         }
     }
+
+
 }

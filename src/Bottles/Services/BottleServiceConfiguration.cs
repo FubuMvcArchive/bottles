@@ -1,6 +1,6 @@
 using System.Xml.Serialization;
 
-namespace BottleServiceRunner
+namespace Bottles.Services
 {
     [XmlType("service")]
     public class BottleServiceConfiguration
@@ -23,5 +23,6 @@ namespace BottleServiceRunner
         public string DisplayName { get; set; }
         public string Description { get; set; }
 		public bool UseEventLog { get; set; }
+        public string BootstrapperType { get; set; }
     }
 }

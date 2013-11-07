@@ -58,7 +58,6 @@
     </Compile>
     <Compile Include="EventLogFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BottleServiceConfiguration.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -24,7 +24,7 @@ namespace BottleServiceRunner
 
 				x.Service<BottleServiceRuntime>(s =>
 				{
-                    s.ConstructUsing(name => new BottleServiceRuntime());
+                    s.ConstructUsing(name => new BottleServiceRuntime(settings));
                     s.WhenStarted(r => r.Start());
                     s.WhenStopped(r => r.Stop());
                     s.WhenPaused(r => r.Stop());
