@@ -72,7 +72,6 @@
   -->
   <ItemGroup>
     <EmbeddedResource Include=".package-manifest" />
-    <EmbeddedResource Include="pak-Config.zip" />
     <EmbeddedResource Include="pak-Data.zip" />
     <EmbeddedResource Include="pak-WebContent.zip" />
   </ItemGroup>

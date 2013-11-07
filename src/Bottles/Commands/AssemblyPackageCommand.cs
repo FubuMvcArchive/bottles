@@ -181,13 +181,23 @@ namespace Bottles.Commands
             // do not create a zip file if there's no files there.
             if (!fileSystem.FindFiles(input.RootFolder, zipRequest.FileSet).Any())
             {
-                // TODO -- remove zip file if necessary
-                //                var projectFileName = input.FindCsProjFile();
-//                var csProjFile = CsProjFile.LoadFrom(projectFileName);
-//                if (csProjFile.Remove<EmbeddedResource>(zipFileName))
-//                {
-//                    csProjFile.Save();
-//                }
+                Console.WriteLine("No matching files for Bottle directory " + childFolderName);
+
+                var projectFileName = input.FindCsProjFile();
+                var csProjFile = CsProjFile.LoadFrom(projectFileName);
+                if (csProjFile.Find<EmbeddedResource>(zipFileName) != null)
+                {
+                    csProjFile.Remove<EmbeddedResource>(zipFileName);
+                    csProjFile.Save();
+                }
+
+                var zipFilePath = input.RootFolder.AppendPath(zipFileName);
+                if (fileSystem.FileExists(zipFilePath))
+                {
+                    Console.WriteLine("Removing obsolete file " + zipFilePath);
+                    fileSystem.DeleteFile(zipFilePath);
+                }
+
 
                 return;
             }
