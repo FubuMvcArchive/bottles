@@ -28,8 +28,8 @@ namespace Bottles.Creation
         public bool CreatePackage(CreateBottleInput input, PackageManifest manifest)
         {
             var binFolder = _fileSystem.FindBinaryDirectory(input.PackageFolder, input.TargetFlag);
+            var assemblies = _assemblyFinder.FindAssemblies(binFolder, manifest.AllAssemblies);
 
-            var assemblies = _assemblyFinder.FindAssemblies(binFolder, manifest.Assemblies);
             if (assemblies.Success)
             {
                 writeZipFile(input, manifest, assemblies);

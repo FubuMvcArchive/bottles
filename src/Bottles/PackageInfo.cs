@@ -86,12 +86,12 @@ namespace Bottles
 
         public void RegisterAssemblyLocation(string assemblyName, string filePath)
         {
-            AddAssembly(new AssemblyTarget()
-                            {
-                                AssemblyName = assemblyName,
-                                FilePath = filePath
-                            });
-        }  
+            AddAssembly(new AssemblyTarget
+            {
+                AssemblyName = assemblyName,
+                FilePath = filePath
+            });
+        }
 
         public bool Equals(PackageInfo other)
         {
@@ -122,6 +122,8 @@ namespace Bottles
             description.Properties["Role"] = Role;
 
             description.Properties["Assemblies"] = Manifest.Assemblies.Join(", ");
+
+            if (Manifest.NativeAssemblies != null && Manifest.NativeAssemblies.Any()) description.Properties["NativeAssemblies"] = Manifest.NativeAssemblies.Join(", ");
 
             if (Manifest.BinPath != null) description.Properties["BinPath"] = Manifest.BinPath;
 

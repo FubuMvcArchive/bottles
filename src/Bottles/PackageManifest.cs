@@ -1,22 +1,20 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 using Bottles.Manifest;
 using FubuCore;
-using FubuCore.Descriptions;
 
 namespace Bottles
 {
     [XmlType("package")]
-    public class PackageManifest 
+    public class PackageManifest
     {
         public const string FILE = ".package-manifest";
 
         public static FileSet FileSetForSearching()
         {
-            return new FileSet(){
+            return new FileSet
+            {
                 DeepSearch = true,
                 Include = FILE
             };
@@ -44,16 +42,14 @@ namespace Bottles
         public string ManifestFileName { get; set; }
 
         private readonly IList<string> _assemblies = new List<string>();
-
-        
-
+        private readonly IList<string> _nativeAssemblies = new List<string>();
 
         public string Role { get; set; }
         public string Name { get; set; }
         public string BinPath { get; set; }
 
         [XmlElement("assembly")]
-        public string[] Assemblies 
+        public string[] Assemblies
         {
             get
             {
@@ -66,6 +62,27 @@ namespace Bottles
                 if (value == null) return;
                 _assemblies.AddRange(value);
             }
+        }
+
+        [XmlElement("nativeAssembly")]
+        public string[] NativeAssemblies
+        {
+            get
+            {
+                return _nativeAssemblies.ToArray();
+            }
+            set
+            {
+                _nativeAssemblies.Clear();
+
+                if (value == null) return;
+                _nativeAssemblies.AddRange(value);
+            }
+        }
+
+        public string[] AllAssemblies
+        {
+            get { return Assemblies.Union(NativeAssemblies).ToArray(); }
         }
 
         public bool AddAssembly(string assemblyName)
@@ -116,8 +133,6 @@ namespace Bottles
         {
             Role = role;
 
-
-
             switch (role)
             {
                 case BottleRoles.Config:
@@ -135,14 +150,13 @@ namespace Bottles
                     break;
 
                 default:
-                    ContentFileSet = new FileSet()
+                    ContentFileSet = new FileSet
                     {
                         DeepSearch = true,
                         Include = "*.*",
                         Exclude = "*.cs;bin/*;obj/*;*.csproj*;packages.config;repositories.config;pak-*.zip;*.sln"
                     };
                     break;
-
             }
         }
 
@@ -166,7 +180,8 @@ namespace Bottles
         public void AddDependency(string packageName, bool isMandatory)
         {
             _dependencies.RemoveAll(x => x.Name == packageName);
-            _dependencies.Add(new Dependency(){
+            _dependencies.Add(new Dependency
+            {
                 IsMandatory = isMandatory,
                 Name = packageName
             });

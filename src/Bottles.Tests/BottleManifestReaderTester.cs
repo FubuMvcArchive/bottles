@@ -1,4 +1,8 @@
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using Bottles.Manifest;
+using Bottles.PackageLoaders.Assemblies;
 using FubuCore;
 using NUnit.Framework;
 using FubuTestingSupport;
@@ -22,8 +26,9 @@ namespace Bottles.Tests
             system.CreateDirectory("package1", "WebContent");
             system.CreateDirectory("package1", "Data");
 
-            theOriginalManifest = new PackageManifest(){
-                Assemblies = new string[]{"a", "b", "c"},
+            theOriginalManifest = new PackageManifest
+            {
+                Assemblies = new[] { "a", "b", "c" },
                 Name = "Extraordinary"
             };
 
@@ -49,5 +54,67 @@ namespace Bottles.Tests
             thePackage.Name.ShouldEqual(theOriginalManifest.Name);
         }
 
+    }
+
+    [TestFixture]
+    public class when_reading_a_package_from_a_folder_with_a_native_assembly
+    {
+        private PackageManifest theOriginalManifest;
+        private IPackageInfo thePackage;
+
+        [SetUp]
+        public void SetUp()
+        {
+            var system = new FileSystem();
+            system.DeleteDirectory("package1");
+
+            system.CreateDirectory("package1");
+            system.CreateDirectory("package1", "bin");
+            system.WriteStringToFile(Path.Combine("package1", "bin", "a.dll"), "I'm a managed assembly");
+            system.WriteStringToFile(Path.Combine("package1", "bin", "b.dll"), "I'm a native assembly");
+            system.CreateDirectory("package1", "WebContent");
+            system.CreateDirectory("package1", "Data");
+
+            theOriginalManifest = new PackageManifest
+            {
+                Assemblies = new[] { "a" },
+                NativeAssemblies = new[] { "b" },
+                Name = "Extraordinary"
+            };
+
+            theOriginalManifest.WriteTo("package1");
+
+            thePackage = new PackageManifestReader(new FileSystem(), directory => directory.AppendPath("WebContent")).LoadFromFolder("package1");
+        }
+
+        [Test]
+        public void should_have_loaded_not_native_assemblies_only()
+        {
+            var fakeAssemblyRegistration = new FakeAssemblyRegistration();
+            thePackage.LoadAssemblies(fakeAssemblyRegistration);
+
+            fakeAssemblyRegistration.AssembliesRequestedToBeLoaded.ShouldContain("a");
+            fakeAssemblyRegistration.AssembliesRequestedToBeLoaded.ShouldNotContain("b");
+        }
+    }
+
+    public class FakeAssemblyRegistration : IAssemblyRegistration
+    {
+        public FakeAssemblyRegistration()
+        {
+            AssembliesRequestedToBeLoaded = new List<string>();
+        }
+
+        public List<string> AssembliesRequestedToBeLoaded { get; set; }
+
+        public void Use(Assembly assembly)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void LoadFromFile(string fileName, string assemblyName)
+        {
+            AssembliesRequestedToBeLoaded.Add(assemblyName);
+        }
     }
 }
