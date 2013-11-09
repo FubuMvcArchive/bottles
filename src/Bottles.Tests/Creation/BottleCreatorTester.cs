@@ -64,7 +64,7 @@ namespace Bottles.Tests.Creation
             };
 
             MockFor<IAssemblyFileFinder>()
-                .Stub(x => x.FindAssemblies(theBinFolder, theManifest.Assemblies))
+                .Stub(x => x.FindAssemblies(theBinFolder, theManifest.AllAssemblies))
                 .Return(theAssemblyFiles);
 
             _theZipFileService = new StubZipFileService();
@@ -168,7 +168,7 @@ namespace Bottles.Tests.Creation
             };
 
             MockFor<IAssemblyFileFinder>()
-                .Stub(x => x.FindAssemblies(theBinFolder, theManifest.Assemblies))
+                .Stub(x => x.FindAssemblies(theBinFolder, theManifest.AllAssemblies))
                 .Return(theAssemblyFiles);
 
             _theZipFileService = new StubZipFileService();
@@ -248,37 +248,34 @@ namespace Bottles.Tests.Creation
         private PackageManifest theManifest;
         private AssemblyFiles theAssemblyFiles;
         private CreateBottleInput theInput;
-		private string theBaseFolder;
-		private string theBinFolder;
-		
+        private string theBaseFolder;
+        private string theBinFolder;
+
         protected override void beforeEach()
         {
-			theBaseFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "folder1");
-			theBinFolder = Path.Combine(theBaseFolder, "bin");	
-			
-            theManifest = new PackageManifest{
-                ContentFileSet = new FileSet()
-            };
+            theBaseFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "folder1");
+            theBinFolder = Path.Combine(theBaseFolder, "bin");
 
-            theManifest.AddAssembly("A");
-            theManifest.AddAssembly("B");
-            theManifest.AddAssembly("C");
-
-            theInput = new CreateBottleInput(){
-                PackageFolder = theBaseFolder
-            };
-
-            theAssemblyFiles = new AssemblyFiles()
+            theManifest = new PackageManifest
             {
-                Files = new[] { "a.dll", "b.dll"},
-                MissingAssemblies = new[]{"c"},
-                PdbFiles = new[] { "a.dll", "b.dll", "c.dll"},
+                ContentFileSet = new FileSet(),
+                Assemblies = new[] { "A", "B", "C" },
+                NativeAssemblies = new[] { "D", "E" }
+            };
+
+            theInput = new CreateBottleInput { PackageFolder = theBaseFolder };
+
+            theAssemblyFiles = new AssemblyFiles
+            {
+                Files = new[] { "a.dll", "b.dll", "d.dll" },
+                MissingAssemblies = new[] { "c", "e" },
+                PdbFiles = new[] { "a.pdb", "b.pdb", "c.pdb" }
             };
 
             MockFor<IAssemblyFileFinder>()
-                .Stub(x => x.FindAssemblies(theBinFolder, theManifest.Assemblies))
+                .Stub(x => x.FindAssemblies(theBinFolder, theManifest.AllAssemblies))
                 .Return(theAssemblyFiles);
-        
+
             ClassUnderTest.CreatePackage(theInput, theManifest);
         }
 
@@ -292,6 +289,105 @@ namespace Bottles.Tests.Creation
         public void do_not_call_the_zip_file_creator_at_all()
         {
             MockFor<IZipFileService>().AssertWasNotCalled(x => x.CreateZipFile(null, null), x => x.IgnoreArguments());
+        }
+    }
+
+    [TestFixture]
+    public class when_creating_a_package_for_assemblies_and_native_assemblies : InteractionContext<ZipPackageCreator>
+    {
+        private PackageManifest theManifest;
+        private AssemblyFiles theAssemblyFiles;
+        private CreateBottleInput theInput;
+        private StubZipFileService _theZipFileService;
+        private string thePackageManifestFileName;
+        private string theBaseFolder;
+        private string theBinFolder;
+
+        protected override void beforeEach()
+        {
+            theBaseFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "folder1");
+            theBinFolder = Path.Combine(theBaseFolder, "bin");
+
+            theManifest = new PackageManifest
+            {
+                ContentFileSet = new FileSet(),
+                Assemblies = new[] { "A" },
+                NativeAssemblies = new[] { "B" }
+            };
+
+            theInput = new CreateBottleInput
+            {
+                PackageFolder = theBaseFolder,
+                ZipFileFlag = Path.Combine(theBaseFolder, "package1.zip"),
+                PdbFlag = true
+            };
+
+            theAssemblyFiles = new AssemblyFiles
+            {
+                Files = new[]
+                {
+                    FileSystem.Combine(theBinFolder, "a.dll"),
+                    FileSystem.Combine(theBinFolder, "b.dll")
+                },
+                MissingAssemblies = new string[0],
+                PdbFiles = new[]
+                {
+                    FileSystem.Combine(theBinFolder, "a.pdb")
+                }
+            };
+
+            MockFor<IAssemblyFileFinder>()
+                .Stub(x => x.FindAssemblies(theBinFolder, theManifest.AllAssemblies))
+                .Return(theAssemblyFiles);
+
+            _theZipFileService = new StubZipFileService();
+            Services.Inject<IZipFileService>(_theZipFileService);
+
+            thePackageManifestFileName = FileSystem.Combine(theBaseFolder, PackageManifest.FILE);
+
+            ClassUnderTest.CreatePackage(theInput, theManifest);
+        }
+
+        [Test]
+        public void should_not_log_assemblies_missing()
+        {
+            MockFor<IBottleLogger>().AssertWasNotCalled(x => x.WriteAssembliesNotFound(theAssemblyFiles, theManifest, theInput, theBinFolder));
+        }
+
+        [Test]
+        public void should_have_written_a_zip_file_to_the_value_from_the_input()
+        {
+            _theZipFileService.FileName.ShouldEqual(theInput.ZipFileFlag);
+        }
+
+        [Test]
+        public void should_have_written_each_assembly_to_the_zip_file()
+        {
+            _theZipFileService.AllEntries.ShouldContain(new StubZipEntry(Path.Combine(theBinFolder, "a.dll"), "bin"));
+            _theZipFileService.AllEntries.ShouldContain(new StubZipEntry(Path.Combine(theBinFolder, "b.dll"), "bin"));
+        }
+
+        [Test]
+        public void should_have_written_each_pdb_to_the_zip_file()
+        {
+            _theZipFileService.AllEntries.ShouldContain(new StubZipEntry(Path.Combine(theBinFolder, "a.pdb"), "bin"));
+        }
+
+        [Test]
+        public void should_have_writen_the_package_manifest_to_the_zip()
+        {
+            _theZipFileService.AllEntries.ShouldContain(new StubZipEntry(thePackageManifestFileName, string.Empty));
+        }
+
+        [Test]
+        public void should_have_added_the_content_files()
+        {
+            _theZipFileService.ZipRequests.ShouldContain(new ZipFolderRequest
+            {
+                FileSet = theManifest.ContentFileSet,
+                ZipDirectory = BottleFiles.WebContentFolder,
+                RootDirectory = theInput.PackageFolder
+            });
         }
     }
 
@@ -311,10 +407,7 @@ namespace Bottles.Tests.Creation
             theManifest = new PackageManifest();
             theManifest.SetRole(BottleRoles.Config);
             
-            theInput = new CreateBottleInput()
-            {
-                PackageFolder = theBaseFolder
-            };
+            theInput = new CreateBottleInput { PackageFolder = theBaseFolder };
 
             theZipFile = new StubZipFile();
 
@@ -352,10 +445,7 @@ namespace Bottles.Tests.Creation
             theManifest = new PackageManifest();
             theManifest.SetRole(BottleRoles.Data);
 
-            theInput = new CreateBottleInput()
-            {
-                PackageFolder = theBaseFolder
-            };
+            theInput = new CreateBottleInput { PackageFolder = theBaseFolder };
 
             theZipFile = new StubZipFile();
 
