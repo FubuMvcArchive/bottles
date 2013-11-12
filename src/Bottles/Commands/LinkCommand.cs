@@ -49,7 +49,7 @@ namespace Bottles.Commands
         public LinkCommand()
         {
             Usage("List the current links for the application").Arguments(x => x.AppFolder).ValidFlags();
-            Usage("Create a new link for the application to the package").Arguments(x => x.AppFolder, x => x.BottleFolder).ValidFlags();
+            Usage("Create a new link for the application to the package").Arguments(x => x.AppFolder, x => x.BottleFolder).ValidFlags(x => x.RemoteFlag);
             Usage("Remove any existing link for the application to the package").Arguments(x => x.AppFolder, x => x.BottleFolder).ValidFlags(x => x.RemoveFlag);
             Usage("Remove any and all existing links from the application to any package folder").Arguments(x => x.AppFolder).ValidFlags(x => x.CleanAllFlag);
         }
