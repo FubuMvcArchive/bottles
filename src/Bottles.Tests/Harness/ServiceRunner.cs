@@ -29,6 +29,9 @@ namespace Bottles.Tests.Harness
 
         public void Execute()
         {
+            var pf = System.Environment.OSVersion.Platform;
+            var isUnix = pf == PlatformID.Unix || pf == PlatformID.MacOSX;
+
             var processInfo = new ProcessStartInfo
             {
                 FileName = _directory.AppendPath("BottleServiceRunner.exe"),
@@ -39,6 +42,20 @@ namespace Bottles.Tests.Harness
                 //CreateNoWindow = true,
                 UseShellExecute = false
             };
+
+            if (isUnix) {
+                processInfo = new ProcessStartInfo
+                {
+                    FileName = "/usr/bin/mono",
+                    WorkingDirectory = _directory,
+                    Arguments = _directory.AppendPath("BottleServiceRunner.exe"),
+                    //RedirectStandardError = true,
+                    //RedirectStandardInput = true,
+                    //RedirectStandardOutput = true,
+                    //CreateNoWindow = true,
+                    UseShellExecute = false
+                };
+            }
 
             var process = Process.Start(processInfo);
             //Console.WriteLine(process.StandardOutput.ReadToEnd());
