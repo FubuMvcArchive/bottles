@@ -210,6 +210,18 @@
           <UsageDescription>[-c, --clean-all]</UsageDescription>
           <Description>Remove all links from an application manifest file</Description>
         </FlagReport>
+        <FlagReport>
+          <UsageDescription>[-r, --remote]</UsageDescription>
+          <Description>Create a 'remote' link that will run the service or app at the BottleFolder in a separate AppDomain</Description>
+        </FlagReport>
+        <FlagReport>
+          <UsageDescription>[-b, --bootstrapper &lt;bootstrapper&gt;]</UsageDescription>
+          <Description>Explicitly specify the name of the Bottles bootstrapper class for a remote link</Description>
+        </FlagReport>
+        <FlagReport>
+          <UsageDescription>[-f, --config-file &lt;configfile&gt;]</UsageDescription>
+          <Description>Specify the name of the configuration file to use for a remote link</Description>
+        </FlagReport>
       </Flags>
       <Usages>
         <UsageReport>
@@ -218,7 +230,7 @@
         </UsageReport>
         <UsageReport>
           <Description>Create a new link for the application to the package</Description>
-          <Usage>bottles link &lt;appfolder&gt; &lt;bottlefolder&gt;</Usage>
+          <Usage>bottles link &lt;appfolder&gt; &lt;bottlefolder&gt; [-r, --remote]</Usage>
         </UsageReport>
         <UsageReport>
           <Description>Remove any existing link for the application to the package</Description>

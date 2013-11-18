@@ -1,0 +1,8 @@
+<!--Title: Linked Project Bottles-->
+
+<markdown>
+<Command app="bottles" command="link">
+This command will write to a file named <code>.links</code> underneath the main application directory specified by the <code>AppFolder</code> input.
+</Command>
+</markdown>
+

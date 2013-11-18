@@ -1,0 +1,76 @@
+<!--Title: Multiple AppDomain Support-->
+<!--Url: multiple-appdomains-->
+
+<markdown>
+Say that you're working with distributed applications where you expect a single logical business process to be implemented across multiple related applications and services. 
+Even with an effective testing strategy for each individual service in isolation, we still need to work with the entire distributed stack to test and troubleshoot some issues -- and yes, sometimes that's going to mean attaching a debugger to one or all of the elements of the distributed architecture.
+
+To combat the difficulty of debugging distributed applications and create a faster development cycle, we've created what we call the _F5 in a box_ strategy with Bottles to run a distributed application in a single process but using multiple .Net AppDomain's to host additional services. 
+
+The canonical example is developing a front end website (_WebSite1_) that offloads heavy and time consuming processing to a separate service (_Service1_).
+With the Bottles features discussed in this topic, we can make the main _WebSite1_ application load a separate AppDomain to run the _Service1_ service on application startup.
+The end result is a faster feedback cycle between making code changes in any part of the architecture and exercising those changes because a single action restarts the entire application.
+Debugging becomes much simpler because you're in one single process and you effectively attach the debugger to both _WebSite1_ and _Service1_ with a single press of the _F5_ key.
+
+
+
+
+
+<Section title="Remote Links" id="remote-links">
+After using early versions of a _F5 in a box_ that used the <code>RemoteServiceRunner</code> discussed below directly in <ProjectLink name="FubuMVC" /> applications, we learned some lessons about the usage and development experience that led to the new _remote links_ function.
+The key features of _remote links_ are:
+
+1. Remote links (what folder and possibly an explicit bootstrapper class and/or a configuration file) are stored in the <code>.links</code> file at the application root
+1. If this file exists, Bottles will load a separate AppDomain for each _remote link_ in **parallel** with the main application's bootstrapping for a quicker feedback cycle in development (loading the main application and all of the remote AppDomain's serially was painfully slow).
+1. To facilitate easier changes, the remote AppDomain's are all setup with **<a href="http://msdn.microsoft.com/en-us/library/ms404279(v=vs.110).aspx">shadow copying</a> enabled**. Bottles watches for file system changes to <code>.config</code> and <code>.dll</code> files and will attempt to shutdown and reload the AppDomain if any changes are detected.  This allows a developer to modify the remote services without having to shutdown the staring application.
+
+<Info>Generally, you would ignore the <code>.links</code> file in source control to prevent that file from being deployed to production.  Using the ignored file at development time allows you to use _remote links_ without having to change your application.</Info>
+
+_Remote Links_ can be setup using the <code>bottles link</code> command with the <code>--remote</code> flag.  See <TopicLink name="bottles/commandline/linking"/> for more information on using this command.
+</Section>
+
+<Section title="RemoteServiceRunner" id="runner">
+The underlying class for setting up additional AppDomain's is the <code>RemoteServiceRunner</code> class as shown below:
+
+<Snippet name="simple-remote-service-runner"/>
+
+The nested closure within the construction of a new <code>RemoteServiceRunner</code> instance allows you to configure how the new AppDomain is going to be loaded:
+
+<Snippet name="appdomain-setup" />
+
+</Section>
+
+
+<Section title="Config Files" id="config">
+By default, <code>RemoteServiceRunner</code> looks first for the presence of an <code>App.config</code> file, then <code>Web.config</code> in the application folder.  If neither exists, the configuration file is going to be <code>BottleServiceRunner.exe.config</code> (Bottles is assuming that the code is normally hosted by <code>BottleServiceRunner</code>.  This file name can be overridden by setting the configuration file property of the <code>AppDomainSetup</code> like this:
+
+<Snippet name="override-config-file" />
+</Section>
+
+<Section title="Copying Assemblies to the Remote AppDomain" id="assemblies">
+If need be, you can copy assemblies from your main application binaries to the new AppDomain like this:
+
+<Snippet name="require-assemblies" />
+</Section>
+ 
+ 
+<Section name="Activation" id="activation">
+It's pretty useless to just set up a separate AppDomain to do nothing but just sit there, so we need some way for <code>RemoteServiceRunner</code> to reach into the new AppDomain and start up the application or service we want to use.
+Bottles can use an instance of one of three interfaces to bootstrap a bottles aware application:
+
+1. IApplicationLoader
+1. IBootstrapper
+1. IApplicationSource (<ProjectLink name="FubuMVC" /> and <ProjectLink name="FubuTransportation"/> both use this approach)
+
+With <code>RemoteServiceRunner</code>, you can explicitly specify the class that should be called to activate the application in the remote AppDomain like this:
+
+<Snippet name="bootstrap-custom-loader" />
+
+By default, Bottles will reflect through all the assemblies loaded in the remote AppDomain looking for concrete classes that implement one of the three interfaces above.  **If only one is found, Bottles will use that class automatically.**  So far, the default auto-determination of the loader/bootstrapper class has worked out well in practice.
+
+See <TopicLink name="bootstrapping" /> for more information about using <code>IApplicationLoader</code>, <code>IBootstrapper</code>, or <code>IApplicationSource</code> usage.
+
+</Section> 
+ 
+</markdown>
+
