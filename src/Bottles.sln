@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyPackageEmpty", "Ass
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteLinkingHarness", "RemoteLinkingHarness\RemoteLinkingHarness.csproj", "{DD788F35-E399-4C93-AE76-74F359A63212}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteLinkTester", "RemoteLinkTester\RemoteLinkTester.csproj", "{29DFD3CE-0EF0-4736-9B7B-15599A762B74}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -289,6 +291,21 @@ Global
 		{DD788F35-E399-4C93-AE76-74F359A63212}.Retail|Mixed Platforms.Build.0 = Release|x86
 		{DD788F35-E399-4C93-AE76-74F359A63212}.Retail|x86.ActiveCfg = Release|x86
 		{DD788F35-E399-4C93-AE76-74F359A63212}.Retail|x86.Build.0 = Release|x86
+		{29DFD3CE-0EF0-4736-9B7B-15599A762B74}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{29DFD3CE-0EF0-4736-9B7B-15599A762B74}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{29DFD3CE-0EF0-4736-9B7B-15599A762B74}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{29DFD3CE-0EF0-4736-9B7B-15599A762B74}.Debug|x86.ActiveCfg = Debug|x86
+		{29DFD3CE-0EF0-4736-9B7B-15599A762B74}.Debug|x86.Build.0 = Debug|x86
+		{29DFD3CE-0EF0-4736-9B7B-15599A762B74}.Release|Any CPU.ActiveCfg = Release|x86
+		{29DFD3CE-0EF0-4736-9B7B-15599A762B74}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{29DFD3CE-0EF0-4736-9B7B-15599A762B74}.Release|Mixed Platforms.Build.0 = Release|x86
+		{29DFD3CE-0EF0-4736-9B7B-15599A762B74}.Release|x86.ActiveCfg = Release|x86
+		{29DFD3CE-0EF0-4736-9B7B-15599A762B74}.Release|x86.Build.0 = Release|x86
+		{29DFD3CE-0EF0-4736-9B7B-15599A762B74}.Retail|Any CPU.ActiveCfg = Release|x86
+		{29DFD3CE-0EF0-4736-9B7B-15599A762B74}.Retail|Mixed Platforms.ActiveCfg = Release|x86
+		{29DFD3CE-0EF0-4736-9B7B-15599A762B74}.Retail|Mixed Platforms.Build.0 = Release|x86
+		{29DFD3CE-0EF0-4736-9B7B-15599A762B74}.Retail|x86.ActiveCfg = Release|x86
+		{29DFD3CE-0EF0-4736-9B7B-15599A762B74}.Retail|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -302,5 +319,6 @@ Global
 		{F19C5D9A-7C37-4862-A11B-15B70CA3BD6A} = {703DCA45-AAA6-4E6C-BC08-61678551B57D}
 		{09F7D616-4C29-4663-9131-DE11D4FFE9AB} = {703DCA45-AAA6-4E6C-BC08-61678551B57D}
 		{DDB83364-7676-4B36-B223-BE6167CE551B} = {703DCA45-AAA6-4E6C-BC08-61678551B57D}
+		{29DFD3CE-0EF0-4736-9B7B-15599A762B74} = {703DCA45-AAA6-4E6C-BC08-61678551B57D}
 	EndGlobalSection
 EndGlobal

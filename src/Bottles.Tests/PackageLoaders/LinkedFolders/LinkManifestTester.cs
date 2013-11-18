@@ -16,6 +16,7 @@ namespace Bottles.Tests.PackageLoaders.LinkedFolders
             manifest.AddLink("foo");
             manifest.AddRemoteLink(new LinkInput
             {
+                AppFolder = System.Environment.CurrentDirectory,
                 BottleFolder = "foo"
             });
 
@@ -35,17 +36,20 @@ namespace Bottles.Tests.PackageLoaders.LinkedFolders
             var manifest = new LinkManifest();
             manifest.AddRemoteLink(new LinkInput
             {
-                BottleFolder = "foo"
+                BottleFolder = "foo",
+                AppFolder = System.Environment.CurrentDirectory
             });
 
             manifest.AddRemoteLink(new LinkInput
             {
                 BottleFolder = "foo",
-                BootstrapperFlag = "SomeClass"
+                BootstrapperFlag = "SomeClass",
+                AppFolder = System.Environment.CurrentDirectory
             });
 
             manifest.AddRemoteLink(new LinkInput
             {
+                AppFolder = System.Environment.CurrentDirectory,
                 BottleFolder = "foo",
                 BootstrapperFlag = "OtherClass",
                 ConfigFileFlag = "Web.config"
@@ -63,6 +67,7 @@ namespace Bottles.Tests.PackageLoaders.LinkedFolders
             var manifest = new LinkManifest();
             manifest.AddRemoteLink(new LinkInput
             {
+                AppFolder = System.Environment.CurrentDirectory,
                 BottleFolder = "foo"
             });
 

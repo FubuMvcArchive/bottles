@@ -146,3 +146,4 @@ task :create_gem => [:compile, :ilrepack] do
 
 	copyOutputFiles ".", "*.gem", "pkg"
 end
+

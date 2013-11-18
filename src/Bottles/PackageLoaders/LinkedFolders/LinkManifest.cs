@@ -78,7 +78,7 @@ namespace Bottles.PackageLoaders.LinkedFolders
             var link = _remotes.FirstOrDefault(x => x.Folder.EqualsIgnoreCase(input.BottleFolder));
             if (link == null)
             {
-                link = new RemoteLink {Folder = input.BottleFolder};
+                link = new RemoteLink {Folder = input.RelativePathOfPackage()};
                 _remotes.Add(link);
             }
 

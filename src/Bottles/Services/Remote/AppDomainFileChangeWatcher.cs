@@ -32,6 +32,7 @@ namespace Bottles.Services.Remote
             watcher.IncludeSubdirectories = true;
             watcher.EnableRaisingEvents = true;
             watcher.NotifyFilter = NotifyFilters.LastWrite;
+            
 
             _watchers.Add(watcher);
         }
@@ -43,6 +44,7 @@ namespace Bottles.Services.Remote
                 return;
             }
 
+            Console.WriteLine("Detected change to file at " + e.FullPath);
             _callback();
             _lastUpdate = DateTime.Now;
         }

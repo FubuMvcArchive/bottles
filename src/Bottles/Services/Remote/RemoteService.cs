@@ -20,7 +20,9 @@ namespace Bottles.Services.Remote
         {
             _link = link;
             _watcher = new AppDomainFileChangeWatcher(Recycle);
-            _serviceDirectory = _link.Folder.ToFullPath();
+            _serviceDirectory = Path.IsPathRooted(_link.Folder)
+                ? _link.Folder
+                : PackageRegistry.GetApplicationDirectory().AppendPath(_link.Folder);
         }
 
         public static IEnumerable<RemoteService> LoadLinkedRemotes()
