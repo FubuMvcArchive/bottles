@@ -35,8 +35,8 @@ namespace Bottles.Services.Tests.Remote
 
             fileSystem.CreateDirectory("Service");
             fileSystem.CreateDirectory("Service", "bin");
-            fileSystem.CreateDirectory("Service", "bin", "release");
-            fileSystem.CreateDirectory("Service", "bin", "debug");
+            fileSystem.CreateDirectory("Service", "bin", "Release");
+            fileSystem.CreateDirectory("Service", "bin", "Debug");
 
             var expression = new RemoteDomainExpression();
             expression.Setup.PrivateBinPath.ShouldBeNull();
