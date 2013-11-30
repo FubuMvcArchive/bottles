@@ -89,14 +89,17 @@ namespace Bottles
 
             if (!Directory.Exists(folderPath)) return false; //false because the path didn't even exist
 
-            Directory.GetFiles(folderPath, filePattern, SearchOption.AllDirectories).Each(fileName =>
+            // Use foreach as on mono you will get an internal compile error when using the standard
+            // string[].Each( fileName => { onFileCallback(....) }) pattern.
+            // https://bugzilla.xamarin.com/show_bug.cgi?id=16513
+            foreach(var fileName in Directory.GetFiles(folderPath, filePattern, SearchOption.AllDirectories))
             {
                 var name = fileName.PathRelativeTo(folderPath);
                 using (var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
                 {
                     onFileCallback(name, stream);
                 }
-            });
+            }
             return true;
 
         }
