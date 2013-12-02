@@ -50,13 +50,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\1.txt" />
-    <Content Include="Data\2.txt" />
-    <Content Include="Data\3.txt" />
     <Content Include="WebContent\content\images\aaa\ico-close.gif" />
     <Content Include="WebContent\content\images\icon-add-alt.png" />
     <Content Include="WebContent\content\scripts\Pak1-A.js" />
     <Content Include="WebContent\content\scripts\Script1.js" />
+    <Content Include="data\1.txt" />
+    <Content Include="data\2.txt" />
+    <Content Include="data\3.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -72,7 +72,7 @@
   -->
   <ItemGroup>
     <EmbeddedResource Include=".package-manifest" />
-    <EmbeddedResource Include="pak-Data.zip" />
     <EmbeddedResource Include="pak-WebContent.zip" />
+    <EmbeddedResource Include="pak-data.zip" />
   </ItemGroup>
 </Project>
