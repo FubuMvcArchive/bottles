@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <aliases xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Aliases>
     <alias name="bottleshost" folder="src/Bottles.Host" />
@@ -7,6 +7,5 @@
     <alias name="iis-deployers" folder="src\Milkman.Deployers.Iis" />
     <alias name="bottlesproject" folder="bottles-staging" />
     <alias name="bottleproject" folder="bottles-staging" />
-    <alias name="bottles-staging" folder="C:\code\bottles\bottles-staging" />
   </Aliases>
 </aliases>

@@ -79,6 +79,7 @@
     <Compile Include="ProcessRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ZipPackageTesting.cs" />
+    <Compile Include="Platform.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bottles.Console\Bottles.Console.csproj">
