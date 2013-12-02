@@ -49,7 +49,7 @@ assembly-pak -> Bundle up the content and data files for a self contained assemb
         public static string ZipsDirectory = SolutionDirectory.AppendPath("zips");
 
         private static string BottleRunnerFile =
-            SolutionDirectory.AppendPath("src").AppendPath("Bottles.Console").AppendPath("bin").AppendPath("debug").
+            SolutionDirectory.AppendPath("src").AppendPath("Bottles.Console").AppendPath("bin").AppendPath("Debug").
                 AppendPath("BottleRunner.exe");
 
         static IntegrationTestContext()
@@ -57,7 +57,7 @@ assembly-pak -> Bundle up the content and data files for a self contained assemb
             if (!File.Exists(BottleRunnerFile))
             {
                 BottleRunnerFile =
-            SolutionDirectory.AppendPath("src").AppendPath("Bottles.Console").AppendPath("bin").AppendPath("release").
+            SolutionDirectory.AppendPath("src").AppendPath("Bottles.Console").AppendPath("bin").AppendPath("Release").
                 AppendPath("BottleRunner.exe");
             }
         }
@@ -82,12 +82,20 @@ assembly-pak -> Bundle up the content and data files for a self contained assemb
 
         public static void Recompile()
         {
-            var info = new ProcessStartInfo
-            {
-                FileName = SolutionDirectory.AppendPath("compile-bottle-staging.cmd"),
-                WorkingDirectory = SolutionDirectory
+            ProcessStartInfo info;
+            if (!Platform.IsUnix ()) {
+                info = new ProcessStartInfo {
+                    FileName = SolutionDirectory.AppendPath("compile-bottle-staging.cmd"),
+                    WorkingDirectory = SolutionDirectory
 
-            };
+                };
+            } else {
+                info = new ProcessStartInfo {
+                    FileName = "/bin/bash",
+                    Arguments = SolutionDirectory.AppendPath("compile-bottle-staging.sh"),
+                    WorkingDirectory = SolutionDirectory
+                };
+            }
 
             var returnCode = new ProcessRunner().Run(info, text => Debug.WriteLine(text));
             returnCode.ExitCode.ShouldEqual(0);
@@ -132,11 +140,18 @@ assembly-pak -> Bundle up the content and data files for a self contained assemb
 
         public static void RunBottlesCommand(string arguments)
         {
-            var processInfo = new ProcessStartInfo(BottleRunnerFile)
-            {
-                Arguments = arguments,
-                WorkingDirectory = SolutionDirectory
-            };
+            ProcessStartInfo processInfo;
+            if (!Platform.IsUnix ()) {
+                processInfo = new ProcessStartInfo (BottleRunnerFile) {
+                    Arguments = arguments,
+                    WorkingDirectory = SolutionDirectory
+                };
+            } else {
+                processInfo = new ProcessStartInfo ("mono") {
+                    Arguments = string.Format("{0} {1}", BottleRunnerFile, arguments),
+                    WorkingDirectory = SolutionDirectory
+                };
+            }
 
             var processReturn = new ProcessRunner().Run(processInfo, text => Debug.WriteLine(text));
             processReturn.ExitCode.ShouldEqual(0);
