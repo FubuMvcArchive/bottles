@@ -9,7 +9,7 @@ namespace Bottles.IntegrationTesting
         [Test]
         public void read_data_and_web_content_from_a_zipped_package()
         {
-            CleanStagingDirectory();
+            ResetBottleProjectCode();
 
             RunBottlesCommand("init bottles-staging BottleProject");
 
