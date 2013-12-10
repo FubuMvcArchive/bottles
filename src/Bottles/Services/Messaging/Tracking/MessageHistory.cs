@@ -33,11 +33,7 @@ namespace Bottles.Services.Messaging.Tracking
 
         public static void ClearAll()
         {
-            _lock.Write(() => {
-                _sent.Clear();
-                _received.Clear();
-                _outstanding.Clear();
-            });
+            clearData();
 
             if (_listener != null)
             {
@@ -48,6 +44,14 @@ namespace Bottles.Services.Messaging.Tracking
             _hubs.Clear();
         }
 
+        private static void clearData()
+        {
+            _lock.Write(() => {
+                _sent.Clear();
+                _received.Clear();
+                _outstanding.Clear();
+            });
+        }
 
 
         public static void Record(MessageTrack track)
@@ -104,7 +108,7 @@ namespace Bottles.Services.Messaging.Tracking
 
         public static bool WaitForWorkToFinish(Action action, int timeoutMilliseconds = 5000)
         {
-            ClearAll();
+            clearData();
             action();
             return Wait.Until(() => !Outstanding().Any() && All().Any(), timeoutInMilliseconds: timeoutMilliseconds);
         }
