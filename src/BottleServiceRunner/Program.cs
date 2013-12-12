@@ -15,7 +15,16 @@ namespace BottleServiceRunner
                 x.SetDisplayName(settings.DisplayName);
                 x.SetDescription(settings.Description);
 
-                x.RunAsLocalService();
+                x.UseLinuxIfAvailable();
+                var pf = System.Environment.OSVersion.Platform;
+                var isUnix = pf == PlatformID.Unix || pf == PlatformID.MacOSX;
+                if (isUnix)
+                {
+                    x.RunAsPrompt();
+                } else
+                {
+                    x.RunAsLocalService();
+                }
 
 				if (settings.UseEventLog)
 				{
