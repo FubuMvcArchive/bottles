@@ -103,7 +103,7 @@ assembly-pak -> Bundle up the content and data files for a self contained assemb
 
         public static void SetAssemblyVersion(string version)
         {
-            var file = StagingDirectory.AppendPath("version.cs");
+            var file = StagingDirectory.AppendPath("Version.cs");
             new FileSystem().AlterFlatFile(file, list => {
                 list.Clear();
 
