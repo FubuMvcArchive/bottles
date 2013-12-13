@@ -36,6 +36,8 @@ namespace Bottles.Commands
 
         public string RelativePathOfPackage()
         {
+            if (Path.IsPathRooted(BottleFolder)) return BottleFolder;
+
             var pkg = Path.GetFullPath(BottleFolder);
             var app = Path.GetFullPath(AppFolder);
 

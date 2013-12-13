@@ -64,5 +64,16 @@ namespace Bottles.Tests.Commands
 
             appManifest.LinkedFolders.ShouldContain(expectedFolder);
         }
+
+        [Test]
+        public void relative_path_of_package_use_absolute_if_rooted()
+        {
+            new LinkInput
+            {
+                BottleFolder = "c:/code/bottle/src/bottle",
+                AppFolder = "c:/code/app"
+            }.RelativePathOfPackage()
+                .ShouldEqual("c:/code/bottle/src/bottle");
+        }
     }
 }
