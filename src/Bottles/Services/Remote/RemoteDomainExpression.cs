@@ -82,6 +82,15 @@ namespace Bottles.Services.Remote
                 {
                     _setup.ConfigurationFile = value.ToFullPath().AppendPath("Web.config");
                 }
+                // Now check for other cased files for when the fs is case sensitive.
+                if (fileSystem.FileExists(value.AppendPath("app.config")))
+                {
+                    _setup.ConfigurationFile = value.ToFullPath().AppendPath("app.config");
+                }
+                else if (fileSystem.FileExists(value.AppendPath("web.config")))
+                {
+                    _setup.ConfigurationFile = value.ToFullPath().AppendPath("web.config");
+                }
             }
         }
 
