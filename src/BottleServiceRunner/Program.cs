@@ -17,9 +17,7 @@ namespace BottleServiceRunner
                 x.SetDescription(settings.Description);
 
                 x.UseLinuxIfAvailable();
-                var pf = System.Environment.OSVersion.Platform;
-                var isUnix = pf == PlatformID.Unix || pf == PlatformID.MacOSX;
-                if (isUnix)
+                if (Platform.IsUnix ())
                 {
                     x.RunAsPrompt();
                 } else
