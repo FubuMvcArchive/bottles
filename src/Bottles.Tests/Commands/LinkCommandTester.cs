@@ -54,6 +54,7 @@ namespace Bottles.Tests.Commands
         }
 
         [Test]
+        [Platform(Exclude = "unix")]
         public void should_link_app_to_package_with_trailing_slash_for_app()
         {
             var expectedFolder = "..".AppendPath(theInput.BottleFolder);
