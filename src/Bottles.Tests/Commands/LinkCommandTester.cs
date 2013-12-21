@@ -54,7 +54,6 @@ namespace Bottles.Tests.Commands
         }
 
         [Test]
-        [Platform(Exclude = "unix")]
         public void should_link_app_to_package_with_trailing_slash_for_app()
         {
             var expectedFolder = "..".AppendPath(theInput.BottleFolder);
@@ -67,6 +66,7 @@ namespace Bottles.Tests.Commands
         }
 
         [Test]
+        [Platform(Exclude = "unix,linux")]
         public void relative_path_of_package_use_absolute_if_rooted()
         {
             new LinkInput
