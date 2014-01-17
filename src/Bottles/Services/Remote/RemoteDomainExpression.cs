@@ -38,6 +38,12 @@ namespace Bottles.Services.Remote
         public void UseParallelServiceDirectory(string directory)
         {
             var path = AppDomain.CurrentDomain.BaseDirectory.ToFullPath();
+            if (path.EndsWith (Path.DirectorySeparatorChar.ToString(), StringComparison.InvariantCultureIgnoreCase) 
+                || path.EndsWith (Path.AltDirectorySeparatorChar.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                path = path.Substring (0, path.Length - 1);
+            }
+
             if (Path.GetFileName(path).EqualsIgnoreCase("Debug") || Path.GetFileName(path).EqualsIgnoreCase("Release"))
             {
                 path = path.ParentDirectory();
