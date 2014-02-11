@@ -208,6 +208,28 @@ namespace Bottles.Services.Tests.Remote
         }
 
         [Test]
+        public void coordinate_message_history_via_remote_service_and_clear_data_does_not_remove_listeners()
+        {
+
+            using (var runner = RemoteServiceRunner.For<SampleBootstrapper>())
+            {
+                runner.WaitForServiceToStart<SampleService.SampleService>();
+                runner.WaitForServiceToStart<SampleService.RemoteService>();
+
+                MessageHistory.StartListening(runner);
+                MessageHistory.ClearHistory();
+
+                var foo = new Foo();
+
+                EventAggregator.SentMessage(foo);
+
+
+                EventAggregator.Messaging.WaitForMessage<AllMessagesComplete>(() => runner.SendRemotely(foo))
+                                   .ShouldNotBeNull();
+            }
+        }
+
+        [Test]
         public void spin_up_the_remote_service_for_the_sample_and_send_messages_back_and_forth()
         {
             using (var runner = start())

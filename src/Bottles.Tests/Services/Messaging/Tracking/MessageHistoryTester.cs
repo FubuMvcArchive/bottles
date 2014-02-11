@@ -164,6 +164,28 @@ namespace Bottles.Services.Tests.Messaging.Tracking
             MessageHistory.Record(MessageTrack.ForReceived(foo3));
             assertAllCompleteMessage();
         }
+
+        [Test]
+        public void clear_history_removes_all()
+        {
+            var foo1 = new Foo();
+            var foo2 = new Foo();
+            var foo3 = new Foo();
+
+            MessageHistory.Record(MessageTrack.ForReceived(foo1));
+            MessageHistory.Record(MessageTrack.ForReceived(foo2));
+            MessageHistory.Record(MessageTrack.ForReceived(foo3));
+
+            MessageHistory.Record(MessageTrack.ForSent(foo1));
+            MessageHistory.Record(MessageTrack.ForSent(foo2));
+            MessageHistory.Record(MessageTrack.ForSent(foo3));
+
+            MessageHistory.ClearHistory();
+
+            MessageHistory.Outstanding().Any().ShouldBeFalse();
+            MessageHistory.Received().Any().ShouldBeFalse();
+            MessageHistory.All().Any().ShouldBeFalse();
+        }
     }
 
     public class Foo
