@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Bottles.Services.Remote;
@@ -23,7 +22,6 @@ namespace Bottles.Services.Messaging.Tracking
         {
             ClearAll();
 
-            _hubs.Clear();
             _hubs.AddRange(runners.Select(x => x.Messaging));
             _hubs.Add(EventAggregator.Messaging);
             _listener = new MessageTrackListener();
@@ -33,7 +31,7 @@ namespace Bottles.Services.Messaging.Tracking
 
         public static void ClearAll()
         {
-            clearData();
+            ClearHistory();
 
             if (_listener != null)
             {
@@ -44,7 +42,7 @@ namespace Bottles.Services.Messaging.Tracking
             _hubs.Clear();
         }
 
-        private static void clearData()
+        public static void ClearHistory()
         {
             _lock.Write(() => {
                 _sent.Clear();
@@ -108,7 +106,7 @@ namespace Bottles.Services.Messaging.Tracking
 
         public static bool WaitForWorkToFinish(Action action, int timeoutMilliseconds = 5000)
         {
-            clearData();
+            ClearHistory();
             action();
             return Wait.Until(() => !Outstanding().Any() && All().Any(), timeoutInMilliseconds: timeoutMilliseconds);
         }
