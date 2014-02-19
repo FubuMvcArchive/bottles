@@ -27,7 +27,12 @@ namespace Bottles.Services.Remote
             return !fileSystem.FileExists(fileName);
         }
 
-        public void Move(string directory, AssemblyCopyMode copyMode = AssemblyCopyMode.Once)
+        public void Move(string directory)
+        {
+            Move(directory, AssemblyCopyMode.Once);
+        }
+
+        public void Move(string directory, AssemblyCopyMode copyMode)
         {
             var location = _assembly.Location;
             var fileName = Path.GetFileName(location);
