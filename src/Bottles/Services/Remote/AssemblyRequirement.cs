@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Reflection;
 using FubuCore;
 
@@ -19,28 +20,31 @@ namespace Bottles.Services.Remote
             _assembly = assembly;
         }
 
-        public void Move(string directory)
+        private static bool ShouldCopyFile(string fileName, AssemblyCopyMode copyMode)
+        {
+            if (copyMode == AssemblyCopyMode.Always) return true;
+
+            return !fileSystem.FileExists(fileName);
+        }
+
+        public void Move(string directory, AssemblyCopyMode copyMode = AssemblyCopyMode.Once)
         {
             var location = _assembly.Location;
-
             var fileName = Path.GetFileName(location);
 
-
-
-            if (!fileSystem.FileExists(directory.AppendPath(fileName)))
+            var filePath = directory.AppendPath(fileName);
+            if (ShouldCopyFile(filePath, copyMode))
             {
                 fileSystem.CopyToDirectory(location, directory);
             }
 
 
-
             var pdb = Path.GetFileNameWithoutExtension(fileName) + ".pdb";
-            if (fileSystem.FileExists(pdb) && !fileSystem.FileExists(directory.AppendPath(Path.GetFileName(pdb))))
+            var pdbPath = directory.AppendPath(Path.GetFileName(pdb));
+            if (fileSystem.FileExists(pdb) && ShouldCopyFile(pdbPath, copyMode))
             {
                 fileSystem.CopyToDirectory(location.ParentDirectory().AppendPath(pdb), directory);
             }
-
-            
         }
     }
 }

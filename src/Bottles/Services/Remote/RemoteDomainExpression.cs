@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Web.Caching;
 using Bottles.Services.Messaging;
 using FubuCore;
 using FubuCore.Util;
@@ -121,6 +119,8 @@ namespace Bottles.Services.Remote
             _setup.ApplicationBase = domainPath;
         }
 
+        public AssemblyCopyMode AssemblyCopyMode { get; set; }
+
         public void RequireAssembly(string name)
         {
             _requirements.Add(new AssemblyRequirement(name));
@@ -146,7 +146,14 @@ namespace Bottles.Services.Remote
                 }
             }
 
-            _requirements.Each(x => x.Move(binaryPath));
+            _requirements.Each(x => x.Move(binaryPath, AssemblyCopyMode));
         }
+
+    }
+
+    public enum AssemblyCopyMode
+    {
+        Once,
+        Always
     }
 }
