@@ -46,9 +46,9 @@ namespace Bottles.Tests.Harness
             if (isUnix) {
                 processInfo = new ProcessStartInfo
                 {
-                    FileName = "/usr/bin/mono",
+                    FileName = "/usr/bin/xterm",
                     WorkingDirectory = _directory,
-                    Arguments = _directory.AppendPath("BottleServiceRunner.exe"),
+                    Arguments = string.Format("-e '/usr/bin/mono {0}'", _directory.AppendPath("BottleServiceRunner.exe")),
                     //RedirectStandardError = true,
                     //RedirectStandardInput = true,
                     //RedirectStandardOutput = true,

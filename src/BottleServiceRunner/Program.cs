@@ -1,6 +1,7 @@
 using Bottles.Services;
 using FubuCore;
 using Topshelf;
+using System;
 
 namespace BottleServiceRunner
 {
@@ -15,7 +16,14 @@ namespace BottleServiceRunner
                 x.SetDisplayName(settings.DisplayName);
                 x.SetDescription(settings.Description);
 
-                x.RunAsLocalService();
+                x.UseLinuxIfAvailable();
+                if (Platform.IsUnix ())
+                {
+                    x.RunAsPrompt();
+                } else
+                {
+                    x.RunAsLocalService();
+                }
 
 				if (settings.UseEventLog)
 				{

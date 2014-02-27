@@ -66,6 +66,7 @@ namespace Bottles.Tests.Commands
         }
 
         [Test]
+        [Platform(Exclude = "unix,linux")]
         public void relative_path_of_package_use_absolute_if_rooted()
         {
             new LinkInput

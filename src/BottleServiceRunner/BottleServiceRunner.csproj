@@ -51,6 +51,9 @@
     <Reference Include="Topshelf">
       <HintPath>..\packages\Topshelf\lib\net40-full\Topshelf.dll</HintPath>
     </Reference>
+    <Reference Include="Topshelf.Linux">
+      <HintPath>..\packages\Topshelf.Linux\lib\Topshelf.Linux.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\CommonAssemblyInfo.cs">
