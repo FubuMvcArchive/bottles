@@ -36,6 +36,12 @@ namespace Bottles.Services.Remote
         public void UseParallelServiceDirectory(string directory)
         {
             var path = AppDomain.CurrentDomain.BaseDirectory.ToFullPath();
+            if (path.EndsWith (Path.DirectorySeparatorChar.ToString(), StringComparison.InvariantCultureIgnoreCase) 
+                || path.EndsWith (Path.AltDirectorySeparatorChar.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                path = path.Substring (0, path.Length - 1);
+            }
+
             if (Path.GetFileName(path).EqualsIgnoreCase("Debug") || Path.GetFileName(path).EqualsIgnoreCase("Release"))
             {
                 path = path.ParentDirectory();
@@ -79,6 +85,15 @@ namespace Bottles.Services.Remote
                 else if (fileSystem.FileExists(value.AppendPath("Web.config")))
                 {
                     _setup.ConfigurationFile = value.ToFullPath().AppendPath("Web.config");
+                }
+                // Now check for other cased files for when the fs is case sensitive.
+                if (fileSystem.FileExists(value.AppendPath("app.config")))
+                {
+                    _setup.ConfigurationFile = value.ToFullPath().AppendPath("app.config");
+                }
+                else if (fileSystem.FileExists(value.AppendPath("web.config")))
+                {
+                    _setup.ConfigurationFile = value.ToFullPath().AppendPath("web.config");
                 }
             }
         }

@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Bottles.Tests.Services.Integration
 {
     [TestFixture, Explicit("These tests all require manual intervention to run")]
-    [Platform(Exclude = "Unix,Linux,MacOsX")]
+    [Platform(Exclude = "Unix,Linux")]
     public class service_activation_integration_tester
     {
         /* NOTE:  You have to manually type CTRL-C into the window that pops up to complete

@@ -5,6 +5,7 @@ using Bottles.Diagnostics;
 using Bottles.Manifest;
 using FubuCore;
 using FubuCore.Descriptions;
+using System.IO;
 
 namespace Bottles.PackageLoaders.LinkedFolders
 {
@@ -42,6 +43,10 @@ namespace Bottles.PackageLoaders.LinkedFolders
                 log.Trace("Loading linked folders via the package manifest at " + _applicationDirectory);
                 manifest.LinkedFolders.Each(folder =>
                 {
+                    if (Platform.IsUnix()) {
+                        folder = folder.Replace('\\', Path.DirectorySeparatorChar);
+                    }
+
                     var linkedFolder = FileSystem.Combine(_applicationDirectory, folder).ToFullPath();
                     log.Trace("  - linking folder " + linkedFolder);
 
