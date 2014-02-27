@@ -126,6 +126,7 @@
     <Compile Include="Services\Messaging\Tracking\MessageHistoryTester.cs" />
     <Compile Include="Services\Messaging\Tracking\MessageSentTester.cs" />
     <Compile Include="Services\Messaging\WaitTester.cs" />
+    <Compile Include="Services\Remote\AssemblyRequirementTester.cs" />
     <Compile Include="Services\Remote\BigRemoteServicesIntegrationTester.cs" />
     <Compile Include="Services\Remote\RemoteDomainExpressionTester.cs" />
     <Compile Include="Services\Remote\RemoteServicesProxyTester.cs" />
