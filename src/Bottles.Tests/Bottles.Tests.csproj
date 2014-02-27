@@ -136,7 +136,6 @@
     <Compile Include="ZipFileServiceTester.cs" />
     <Compile Include="Zipping\ZipFileServiceTester.cs" />
     <Compile Include="Zipping\ZipFolderRequestTester.cs" />
-    <Compile Include="PackageLoaders\LinkedFolders\LinkedFolderPackageLoaderTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AssemblyPackageEmpty\AssemblyPackageEmpty.csproj">

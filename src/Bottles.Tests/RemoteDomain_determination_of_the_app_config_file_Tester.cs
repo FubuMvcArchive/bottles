@@ -22,7 +22,7 @@ namespace Bottles.Tests
 
             var expression = new RemoteDomainExpression();
             expression.ServiceDirectory = "Service";
-            Path.GetFileName(expression.Setup.ConfigurationFile).ShouldEqual("App.config");
+            Path.GetFileName(expression.Setup.ConfigurationFile).ShouldEqual("app.config");
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace Bottles.Tests
 
             var expression = new RemoteDomainExpression();
             expression.ServiceDirectory = "Service";
-            Path.GetFileName(expression.Setup.ConfigurationFile).ShouldEqual("Web.config");
+            Path.GetFileName(expression.Setup.ConfigurationFile).ShouldEqual("web.config");
         }
 
         [Test]
