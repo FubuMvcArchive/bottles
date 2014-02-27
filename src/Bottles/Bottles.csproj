@@ -157,6 +157,7 @@
     <Compile Include="Services\Messaging\Tracking\MessageTrack.cs" />
     <Compile Include="Services\Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Remote\AppDomainFileChangeWatcher.cs" />
+    <Compile Include="Services\Remote\AssemblyCopyMode.cs" />
     <Compile Include="Services\Remote\AssemblyRequirement.cs" />
     <Compile Include="Services\Remote\RemoteDomainExpression.cs" />
     <Compile Include="Services\Remote\RemoteServiceRunner.cs" />
