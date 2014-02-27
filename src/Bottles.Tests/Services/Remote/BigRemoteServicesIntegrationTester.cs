@@ -1,12 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Threading;
 using Bottles.Services.Messaging;
 using Bottles.Services.Remote;
 using NUnit.Framework;
 using System.Linq;
 using FubuTestingSupport;
-using Rhino.Mocks.Constraints;
 using SampleService;
 using FubuCore;
 using Bottles.Services.Messaging.Tracking;
@@ -262,7 +260,55 @@ namespace Bottles.Services.Tests.Remote
                 {
                     runner.SendRemotely(new TestSignal { Number = 5 });
                 }).Number.ShouldEqual(5);
-                
+
+            }
+        }
+
+        [Test]
+        public void copy_new_remote_assembly_over_old_assembly_when_copymode_always()
+        {
+            using (var runner = new RemoteServiceRunner(x =>
+            {
+                x.AssemblyCopyMode = AssemblyCopyMode.Always;
+                x.UseParallelServiceDirectory("ApplicationLoaderService");
+                x.RequireAssemblyContainingType<SampleService.SampleService>();
+            }))
+            {
+                var path = ".".ToFullPath();
+                var sampleServiceDll = path.AppendPath("bin/Debug/SampleService.dll");
+
+                File.SetLastWriteTime(sampleServiceDll, new DateTime(2014, 01, 01));
+                var originalWriteTime = File.GetLastWriteTime(sampleServiceDll);
+
+                runner.Recycle();
+
+                var newWriteTime = File.GetLastWriteTime(sampleServiceDll);
+
+                newWriteTime.ShouldBeGreaterThan(originalWriteTime);
+                originalWriteTime.ShouldNotEqual(newWriteTime);
+            }
+        }
+
+        [Test]
+        public void copy_assembly_once_by_default()
+        {
+            using (var runner = new RemoteServiceRunner(x =>
+            {
+                x.UseParallelServiceDirectory("ApplicationLoaderService");
+                x.RequireAssemblyContainingType<SampleService.SampleService>();
+            }))
+            {
+                var path = ".".ToFullPath();
+                var sampleServiceDll = path.AppendPath("bin/Debug/SampleService.dll");
+
+                File.SetLastWriteTime(sampleServiceDll, new DateTime(2014, 01, 01));
+                var originalWriteTime = File.GetLastWriteTime(sampleServiceDll);
+
+                runner.Recycle();
+
+                var newWriteTime = File.GetLastWriteTime(sampleServiceDll);
+
+                newWriteTime.ShouldEqual(originalWriteTime);
             }
         }
     }

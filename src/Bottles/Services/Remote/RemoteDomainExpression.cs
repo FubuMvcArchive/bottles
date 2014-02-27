@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Web.Caching;
 using Bottles.Services.Messaging;
 using FubuCore;
 using FubuCore.Util;
@@ -121,14 +119,29 @@ namespace Bottles.Services.Remote
             _setup.ApplicationBase = domainPath;
         }
 
+        /// <summary>
+        /// Sets the AssemblyCopyMode of each required assembly unless explicitly set in the RequireAssemblyXYZ Methods
+        /// </summary>
+        public AssemblyCopyMode AssemblyCopyMode { get; set; }
+
+        public void RequireAssembly(string name, AssemblyCopyMode copyMode)
+        {
+            _requirements.Add(new AssemblyRequirement(name, copyMode));
+        }
+
         public void RequireAssembly(string name)
         {
-            _requirements.Add(new AssemblyRequirement(name));
+            RequireAssembly(name, AssemblyCopyMode);
         }
 
         public void RequireAssemblyContainingType<T>()
         {
-            _requirements.Add(new AssemblyRequirement(typeof(T).Assembly));
+            RequireAssemblyContainingType<T>(AssemblyCopyMode);
+        }
+
+        public void RequireAssemblyContainingType<T>(AssemblyCopyMode copyMode)
+        {
+            _requirements.Add(new AssemblyRequirement(typeof(T).Assembly, copyMode));
         }
 
         void IAssemblyMover.MoveAssemblies(AppDomainSetup setup)
@@ -148,5 +161,12 @@ namespace Bottles.Services.Remote
 
             _requirements.Each(x => x.Move(binaryPath));
         }
+
+    }
+
+    public enum AssemblyCopyMode
+    {
+        Once,
+        Always
     }
 }
