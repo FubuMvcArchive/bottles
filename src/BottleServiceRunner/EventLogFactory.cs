@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using Bottles.Services;
+using FubuCore;
 using Topshelf.HostConfigurators;
 using Topshelf.Logging;
 
@@ -36,6 +37,8 @@ namespace BottleServiceRunner
         public EventLogFactory(BottleServiceConfiguration settings)
         {
             _settings = settings;
+            if (!EventLog.SourceExists(_settings.Name))
+                EventLog.CreateEventSource(_settings.Name, "Application");
         }
 
         public LogWriter Get(string name)
@@ -162,59 +165,66 @@ namespace BottleServiceRunner
 
         public void Error(object obj)
         {
-            // no-op
+            Log(obj, EventLogEntryType.Error);
         }
 
         public void Error(object obj, Exception exception)
         {
-            EventLog.WriteEntry(_settings.Name, string.Format("[{0}]: {1}", _name, obj));
-            EventLog.WriteEntry(_settings.Name, string.Format("[{0}]: {1}", _name, exception.ToString()));
+            Log("{0}{1}{2}".ToFormat(obj, Environment.NewLine, exception), EventLogEntryType.Error);
         }
 
         public void Error(LogWriterOutputProvider messageProvider)
         {
-            // no-op
+            Error(messageProvider());
         }
 
         public void ErrorFormat(IFormatProvider formatProvider, string format, params object[] args)
         {
-            // no-op
+            Error(string.Format(formatProvider, format, args));
         }
 
         public void ErrorFormat(string format, params object[] args)
         {
-            // no-op
+            Error(format.ToFormat(args));
         }
 
         public void Fatal(object obj)
         {
-            // no-op
+            Error(obj);
         }
 
         public void Fatal(object obj, Exception exception)
         {
-            // no-op
+            Error(obj, exception);
         }
 
         public void Fatal(LogWriterOutputProvider messageProvider)
         {
-            // no-op
+            Error(messageProvider());
         }
 
         public void FatalFormat(IFormatProvider formatProvider, string format, params object[] args)
         {
-            // no-op
+            ErrorFormat(formatProvider, format, args);
         }
 
         public void FatalFormat(string format, params object[] args)
         {
-            // no-op
+            ErrorFormat(format, args);
         }
 
         public bool IsDebugEnabled { get { return false; } }
         public bool IsInfoEnabled { get { return false; } }
         public bool IsWarnEnabled { get { return false; } }
-        public bool IsErrorEnabled { get { return false; } }
+        public bool IsErrorEnabled { get { return true; } }
         public bool IsFatalEnabled { get { return true; } }
+
+        private void Log(object obj, EventLogEntryType type)
+        {
+            // Event Log's max message size is 31839 characters
+            string message = "[{0}]: {1}".ToFormat(_name, obj);
+            message = message.Substring(0, Math.Min(message.Length, 31839));
+            EventLog.WriteEntry(_settings.Name, message, type);
+        }
     }
 }
