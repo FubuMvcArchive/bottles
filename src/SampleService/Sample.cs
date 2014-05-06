@@ -7,6 +7,7 @@ using Bottles.Diagnostics;
 using Bottles.Services.Messaging;
 using StructureMap;
 using StructureMap.Configuration.DSL;
+using StructureMap.Graph;
 using IBootstrapper = Bottles.IBootstrapper;
 
 namespace SampleService

@@ -66,7 +66,7 @@ namespace Bottles.Tests
         {
             var assembly = Assembly.GetExecutingAssembly();
 
-            var assemblyFileLoader = MockFor<Func<string, Assembly>>();
+            var assemblyFileLoader = MockRepository.GenerateMock<Func<string, Assembly>>();
 
             ClassUnderTest.AssemblyFileLoader = assemblyFileLoader;
 
@@ -90,7 +90,7 @@ namespace Bottles.Tests
         [Test]
         public void load_unsuccessfully_from_file_for_a_new_assembly()
         {
-            var assemblyFileLoader = MockFor<Func<string, Assembly>>();
+            var assemblyFileLoader = MockRepository.GenerateMock<Func<string, Assembly>>();
 
             ClassUnderTest.AssemblyFileLoader = assemblyFileLoader;
 
@@ -119,7 +119,7 @@ namespace Bottles.Tests
             };
             ClassUnderTest.LoadAssembliesFromPackage(package1);
 
-            var assemblyFileLoader = MockFor<Func<string, Assembly>>();
+            var assemblyFileLoader = MockRepository.GenerateMock<Func<string, Assembly>>();
 
             ClassUnderTest.AssemblyFileLoader = assemblyFileLoader;
 
