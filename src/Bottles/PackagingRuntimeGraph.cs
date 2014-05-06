@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Bottles.Diagnostics;
 using Bottles.Environment;
 using Bottles.PackageLoaders.Assemblies;
@@ -153,21 +154,28 @@ namespace Bottles
         {
             var result = new List<IPackageInfo>();
 
-            _diagnostics.LogExecutionOnEach(_packageLoaders, (currentLoader, log) => {
-                IPackageInfo[] packageInfos = currentLoader.Load(log).ToArray();
-                _diagnostics.LogPackages(currentLoader, packageInfos);
+            var logs = _packageLoaders.Select(x => _diagnostics.LogFor(x));
+            var loaders = _packageLoaders.Zip(logs, (loader, log) => {
+                return Task.Factory.StartNew(() => {
+                    var packageInfos = loader.Load(log).ToArray();
+                    _diagnostics.LogPackages(loader, packageInfos);
 
-                packageInfos.Each(pak => {
-                    if (result.Any(x => x.Name == pak.Name))
-                    {
-                        _diagnostics.LogFor(pak)
-                            .Trace("Bottle named {0} already found by a previous loader.  Ignoring.", pak.Name);
-                    }
-                    else
-                    {
-                        result.Add(pak);
-                    }
+                    return packageInfos;
                 });
+            }).ToArray();
+
+            Task.WaitAll(loaders);
+
+            loaders.SelectMany(x => x.Result).Each(pak => {
+                if (result.Any(x => x.Name == pak.Name))
+                {
+                    _diagnostics.LogFor(pak)
+                        .Trace("Bottle named {0} already found by a previous loader.  Ignoring.", pak.Name);
+                }
+                else
+                {
+                    result.Add(pak);
+                }
             });
 
             return result;
