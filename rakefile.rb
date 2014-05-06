@@ -39,6 +39,13 @@ end
 	sln.precompile = [:compile_console, :bottle_assembly_package]
 	
 	sln.integration_test = ['Bottles.IntegrationTesting']
+	
+
+
+	sln.options[:nuget_publish_folder] = 'nupkgs'
+	sln.options[:nuget_publish_url] = 'https://www.myget.org/F/fubumvc-edge/'
+
+
 end
 
 desc "**Mono**, compiles, merges and runs unit tests"
