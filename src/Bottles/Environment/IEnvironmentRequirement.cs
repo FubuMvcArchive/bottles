@@ -7,4 +7,5 @@ namespace Bottles.Environment
         string Describe();
         void Check(IPackageLog log);
     }
+
 }

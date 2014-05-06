@@ -90,7 +90,7 @@ namespace Bottles
             IEnumerable<IEnvironmentRequirement> requirements =
                 discoveredPlusRegisteredActivators.OfType<IEnvironmentRequirements>().SelectMany(x => x.Requirements());
 
-            _diagnostics.LogExecutionOnEach(requirements, (req, log) => { req.Check(log); });
+            _diagnostics.LogExecutionOnEachInParallel(requirements, (req, log) => { req.Check(log); });
 
             // Do not bother to run any activators
             if (_diagnostics.HasErrors())
@@ -98,7 +98,7 @@ namespace Bottles
                 return;
             }
 
-            _diagnostics.LogExecutionOnEach(discoveredPlusRegisteredActivators,
+            _diagnostics.LogExecutionOnEachInParallel(discoveredPlusRegisteredActivators,
                 (activator, log) => { activator.Activate(packages, log); });
         }
 
