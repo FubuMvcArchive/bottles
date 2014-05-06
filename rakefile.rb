@@ -109,6 +109,7 @@ task :create_gem => [:compile, :ilrepack] do
     require "rubygems/package"
 	cleanDirectory 'bin';	
 	cleanDirectory 'pkg'
+	Dir.mkdir 'artifacts' unless Dir.exists? 'artifacts'
 	
 	Dir.mkdir 'bin' unless Dir.exists? 'bin'
 	Dir.mkdir 'pkg' unless Dir.exists? 'pkg'
