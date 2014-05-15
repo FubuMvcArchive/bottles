@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace Bottles.Diagnostics
         public static readonly string Marked = "Marked";
 
         private readonly Stopwatch _stopwatch = new Stopwatch();
-        private readonly IList<Checkpoint> _checkpoints = new List<Checkpoint>();
+        private ConcurrentQueue<Checkpoint> _checkpoints = new ConcurrentQueue<Checkpoint>();
         private string _description;
 
         public void Start(string description)
@@ -29,9 +30,9 @@ namespace Bottles.Diagnostics
             
 
             _stopwatch.Reset();
-            _checkpoints.Clear();
+            _checkpoints = new ConcurrentQueue<Checkpoint>();
 
-            _checkpoints.Add(new Checkpoint(Started, _description, 0));
+            _checkpoints.Enqueue(new Checkpoint(Started, _description, 0));
 
             _stopwatch.Start();
             
@@ -52,7 +53,7 @@ namespace Bottles.Diagnostics
         private void add(string status, string text)
         {
             var checkpoint = new Checkpoint(status, text, _stopwatch.ElapsedMilliseconds);
-            _checkpoints.Add(checkpoint);
+            _checkpoints.Enqueue(checkpoint);
         }
 
         public void Mark(string text)
