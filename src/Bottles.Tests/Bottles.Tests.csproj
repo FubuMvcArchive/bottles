@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="Configuration\when_asserting_the_bottle_configuration.cs" />
     <Compile Include="Creation\BottleCreatorTester.cs" />
+    <Compile Include="Diagnostics\PerfTimerSmokeTester.cs" />
     <Compile Include="Environment\FileExistsTester.cs" />
     <Compile Include="Environment\FolderExistsTester.cs" />
     <Compile Include="Exploding\BottleExploderTester.cs" />
@@ -189,7 +190,8 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent></PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

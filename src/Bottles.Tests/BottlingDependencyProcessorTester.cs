@@ -148,6 +148,11 @@ namespace Bottles.Tests
     {
         private readonly Cache<object, IPackageLog> _logs = new Cache<object, IPackageLog>(o => MockRepository.GenerateMock<IPackageLog>());
 
+        public StubBottleDiagnostics()
+        {
+            Timer = new PerfTimer();
+        }
+
         public void LogObject(object target, string provenance)
         {
         }
@@ -196,6 +201,8 @@ namespace Bottles.Tests
         {
             throw new NotImplementedException();
         }
+
+        public PerfTimer Timer { get; private set; }
 
         public IPackageLog LogFor(object target)
         {

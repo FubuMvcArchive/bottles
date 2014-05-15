@@ -15,6 +15,7 @@ namespace Bottles
     public class PackagingRuntimeGraph : IDisposable
     {
         private readonly IList<IActivator> _activators = new List<IActivator>();
+        private readonly IList<IActivator> _continuations = new List<IActivator>();
         private readonly IAssemblyLoader _assemblies;
         private readonly IList<IBootstrapper> _bootstrappers = new List<IBootstrapper>();
         private readonly IBottlingDiagnostics _diagnostics;
@@ -62,18 +63,24 @@ namespace Bottles
         //I kinda want this method elsewhere
         public void DiscoverAndLoadPackages(Action onAssembliesScanned, bool runActivators = true)
         {
-            IEnumerable<IPackageInfo> allPackages = FindAllPackages();
+            var allPackages = _diagnostics.Timer.Record("Finding Bottle Packages",
+                () => FindAllPackages());
+
 
             //orders _packages
             analyzePackageDependenciesAndOrder(allPackages);
 
-            loadAssemblies(_packages, onAssembliesScanned);
+            _diagnostics.Timer.Record("Loading Bottle assemblies", () => loadAssemblies(_packages, onAssembliesScanned));
+
+            
             List<IActivator> discoveredActivators = collectAllActivatorsFromBootstrappers();
 
             if (runActivators)
             {
                 activatePackages(_packages, discoveredActivators);
             }
+
+            _diagnostics.LogExecutionOnEach(_continuations, (a, log) => a.Activate(_packages, log));
         }
 
         private void analyzePackageDependenciesAndOrder(IEnumerable<IPackageInfo> packages)
@@ -90,7 +97,7 @@ namespace Bottles
             IEnumerable<IEnvironmentRequirement> requirements =
                 discoveredPlusRegisteredActivators.OfType<IEnvironmentRequirements>().SelectMany(x => x.Requirements());
 
-            _diagnostics.LogExecutionOnEachInParallel(requirements, (req, log) => { req.Check(log); });
+            _diagnostics.LogExecutionOnEachInParallel(requirements, (req, log) => req.Check(log));
 
             // Do not bother to run any activators
             if (_diagnostics.HasErrors())
@@ -99,7 +106,7 @@ namespace Bottles
             }
 
             _diagnostics.LogExecutionOnEachInParallel(discoveredPlusRegisteredActivators,
-                (activator, log) => { activator.Activate(packages, log); });
+                (activator, log) => activator.Activate(packages, log));
         }
 
         public void AddBootstrapper(IBootstrapper bootstrapper)
@@ -135,7 +142,9 @@ namespace Bottles
             var result = new List<IActivator>();
 
             _diagnostics.LogExecutionOnEach(_bootstrappers, (currentBootstrapper, log) => {
-                IEnumerable<IActivator> bootstrapperActivators = currentBootstrapper.Bootstrap(log);
+                IEnumerable<IActivator> bootstrapperActivators =
+                    _diagnostics.Timer.Record(currentBootstrapper.ToString(), () => currentBootstrapper.Bootstrap(log));
+
                 result.AddRange(bootstrapperActivators);
                 _diagnostics.LogBootstrapperRun(currentBootstrapper, bootstrapperActivators);
             });
@@ -157,7 +166,7 @@ namespace Bottles
             var logs = _packageLoaders.Select(x => _diagnostics.LogFor(x));
             var loaders = _packageLoaders.Zip(logs, (loader, log) => {
                 return Task.Factory.StartNew(() => {
-                    var packageInfos = loader.Load(log).ToArray();
+                    var packageInfos = _diagnostics.Timer.Record(loader.ToString(),() => loader.Load(log).ToArray());
                     _diagnostics.LogPackages(loader, packageInfos);
 
                     return packageInfos;
@@ -179,6 +188,11 @@ namespace Bottles
             });
 
             return result;
+        }
+
+        public void AddContinuation(IActivator activator)
+        {
+            _continuations.Add(activator);
         }
     }
 }

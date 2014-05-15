@@ -68,6 +68,7 @@
     <Compile Include="Configuration\BottleConfigurationException.cs" />
     <Compile Include="Configuration\IBottleConfigurationRule.cs" />
     <Compile Include="Configuration\MissingService.cs" />
+    <Compile Include="Diagnostics\PerfTimer.cs" />
     <Compile Include="Environment\CanWriteToFolder.cs" />
     <Compile Include="Environment\FileExists.cs" />
     <Compile Include="Environment\FolderExists.cs" />

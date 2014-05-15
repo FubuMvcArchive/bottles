@@ -26,8 +26,9 @@ namespace Bottles
         /// <summary>
         /// Lambda bootstrapper for convience
         /// </summary>
+        /// <param name="description"></param>
         /// <param name="lambda"></param>
-        void Bootstrap(Func<IPackageLog, IEnumerable<IActivator>> lambda);
+        void Bootstrap(string description, Func<IPackageLog, IEnumerable<IActivator>> lambda);
 
         /// <summary>
         /// Register an additional loader type.
@@ -49,6 +50,13 @@ namespace Bottles
         /// </summary>
         /// <param name="activator"></param>
         void Activator(IActivator activator);
+
+        /// <summary>
+        /// Perform other actions after all other Bottle loading activity
+        /// </summary>
+        /// <param name="description"></param>
+        /// <param name="action"></param>
+        void Continue(string description, Action action);
     }
 
 }

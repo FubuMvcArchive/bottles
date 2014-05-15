@@ -12,35 +12,33 @@ namespace Bottles.Diagnostics
     [Serializable]
     public class PackageLog : IPackageLog
     {
+        private readonly IPerfTimer _timer;
         private readonly StringWriter _text = new StringWriter();
         private readonly IList<object> _children = new List<object>();
 
-        public PackageLog()
+        public PackageLog(IPerfTimer timer)
         {
+            _timer = timer;
             Success = true;
             Id = Guid.NewGuid();
         }
 
-        public long TimeInMilliseconds { get; set; }
+        public PackageLog() : this(new PerfTimer())
+        {
+        }
+
         public string Provenance { get; set; }
         public string Description { get; set; }
 
         public void Execute(Action continuation)
         {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
             try
             {
-                continuation();
+                _timer.Record(Description, continuation);
             }
             catch (Exception e)
             {
                 MarkFailure(e);
-            }
-            finally
-            {
-                stopwatch.Stop();
-                TimeInMilliseconds = stopwatch.ElapsedMilliseconds;
             }
         }
 

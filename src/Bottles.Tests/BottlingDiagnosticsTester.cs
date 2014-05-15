@@ -17,7 +17,7 @@ namespace Bottles.Tests
         [SetUp]
         public void SetUp()
         {
-            diagnostics = new BottlingDiagnostics(new LoggingSession());
+            diagnostics = new BottlingDiagnostics();
         }
 
         [Test]
@@ -48,7 +48,6 @@ namespace Bottles.Tests
 
             var log = diagnostics.LogFor(loader);
             log.Success.ShouldBeTrue();
-            log.TimeInMilliseconds.ShouldBeGreaterThan(0);
         }
 
         [Test]
@@ -65,7 +64,6 @@ namespace Bottles.Tests
 
             var log = diagnostics.LogFor(loader);
             log.Success.ShouldBeFalse();
-            log.TimeInMilliseconds.ShouldBeGreaterThan(0);
             log.FullTraceText().ShouldContain("not gonna happen");
         }
 
@@ -105,7 +103,7 @@ namespace Bottles.Tests
         [SetUp]
         public void SetUp()
         {
-            diagnostics = new BottlingDiagnostics(new LoggingSession());
+            diagnostics = new BottlingDiagnostics();
 
             loader = new StubPackageLoader("a", "b");
             _bottle = new StubBottle("a");
@@ -140,7 +138,7 @@ namespace Bottles.Tests
         [SetUp]
         public void SetUp()
         {
-            diagnostics = new BottlingDiagnostics(new LoggingSession());
+            diagnostics = new BottlingDiagnostics();
 
             activator1 = new StubActivator();
             activator2 = new StubActivator();
@@ -180,7 +178,7 @@ namespace Bottles.Tests
         [SetUp]
         public void SetUp()
         {
-            diagnostics = new BottlingDiagnostics(new LoggingSession());
+            diagnostics = new BottlingDiagnostics();
             _bottle = new StubBottle("a");
             assembly = Assembly.GetExecutingAssembly();
 

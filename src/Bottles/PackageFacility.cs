@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Security.Cryptography;
 using Bottles.Diagnostics;
 using Bottles.PackageLoaders.Assemblies;
 
@@ -42,9 +43,15 @@ namespace Bottles
            addConfigurableAction(g => g.AddActivator(activator));
         }
 
-        public void Bootstrap(Func<IPackageLog, IEnumerable<IActivator>> lambda)
+        public void Continue(string description, Action action)
         {
-            var lambdaBootstrapper = new LambdaBootstrapper(lambda);
+            var activator = new LambdaActivator(description, action);
+            addConfigurableAction(g => g.AddContinuation(activator));
+        }
+
+        public void Bootstrap(string description, Func<IPackageLog, IEnumerable<IActivator>> lambda)
+        {
+            var lambdaBootstrapper = new LambdaBootstrapper(description, lambda);
             lambdaBootstrapper.Provenance = ProvenanceHelper.GetProvenanceFromStack();
 
             Bootstrapper(lambdaBootstrapper);

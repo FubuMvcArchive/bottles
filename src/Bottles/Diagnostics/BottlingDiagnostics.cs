@@ -11,9 +11,12 @@ namespace Bottles.Diagnostics
     {
         private readonly LoggingSession _log;
 
-        public BottlingDiagnostics(LoggingSession log)
+
+        
+        public BottlingDiagnostics()
         {
-            _log = log;
+            Timer = new PerfTimer();
+            _log = new LoggingSession(Timer);
         }
 
         public void LogPackage(IPackageInfo package, IPackageLoader loader)
@@ -109,6 +112,8 @@ namespace Bottles.Diagnostics
         {
             return _log.LogsForSubjectType<T>();
         }
+
+        public PerfTimer Timer { get; private set; }
 
         // Hokey, but it gets the job done.
         public static string GetTypeName(object target)
