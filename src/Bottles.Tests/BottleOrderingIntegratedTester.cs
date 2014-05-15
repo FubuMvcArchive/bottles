@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using NUnit.Framework;
 using System.Linq;
 using FubuTestingSupport;
@@ -21,7 +23,10 @@ namespace Bottles.Tests
 
         private void thePackageNamesInOrderShouldBe(params string[] names)
         {
+            PackageRegistry.Packages.Select(x => x.Name).Each(x => Debug.WriteLine(x));
+
             PackageRegistry.Packages.Select(x => x.Name)
+
                 .ShouldHaveTheSameElementsAs(names);
         }
 

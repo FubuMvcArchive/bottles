@@ -87,8 +87,10 @@ namespace Bottles
             _packages.Clear();
             _remotes.Clear();
 
-            Diagnostics = new BottlingDiagnostics(new LoggingSession());
+            Diagnostics = new BottlingDiagnostics();
             var record = new BottleLoadingRecord();
+
+            Diagnostics.Timer.Start("Bottle Loading and Activation");
 
             Diagnostics.LogExecution(record, () => {
                 var remotes = RemoteService.LoadLinkedRemotes();
@@ -124,6 +126,8 @@ namespace Bottles
             });
 
             record.Finished = DateTime.Now;
+
+            Diagnostics.Timer.Stop();
         }
 
         /// <summary>

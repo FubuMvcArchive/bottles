@@ -6,10 +6,12 @@ namespace Bottles
 {
     public class LambdaBootstrapper : IBootstrapper
     {
+        private readonly string _description;
         private readonly Func<IPackageLog, IEnumerable<IActivator>> _bootstrapper;
 
-        public LambdaBootstrapper(Func<IPackageLog, IEnumerable<IActivator>> bootstrapper)
+        public LambdaBootstrapper(string description, Func<IPackageLog, IEnumerable<IActivator>> bootstrapper)
         {
+            _description = description;
             _bootstrapper = bootstrapper;
         }
 
@@ -22,7 +24,7 @@ namespace Bottles
 
         public override string ToString()
         {
-            return string.Format("Lambda expression at: {0}", Provenance);
+            return _description;
         }
     }
 }

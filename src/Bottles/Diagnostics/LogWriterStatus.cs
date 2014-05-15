@@ -11,7 +11,7 @@ namespace Bottles.Diagnostics
 
         public LogWriterStatus()
         {
-            _logs.Push(new PackageLog());
+            _logs.Push(new PackageLog(new PerfTimer()));
         }
 
         public IPackageLog Current

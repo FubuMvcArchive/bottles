@@ -21,5 +21,7 @@ namespace Bottles.Diagnostics
         bool HasErrors();
 
         IEnumerable<LogSubject> LogsForSubjectType<T>();
+
+        PerfTimer Timer { get; }
     }
 }

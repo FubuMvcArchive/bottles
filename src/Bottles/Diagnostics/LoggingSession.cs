@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using FubuCore;
@@ -9,9 +8,23 @@ namespace Bottles.Diagnostics
 {
     public class LoggingSession
     {
-        private readonly Cache<object, PackageLog> _logs = new Cache<object, PackageLog>(o => new PackageLog{
-            Description = o.ToString()
-        });
+        private readonly IPerfTimer _timer;
+
+        public LoggingSession(IPerfTimer timer)
+        {
+            _timer = timer;
+
+            _logs = new Cache<object, PackageLog>(o => new PackageLog(_timer)
+            {
+                Description = o.ToString()
+            });
+        }
+
+        public LoggingSession() : this(new PerfTimer())
+        {
+        }
+
+        private readonly Cache<object, PackageLog> _logs;
 
         public void LogObject(object target, string provenance)
         {
@@ -49,7 +62,7 @@ namespace Bottles.Diagnostics
                         Subject = pair.Key,
                         Log = pair.Value
                     };
-                }    
+                }
             }
         }
     }

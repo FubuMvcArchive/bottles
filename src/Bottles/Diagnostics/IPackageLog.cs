@@ -14,7 +14,6 @@ namespace Bottles.Diagnostics
         string FullTraceText();
         string Description { get; }
         bool Success { get; }
-        long TimeInMilliseconds { get; }
         string Provenance { get; set; }
         void AddChild(params object[] child);
         IEnumerable<T> FindChildren<T>();
