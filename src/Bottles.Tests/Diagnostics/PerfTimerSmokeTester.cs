@@ -88,6 +88,42 @@ namespace Bottles.Tests.Diagnostics
 
             PackageRegistry.Diagnostics.Timer.DisplayTimings(x => x.Finished);
         }
+
+        [Test]
+        public void try_it_in_full_bottle_run_with_default_ordering()
+        {
+            var b1 = new FakeBootstrapper("A", 100);
+            b1.Activators.Add(new FakeActivator("A1", 50));
+            b1.Activators.Add(new FakeActivator("A2", 75));
+            b1.Activators.Add(new FakeActivator("A3", 20));
+            b1.Activators.Add(new FakeActivator("A4", 250));
+
+            var b2 = new FakeBootstrapper("B", 65);
+            b2.Activators.Add(new FakeActivator("B1", 33));
+            b2.Activators.Add(new FakeActivator("B2", 44));
+            b2.Activators.Add(new FakeActivator("B3", 55));
+            b2.Activators.Add(new FakeActivator("B4", 80));
+
+            PackageRegistry.LoadPackages(x =>
+            {
+                x.Loader(new FakeLoader("L1", 40));
+                x.Loader(new FakeLoader("L2", 30));
+
+                x.Bootstrapper(b1);
+                x.Bootstrapper(b2);
+
+                x.Bootstrap("Some work", log =>
+                {
+                    Thread.Sleep(111);
+                    return new IActivator[0];
+                });
+
+                x.Continue("Crazy Stuff!", () => Thread.Sleep(33));
+            });
+
+
+            PackageRegistry.Diagnostics.Timer.DisplayTimings();
+        }
     }
 
     public class FakeLoader : IPackageLoader
