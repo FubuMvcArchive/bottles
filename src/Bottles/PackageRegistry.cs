@@ -75,6 +75,17 @@ namespace Bottles
             get { return _remotes; }
         }
 
+
+        public static IPerfTimer Timer
+        {
+            get
+            {
+                if (Diagnostics == null) return new PerfTimer();
+
+                return Diagnostics.Timer;
+            }
+        }
+
         /// <summary>
         /// The entry method into the bottles environment
         /// </summary>
