@@ -100,18 +100,29 @@ namespace Bottles.Diagnostics
         {
             var ordered = TimedSteps().OrderBy(sort).ToArray();
 
+            displayTimings(ordered);
+        }
+
+        private static void displayTimings(IEnumerable<TimedStep> ordered)
+        {
             var writer = new FubuCore.Util.TextWriting.TextReport();
             writer.StartColumns(new Column(ColumnJustification.left, 0, 3), new Column(ColumnJustification.right, 0, 3),
-                new Column(ColumnJustification.right, 0, 3) , new Column(ColumnJustification.right, 0, 3));
+                new Column(ColumnJustification.right, 0, 3), new Column(ColumnJustification.right, 0, 3));
             writer.AddColumnData("Description", "Start", "Finish", "Duration");
             writer.AddDivider('-');
 
             ordered.Each(
-                x => {
-                    writer.AddColumnData(x.Text, x.Start.ToString(), x.Finished.ToString(), x.Duration().ToString());
-                });
+                x => { writer.AddColumnData(x.Text, x.Start.ToString(), x.Finished.ToString(), x.Duration().ToString()); });
 
             writer.WriteToConsole();
+        }
+
+        public void DisplayTimings()
+        {
+            var ordered = TimedSteps().ToList();
+            ordered.Sort();
+
+            displayTimings(ordered);
         }
 
         public class Checkpoint
@@ -144,22 +155,25 @@ namespace Bottles.Diagnostics
         }
     }
 
-    public class TimedStep
+    public class TimedStep : IComparable<TimedStep>
     {
         public string Text { get; set; }
 
-        public long? Start { get; set; }
+        public long Start { get; set; }
 
-        public long? Finished { get; set; }
+        public long Finished { get; set; }
 
         public long Duration()
         {
-            if (Start.HasValue && Finished.HasValue)
-            {
-                return Finished.Value - Start.Value;
-            }
+            return Finished - Start;
+        }
 
-            return 0;
+        public int CompareTo(TimedStep other)
+        {
+            // reverse the ordering if finished is the same
+            if (other.Finished == Finished) return other.Start.CompareTo(Start);
+
+            return Finished.CompareTo(other.Finished);
         }
     }
 }
