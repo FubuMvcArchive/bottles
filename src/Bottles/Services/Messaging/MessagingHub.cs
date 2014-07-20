@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using FubuCore;
@@ -8,14 +9,10 @@ namespace Bottles.Services.Messaging
 {
     public class MessagingHub : IMessagingHub
     {
+        [Obsolete("Use JsonSerialization.ToJson method instead")]
         public static string ToJson(object o)
         {
-            var serializer = new JsonSerializer { TypeNameHandling = TypeNameHandling.All };
-
-            var writer = new StringWriter();
-            serializer.Serialize(writer, o);
-
-            return writer.ToString();
+            return JsonSerialization.ToJson(o);
         }
 
         // TODO -- need to do some locking on this bad boy

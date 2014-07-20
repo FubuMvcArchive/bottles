@@ -143,6 +143,7 @@
     <Compile Include="Services\IApplication.cs" />
     <Compile Include="Services\IApplicationLoader.cs" />
     <Compile Include="Services\IApplicationSource.cs" />
+    <Compile Include="Services\JsonSerialization.cs" />
     <Compile Include="Services\Messaging\EventAggregator.cs" />
     <Compile Include="Services\Messaging\IListener.cs" />
     <Compile Include="Services\Messaging\IMessagingHub.cs" />
