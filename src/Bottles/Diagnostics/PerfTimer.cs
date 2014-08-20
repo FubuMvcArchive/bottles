@@ -96,14 +96,14 @@ namespace Bottles.Diagnostics
             return steps;
         }
 
-        public void DisplayTimings<T>(Func<TimedStep, T> sort)
+        public TextReport DisplayTimings<T>(Func<TimedStep, T> sort)
         {
             var ordered = TimedSteps().OrderBy(sort).ToArray();
 
-            displayTimings(ordered);
+            return displayTimings(ordered);
         }
 
-        private static void displayTimings(IEnumerable<TimedStep> ordered)
+        private static TextReport displayTimings(IEnumerable<TimedStep> ordered)
         {
             var writer = new FubuCore.Util.TextWriting.TextReport();
             writer.StartColumns(new Column(ColumnJustification.left, 0, 3), new Column(ColumnJustification.right, 0, 3),
@@ -114,7 +114,7 @@ namespace Bottles.Diagnostics
             ordered.Each(
                 x => { writer.AddColumnData(x.Text, x.Start.ToString(), x.Finished.ToString(), x.Duration().ToString()); });
 
-            writer.WriteToConsole();
+            return writer;
         }
 
         public void DisplayTimings()
