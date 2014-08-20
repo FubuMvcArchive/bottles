@@ -117,12 +117,12 @@ namespace Bottles.Diagnostics
             return writer;
         }
 
-        public void DisplayTimings()
+        public TextReport DisplayTimings()
         {
             var ordered = TimedSteps().ToList();
             ordered.Sort();
 
-            displayTimings(ordered);
+            return displayTimings(ordered);
         }
 
         public class Checkpoint
