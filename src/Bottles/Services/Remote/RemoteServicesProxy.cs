@@ -20,6 +20,8 @@ namespace Bottles.Services.Remote
 
         public void Start(string bootstrapperName, Dictionary<string, string> properties, MarshalByRefObject remoteListener)
         {
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
             var domainSetup = AppDomain.CurrentDomain.SetupInformation;
             System.Environment.CurrentDirectory = domainSetup.ApplicationBase;
              
@@ -35,6 +37,12 @@ namespace Bottles.Services.Remote
             {
                 LoaderTypeName = _shutdown.GetType().FullName
             });
+        }
+
+        void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Console.WriteLine("An an unhandled exception occurred at the remote AppDomain hosted at " + AppDomain.CurrentDomain.BaseDirectory);
+            Console.WriteLine(e.ExceptionObject.ToString());
         }
 
         public void Shutdown()

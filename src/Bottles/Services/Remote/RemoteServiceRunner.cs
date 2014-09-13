@@ -79,7 +79,15 @@ namespace Bottles.Services.Remote
 
         public void Dispose()
         {
-            shutdownAppDomain();
+            try
+            {
+                shutdownAppDomain();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Problem trying to shutdown a remote AppDomain:");
+                Console.WriteLine(e);
+            }
         }
 
         private void shutdownAppDomain()

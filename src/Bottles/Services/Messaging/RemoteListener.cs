@@ -13,7 +13,15 @@ namespace Bottles.Services.Messaging
 
         public void Send(string json)
         {
-            _messagingHub.SendJson(json);
+            try
+            {
+                _messagingHub.SendJson(json);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Remote messaging failed:");
+                Console.WriteLine(e);
+            }
         }
 
         /// <summary>
@@ -22,7 +30,16 @@ namespace Bottles.Services.Messaging
         /// <param name="message"></param>
         public void SendObject(object message)
         {
-            Send(MessagingHub.ToJson(message));
+            try
+            {
+                var json = JsonSerialization.ToJson(message);
+                Send(json);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Remote json sending failed:");
+                Console.WriteLine(e);
+            }
         }
 
         public override object InitializeLifetimeService()
