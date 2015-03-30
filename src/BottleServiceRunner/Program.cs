@@ -16,7 +16,6 @@ namespace BottleServiceRunner
                 x.SetDisplayName(settings.DisplayName);
                 x.SetDescription(settings.Description);
 
-                x.UseLinuxIfAvailable();
                 if (Platform.IsUnix ())
                 {
                     x.RunAsPrompt();
