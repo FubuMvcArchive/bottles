@@ -44,7 +44,7 @@ namespace Bottles.Tests
             var loader = new StubPackageLoader("a", "b");
             diagnostics.LogObject(loader, "registered at XYZ");
 
-            diagnostics.LogExecution(loader, () => Thread.Sleep(5));
+            diagnostics.LogExecution(loader, () => { });
 
             var log = diagnostics.LogFor(loader);
             log.Success.ShouldBeTrue();
